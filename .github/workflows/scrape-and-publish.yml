@@ -6,11 +6,15 @@ on:
     paths-ignore:
       - "data/listings.json"
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: scrape-meteorite-inventory
+  cancel-in-progress: false
 
 jobs:
   scrape:
@@ -25,11 +29,22 @@ jobs:
       - name: Install scraper dependencies
         run: pip install -r scraper/requirements.txt
       - name: Run scraper
-        run: python scraper/scrape.py
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            python scraper/scrape.py --rotate --preserve-existing --rotation-key "${{ github.run_number }}"
+          else
+            python scraper/scrape.py
+          fi
+      - name: Validate inventory data
+        run: python scraper/validate_listings.py
       - name: Commit updated inventory data
         run: |
           git config user.name "meteorite-meta-search-bot"
           git config user.email "meteorite-meta-search-bot@users.noreply.github.com"
           git add data/listings.json
-          git commit -m "Update meteorite inventory" || echo "No inventory changes"
-          git push || echo "Nothing to push"
+          if git diff --cached --quiet; then
+            echo "No inventory changes"
+          else
+            git commit -m "Update meteorite inventory"
+            git push
+          fi

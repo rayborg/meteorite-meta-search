@@ -28,7 +28,7 @@ Default public URL after GitHub Pages is enabled:
   - tektite / impactite
 - Extracts price, weight, and estimated price per gram when present.
 - Displays a searchable, sortable static dashboard.
-- Runs automatically with GitHub Actions every 6 hours.
+- Runs automatically with GitHub Actions every 5 minutes, rotating one enabled source per run and preserving existing rows for the enabled sources not scraped in that run.
 
 ## Initial sites
 
@@ -65,7 +65,15 @@ You can add more seller inventory pages by editing `data/sites.json`.
 This is intentionally polite and conservative:
 - Uses a normal user-agent.
 - Has a delay between requests.
+- Scheduled GitHub Actions runs use `python scraper/scrape.py --rotate --preserve-existing`, so they do not hit every enabled source every run.
 - Does not bypass logins, CAPTCHAs, or anti-bot systems.
 - Stores short normalized listing facts, not full seller pages.
 
 If a site blocks scraping or disallows it in its terms, remove it from `data/sites.json`.
+
+## Scraper Commands
+
+- `python scraper/scrape.py` refreshes all enabled sources and rewrites `data/listings.json`.
+- `python scraper/scrape.py --rotate --preserve-existing` refreshes one enabled source and keeps existing listings for the other enabled sources.
+- `python scraper/scrape.py --site "SV Meteorites" --preserve-existing` refreshes one named enabled source while preserving the rest.
+- `python scraper/validate_listings.py` validates the generated data and reports scraped/preserved source metadata.

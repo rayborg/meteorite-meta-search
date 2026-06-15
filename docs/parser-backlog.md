@@ -10,7 +10,21 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | --- | --- | --- |
 | SV Meteorites | Active | Category discovery; individual listings are `Meteorite.aspx?id=...`. Do not emit category pages. |
 | BAITYLIA / Meteorite and More | Active | Index pages contain item rows; detail pages are `Meteorite.aspx?id=...`. Header/category pages are not listings. |
-| Meteorlab / New England Meteoritical Services | Active | Old static catalog pages with multiple specimens per page. Parser extracts item clusters from known offering pages. |
+| Meteorlab / New England Meteoritical Services | Active | Old static catalog pages with multiple specimens per page. Parser now reads paired/grid tables by logical item columns, captures remote product images, skips sold markers, and supports email-for-price rows. |
+
+Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Disabled parser starts below are excluded from rotation until `enabled` is changed to `true` after local verification.
+
+## Inspected / Parser Started But Disabled
+
+These entries are present in `data/sites.json` with `enabled: false`. They are not part of scheduled output until local verification shows good individual rows and filtering policies are safe.
+
+| Site | Parser status | Inspection findings | Why disabled |
+| --- | --- | --- | --- |
+| Meteorite Exchange | `meteorite_exchange` parser start added | WooCommerce/WordPress pages. Category examples include `new-arrivals.html` and `moon-meteorites.html`; product links are `.html`; page has WooCommerce feeds and product/card markup mixed with add-to-cart affordances. | Needs local category-card verification across multiple categories and strict exclusion of add-to-cart/filter/category links before enabling. |
+| FossilEra | `fossilera` parser start added | `meteorites-for-sale` is well scoped. Cards use `.specimen-listing`, detail links are under `/meteorites/...`, prices/images are visible in cards, and sold cards use `price sold`/red `SOLD` banners. | Good candidate, but disabled until detail metadata parsing and sold-card suppression are verified over pagination. |
+| Galactic Stone & Ironworks | `galactic_stone` parser start added | BigCommerce category at `/meteorites/` has `article.card` product grid, product data attributes, remote CDN images, prices, and `rel=next` pagination. Cards include Add to Cart and Out of stock controls. | Disabled because the category mixes micromounts, collections, jewelry, memorabilia, and out-of-stock items; needs product-type policy before active output. |
+| The Meteorite Market | `meteorite_market` parser start added | Static page `NWA11273.htm` has allowlist-friendly item tables: image row, ID row, weight row, features row, price row. Sold appears as `Price: sold`. A local sanity run returned individual rows, but the page repeats at least one specimen cell. | Disabled until more static sales pages are allowlisted and duplicate table cells/images are handled. |
+| Arizona Skies Meteorites | `arizona_skies` parser start added | Home page is highly mixed: meteorites, fossils, jewelry, watches, military collectibles, art, and price-bucket links. Meteorite pages include lunar/Martian/category examples. | Disabled; requires narrow allowlist and crawl-delay policy. Do not broad-crawl this site. |
 
 ## High-Priority Candidates
 

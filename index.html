@@ -19,13 +19,17 @@
       <input id="search" type="search" placeholder="Search NWA, pallasite, Gibeon, lunar, seller, subtype…">
       <select id="typeFilter"><option value="">All types</option></select>
       <select id="sourceFilter"><option value="">All sources</option></select>
-      <select id="sortBy">
-        <option value="price_per_g">Sort: lowest $/g</option>
-        <option value="price">Sort: lowest price</option>
-        <option value="weight_g_desc">Sort: largest weight</option>
-        <option value="type">Sort: type/subtype</option>
-        <option value="source">Sort: source</option>
+      <select id="sortBy" autocomplete="off">
+        <option value="title:asc" selected>Sort: meteorite name A-Z</option>
+        <option value="price_per_g:asc">Sort: lowest $/g</option>
+        <option value="price:asc">Sort: lowest price</option>
+        <option value="weight_g:desc">Sort: largest weight</option>
+        <option value="meteorite_type:asc">Sort: type/subtype</option>
+        <option value="source:asc">Sort: source</option>
+        <option value="available:asc">Sort: status</option>
+        <option value="confidence:desc">Sort: confidence</option>
       </select>
+      <label class="check-control"><input id="includeUnavailable" type="checkbox"> Include unavailable</label>
     </section>
     <section class="summary-grid">
       <article><span class="big" id="totalListings">0</span><span>listings</span></article>
@@ -36,15 +40,34 @@
     <section id="typeChips" class="chips"></section>
     <section class="table-wrap">
       <table>
-        <thead><tr><th>Listing</th><th>Type</th><th>Subtype</th><th>Price</th><th>Weight</th><th>$/g</th><th>Source</th><th>Confidence</th></tr></thead>
+        <thead><tr>
+          <th data-sort="image" aria-sort="none"><button type="button" class="sort-header">Image <span class="sort-indicator"></span></button></th>
+          <th data-sort="title" aria-sort="ascending"><button type="button" class="sort-header active">Meteorite <span class="sort-indicator">▲</span></button></th>
+          <th data-sort="meteorite_type" aria-sort="none"><button type="button" class="sort-header">Type <span class="sort-indicator"></span></button></th>
+          <th data-sort="subtype" aria-sort="none"><button type="button" class="sort-header">Subtype <span class="sort-indicator"></span></button></th>
+          <th data-sort="price" aria-sort="none"><button type="button" class="sort-header">Price <span class="sort-indicator"></span></button></th>
+          <th data-sort="weight_g" aria-sort="none"><button type="button" class="sort-header">Weight <span class="sort-indicator"></span></button></th>
+          <th data-sort="price_per_g" aria-sort="none"><button type="button" class="sort-header">$/g <span class="sort-indicator"></span></button></th>
+          <th data-sort="source" aria-sort="none"><button type="button" class="sort-header">Source <span class="sort-indicator"></span></button></th>
+          <th data-sort="available" aria-sort="none"><button type="button" class="sort-header">Status <span class="sort-indicator"></span></button></th>
+          <th data-sort="confidence" aria-sort="none"><button type="button" class="sort-header">Confidence <span class="sort-indicator"></span></button></th>
+        </tr></thead>
         <tbody id="results"></tbody>
       </table>
+    </section>
+    <section class="sources-panel">
+      <div class="section-heading">
+        <h2>Sources</h2>
+        <p>Configured source sites, including disabled backlog candidates.</p>
+      </div>
+      <div id="sourcesList" class="sources-list"></div>
     </section>
   </main>
   <template id="rowTemplate">
     <tr>
+      <td class="image-cell"><img class="thumb" alt="" loading="lazy" decoding="async" width="64" height="64" referrerpolicy="no-referrer" hidden><span class="no-image">No image</span></td>
       <td class="listing-cell"><a class="title" target="_blank" rel="noopener noreferrer"></a><div class="classification"></div></td>
-      <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="confidence"></td>
+      <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="availability"></td><td class="confidence"></td>
     </tr>
   </template>
   <script src="app.js"></script>

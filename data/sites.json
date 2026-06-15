@@ -7,6 +7,7 @@
       "https://www.sv-meteorites.com/Meteorites"
     ],
     "enabled": true,
+    "description": "SV Meteorites public inventory with individual specimen detail pages and images.",
     "notes": "SV uses category pages for discovery and Meteorite.aspx?id=... pages for individual specimens. Category pages are never emitted as listings."
   },
   {
@@ -20,6 +21,7 @@
       "https://meteorlab.com/METEORLAB2001dev/offering21o7a%20m%20to%20z.html"
     ],
     "enabled": true,
+    "description": "New England Meteoritical Services static catalog pages for larger specimens and micromounts.",
     "notes": "Meteorlab has old static catalog pages with multiple specimens per page, so the parser extracts item clusters from known offering pages only."
   },
   {
@@ -32,6 +34,66 @@
       "https://meteoriteandmore.com/Tektites.aspx"
     ],
     "enabled": true,
+    "description": "BAITYLIA / Meteorite and More categorized inventory with individual specimen pages.",
     "notes": "BAITYLIA index pages are inventory lists; only detail pages with id=... are emitted as individual listings."
+  },
+  {
+    "name": "Meteorite Exchange",
+    "parser": "meteorite_exchange",
+    "base_url": "https://www.meteorites-for-sale.com/",
+    "inventory_urls": [
+      "https://www.meteorites-for-sale.com/new-arrivals.html",
+      "https://www.meteorites-for-sale.com/moon-meteorites.html"
+    ],
+    "enabled": false,
+    "description": "WooCommerce meteorite dealer catalog with category pages and .html product detail pages.",
+    "notes": "Parser start added for WooCommerce product cards and detail metadata. Left disabled pending local row-quality verification across category pages and add-to-cart/filter exclusion."
+  },
+  {
+    "name": "FossilEra",
+    "parser": "fossilera",
+    "base_url": "https://www.fossilera.com/",
+    "inventory_urls": [
+      "https://www.fossilera.com/meteorites-for-sale"
+    ],
+    "enabled": false,
+    "description": "Large FossilEra meteorite category with specimen cards, prices, images, and detail pages.",
+    "notes": "Parser start added for .specimen-listing cards under /meteorites/. Disabled until sold-card filtering, detail-page metadata, and broad mixed-category behavior are verified."
+  },
+  {
+    "name": "Galactic Stone & Ironworks",
+    "parser": "galactic_stone",
+    "base_url": "https://galactic-stone.com/",
+    "inventory_urls": [
+      "https://galactic-stone.com/meteorites/",
+      "https://galactic-stone.com/meteorites/collectorspecs"
+    ],
+    "enabled": false,
+    "description": "BigCommerce storefront with meteorite product grids, rel=next pagination, and card pricing.",
+    "notes": "Parser start added for BigCommerce article.card grids and rel=next pagination. Disabled because the category mixes micromounts, collections, jewelry, and out-of-stock cards that need stricter product-type policy."
+  },
+  {
+    "name": "The Meteorite Market",
+    "parser": "meteorite_market",
+    "base_url": "https://www.meteoritemarket.com/",
+    "inventory_urls": [
+      "https://www.meteoritemarket.com/NWA11273.htm"
+    ],
+    "enabled": false,
+    "description": "Old static meteorite photo catalog with allowlisted sales pages and table-based specimens.",
+    "notes": "Parser start added for allowlisted static tables with image/id/weight/features/price rows. Disabled until more sales pages are allowlisted and duplicate/sold behavior is locally validated."
+  },
+  {
+    "name": "Arizona Skies Meteorites",
+    "parser": "arizona_skies",
+    "base_url": "https://www.arizonaskiesmeteorites.com/",
+    "inventory_urls": [
+      "https://www.arizonaskiesmeteorites.com/AZ_Skies_Links/Lunar/index.html",
+      "https://www.arizonaskiesmeteorites.com/AZ_Skies_Links/Martian/index.html",
+      "https://www.arizonaskiesmeteorites.com/Inexpensive_Meteorites"
+    ],
+    "enabled": false,
+    "description": "Mixed static meteorite, fossil, jewelry, and collectible site requiring narrow meteorite allowlists.",
+    "notes": "Parser start is intentionally narrow and disabled. The home page is highly mixed; lunar/Martian/price-bucket pages need manual verification and respectful crawl delay before enabling."
   }
 ]
