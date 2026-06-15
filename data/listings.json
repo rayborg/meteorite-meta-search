@@ -1,15 +1,19 @@
 {
-  "generated_at": "2026-06-15T14:57:01.070270+00:00",
+  "generated_at": "2026-06-15T17:59:05.944732+00:00",
   "source_count": 3,
   "listing_count": 777,
-  "scrape_mode": "full",
-  "preserve_existing": false,
+  "scrape_mode": "rotation",
+  "preserve_existing": true,
   "scraped_sources": [
+    "Meteorlab"
+  ],
+  "preserved_sources": [
     "SV Meteorites",
-    "Meteorlab",
     "BAITYLIA"
   ],
-  "preserved_sources": [],
+  "rotation_index": 1,
+  "rotation_total": 3,
+  "rotation_key": "14",
   "listings": [
     {
       "id": "9f7866887ce1a579",
@@ -142,7 +146,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.933746+00:00"
+      "scraped_at": "2026-06-15T17:59:05.629551+00:00"
     },
     {
       "id": "8538dc4e056015bf",
@@ -237,7 +241,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.012077+00:00"
+      "scraped_at": "2026-06-15T17:59:05.700163+00:00"
     },
     {
       "id": "ccf579623b43af0c",
@@ -275,7 +279,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.992760+00:00"
+      "scraped_at": "2026-06-15T17:59:05.682771+00:00"
     },
     {
       "id": "ff5d5d68278cda45",
@@ -351,7 +355,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.995976+00:00"
+      "scraped_at": "2026-06-15T17:59:05.685620+00:00"
     },
     {
       "id": "402668d515527c25",
@@ -370,7 +374,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.002390+00:00"
+      "scraped_at": "2026-06-15T17:59:05.691460+00:00"
     },
     {
       "id": "782e2f9c7221243c",
@@ -389,7 +393,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.943635+00:00"
+      "scraped_at": "2026-06-15T17:59:05.638738+00:00"
     },
     {
       "id": "69158c673d29f5fd",
@@ -446,7 +450,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.267136+00:00"
+      "scraped_at": "2026-06-15T17:59:02.974575+00:00"
     },
     {
       "id": "564852feca94e80c",
@@ -465,7 +469,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.944644+00:00"
+      "scraped_at": "2026-06-15T17:59:05.639699+00:00"
     },
     {
       "id": "918030e776ff8366",
@@ -484,7 +488,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.276613+00:00"
+      "scraped_at": "2026-06-15T17:59:05.933978+00:00"
     },
     {
       "id": "0a2154019a1da138",
@@ -541,7 +545,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.173363+00:00"
+      "scraped_at": "2026-06-15T17:59:05.842638+00:00"
     },
     {
       "id": "d4d0e278083dd0f8",
@@ -560,7 +564,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.995266+00:00"
+      "scraped_at": "2026-06-15T17:59:05.684985+00:00"
     },
     {
       "id": "3249ea88f229c3ef",
@@ -579,7 +583,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.136116+00:00"
+      "scraped_at": "2026-06-15T17:59:02.856224+00:00"
     },
     {
       "id": "57a027bb46fb67ab",
@@ -1225,7 +1229,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.206135+00:00"
+      "scraped_at": "2026-06-15T17:59:02.919700+00:00"
     },
     {
       "id": "658128aad3b2bcad",
@@ -1377,7 +1381,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.445622+00:00"
+      "scraped_at": "2026-06-15T17:59:03.137289+00:00"
     },
     {
       "id": "bb4b5a64e8f0519d",
@@ -1396,7 +1400,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.288600+00:00"
+      "scraped_at": "2026-06-15T17:59:02.994576+00:00"
     },
     {
       "id": "a4b8af59b544524b",
@@ -1415,7 +1419,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.430494+00:00"
+      "scraped_at": "2026-06-15T17:59:03.124137+00:00"
     },
     {
       "id": "fabf4499af1f5c0f",
@@ -1434,7 +1438,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.130212+00:00"
+      "scraped_at": "2026-06-15T17:59:05.803887+00:00"
     },
     {
       "id": "6085773c49e01919",
@@ -1453,7 +1457,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.468840+00:00"
+      "scraped_at": "2026-06-15T17:59:03.158006+00:00"
     },
     {
       "id": "d4546eb3f3589dcf",
@@ -1491,7 +1495,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.171270+00:00"
+      "scraped_at": "2026-06-15T17:59:02.888542+00:00"
     },
     {
       "id": "a81db997b58441ca",
@@ -1510,7 +1514,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.179223+00:00"
+      "scraped_at": "2026-06-15T17:59:05.848064+00:00"
     },
     {
       "id": "67d82f522382f90b",
@@ -1529,7 +1533,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.993351+00:00"
+      "scraped_at": "2026-06-15T17:59:05.683303+00:00"
     },
     {
       "id": "acae452126c4e7aa",
@@ -1548,7 +1552,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.140089+00:00"
+      "scraped_at": "2026-06-15T17:59:05.812814+00:00"
     },
     {
       "id": "5e711468bbf722bb",
@@ -1605,7 +1609,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.270659+00:00"
+      "scraped_at": "2026-06-15T17:59:02.977807+00:00"
     },
     {
       "id": "bb4330e38e69cb3b",
@@ -1624,7 +1628,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.014545+00:00"
+      "scraped_at": "2026-06-15T17:59:05.702302+00:00"
     },
     {
       "id": "6dca25a9781e15c3",
@@ -1662,7 +1666,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.001857+00:00"
+      "scraped_at": "2026-06-15T17:59:05.690960+00:00"
     },
     {
       "id": "527b9aabce05f740",
@@ -1700,7 +1704,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.180740+00:00"
+      "scraped_at": "2026-06-15T17:59:05.849460+00:00"
     },
     {
       "id": "58c6bc8b1bc236b4",
@@ -1719,7 +1723,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.998568+00:00"
+      "scraped_at": "2026-06-15T17:59:05.687939+00:00"
     },
     {
       "id": "e62d10004b2e494b",
@@ -1738,7 +1742,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.422587+00:00"
+      "scraped_at": "2026-06-15T17:59:03.116789+00:00"
     },
     {
       "id": "9ab30ef4e1ea7fbd",
@@ -1757,7 +1761,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.955555+00:00"
+      "scraped_at": "2026-06-15T17:59:05.649663+00:00"
     },
     {
       "id": "f2b685e5fd81e0e5",
@@ -1814,7 +1818,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.466487+00:00"
+      "scraped_at": "2026-06-15T17:59:03.155795+00:00"
     },
     {
       "id": "025ff3be6a1a21a1",
@@ -1985,7 +1989,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.961628+00:00"
+      "scraped_at": "2026-06-15T17:59:05.655211+00:00"
     },
     {
       "id": "7b56c8cb6dc85401",
@@ -2004,7 +2008,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.954340+00:00"
+      "scraped_at": "2026-06-15T17:59:05.648516+00:00"
     },
     {
       "id": "c09c528158042085",
@@ -2061,7 +2065,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.010977+00:00"
+      "scraped_at": "2026-06-15T17:59:05.699139+00:00"
     },
     {
       "id": "7757b8e213da8817",
@@ -2080,7 +2084,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.008475+00:00"
+      "scraped_at": "2026-06-15T17:59:05.696931+00:00"
     },
     {
       "id": "f234e42247ea5573",
@@ -2175,7 +2179,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.086429+00:00"
+      "scraped_at": "2026-06-15T17:59:02.811055+00:00"
     },
     {
       "id": "eaf350b55b61173f",
@@ -2194,7 +2198,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.005386+00:00"
+      "scraped_at": "2026-06-15T17:59:05.694157+00:00"
     },
     {
       "id": "9a1191f8b2ba43e5",
@@ -2365,7 +2369,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.289226+00:00"
+      "scraped_at": "2026-06-15T17:59:02.995175+00:00"
     },
     {
       "id": "1edc1dafc3e9306e",
@@ -2384,7 +2388,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.074779+00:00"
+      "scraped_at": "2026-06-15T17:59:02.800344+00:00"
     },
     {
       "id": "fd90526b0628c7be",
@@ -2403,7 +2407,7 @@
       "confidence": "low",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.376872+00:00"
+      "scraped_at": "2026-06-15T17:59:00.177175+00:00"
     },
     {
       "id": "9bf337c3f9a94e50",
@@ -2422,7 +2426,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.083131+00:00"
+      "scraped_at": "2026-06-15T17:59:02.808033+00:00"
     },
     {
       "id": "dbf50d97175d28b1",
@@ -2441,7 +2445,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.418845+00:00"
+      "scraped_at": "2026-06-15T17:59:03.113110+00:00"
     },
     {
       "id": "ade136de61f1f423",
@@ -2460,7 +2464,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.306325+00:00"
+      "scraped_at": "2026-06-15T17:59:03.010687+00:00"
     },
     {
       "id": "5e5ea1a73d38a117",
@@ -2479,7 +2483,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.999059+00:00"
+      "scraped_at": "2026-06-15T17:59:05.688374+00:00"
     },
     {
       "id": "c5afdd6eac89ccc2",
@@ -2498,7 +2502,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.992350+00:00"
+      "scraped_at": "2026-06-15T17:59:05.682397+00:00"
     },
     {
       "id": "b9800d53c81a2779",
@@ -2517,7 +2521,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.130834+00:00"
+      "scraped_at": "2026-06-15T17:58:54.034377+00:00"
     },
     {
       "id": "981334cc28a09eed",
@@ -2536,7 +2540,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.130424+00:00"
+      "scraped_at": "2026-06-15T17:58:54.033997+00:00"
     },
     {
       "id": "8ee92b99b1141603",
@@ -2555,7 +2559,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.127382+00:00"
+      "scraped_at": "2026-06-15T17:58:54.031295+00:00"
     },
     {
       "id": "cf386e19fd080328",
@@ -2574,7 +2578,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.125750+00:00"
+      "scraped_at": "2026-06-15T17:58:54.029782+00:00"
     },
     {
       "id": "270342e64ac74b0f",
@@ -2593,7 +2597,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.124546+00:00"
+      "scraped_at": "2026-06-15T17:58:54.028597+00:00"
     },
     {
       "id": "b978cf8857990006",
@@ -2612,7 +2616,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.135046+00:00"
+      "scraped_at": "2026-06-15T17:58:54.038133+00:00"
     },
     {
       "id": "245c739f0c1cb0c8",
@@ -2631,7 +2635,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.128649+00:00"
+      "scraped_at": "2026-06-15T17:58:54.032424+00:00"
     },
     {
       "id": "b18b9331376c02bb",
@@ -2650,7 +2654,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.129067+00:00"
+      "scraped_at": "2026-06-15T17:58:54.032804+00:00"
     },
     {
       "id": "7f977c4e8333c046",
@@ -2669,7 +2673,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.135428+00:00"
+      "scraped_at": "2026-06-15T17:58:54.038499+00:00"
     },
     {
       "id": "1ce51c8b609f0215",
@@ -2688,7 +2692,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.126164+00:00"
+      "scraped_at": "2026-06-15T17:58:54.030180+00:00"
     },
     {
       "id": "62491333b434fa8e",
@@ -2707,7 +2711,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.132069+00:00"
+      "scraped_at": "2026-06-15T17:58:54.035449+00:00"
     },
     {
       "id": "9b05d2dee56f9c2b",
@@ -2726,7 +2730,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.132436+00:00"
+      "scraped_at": "2026-06-15T17:58:54.035796+00:00"
     },
     {
       "id": "18511588f9f9cf3c",
@@ -2745,7 +2749,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.274223+00:00"
+      "scraped_at": "2026-06-15T17:59:02.981076+00:00"
     },
     {
       "id": "19100e27b559da52",
@@ -2840,7 +2844,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.152966+00:00"
+      "scraped_at": "2026-06-15T17:59:02.871757+00:00"
     },
     {
       "id": "16eb6b6963d6ce73",
@@ -2859,7 +2863,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.540666+00:00"
+      "scraped_at": "2026-06-15T17:59:03.222058+00:00"
     },
     {
       "id": "dcba9dcfec25ac8e",
@@ -2878,7 +2882,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.201315+00:00"
+      "scraped_at": "2026-06-15T17:59:05.867607+00:00"
     },
     {
       "id": "2615a2c2df9d5f67",
@@ -3296,7 +3300,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.951471+00:00"
+      "scraped_at": "2026-06-15T17:59:05.645869+00:00"
     },
     {
       "id": "fe7a721c9705375f",
@@ -3315,7 +3319,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.415112+00:00"
+      "scraped_at": "2026-06-15T17:59:03.109607+00:00"
     },
     {
       "id": "e3229f6a720f202b",
@@ -3353,7 +3357,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.224798+00:00"
+      "scraped_at": "2026-06-15T17:59:05.887960+00:00"
     },
     {
       "id": "fa1284467f194924",
@@ -3372,7 +3376,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.011512+00:00"
+      "scraped_at": "2026-06-15T17:59:05.699641+00:00"
     },
     {
       "id": "86f05b0d8489d434",
@@ -3391,7 +3395,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.187453+00:00"
+      "scraped_at": "2026-06-15T17:59:05.855543+00:00"
     },
     {
       "id": "a022eb30c2d2fac2",
@@ -3429,7 +3433,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.184838+00:00"
+      "scraped_at": "2026-06-15T17:59:05.853187+00:00"
     },
     {
       "id": "9604bbc6172cfc51",
@@ -3448,7 +3452,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.538374+00:00"
+      "scraped_at": "2026-06-15T17:59:03.219951+00:00"
     },
     {
       "id": "297b13ac894f20b3",
@@ -3467,7 +3471,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.166722+00:00"
+      "scraped_at": "2026-06-15T17:59:05.836564+00:00"
     },
     {
       "id": "7ee347a93683118b",
@@ -4398,7 +4402,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.015061+00:00"
+      "scraped_at": "2026-06-15T17:59:05.702763+00:00"
     },
     {
       "id": "612caa80ff4d773d",
@@ -4417,7 +4421,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.139420+00:00"
+      "scraped_at": "2026-06-15T17:59:05.812209+00:00"
     },
     {
       "id": "65e4005d350e0ddd",
@@ -4436,7 +4440,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.007402+00:00"
+      "scraped_at": "2026-06-15T17:59:05.695952+00:00"
     },
     {
       "id": "c1267a9ef62a4461",
@@ -4664,7 +4668,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.015592+00:00"
+      "scraped_at": "2026-06-15T17:59:05.703258+00:00"
     },
     {
       "id": "05f75b974b3a4e27",
@@ -4683,7 +4687,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.279785+00:00"
+      "scraped_at": "2026-06-15T17:59:05.936825+00:00"
     },
     {
       "id": "d7282429efdad2cb",
@@ -4702,7 +4706,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.470177+00:00"
+      "scraped_at": "2026-06-15T17:59:03.159271+00:00"
     },
     {
       "id": "f922f07f411cbfd0",
@@ -4759,7 +4763,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.133395+00:00"
+      "scraped_at": "2026-06-15T17:59:05.806714+00:00"
     },
     {
       "id": "cdc7ebc63d98bd21",
@@ -4778,7 +4782,7 @@
       "confidence": "low",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.367990+00:00"
+      "scraped_at": "2026-06-15T17:59:00.168929+00:00"
     },
     {
       "id": "f189c2b563fc3a9b",
@@ -4835,7 +4839,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.217711+00:00"
+      "scraped_at": "2026-06-15T17:59:05.881615+00:00"
     },
     {
       "id": "d2558df5a6260a2b",
@@ -4892,7 +4896,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.132688+00:00"
+      "scraped_at": "2026-06-15T17:59:02.853078+00:00"
     },
     {
       "id": "afdb10648db7a482",
@@ -4911,7 +4915,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.069580+00:00"
+      "scraped_at": "2026-06-15T17:59:05.750924+00:00"
     },
     {
       "id": "6369ea4a806141a6",
@@ -4930,7 +4934,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.370251+00:00"
+      "scraped_at": "2026-06-15T17:59:00.171013+00:00"
     },
     {
       "id": "faa6ef306c986696",
@@ -4949,7 +4953,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.934200+00:00"
+      "scraped_at": "2026-06-15T17:59:05.629973+00:00"
     },
     {
       "id": "c9c95f99ab5a5aab",
@@ -4968,7 +4972,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.271148+00:00"
+      "scraped_at": "2026-06-15T17:59:02.978267+00:00"
     },
     {
       "id": "85871ba9d7df3360",
@@ -4987,7 +4991,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.185360+00:00"
+      "scraped_at": "2026-06-15T17:59:05.853662+00:00"
     },
     {
       "id": "be0b857d7b38c136",
@@ -5006,7 +5010,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.531605+00:00"
+      "scraped_at": "2026-06-15T17:59:03.213630+00:00"
     },
     {
       "id": "b63dad7dbe8359d1",
@@ -5025,7 +5029,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.233859+00:00"
+      "scraped_at": "2026-06-15T17:59:02.945082+00:00"
     },
     {
       "id": "67df3c8b16262fb5",
@@ -5063,7 +5067,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.198987+00:00"
+      "scraped_at": "2026-06-15T17:59:05.865583+00:00"
     },
     {
       "id": "4cc1c1645f3cc4f9",
@@ -5101,7 +5105,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.446242+00:00"
+      "scraped_at": "2026-06-15T17:59:03.137873+00:00"
     },
     {
       "id": "eb53698c3cb1535b",
@@ -5120,7 +5124,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.082004+00:00"
+      "scraped_at": "2026-06-15T17:59:02.806966+00:00"
     },
     {
       "id": "79e11b2eb45c96e7",
@@ -5139,7 +5143,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.945177+00:00"
+      "scraped_at": "2026-06-15T17:59:05.640201+00:00"
     },
     {
       "id": "989aa0878070fa66",
@@ -5253,7 +5257,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.079150+00:00"
+      "scraped_at": "2026-06-15T17:59:02.804391+00:00"
     },
     {
       "id": "6ae9fd835d2b1993",
@@ -5272,7 +5276,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.278624+00:00"
+      "scraped_at": "2026-06-15T17:59:05.935771+00:00"
     },
     {
       "id": "767b353f50f20bef",
@@ -5291,7 +5295,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.336765+00:00"
+      "scraped_at": "2026-06-15T17:59:03.038308+00:00"
     },
     {
       "id": "2d6a94b1703f1692",
@@ -5310,7 +5314,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.153557+00:00"
+      "scraped_at": "2026-06-15T17:58:54.056497+00:00"
     },
     {
       "id": "05bb96f266625167",
@@ -5329,7 +5333,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.531105+00:00"
+      "scraped_at": "2026-06-15T17:59:03.213143+00:00"
     },
     {
       "id": "6d923008b8b9987f",
@@ -5538,7 +5542,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.142406+00:00"
+      "scraped_at": "2026-06-15T17:58:54.046091+00:00"
     },
     {
       "id": "4de6b928a250673a",
@@ -5557,7 +5561,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.143100+00:00"
+      "scraped_at": "2026-06-15T17:58:54.046776+00:00"
     },
     {
       "id": "754500db8b5d40a9",
@@ -5576,7 +5580,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.140943+00:00"
+      "scraped_at": "2026-06-15T17:58:54.044719+00:00"
     },
     {
       "id": "d6b0c5d72e49fab9",
@@ -5595,7 +5599,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.137122+00:00"
+      "scraped_at": "2026-06-15T17:58:54.041083+00:00"
     },
     {
       "id": "784917e5f9311472",
@@ -5614,7 +5618,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.123119+00:00"
+      "scraped_at": "2026-06-15T17:59:05.797472+00:00"
     },
     {
       "id": "3872deeff3ba2e43",
@@ -5633,7 +5637,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.248502+00:00"
+      "scraped_at": "2026-06-15T17:59:05.909017+00:00"
     },
     {
       "id": "b6e0e1cd5795d108",
@@ -5652,7 +5656,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.370676+00:00"
+      "scraped_at": "2026-06-15T17:59:03.069011+00:00"
     },
     {
       "id": "fb09f590a15cd33c",
@@ -5671,7 +5675,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.273805+00:00"
+      "scraped_at": "2026-06-15T17:59:05.931439+00:00"
     },
     {
       "id": "c5e7031241198aa2",
@@ -5690,7 +5694,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.940970+00:00"
+      "scraped_at": "2026-06-15T17:59:05.636244+00:00"
     },
     {
       "id": "38aa744911f1b69f",
@@ -5709,7 +5713,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.068604+00:00"
+      "scraped_at": "2026-06-15T17:59:05.750011+00:00"
     },
     {
       "id": "658deb8be667e559",
@@ -5728,7 +5732,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.071658+00:00"
+      "scraped_at": "2026-06-15T17:59:05.752773+00:00"
     },
     {
       "id": "0a363a4308363edf",
@@ -5747,7 +5751,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.201853+00:00"
+      "scraped_at": "2026-06-15T17:59:05.868107+00:00"
     },
     {
       "id": "9d5d11832f9841ca",
@@ -5766,7 +5770,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.150349+00:00"
+      "scraped_at": "2026-06-15T17:59:02.869410+00:00"
     },
     {
       "id": "7b35a508458471c7",
@@ -5785,7 +5789,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.123562+00:00"
+      "scraped_at": "2026-06-15T17:59:05.797897+00:00"
     },
     {
       "id": "1fc80739fd877cf6",
@@ -5804,7 +5808,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.370245+00:00"
+      "scraped_at": "2026-06-15T17:59:03.068592+00:00"
     },
     {
       "id": "773e1d5c59384d89",
@@ -5823,7 +5827,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.065356+00:00"
+      "scraped_at": "2026-06-15T17:59:05.747042+00:00"
     },
     {
       "id": "0621347671bb308d",
@@ -5842,7 +5846,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.374022+00:00"
+      "scraped_at": "2026-06-15T17:59:03.072033+00:00"
     },
     {
       "id": "8bebafa9f0bb9bca",
@@ -5861,7 +5865,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.938113+00:00"
+      "scraped_at": "2026-06-15T17:59:05.633585+00:00"
     },
     {
       "id": "d11d5f1d58422054",
@@ -5880,7 +5884,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.379527+00:00"
+      "scraped_at": "2026-06-15T17:59:03.077290+00:00"
     },
     {
       "id": "2afb95cdba5914ac",
@@ -5899,7 +5903,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.375966+00:00"
+      "scraped_at": "2026-06-15T17:59:03.073967+00:00"
     },
     {
       "id": "b13aa8e6fee030b3",
@@ -5918,7 +5922,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.372490+00:00"
+      "scraped_at": "2026-06-15T17:59:00.173126+00:00"
     },
     {
       "id": "b1cf7bbf6f2b3c86",
@@ -5937,7 +5941,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.275218+00:00"
+      "scraped_at": "2026-06-15T17:59:02.982022+00:00"
     },
     {
       "id": "9c7803f74fb33f14",
@@ -5956,7 +5960,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.309393+00:00"
+      "scraped_at": "2026-06-15T17:59:03.013518+00:00"
     },
     {
       "id": "7e9692cd225aa7b6",
@@ -5975,7 +5979,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.999824+00:00"
+      "scraped_at": "2026-06-15T17:59:05.689108+00:00"
     },
     {
       "id": "960c351b268a75fc",
@@ -5994,7 +5998,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.373555+00:00"
+      "scraped_at": "2026-06-15T17:59:03.071605+00:00"
     },
     {
       "id": "25caafc0e1d81893",
@@ -6013,7 +6017,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.230192+00:00"
+      "scraped_at": "2026-06-15T17:59:02.941643+00:00"
     },
     {
       "id": "6419f975c86a1993",
@@ -6032,7 +6036,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.160517+00:00"
+      "scraped_at": "2026-06-15T17:59:02.878725+00:00"
     },
     {
       "id": "2f4d13520067bf75",
@@ -6051,7 +6055,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.497856+00:00"
+      "scraped_at": "2026-06-15T17:59:03.183689+00:00"
     },
     {
       "id": "4efb16b339c40be2",
@@ -6070,7 +6074,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.074225+00:00"
+      "scraped_at": "2026-06-15T17:59:02.799787+00:00"
     },
     {
       "id": "68c1f00bd4c2801c",
@@ -6089,7 +6093,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.414127+00:00"
+      "scraped_at": "2026-06-15T17:59:03.108646+00:00"
     },
     {
       "id": "0d5c89ea4b64656d",
@@ -6108,7 +6112,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.220384+00:00"
+      "scraped_at": "2026-06-15T17:59:05.883974+00:00"
     },
     {
       "id": "f4ab2240d2850aad",
@@ -6127,7 +6131,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.127267+00:00"
+      "scraped_at": "2026-06-15T17:59:05.801250+00:00"
     },
     {
       "id": "98152766a3112184",
@@ -6146,7 +6150,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.176981+00:00"
+      "scraped_at": "2026-06-15T17:59:05.846015+00:00"
     },
     {
       "id": "b1393314bf860d62",
@@ -6184,7 +6188,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.541259+00:00"
+      "scraped_at": "2026-06-15T17:59:03.222614+00:00"
     },
     {
       "id": "34e4836d617040dd",
@@ -6203,7 +6207,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.251996+00:00"
+      "scraped_at": "2026-06-15T17:59:05.912158+00:00"
     },
     {
       "id": "e24ed89fd22c76e6",
@@ -6222,7 +6226,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.369632+00:00"
+      "scraped_at": "2026-06-15T17:59:03.068015+00:00"
     },
     {
       "id": "6241b4f6e88e3286",
@@ -6241,7 +6245,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.089964+00:00"
+      "scraped_at": "2026-06-15T17:59:02.814282+00:00"
     },
     {
       "id": "87259c608f83ea24",
@@ -6260,7 +6264,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.071166+00:00"
+      "scraped_at": "2026-06-15T17:59:02.796485+00:00"
     },
     {
       "id": "07d49313ddddec8d",
@@ -6279,7 +6283,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.958243+00:00"
+      "scraped_at": "2026-06-15T17:59:05.652136+00:00"
     },
     {
       "id": "137804198bf21313",
@@ -6298,7 +6302,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.341172+00:00"
+      "scraped_at": "2026-06-15T17:59:03.042355+00:00"
     },
     {
       "id": "25e9c3317fa40b04",
@@ -6317,7 +6321,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.941391+00:00"
+      "scraped_at": "2026-06-15T17:59:05.636649+00:00"
     },
     {
       "id": "59d8f7c0fe43b0e0",
@@ -6336,7 +6340,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.062885+00:00"
+      "scraped_at": "2026-06-15T17:59:05.744731+00:00"
     },
     {
       "id": "0adc159c56f216aa",
@@ -6355,7 +6359,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.081447+00:00"
+      "scraped_at": "2026-06-15T17:59:02.806439+00:00"
     },
     {
       "id": "0f43562507923565",
@@ -6374,7 +6378,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.155781+00:00"
+      "scraped_at": "2026-06-15T17:59:02.874333+00:00"
     },
     {
       "id": "d2dfa0e5b903b575",
@@ -6393,7 +6397,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.030713+00:00"
+      "scraped_at": "2026-06-15T17:59:05.716306+00:00"
     },
     {
       "id": "1d3ecd07cae51d89",
@@ -6412,7 +6416,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.164226+00:00"
+      "scraped_at": "2026-06-15T17:59:02.882217+00:00"
     },
     {
       "id": "8b94e55026161d0b",
@@ -6431,7 +6435,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.376859+00:00"
+      "scraped_at": "2026-06-15T17:59:03.074815+00:00"
     },
     {
       "id": "876fa6cce698e1cb",
@@ -6450,7 +6454,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.039526+00:00"
+      "scraped_at": "2026-06-15T17:59:05.724261+00:00"
     },
     {
       "id": "067ff0f5fe0ebddf",
@@ -6469,7 +6473,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.036315+00:00"
+      "scraped_at": "2026-06-15T17:59:05.721317+00:00"
     },
     {
       "id": "8752a93061682b72",
@@ -6507,7 +6511,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.231523+00:00"
+      "scraped_at": "2026-06-15T17:59:02.942899+00:00"
     },
     {
       "id": "bcd3bc363b21c92a",
@@ -6545,7 +6549,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.277848+00:00"
+      "scraped_at": "2026-06-15T17:59:02.984442+00:00"
     },
     {
       "id": "894c9158b345a5d0",
@@ -6564,7 +6568,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.381624+00:00"
+      "scraped_at": "2026-06-15T17:59:03.079185+00:00"
     },
     {
       "id": "36d2f240d92d9c89",
@@ -6697,7 +6701,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.365243+00:00"
+      "scraped_at": "2026-06-15T17:59:00.166504+00:00"
     },
     {
       "id": "3164279a66590877",
@@ -6716,7 +6720,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.361784+00:00"
+      "scraped_at": "2026-06-15T17:59:00.163375+00:00"
     },
     {
       "id": "eea3a1e48e9c527f",
@@ -6735,7 +6739,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.152846+00:00"
+      "scraped_at": "2026-06-15T17:58:54.055776+00:00"
     },
     {
       "id": "f96476db2f858b10",
@@ -6773,7 +6777,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.378194+00:00"
+      "scraped_at": "2026-06-15T17:59:00.178389+00:00"
     },
     {
       "id": "9b309e45b459d070",
@@ -6792,7 +6796,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.361220+00:00"
+      "scraped_at": "2026-06-15T17:59:00.162826+00:00"
     },
     {
       "id": "1615522fd13f0e16",
@@ -6830,7 +6834,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.463938+00:00"
+      "scraped_at": "2026-06-15T17:59:03.153451+00:00"
     },
     {
       "id": "1b1ca916ce7a5c52",
@@ -6849,7 +6853,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.085244+00:00"
+      "scraped_at": "2026-06-15T17:59:02.809949+00:00"
     },
     {
       "id": "ee56cce7ea9539d7",
@@ -6887,7 +6891,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.059074+00:00"
+      "scraped_at": "2026-06-15T17:59:02.785345+00:00"
     },
     {
       "id": "754d14971efe059a",
@@ -6906,7 +6910,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.215637+00:00"
+      "scraped_at": "2026-06-15T17:59:02.928332+00:00"
     },
     {
       "id": "d61bf1c995028b04",
@@ -6925,7 +6929,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.214179+00:00"
+      "scraped_at": "2026-06-15T17:59:02.927002+00:00"
     },
     {
       "id": "0b29c3776fdd2077",
@@ -6944,7 +6948,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.306751+00:00"
+      "scraped_at": "2026-06-15T17:59:03.011097+00:00"
     },
     {
       "id": "d559f92435f3e6e4",
@@ -6982,7 +6986,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.958851+00:00"
+      "scraped_at": "2026-06-15T17:59:05.652698+00:00"
     },
     {
       "id": "182dcc09f383cad8",
@@ -7001,7 +7005,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.145497+00:00"
+      "scraped_at": "2026-06-15T17:59:02.864926+00:00"
     },
     {
       "id": "f90fdf63680bcc3c",
@@ -7020,7 +7024,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.220931+00:00"
+      "scraped_at": "2026-06-15T17:59:02.933071+00:00"
     },
     {
       "id": "5811507b10ec621e",
@@ -7039,7 +7043,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.273113+00:00"
+      "scraped_at": "2026-06-15T17:59:05.930772+00:00"
     },
     {
       "id": "918f552c8cfd11f0",
@@ -7058,7 +7062,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.064897+00:00"
+      "scraped_at": "2026-06-15T17:59:02.790651+00:00"
     },
     {
       "id": "4a8714eef3dd419f",
@@ -7077,7 +7081,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.217646+00:00"
+      "scraped_at": "2026-06-15T17:59:02.930106+00:00"
     },
     {
       "id": "4dd613beaeaa55bb",
@@ -7096,7 +7100,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.078648+00:00"
+      "scraped_at": "2026-06-15T17:59:02.803931+00:00"
     },
     {
       "id": "c022c487db6370f4",
@@ -7115,7 +7119,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.337275+00:00"
+      "scraped_at": "2026-06-15T17:59:03.038766+00:00"
     },
     {
       "id": "bb921d5253086fe1",
@@ -7134,7 +7138,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.247440+00:00"
+      "scraped_at": "2026-06-15T17:59:05.908019+00:00"
     },
     {
       "id": "2af8fbcbd4790d0e",
@@ -7153,7 +7157,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.308847+00:00"
+      "scraped_at": "2026-06-15T17:59:03.012994+00:00"
     },
     {
       "id": "38552a3a0d36ddbf",
@@ -7172,7 +7176,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.344611+00:00"
+      "scraped_at": "2026-06-15T17:59:03.045557+00:00"
     },
     {
       "id": "9bc340bbfd11dc2e",
@@ -7191,7 +7195,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.212037+00:00"
+      "scraped_at": "2026-06-15T17:59:02.925143+00:00"
     },
     {
       "id": "4d92621a8287c1f7",
@@ -7210,7 +7214,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.248031+00:00"
+      "scraped_at": "2026-06-15T17:59:05.908564+00:00"
     },
     {
       "id": "d315ad0cf18d61f8",
@@ -7229,7 +7233,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.030181+00:00"
+      "scraped_at": "2026-06-15T17:59:05.715803+00:00"
     },
     {
       "id": "cb7ef4189611d132",
@@ -7248,7 +7252,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.227524+00:00"
+      "scraped_at": "2026-06-15T17:59:05.890405+00:00"
     },
     {
       "id": "ba1908f7f5f96455",
@@ -7267,7 +7271,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.126254+00:00"
+      "scraped_at": "2026-06-15T17:59:05.800309+00:00"
     },
     {
       "id": "d47018f997a14a68",
@@ -7286,7 +7290,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.224336+00:00"
+      "scraped_at": "2026-06-15T17:59:02.936264+00:00"
     },
     {
       "id": "a3891c6a83fc15b3",
@@ -7305,7 +7309,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.334118+00:00"
+      "scraped_at": "2026-06-15T17:59:03.035897+00:00"
     },
     {
       "id": "a30075b0b0498b39",
@@ -7324,7 +7328,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.163468+00:00"
+      "scraped_at": "2026-06-15T17:59:02.881491+00:00"
     },
     {
       "id": "3fd6d46ecd8b9572",
@@ -7343,7 +7347,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.067871+00:00"
+      "scraped_at": "2026-06-15T17:59:02.793348+00:00"
     },
     {
       "id": "910495ca86402b65",
@@ -7362,7 +7366,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.534166+00:00"
+      "scraped_at": "2026-06-15T17:59:03.216070+00:00"
     },
     {
       "id": "24ab08cd794d19fd",
@@ -7381,7 +7385,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.096957+00:00"
+      "scraped_at": "2026-06-15T17:59:05.774727+00:00"
     },
     {
       "id": "47a1fc7f46370d4b",
@@ -7400,7 +7404,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.254122+00:00"
+      "scraped_at": "2026-06-15T17:59:05.914087+00:00"
     },
     {
       "id": "6b7e4b10cc80814c",
@@ -7419,7 +7423,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.169406+00:00"
+      "scraped_at": "2026-06-15T17:59:05.839030+00:00"
     },
     {
       "id": "ea7c4e392d8df688",
@@ -7438,7 +7442,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.215136+00:00"
+      "scraped_at": "2026-06-15T17:59:02.927899+00:00"
     },
     {
       "id": "2a93770160d8cddb",
@@ -7457,7 +7461,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.206557+00:00"
+      "scraped_at": "2026-06-15T17:59:02.920109+00:00"
     },
     {
       "id": "5619fe70498368bf",
@@ -7476,7 +7480,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.272529+00:00"
+      "scraped_at": "2026-06-15T17:59:05.930217+00:00"
     },
     {
       "id": "f59c8003fd166cab",
@@ -7495,7 +7499,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.497360+00:00"
+      "scraped_at": "2026-06-15T17:59:03.183238+00:00"
     },
     {
       "id": "2079444c91359ea6",
@@ -7514,7 +7518,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.184241+00:00"
+      "scraped_at": "2026-06-15T17:59:05.852629+00:00"
     },
     {
       "id": "d8f9b313762fb9b4",
@@ -7533,7 +7537,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.072280+00:00"
+      "scraped_at": "2026-06-15T17:59:02.797957+00:00"
     },
     {
       "id": "cd1b3131bdba472a",
@@ -7552,7 +7556,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.422139+00:00"
+      "scraped_at": "2026-06-15T17:59:03.116359+00:00"
     },
     {
       "id": "05bf80e83f68f464",
@@ -7571,7 +7575,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.387648+00:00"
+      "scraped_at": "2026-06-15T17:59:03.085052+00:00"
     },
     {
       "id": "07be994c43e58ee6",
@@ -7590,7 +7594,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.343515+00:00"
+      "scraped_at": "2026-06-15T17:59:03.044523+00:00"
     },
     {
       "id": "a726437fcf6a1b1a",
@@ -7609,7 +7613,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.063363+00:00"
+      "scraped_at": "2026-06-15T17:59:05.745177+00:00"
     },
     {
       "id": "790202cc811ff999",
@@ -7628,7 +7632,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.080032+00:00"
+      "scraped_at": "2026-06-15T17:59:05.759971+00:00"
     },
     {
       "id": "d7dceef435f01c03",
@@ -7647,7 +7651,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.425137+00:00"
+      "scraped_at": "2026-06-15T17:59:03.119154+00:00"
     },
     {
       "id": "fcb4a7156829cb4a",
@@ -7666,7 +7670,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.309988+00:00"
+      "scraped_at": "2026-06-15T17:59:03.014086+00:00"
     },
     {
       "id": "5add0defc0b9e8b4",
@@ -7685,7 +7689,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.550379+00:00"
+      "scraped_at": "2026-06-15T17:59:03.230919+00:00"
     },
     {
       "id": "17df21e62c11cb83",
@@ -7704,7 +7708,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.959478+00:00"
+      "scraped_at": "2026-06-15T17:59:05.653289+00:00"
     },
     {
       "id": "27abf682df04962d",
@@ -7742,7 +7746,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.340694+00:00"
+      "scraped_at": "2026-06-15T17:59:03.041929+00:00"
     },
     {
       "id": "75b7c9dede09ff20",
@@ -7780,7 +7784,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.264997+00:00"
+      "scraped_at": "2026-06-15T17:59:02.972601+00:00"
     },
     {
       "id": "07bea469c04efdeb",
@@ -7799,7 +7803,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.167272+00:00"
+      "scraped_at": "2026-06-15T17:59:05.837079+00:00"
     },
     {
       "id": "f25522c05611d2ab",
@@ -7818,7 +7822,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.503065+00:00"
+      "scraped_at": "2026-06-15T17:59:03.188368+00:00"
     },
     {
       "id": "78f2b9a533dcc0f0",
@@ -7837,7 +7841,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.062366+00:00"
+      "scraped_at": "2026-06-15T17:59:05.744264+00:00"
     },
     {
       "id": "0cfc2a542f989ad9",
@@ -7875,7 +7879,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.152526+00:00"
+      "scraped_at": "2026-06-15T17:59:02.871371+00:00"
     },
     {
       "id": "06ffdde503c37e25",
@@ -7894,7 +7898,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.547588+00:00"
+      "scraped_at": "2026-06-15T17:59:03.228393+00:00"
     },
     {
       "id": "ea3ab9af39267294",
@@ -7932,7 +7936,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.254804+00:00"
+      "scraped_at": "2026-06-15T17:59:05.914714+00:00"
     },
     {
       "id": "0e51152e9e2eb4ac",
@@ -7970,7 +7974,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.071761+00:00"
+      "scraped_at": "2026-06-15T17:59:02.797173+00:00"
     },
     {
       "id": "226bc2f6b0c7ae7f",
@@ -7989,7 +7993,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.947927+00:00"
+      "scraped_at": "2026-06-15T17:59:05.642671+00:00"
     },
     {
       "id": "7dbb6221cb476aee",
@@ -8008,7 +8012,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.268641+00:00"
+      "scraped_at": "2026-06-15T17:59:02.976003+00:00"
     },
     {
       "id": "fe57b88ed3fdc540",
@@ -8027,7 +8031,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.469614+00:00"
+      "scraped_at": "2026-06-15T17:59:03.158751+00:00"
     },
     {
       "id": "f55cdc2fc1306195",
@@ -8046,7 +8050,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.286054+00:00"
+      "scraped_at": "2026-06-15T17:59:02.992204+00:00"
     },
     {
       "id": "2c4c4f556a07bdc8",
@@ -8065,7 +8069,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.089308+00:00"
+      "scraped_at": "2026-06-15T17:59:02.813661+00:00"
     },
     {
       "id": "b5c7243609838c1e",
@@ -8084,7 +8088,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.183577+00:00"
+      "scraped_at": "2026-06-15T17:59:05.852028+00:00"
     },
     {
       "id": "643421f3b15c7d0a",
@@ -8103,7 +8107,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.230907+00:00"
+      "scraped_at": "2026-06-15T17:59:02.942312+00:00"
     },
     {
       "id": "298c58a604ffc535",
@@ -8122,7 +8126,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.133902+00:00"
+      "scraped_at": "2026-06-15T17:59:05.807181+00:00"
     },
     {
       "id": "d14c0df242ffcc95",
@@ -8141,7 +8145,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.169953+00:00"
+      "scraped_at": "2026-06-15T17:59:05.839546+00:00"
     },
     {
       "id": "e1e2e42c8e87550c",
@@ -8160,7 +8164,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.094987+00:00"
+      "scraped_at": "2026-06-15T17:59:05.773007+00:00"
     },
     {
       "id": "d4fc33e358562ed4",
@@ -8179,7 +8183,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.199573+00:00"
+      "scraped_at": "2026-06-15T17:59:05.866076+00:00"
     },
     {
       "id": "395594172991dbe5",
@@ -8198,7 +8202,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.033515+00:00"
+      "scraped_at": "2026-06-15T17:59:05.718780+00:00"
     },
     {
       "id": "2ffd6da7966ad365",
@@ -8217,7 +8221,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.198438+00:00"
+      "scraped_at": "2026-06-15T17:59:05.865091+00:00"
     },
     {
       "id": "2a6df912e2ae3afb",
@@ -8236,7 +8240,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.057734+00:00"
+      "scraped_at": "2026-06-15T17:59:02.783997+00:00"
     },
     {
       "id": "96d77e1195efa211",
@@ -8255,7 +8259,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.493642+00:00"
+      "scraped_at": "2026-06-15T17:59:03.179819+00:00"
     },
     {
       "id": "092f70b081d79a59",
@@ -8293,7 +8297,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.061500+00:00"
+      "scraped_at": "2026-06-15T17:59:02.787563+00:00"
     },
     {
       "id": "e449505d12db50f1",
@@ -8312,7 +8316,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.250827+00:00"
+      "scraped_at": "2026-06-15T17:59:05.911099+00:00"
     },
     {
       "id": "09b978a78f764505",
@@ -8331,7 +8335,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.092220+00:00"
+      "scraped_at": "2026-06-15T17:59:02.816332+00:00"
     },
     {
       "id": "89ed764779f54b43",
@@ -8369,7 +8373,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.225136+00:00"
+      "scraped_at": "2026-06-15T17:59:02.937003+00:00"
     },
     {
       "id": "dc2d3a3ffc538500",
@@ -8388,7 +8392,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.274730+00:00"
+      "scraped_at": "2026-06-15T17:59:02.981564+00:00"
     },
     {
       "id": "c0020edb36d05c70",
@@ -8540,7 +8544,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.280465+00:00"
+      "scraped_at": "2026-06-15T17:59:02.986886+00:00"
     },
     {
       "id": "57cb9b62a5d63c09",
@@ -8635,7 +8639,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.144542+00:00"
+      "scraped_at": "2026-06-15T17:58:54.048117+00:00"
     },
     {
       "id": "400ba1c09c0bc066",
@@ -8654,7 +8658,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.936909+00:00"
+      "scraped_at": "2026-06-15T17:59:05.632459+00:00"
     },
     {
       "id": "786be1b6a94800fb",
@@ -8673,7 +8677,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.357907+00:00"
+      "scraped_at": "2026-06-15T17:59:00.159934+00:00"
     },
     {
       "id": "78ee4c3c173a0e4b",
@@ -8692,7 +8696,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.142191+00:00"
+      "scraped_at": "2026-06-15T17:59:02.861916+00:00"
     },
     {
       "id": "eed4a77dad26453a",
@@ -8711,7 +8715,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.373107+00:00"
+      "scraped_at": "2026-06-15T17:59:03.071185+00:00"
     },
     {
       "id": "9ce7e709952ce7a7",
@@ -8730,7 +8734,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.344085+00:00"
+      "scraped_at": "2026-06-15T17:59:03.045062+00:00"
     },
     {
       "id": "45d7fd8c8e558d93",
@@ -8749,7 +8753,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.506021+00:00"
+      "scraped_at": "2026-06-15T17:59:03.191086+00:00"
     },
     {
       "id": "0a62fd0e52f57b81",
@@ -8768,7 +8772,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.214644+00:00"
+      "scraped_at": "2026-06-15T17:59:02.927442+00:00"
     },
     {
       "id": "85e6b499de8b2bb0",
@@ -8787,7 +8791,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.029698+00:00"
+      "scraped_at": "2026-06-15T17:59:05.715395+00:00"
     },
     {
       "id": "0c28f497223e2428",
@@ -8806,7 +8810,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.431120+00:00"
+      "scraped_at": "2026-06-15T17:59:03.124710+00:00"
     },
     {
       "id": "437aa57a745ef853",
@@ -8825,7 +8829,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.251319+00:00"
+      "scraped_at": "2026-06-15T17:59:05.911550+00:00"
     },
     {
       "id": "2134482385fb3736",
@@ -8844,7 +8848,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.267596+00:00"
+      "scraped_at": "2026-06-15T17:59:02.975021+00:00"
     },
     {
       "id": "19db45b74ba635a6",
@@ -8863,7 +8867,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.181217+00:00"
+      "scraped_at": "2026-06-15T17:59:05.849897+00:00"
     },
     {
       "id": "966c279dee3ca49f",
@@ -8882,7 +8886,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.382355+00:00"
+      "scraped_at": "2026-06-15T17:59:03.079892+00:00"
     },
     {
       "id": "0347e3ad7fc1daa3",
@@ -8901,7 +8905,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.278347+00:00"
+      "scraped_at": "2026-06-15T17:59:02.984922+00:00"
     },
     {
       "id": "c189cd6e5dbedcc8",
@@ -8920,7 +8924,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.547061+00:00"
+      "scraped_at": "2026-06-15T17:59:03.227873+00:00"
     },
     {
       "id": "9334ca7b2209dfd2",
@@ -8939,7 +8943,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.068827+00:00"
+      "scraped_at": "2026-06-15T17:59:02.794267+00:00"
     },
     {
       "id": "e6ac8372175b7a9a",
@@ -8958,7 +8962,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.136541+00:00"
+      "scraped_at": "2026-06-15T17:59:05.809576+00:00"
     },
     {
       "id": "c81f3cef6e2509e9",
@@ -8977,7 +8981,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.228033+00:00"
+      "scraped_at": "2026-06-15T17:59:05.890840+00:00"
     },
     {
       "id": "86883f1f8ce47a73",
@@ -8996,7 +9000,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.256477+00:00"
+      "scraped_at": "2026-06-15T17:59:05.916220+00:00"
     },
     {
       "id": "837a9c1d5b40f950",
@@ -9015,7 +9019,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.179878+00:00"
+      "scraped_at": "2026-06-15T17:59:05.848642+00:00"
     },
     {
       "id": "0d552002cec96666",
@@ -9034,7 +9038,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.996464+00:00"
+      "scraped_at": "2026-06-15T17:59:05.686087+00:00"
     },
     {
       "id": "c483a1881492b63d",
@@ -9053,7 +9057,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.068313+00:00"
+      "scraped_at": "2026-06-15T17:59:02.793772+00:00"
     },
     {
       "id": "667301e67c105d2f",
@@ -9072,7 +9076,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.446836+00:00"
+      "scraped_at": "2026-06-15T17:59:03.138426+00:00"
     },
     {
       "id": "565538b82683b79b",
@@ -9091,7 +9095,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.263425+00:00"
+      "scraped_at": "2026-06-15T17:59:02.971140+00:00"
     },
     {
       "id": "fa58979be7d61c1c",
@@ -9110,7 +9114,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.281291+00:00"
+      "scraped_at": "2026-06-15T17:59:02.987636+00:00"
     },
     {
       "id": "cd2d3d1ed14fc831",
@@ -9129,7 +9133,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.495208+00:00"
+      "scraped_at": "2026-06-15T17:59:03.181277+00:00"
     },
     {
       "id": "bd84f4ce2d8b4234",
@@ -9148,7 +9152,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.281867+00:00"
+      "scraped_at": "2026-06-15T17:59:05.938681+00:00"
     },
     {
       "id": "22d7a742646deeba",
@@ -9167,7 +9171,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.950843+00:00"
+      "scraped_at": "2026-06-15T17:59:05.645258+00:00"
     },
     {
       "id": "dedfa4f18442539b",
@@ -9186,7 +9190,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.221558+00:00"
+      "scraped_at": "2026-06-15T17:59:02.933663+00:00"
     },
     {
       "id": "d530caf36be15d32",
@@ -9224,7 +9228,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.954883+00:00"
+      "scraped_at": "2026-06-15T17:59:05.649024+00:00"
     },
     {
       "id": "752672e73d1710d4",
@@ -9395,7 +9399,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.990087+00:00"
+      "scraped_at": "2026-06-15T17:59:05.680438+00:00"
     },
     {
       "id": "8a941c390b3ddf10",
@@ -9414,7 +9418,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.078122+00:00"
+      "scraped_at": "2026-06-15T17:59:02.803410+00:00"
     },
     {
       "id": "d494d52bb9cb69e5",
@@ -9509,7 +9513,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.138661+00:00"
+      "scraped_at": "2026-06-15T17:58:54.042526+00:00"
     },
     {
       "id": "1eefff9a08157779",
@@ -9528,7 +9532,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.227032+00:00"
+      "scraped_at": "2026-06-15T17:59:05.889932+00:00"
     },
     {
       "id": "96bc657a486e7386",
@@ -9547,7 +9551,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.139578+00:00"
+      "scraped_at": "2026-06-15T17:59:02.859496+00:00"
     },
     {
       "id": "1e4d9c039ed49510",
@@ -9566,7 +9570,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.337889+00:00"
+      "scraped_at": "2026-06-15T17:59:03.039338+00:00"
     },
     {
       "id": "993e2f7bc212ed68",
@@ -9585,7 +9589,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.330037+00:00"
+      "scraped_at": "2026-06-15T17:59:03.032084+00:00"
     },
     {
       "id": "3ec5b8657828b41f",
@@ -9604,7 +9608,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.415563+00:00"
+      "scraped_at": "2026-06-15T17:59:03.110052+00:00"
     },
     {
       "id": "feda1a620a605a05",
@@ -9623,7 +9627,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.059865+00:00"
+      "scraped_at": "2026-06-15T17:59:05.742021+00:00"
     },
     {
       "id": "ca41f46d3ff62f4e",
@@ -9642,7 +9646,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.131204+00:00"
+      "scraped_at": "2026-06-15T17:59:05.804789+00:00"
     },
     {
       "id": "a693ec25a71fde65",
@@ -9661,7 +9665,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.127960+00:00"
+      "scraped_at": "2026-06-15T17:59:05.801887+00:00"
     },
     {
       "id": "82f8fa9e707d0452",
@@ -9680,7 +9684,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.141696+00:00"
+      "scraped_at": "2026-06-15T17:59:02.861453+00:00"
     },
     {
       "id": "5375a170e42cf1ca",
@@ -9699,7 +9703,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.244381+00:00"
+      "scraped_at": "2026-06-15T17:59:05.905117+00:00"
     },
     {
       "id": "507b5cc397accfe4",
@@ -9718,7 +9722,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.379103+00:00"
+      "scraped_at": "2026-06-15T17:59:03.076887+00:00"
     },
     {
       "id": "1d31424056f50a77",
@@ -9737,7 +9741,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.271607+00:00"
+      "scraped_at": "2026-06-15T17:59:02.978699+00:00"
     },
     {
       "id": "013eeb77c79e653c",
@@ -9756,7 +9760,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.272111+00:00"
+      "scraped_at": "2026-06-15T17:59:02.979148+00:00"
     },
     {
       "id": "2f582736cce56897",
@@ -9775,7 +9779,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.176396+00:00"
+      "scraped_at": "2026-06-15T17:59:05.845465+00:00"
     },
     {
       "id": "63a2fdb896eb80fd",
@@ -9794,7 +9798,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.495730+00:00"
+      "scraped_at": "2026-06-15T17:59:03.181778+00:00"
     },
     {
       "id": "5c9c923262bc7d4a",
@@ -9813,7 +9817,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.172684+00:00"
+      "scraped_at": "2026-06-15T17:59:05.842043+00:00"
     },
     {
       "id": "5a6a17b476b85460",
@@ -9832,7 +9836,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.092932+00:00"
+      "scraped_at": "2026-06-15T17:59:05.771183+00:00"
     },
     {
       "id": "574f2e102caf8713",
@@ -9851,7 +9855,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.140313+00:00"
+      "scraped_at": "2026-06-15T17:58:54.044094+00:00"
     },
     {
       "id": "5128a201263be3de",
@@ -9870,7 +9874,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.378729+00:00"
+      "scraped_at": "2026-06-15T17:59:00.178921+00:00"
     },
     {
       "id": "e4705fec789d5527",
@@ -9908,7 +9912,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.149116+00:00"
+      "scraped_at": "2026-06-15T17:58:54.052429+00:00"
     },
     {
       "id": "5201c94285a3692a",
@@ -9927,7 +9931,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.369582+00:00"
+      "scraped_at": "2026-06-15T17:59:00.170352+00:00"
     },
     {
       "id": "80198df194628ab5",
@@ -9946,7 +9950,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.376107+00:00"
+      "scraped_at": "2026-06-15T17:59:00.176406+00:00"
     },
     {
       "id": "8a121d732b6b5e07",
@@ -9965,7 +9969,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.380985+00:00"
+      "scraped_at": "2026-06-15T17:59:00.181058+00:00"
     },
     {
       "id": "9ae593fabc727931",
@@ -9984,7 +9988,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.374439+00:00"
+      "scraped_at": "2026-06-15T17:59:00.174918+00:00"
     },
     {
       "id": "e65c6371235547c2",
@@ -10003,7 +10007,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.962119+00:00"
+      "scraped_at": "2026-06-15T17:59:05.655647+00:00"
     },
     {
       "id": "98c8bbcfae3f36a5",
@@ -10022,7 +10026,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.305727+00:00"
+      "scraped_at": "2026-06-15T17:59:03.010156+00:00"
     },
     {
       "id": "c197428f227eb419",
@@ -10041,7 +10045,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.080501+00:00"
+      "scraped_at": "2026-06-15T17:59:05.760416+00:00"
     },
     {
       "id": "30d882412b7ed405",
@@ -10060,7 +10064,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.334594+00:00"
+      "scraped_at": "2026-06-15T17:59:03.036344+00:00"
     },
     {
       "id": "6338e378bb004bd4",
@@ -10079,7 +10083,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.340036+00:00"
+      "scraped_at": "2026-06-15T17:59:03.041284+00:00"
     },
     {
       "id": "e0a42769de39437d",
@@ -10098,7 +10102,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.552710+00:00"
+      "scraped_at": "2026-06-15T17:59:03.233009+00:00"
     },
     {
       "id": "68615a36622c458f",
@@ -10117,7 +10121,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.372613+00:00"
+      "scraped_at": "2026-06-15T17:59:03.070720+00:00"
     },
     {
       "id": "c59bfc19f537f10a",
@@ -10136,7 +10140,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.091799+00:00"
+      "scraped_at": "2026-06-15T17:59:05.770163+00:00"
     },
     {
       "id": "cc8755e832065ca9",
@@ -10155,7 +10159,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.414558+00:00"
+      "scraped_at": "2026-06-15T17:59:03.109086+00:00"
     },
     {
       "id": "ce76b48e479e5801",
@@ -10174,7 +10178,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.121065+00:00"
+      "scraped_at": "2026-06-15T17:59:05.795670+00:00"
     },
     {
       "id": "5ab37ef779644b18",
@@ -10193,7 +10197,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.095520+00:00"
+      "scraped_at": "2026-06-15T17:59:05.773509+00:00"
     },
     {
       "id": "c9e0b2aa6e1312ac",
@@ -10212,7 +10216,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.330488+00:00"
+      "scraped_at": "2026-06-15T17:59:03.032528+00:00"
     },
     {
       "id": "333457a635c6af0d",
@@ -10231,7 +10235,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.067420+00:00"
+      "scraped_at": "2026-06-15T17:59:02.792935+00:00"
     },
     {
       "id": "b1afe947e5c376c9",
@@ -10250,7 +10254,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.130708+00:00"
+      "scraped_at": "2026-06-15T17:59:05.804349+00:00"
     },
     {
       "id": "fb142253dfe826e9",
@@ -10269,7 +10273,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.537772+00:00"
+      "scraped_at": "2026-06-15T17:59:03.219391+00:00"
     },
     {
       "id": "0b42a13cfc43cefc",
@@ -10288,7 +10292,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.060988+00:00"
+      "scraped_at": "2026-06-15T17:59:02.787085+00:00"
     },
     {
       "id": "9109b8c6f5ea5522",
@@ -10307,7 +10311,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.064397+00:00"
+      "scraped_at": "2026-06-15T17:59:02.790188+00:00"
     },
     {
       "id": "2760eaf7a5deb387",
@@ -10326,7 +10330,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.376409+00:00"
+      "scraped_at": "2026-06-15T17:59:03.074402+00:00"
     },
     {
       "id": "4dea72b946844545",
@@ -10345,7 +10349,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.004446+00:00"
+      "scraped_at": "2026-06-15T17:59:05.693299+00:00"
     },
     {
       "id": "a6ad3264d1af144c",
@@ -10364,7 +10368,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.146572+00:00"
+      "scraped_at": "2026-06-15T17:59:02.865945+00:00"
     },
     {
       "id": "eb792e8443a35ece",
@@ -10383,7 +10387,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.534628+00:00"
+      "scraped_at": "2026-06-15T17:59:03.216512+00:00"
     },
     {
       "id": "c17aac945c12b3f3",
@@ -10402,7 +10406,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.303131+00:00"
+      "scraped_at": "2026-06-15T17:59:03.007805+00:00"
     },
     {
       "id": "24327d218b6fe884",
@@ -10421,7 +10425,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.989650+00:00"
+      "scraped_at": "2026-06-15T17:59:05.680038+00:00"
     },
     {
       "id": "425f1b5446a85193",
@@ -10440,7 +10444,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.135118+00:00"
+      "scraped_at": "2026-06-15T17:59:02.855290+00:00"
     },
     {
       "id": "799a4320c71385e0",
@@ -10459,7 +10463,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.035655+00:00"
+      "scraped_at": "2026-06-15T17:59:05.720656+00:00"
     },
     {
       "id": "de05a8d06defa815",
@@ -10478,7 +10482,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.145037+00:00"
+      "scraped_at": "2026-06-15T17:59:02.864482+00:00"
     },
     {
       "id": "559c15bc0664a1cd",
@@ -10497,7 +10501,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.331093+00:00"
+      "scraped_at": "2026-06-15T17:59:03.033091+00:00"
     },
     {
       "id": "51cb6b1d439154bc",
@@ -10516,7 +10520,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.947364+00:00"
+      "scraped_at": "2026-06-15T17:59:05.642168+00:00"
     },
     {
       "id": "0aa756afbb8f1ea5",
@@ -10535,7 +10539,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.501107+00:00"
+      "scraped_at": "2026-06-15T17:59:03.186588+00:00"
     },
     {
       "id": "a70ec2c66a225710",
@@ -10554,7 +10558,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.205569+00:00"
+      "scraped_at": "2026-06-15T17:59:02.919174+00:00"
     },
     {
       "id": "9be77a5ff2ab0131",
@@ -10573,7 +10577,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.175861+00:00"
+      "scraped_at": "2026-06-15T17:59:05.844967+00:00"
     },
     {
       "id": "ab488ede50a20998",
@@ -10592,7 +10596,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.217216+00:00"
+      "scraped_at": "2026-06-15T17:59:05.881154+00:00"
     },
     {
       "id": "6e75967aaaad14ba",
@@ -10611,7 +10615,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.302488+00:00"
+      "scraped_at": "2026-06-15T17:59:03.007212+00:00"
     },
     {
       "id": "4b855a109ff1bb50",
@@ -10630,7 +10634,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.082577+00:00"
+      "scraped_at": "2026-06-15T17:59:02.807508+00:00"
     },
     {
       "id": "379297141152745f",
@@ -10687,7 +10691,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.940446+00:00"
+      "scraped_at": "2026-06-15T17:59:05.635702+00:00"
     },
     {
       "id": "9cf1d030bd5afb43",
@@ -10706,7 +10710,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.934914+00:00"
+      "scraped_at": "2026-06-15T17:59:05.630643+00:00"
     },
     {
       "id": "99d30bfdbfce6ab4",
@@ -10858,7 +10862,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.354575+00:00"
+      "scraped_at": "2026-06-15T17:59:00.156892+00:00"
     },
     {
       "id": "0ef93bca3beb1cda",
@@ -10877,7 +10881,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.145149+00:00"
+      "scraped_at": "2026-06-15T17:58:54.048703+00:00"
     },
     {
       "id": "758abad70fa115f4",
@@ -10896,7 +10900,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.147373+00:00"
+      "scraped_at": "2026-06-15T17:58:54.050843+00:00"
     },
     {
       "id": "d13f7c170a3421d2",
@@ -10915,7 +10919,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.371855+00:00"
+      "scraped_at": "2026-06-15T17:59:00.172481+00:00"
     },
     {
       "id": "0e8c406192164bf5",
@@ -10934,7 +10938,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.363489+00:00"
+      "scraped_at": "2026-06-15T17:59:00.164916+00:00"
     },
     {
       "id": "caba55e58f407490",
@@ -10953,7 +10957,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.359473+00:00"
+      "scraped_at": "2026-06-15T17:59:00.161316+00:00"
     },
     {
       "id": "677045f0220eef8a",
@@ -10972,7 +10976,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.356294+00:00"
+      "scraped_at": "2026-06-15T17:59:00.158461+00:00"
     },
     {
       "id": "fb1c4e5e4b82e9a3",
@@ -10991,7 +10995,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.091238+00:00"
+      "scraped_at": "2026-06-15T17:59:05.769614+00:00"
     },
     {
       "id": "52dc4cfe35132da6",
@@ -11010,7 +11014,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.150686+00:00"
+      "scraped_at": "2026-06-15T17:58:54.053808+00:00"
     },
     {
       "id": "9f839e4e70539424",
@@ -11029,7 +11033,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.537292+00:00"
+      "scraped_at": "2026-06-15T17:59:03.218929+00:00"
     },
     {
       "id": "c3623b1b6e468e26",
@@ -11048,7 +11052,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.032714+00:00"
+      "scraped_at": "2026-06-15T17:59:05.718057+00:00"
     },
     {
       "id": "d8e2bfebadde3179",
@@ -11067,7 +11071,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.944166+00:00"
+      "scraped_at": "2026-06-15T17:59:05.639241+00:00"
     },
     {
       "id": "9a9f6f1e146a376c",
@@ -11086,7 +11090,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:28.146729+00:00"
+      "scraped_at": "2026-06-15T17:58:54.050210+00:00"
     },
     {
       "id": "e3dbac51f760fdda",
@@ -11105,7 +11109,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.138061+00:00"
+      "scraped_at": "2026-06-15T17:59:02.857965+00:00"
     },
     {
       "id": "8d98e9a9fe0dfedc",
@@ -11124,7 +11128,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.061891+00:00"
+      "scraped_at": "2026-06-15T17:59:05.743803+00:00"
     },
     {
       "id": "aadac897f5b5862f",
@@ -11143,7 +11147,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.126782+00:00"
+      "scraped_at": "2026-06-15T17:59:05.800809+00:00"
     },
     {
       "id": "82da4526f5a2d943",
@@ -11162,7 +11166,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.162901+00:00"
+      "scraped_at": "2026-06-15T17:59:02.880949+00:00"
     },
     {
       "id": "828be4204aba5f4a",
@@ -11181,7 +11185,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.331550+00:00"
+      "scraped_at": "2026-06-15T17:59:03.033519+00:00"
     },
     {
       "id": "fd48a041bc6360d0",
@@ -11200,7 +11204,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.218241+00:00"
+      "scraped_at": "2026-06-15T17:59:02.930642+00:00"
     },
     {
       "id": "7b01b47814303d27",
@@ -11219,7 +11223,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.385650+00:00"
+      "scraped_at": "2026-06-15T17:59:03.083121+00:00"
     },
     {
       "id": "c104fc780c1e2697",
@@ -11238,7 +11242,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.068117+00:00"
+      "scraped_at": "2026-06-15T17:59:05.749528+00:00"
     },
     {
       "id": "a0681edfaeb4496c",
@@ -11257,7 +11261,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.211135+00:00"
+      "scraped_at": "2026-06-15T17:59:02.924298+00:00"
     },
     {
       "id": "9af5c00bfc028fc2",
@@ -11276,7 +11280,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.384462+00:00"
+      "scraped_at": "2026-06-15T17:59:03.081935+00:00"
     },
     {
       "id": "6c7867285a2f9f9e",
@@ -11295,7 +11299,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.277397+00:00"
+      "scraped_at": "2026-06-15T17:59:02.984027+00:00"
     },
     {
       "id": "ae2727bf69e23e85",
@@ -11314,7 +11318,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.029257+00:00"
+      "scraped_at": "2026-06-15T17:59:05.714982+00:00"
     },
     {
       "id": "a89102540e7f20f0",
@@ -11333,7 +11337,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.462789+00:00"
+      "scraped_at": "2026-06-15T17:59:03.152372+00:00"
     },
     {
       "id": "e4e663909cc7f972",
@@ -11352,7 +11356,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.069092+00:00"
+      "scraped_at": "2026-06-15T17:59:05.750451+00:00"
     },
     {
       "id": "f136e360dbf1d905",
@@ -11371,7 +11375,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.417788+00:00"
+      "scraped_at": "2026-06-15T17:59:03.112123+00:00"
     },
     {
       "id": "86b96aae54ba65fd",
@@ -11390,7 +11394,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.245001+00:00"
+      "scraped_at": "2026-06-15T17:59:05.905675+00:00"
     },
     {
       "id": "ae6f33e976323a7e",
@@ -11409,7 +11413,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.166204+00:00"
+      "scraped_at": "2026-06-15T17:59:05.836052+00:00"
     },
     {
       "id": "ee7554d26c7f95b9",
@@ -11428,7 +11432,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.543454+00:00"
+      "scraped_at": "2026-06-15T17:59:03.224607+00:00"
     },
     {
       "id": "49a38054fa42395c",
@@ -11447,7 +11451,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.211582+00:00"
+      "scraped_at": "2026-06-15T17:59:02.924725+00:00"
     },
     {
       "id": "500ef888cb35ec11",
@@ -11466,7 +11470,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.086935+00:00"
+      "scraped_at": "2026-06-15T17:59:02.811503+00:00"
     },
     {
       "id": "0eefa292feeedc35",
@@ -11485,7 +11489,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.149863+00:00"
+      "scraped_at": "2026-06-15T17:59:02.868952+00:00"
     },
     {
       "id": "1537bbc21ba69a82",
@@ -11504,7 +11508,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.424620+00:00"
+      "scraped_at": "2026-06-15T17:59:03.118667+00:00"
     },
     {
       "id": "cce474d0fa661a09",
@@ -11523,7 +11527,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.268060+00:00"
+      "scraped_at": "2026-06-15T17:59:02.975437+00:00"
     },
     {
       "id": "9d4fe048d627c8d5",
@@ -11542,7 +11546,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.421625+00:00"
+      "scraped_at": "2026-06-15T17:59:03.115817+00:00"
     },
     {
       "id": "ce1d11200aac9a96",
@@ -11561,7 +11565,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.120443+00:00"
+      "scraped_at": "2026-06-15T17:59:05.795096+00:00"
     },
     {
       "id": "ea2f419131ecfcfc",
@@ -11580,7 +11584,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.222054+00:00"
+      "scraped_at": "2026-06-15T17:59:02.934128+00:00"
     },
     {
       "id": "848c67927d0c1894",
@@ -11599,7 +11603,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.535178+00:00"
+      "scraped_at": "2026-06-15T17:59:03.217027+00:00"
     },
     {
       "id": "d523d7c6459b9938",
@@ -11618,7 +11622,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.075734+00:00"
+      "scraped_at": "2026-06-15T17:59:02.801254+00:00"
     },
     {
       "id": "8c29799a24fa0d76",
@@ -11637,7 +11641,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.286622+00:00"
+      "scraped_at": "2026-06-15T17:59:02.992745+00:00"
     },
     {
       "id": "f658d9cdb5b60af3",
@@ -11656,7 +11660,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.173852+00:00"
+      "scraped_at": "2026-06-15T17:59:05.843089+00:00"
     },
     {
       "id": "565da7cef7a90fe5",
@@ -11675,7 +11679,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.463284+00:00"
+      "scraped_at": "2026-06-15T17:59:03.152830+00:00"
     },
     {
       "id": "c7365d337696c75c",
@@ -11694,7 +11698,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.142652+00:00"
+      "scraped_at": "2026-06-15T17:59:02.862349+00:00"
     },
     {
       "id": "c0a2eb0da6bca2f7",
@@ -11713,7 +11717,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.138517+00:00"
+      "scraped_at": "2026-06-15T17:59:02.858418+00:00"
     },
     {
       "id": "c732f3566862b7ec",
@@ -11732,7 +11736,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.948438+00:00"
+      "scraped_at": "2026-06-15T17:59:05.643165+00:00"
     },
     {
       "id": "d2744af220de4c91",
@@ -11751,7 +11755,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.135583+00:00"
+      "scraped_at": "2026-06-15T17:59:02.855729+00:00"
     },
     {
       "id": "ef660ff1eb4bc18f",
@@ -11770,7 +11774,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.085804+00:00"
+      "scraped_at": "2026-06-15T17:59:02.810481+00:00"
     },
     {
       "id": "cf0e364d3ab24bd1",
@@ -11789,7 +11793,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.004977+00:00"
+      "scraped_at": "2026-06-15T17:59:05.693774+00:00"
     },
     {
       "id": "7677e2fe0ccae750",
@@ -11808,7 +11812,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.227246+00:00"
+      "scraped_at": "2026-06-15T17:59:02.938890+00:00"
     },
     {
       "id": "6c58e392ec383b99",
@@ -11827,7 +11831,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.245457+00:00"
+      "scraped_at": "2026-06-15T17:59:05.906206+00:00"
     },
     {
       "id": "a1198d5094cb784b",
@@ -11846,7 +11850,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.218720+00:00"
+      "scraped_at": "2026-06-15T17:59:02.931099+00:00"
     },
     {
       "id": "aaee07eef2d370b3",
@@ -11865,7 +11869,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.010537+00:00"
+      "scraped_at": "2026-06-15T17:59:05.698736+00:00"
     },
     {
       "id": "4fe275a232cbf659",
@@ -11884,7 +11888,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.419494+00:00"
+      "scraped_at": "2026-06-15T17:59:03.113732+00:00"
     },
     {
       "id": "4e1653f7e8c2272c",
@@ -11903,7 +11907,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.166574+00:00"
+      "scraped_at": "2026-06-15T17:59:02.884344+00:00"
     },
     {
       "id": "ceb7d08c78848188",
@@ -11922,7 +11926,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.008075+00:00"
+      "scraped_at": "2026-06-15T17:59:05.696554+00:00"
     },
     {
       "id": "2ea8b05e3eaaa6a2",
@@ -11941,7 +11945,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.156491+00:00"
+      "scraped_at": "2026-06-15T17:59:02.875016+00:00"
     },
     {
       "id": "47f92024b521969a",
@@ -11960,7 +11964,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.142168+00:00"
+      "scraped_at": "2026-06-15T17:59:05.814798+00:00"
     },
     {
       "id": "ac9acdc8d162b2e3",
@@ -11979,7 +11983,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.546475+00:00"
+      "scraped_at": "2026-06-15T17:59:03.227316+00:00"
     },
     {
       "id": "72152e32cee49471",
@@ -12017,7 +12021,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.159317+00:00"
+      "scraped_at": "2026-06-15T17:59:02.877572+00:00"
     },
     {
       "id": "5c38c64d1de917e1",
@@ -12055,7 +12059,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.532117+00:00"
+      "scraped_at": "2026-06-15T17:59:03.214145+00:00"
     },
     {
       "id": "391407cac2361400",
@@ -12074,7 +12078,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.505468+00:00"
+      "scraped_at": "2026-06-15T17:59:03.190557+00:00"
     },
     {
       "id": "c70b841657d975b0",
@@ -12093,7 +12097,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.139093+00:00"
+      "scraped_at": "2026-06-15T17:59:02.859003+00:00"
     },
     {
       "id": "08887b90910237e9",
@@ -12112,7 +12116,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.388233+00:00"
+      "scraped_at": "2026-06-15T17:59:03.085636+00:00"
     },
     {
       "id": "6051040938501eb5",
@@ -12131,7 +12135,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.264052+00:00"
+      "scraped_at": "2026-06-15T17:59:02.971726+00:00"
     },
     {
       "id": "ad32ebd010235c1f",
@@ -12150,7 +12154,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.146083+00:00"
+      "scraped_at": "2026-06-15T17:59:02.865462+00:00"
     },
     {
       "id": "5b7a8c6170395e22",
@@ -12169,7 +12173,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.303674+00:00"
+      "scraped_at": "2026-06-15T17:59:03.008345+00:00"
     },
     {
       "id": "0d9cb871ec63a3a2",
@@ -12188,7 +12192,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.058759+00:00"
+      "scraped_at": "2026-06-15T17:59:05.741025+00:00"
     },
     {
       "id": "d5e3963a273f80e1",
@@ -12207,7 +12211,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.937449+00:00"
+      "scraped_at": "2026-06-15T17:59:05.632974+00:00"
     },
     {
       "id": "729fc140a6e099b7",
@@ -12226,7 +12230,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.221931+00:00"
+      "scraped_at": "2026-06-15T17:59:05.885384+00:00"
     },
     {
       "id": "664279e69e695a9a",
@@ -12245,7 +12249,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.170635+00:00"
+      "scraped_at": "2026-06-15T17:59:05.840209+00:00"
     },
     {
       "id": "58e0b81005bf1287",
@@ -12264,7 +12268,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.156980+00:00"
+      "scraped_at": "2026-06-15T17:59:02.875458+00:00"
     },
     {
       "id": "02993cc5ed850ae0",
@@ -12283,7 +12287,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.957680+00:00"
+      "scraped_at": "2026-06-15T17:59:05.651602+00:00"
     },
     {
       "id": "1488e298dcf506df",
@@ -12302,7 +12306,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.279223+00:00"
+      "scraped_at": "2026-06-15T17:59:05.936313+00:00"
     },
     {
       "id": "8c3bfe02188eca1e",
@@ -12321,7 +12325,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.188061+00:00"
+      "scraped_at": "2026-06-15T17:59:05.856092+00:00"
     },
     {
       "id": "a2cc995192a425fc",
@@ -12340,7 +12344,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.216666+00:00"
+      "scraped_at": "2026-06-15T17:59:05.880656+00:00"
     },
     {
       "id": "e17a396012f8d953",
@@ -12359,7 +12363,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.276112+00:00"
+      "scraped_at": "2026-06-15T17:59:05.933494+00:00"
     },
     {
       "id": "346c68163b45391f",
@@ -12378,7 +12382,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.148688+00:00"
+      "scraped_at": "2026-06-15T17:59:02.867835+00:00"
     },
     {
       "id": "c65727001f074b32",
@@ -12397,7 +12401,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.059387+00:00"
+      "scraped_at": "2026-06-15T17:59:05.741583+00:00"
     },
     {
       "id": "3488777d65b23f49",
@@ -12416,7 +12420,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.062015+00:00"
+      "scraped_at": "2026-06-15T17:59:02.788027+00:00"
     },
     {
       "id": "55dc65262f020dc3",
@@ -12435,7 +12439,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.427637+00:00"
+      "scraped_at": "2026-06-15T17:59:03.121479+00:00"
     },
     {
       "id": "771e4cc427f9713b",
@@ -12473,7 +12477,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.224259+00:00"
+      "scraped_at": "2026-06-15T17:59:05.887438+00:00"
     },
     {
       "id": "8a712829469750d4",
@@ -12492,7 +12496,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.095304+00:00"
+      "scraped_at": "2026-06-15T17:59:02.819116+00:00"
     },
     {
       "id": "057262f5848e90c3",
@@ -12511,7 +12515,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.227945+00:00"
+      "scraped_at": "2026-06-15T17:59:02.939503+00:00"
     },
     {
       "id": "c3b713dbcea204d1",
@@ -12549,7 +12553,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.544207+00:00"
+      "scraped_at": "2026-06-15T17:59:03.225305+00:00"
     },
     {
       "id": "4736532ef0a649a0",
@@ -12568,7 +12572,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.220980+00:00"
+      "scraped_at": "2026-06-15T17:59:05.884507+00:00"
     },
     {
       "id": "a01ba03b964787a8",
@@ -12663,7 +12667,7 @@
       "confidence": "low",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:30.380267+00:00"
+      "scraped_at": "2026-06-15T17:59:00.180324+00:00"
     },
     {
       "id": "2ee114f42a209f2b",
@@ -12682,7 +12686,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.140613+00:00"
+      "scraped_at": "2026-06-15T17:59:05.813332+00:00"
     },
     {
       "id": "99397ede62585cf5",
@@ -12701,7 +12705,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.149213+00:00"
+      "scraped_at": "2026-06-15T17:59:02.868333+00:00"
     },
     {
       "id": "1c2f8cbba8aca949",
@@ -12967,7 +12971,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.951985+00:00"
+      "scraped_at": "2026-06-15T17:59:05.646341+00:00"
     },
     {
       "id": "0b9484ab49b2d321",
@@ -13081,7 +13085,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.218382+00:00"
+      "scraped_at": "2026-06-15T17:59:05.882229+00:00"
     },
     {
       "id": "0c5f1b620297678f",
@@ -13100,7 +13104,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.058193+00:00"
+      "scraped_at": "2026-06-15T17:59:05.740470+00:00"
     },
     {
       "id": "39c48dc1aef7c7fc",
@@ -13119,7 +13123,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.066060+00:00"
+      "scraped_at": "2026-06-15T17:59:05.747662+00:00"
     },
     {
       "id": "34e4cc298dfb03d5",
@@ -13138,7 +13142,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.092327+00:00"
+      "scraped_at": "2026-06-15T17:59:05.770631+00:00"
     },
     {
       "id": "a686e163152aa2b3",
@@ -13176,7 +13180,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.221455+00:00"
+      "scraped_at": "2026-06-15T17:59:05.884956+00:00"
     },
     {
       "id": "49faf3f437c6aa48",
@@ -13195,7 +13199,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.094582+00:00"
+      "scraped_at": "2026-06-15T17:59:02.818469+00:00"
     },
     {
       "id": "067847458b6c8385",
@@ -13328,7 +13332,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.333588+00:00"
+      "scraped_at": "2026-06-15T17:59:03.035391+00:00"
     },
     {
       "id": "2427403665e40254",
@@ -13404,7 +13408,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.503710+00:00"
+      "scraped_at": "2026-06-15T17:59:03.188997+00:00"
     },
     {
       "id": "b65e4407c36cb6f0",
@@ -13442,7 +13446,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.990489+00:00"
+      "scraped_at": "2026-06-15T17:59:05.680800+00:00"
     },
     {
       "id": "fcc3892267ae01a3",
@@ -13461,7 +13465,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.385134+00:00"
+      "scraped_at": "2026-06-15T17:59:03.082599+00:00"
     },
     {
       "id": "58fb349c9a3bdaa1",
@@ -13480,7 +13484,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.058332+00:00"
+      "scraped_at": "2026-06-15T17:59:02.784617+00:00"
     },
     {
       "id": "9c239806dcc73eba",
@@ -13499,7 +13503,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.062476+00:00"
+      "scraped_at": "2026-06-15T17:59:02.788462+00:00"
     },
     {
       "id": "71b8d46ab8356c8c",
@@ -13518,7 +13522,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.132285+00:00"
+      "scraped_at": "2026-06-15T17:59:02.852662+00:00"
     },
     {
       "id": "6a4c00829dd973a5",
@@ -13537,7 +13541,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.418298+00:00"
+      "scraped_at": "2026-06-15T17:59:03.112592+00:00"
     },
     {
       "id": "71ae50d0992156dd",
@@ -13556,7 +13560,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.159991+00:00"
+      "scraped_at": "2026-06-15T17:59:02.878212+00:00"
     },
     {
       "id": "ad8fe4edb936dfd6",
@@ -13575,7 +13579,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.167194+00:00"
+      "scraped_at": "2026-06-15T17:59:02.884926+00:00"
     },
     {
       "id": "03090d1bc7fdc88f",
@@ -13594,7 +13598,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.124142+00:00"
+      "scraped_at": "2026-06-15T17:59:05.798418+00:00"
     },
     {
       "id": "7001c3dfabc185fb",
@@ -13613,7 +13617,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.264558+00:00"
+      "scraped_at": "2026-06-15T17:59:02.972221+00:00"
     },
     {
       "id": "b2c4691f49f374db",
@@ -13632,7 +13636,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.134537+00:00"
+      "scraped_at": "2026-06-15T17:59:05.807765+00:00"
     },
     {
       "id": "b175ba8f9a3f9f76",
@@ -13670,7 +13674,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.964799+00:00"
+      "scraped_at": "2026-06-15T17:59:05.658062+00:00"
     },
     {
       "id": "dc929d01e8d5fae7",
@@ -13746,7 +13750,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.548188+00:00"
+      "scraped_at": "2026-06-15T17:59:03.228978+00:00"
     },
     {
       "id": "b0d8e976d1d4e25a",
@@ -13765,7 +13769,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.428226+00:00"
+      "scraped_at": "2026-06-15T17:59:03.122040+00:00"
     },
     {
       "id": "73f353f40674abc7",
@@ -13784,7 +13788,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.134588+00:00"
+      "scraped_at": "2026-06-15T17:59:02.854782+00:00"
     },
     {
       "id": "9c7d3da07b2f54fc",
@@ -13822,7 +13826,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.346967+00:00"
+      "scraped_at": "2026-06-15T17:59:03.047697+00:00"
     },
     {
       "id": "aa4a14194cd47214",
@@ -13841,7 +13845,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:35.962659+00:00"
+      "scraped_at": "2026-06-15T17:59:05.656164+00:00"
     },
     {
       "id": "813f21994d1f7a7f",
@@ -13860,7 +13864,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.075234+00:00"
+      "scraped_at": "2026-06-15T17:59:02.800759+00:00"
     },
     {
       "id": "654f893c31d3a8a9",
@@ -13879,7 +13883,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.208877+00:00"
+      "scraped_at": "2026-06-15T17:59:02.922226+00:00"
     },
     {
       "id": "7f9a1e4b4c7cab33",
@@ -13898,7 +13902,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.065323+00:00"
+      "scraped_at": "2026-06-15T17:59:02.791067+00:00"
     },
     {
       "id": "28cdf52deed85128",
@@ -13917,7 +13921,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:36.137250+00:00"
+      "scraped_at": "2026-06-15T17:59:05.810232+00:00"
     },
     {
       "id": "fbf172ebf993e4be",
@@ -14088,7 +14092,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorlab",
-      "scraped_at": "2026-06-15T14:56:33.283726+00:00"
+      "scraped_at": "2026-06-15T17:59:02.990038+00:00"
     },
     {
       "id": "511a5c59d4bfae77",
