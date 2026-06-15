@@ -38,11 +38,48 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | 15 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Older/mirror storefront for Galactic Stone; may expose cleaner product pages. | eCrater product-grid parser. | Use only if main site is hard to parse or incomplete. |
 | 16 | The Space Shop meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Retail meteorite products. | Product page parser only. | Low priority because many items may be generic lots, not individual named specimens. |
 
+## Marketplace Storefront Rules
+
+Marketplace sellers on eBay, Etsy, eCrater, or similar platforms must pass a stricter inventory-quality screen before we add them. The goal is varied meteorite dealer inventory, not souvenir-only shops.
+
+Include a marketplace storefront only if it appears to have most of these:
+
+1. At least 20 active meteorite-related listings.
+2. At least 5 distinct meteorite classes or families, such as ordinary chondrite, carbonaceous chondrite, achondrite/HED, iron, pallasite, lunar, Martian, tektite/impactite.
+3. Multiple named/classified specimens, not just generic labels like `meteorite stone`, `space rock`, or `Campo del Cielo`.
+4. Individual specimen weights and prices on most listings.
+5. Some higher-information listings with NWA numbers, official names, classification, provenance, IMCA/GMA identity, or Meteoritical Bulletin references.
+6. A meaningful share of actual specimens, slices, end cuts, individuals, or fragments rather than mostly pendants, dust vials, beads, framed gift sets, or souvenir displays.
+
+Exclude or deprioritize storefronts when most inventory is:
+
+1. Souvenir sets only.
+2. Mostly Campo del Cielo, Aletai, Sikhote-Alin, Muonionalusta jewelry, or other basic/common material with little variety.
+3. Mostly dust vials, tiny display cards, beads, charms, pendants, or generic gift products.
+4. Unnamed or unclassified rocks with no credible classification details.
+5. Mixed fossil/crystal/gift shops where meteorites are only a small novelty section.
+
+## Marketplace Candidates To Vet Later
+
+These are not enabled. They are candidates to inspect manually and score against the rules above.
+
+| Priority | Storefront | Platform | URL | Why consider | Caution |
+| --- | --- | --- | --- | --- | --- |
+| M1 | whitehouse_meteorites | eBay | https://www.ebay.com/usr/whitehouse_meteorites | Search results show varied listings: aubrite, eucrite, lunar, Martian shergottite, CV3, irons, ordinary chondrites, Sikhote-Alin, impactite. | Needs seller-page parser and active/sold filtering. |
+| M2 | topherspin | eBay | https://www.ebay.com/usr/topherspin | Search results show pallasite, iron, eucrite, achondrite, Chelyabinsk, unclassified NWA, and IMCA references. | Some combo/gift-style listings; filter to individual specimens. |
+| M3 | meteoritetreasure | eBay Store | https://www.ebay.com/str/meteoritetreasure | Store categories include iron, stone, stony-iron, lunar, Martian; snippets show CV3, lunar, pallasite, Martian, Aletai. | Verify authenticity detail depth and avoid jewelry-heavy rows. |
+| M4 | Top Meteorite eBay store | eBay | https://www.ebay.com/str/topmeteorite | Search snippets show lunar/Martian/Vestan sets, winonaite, pallasite, impact glass. | Watch for sets; include only individual named specimens where possible. |
+| M5 | SpaceTreasuresUS | Etsy | https://www.etsy.com/shop/SpaceTreasuresUS | Shop description claims iron, stony-iron, stone meteorites, impactites, and tektites by an official dealer. | Etsy pages need strong anti-souvenir filters. |
+| M6 | SPACEMANGIFT | Etsy | https://www.etsy.com/shop/SPACEMANGIFT | Categories show stone, iron, stony-iron, HED, lunar, Martian, tektites, impact craters. | Also has souvenirs and jewelry; parser must filter categories/listing titles. |
+| M7 | The Interstellar Collection | eBay | https://www.ebay.com/usr/the.interstellar.collection | Search shows IMCA/GMA identity, lunar/Martian material, and pallasite/museum-grade specimen mentions. | Appears dust-vial heavy in snippets; add only if full inventory has enough individual specimens. |
+| M8 | saharagems | Etsy | https://www.etsy.com/shop/saharagems | Search shows pallasite and Martian meteorite listings with substantial weights/prices. | May be narrow or gem/mineral-heavy; include only if meteorite variety is broad enough. |
+
 ## Later / Special Handling
 
 | Site | URL | Notes |
 | --- | --- | --- |
-| eBay meteorite sellers | https://www.ebay.com/ | Needs marketplace-specific logic, seller filters, sold/active separation, duplicate handling, and stronger authenticity checks. Do not mix with private dealer parsers yet. |
+| eBay marketplace search/category pages | https://www.ebay.com/ | Do not scrape broad eBay search/category pages first. Prefer vetted storefront allowlists. Needs seller filters, active/sold separation, duplicate handling, and stronger authenticity checks. |
+| Etsy marketplace search/category pages | https://www.etsy.com/ | Do not scrape broad Etsy search/category pages first. Prefer vetted storefront allowlists and exclude gift/souvenir-heavy shops. |
 | Facebook meteorite groups | https://www.facebook.com/ | Useful community sales source, but not practical for public scheduled scraping. Keep manual/research only. |
 | IMCA member list | https://imcax.com/ | Useful for vetting sellers and finding dealer names, but IMCA itself does not sell meteorites. Treat as reference data, not inventory. |
 
@@ -50,7 +87,8 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 
 1. Identify inventory index URLs and pagination.
 2. Identify detail/product URL pattern.
-3. Separate categories, books, articles, contact pages, and educational pages from sellable listings.
+3. Separate categories, books, articles, contact pages, educational pages, souvenir-only pages, and generic gift-set pages from sellable specimen listings.
 4. Extract title, classification/type, specimen weight, price, currency, image, availability, and source URL.
 5. Add parser-specific tests or saved sample HTML before enabling broad crawling.
 6. Enable in `data/sites.json` only after the parser returns individual specimens, not collections or category pages.
+7. For marketplaces, enable only vetted storefronts that pass the varied-inventory rules above.
