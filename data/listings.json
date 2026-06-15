@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-06-15T17:59:05.944732+00:00",
+  "generated_at": "2026-06-15T20:42:05.008168+00:00",
   "source_count": 3,
   "listing_count": 777,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Meteorlab"
+    "BAITYLIA"
   ],
   "preserved_sources": [
     "SV Meteorites",
-    "BAITYLIA"
+    "Meteorlab"
   ],
-  "rotation_index": 1,
+  "rotation_index": 2,
   "rotation_total": 3,
-  "rotation_key": "14",
+  "rotation_key": "15",
   "listings": [
     {
       "id": "9f7866887ce1a579",
@@ -412,7 +412,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.975193+00:00"
+      "scraped_at": "2026-06-15T20:42:04.911178+00:00"
     },
     {
       "id": "40ff40f19d9726d1",
@@ -431,7 +431,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.974547+00:00"
+      "scraped_at": "2026-06-15T20:42:04.910589+00:00"
     },
     {
       "id": "b3b7d8887f16a7ab",
@@ -507,7 +507,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.985455+00:00"
+      "scraped_at": "2026-06-15T20:42:04.920007+00:00"
     },
     {
       "id": "b8ddb3fe66253954",
@@ -602,7 +602,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.977146+00:00"
+      "scraped_at": "2026-06-15T20:42:04.912904+00:00"
     },
     {
       "id": "45952d7e0a3ae14f",
@@ -621,7 +621,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.013951+00:00"
+      "scraped_at": "2026-06-15T20:42:04.958527+00:00"
     },
     {
       "id": "5cccdbd307374315",
@@ -1590,7 +1590,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.015389+00:00"
+      "scraped_at": "2026-06-15T20:42:04.959780+00:00"
     },
     {
       "id": "12f8311c8d62e0a6",
@@ -1647,7 +1647,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.014645+00:00"
+      "scraped_at": "2026-06-15T20:42:04.959166+00:00"
     },
     {
       "id": "31dee4a0566437a5",
@@ -1970,7 +1970,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.977777+00:00"
+      "scraped_at": "2026-06-15T20:42:04.913490+00:00"
     },
     {
       "id": "4db763ff005504d4",
@@ -2141,7 +2141,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.982259+00:00"
+      "scraped_at": "2026-06-15T20:42:04.917375+00:00"
     },
     {
       "id": "3c027709d76ec0a3",
@@ -2768,7 +2768,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.982894+00:00"
+      "scraped_at": "2026-06-15T20:42:04.917907+00:00"
     },
     {
       "id": "fcde8f0802927351",
@@ -2787,7 +2787,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.983474+00:00"
+      "scraped_at": "2026-06-15T20:42:04.918403+00:00"
     },
     {
       "id": "6245a4589a57ca40",
@@ -2806,7 +2806,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.007637+00:00"
+      "scraped_at": "2026-06-15T20:42:04.952887+00:00"
     },
     {
       "id": "95232efaabadd9a6",
@@ -2825,7 +2825,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.007083+00:00"
+      "scraped_at": "2026-06-15T20:42:04.952399+00:00"
     },
     {
       "id": "0c72e08db83b9f51",
@@ -2901,7 +2901,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.005200+00:00"
+      "scraped_at": "2026-06-15T20:42:04.950803+00:00"
     },
     {
       "id": "1450b37cd1fa7aca",
@@ -3091,7 +3091,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.005880+00:00"
+      "scraped_at": "2026-06-15T20:42:04.951378+00:00"
     },
     {
       "id": "f17b9223951154ff",
@@ -3110,7 +3110,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.006496+00:00"
+      "scraped_at": "2026-06-15T20:42:04.951920+00:00"
     },
     {
       "id": "6b7f9fe3c722ac6b",
@@ -3243,7 +3243,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.003929+00:00"
+      "scraped_at": "2026-06-15T20:42:04.949711+00:00"
     },
     {
       "id": "2d1db8fc1e04c207",
@@ -5048,7 +5048,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.984090+00:00"
+      "scraped_at": "2026-06-15T20:42:04.918914+00:00"
     },
     {
       "id": "3c2d98b18e76bae2",
@@ -5428,7 +5428,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.978439+00:00"
+      "scraped_at": "2026-06-15T20:42:04.914093+00:00"
     },
     {
       "id": "9145d7488272fc8a",
@@ -5447,7 +5447,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.008255+00:00"
+      "scraped_at": "2026-06-15T20:42:04.953400+00:00"
     },
     {
       "id": "1923cc3f8d350024",
@@ -5466,7 +5466,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.979098+00:00"
+      "scraped_at": "2026-06-15T20:42:04.914662+00:00"
     },
     {
       "id": "0bb72c4179bb09bf",
@@ -6530,7 +6530,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.008880+00:00"
+      "scraped_at": "2026-06-15T20:42:04.953934+00:00"
     },
     {
       "id": "6e28871bb7954a63",
@@ -6815,7 +6815,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.979719+00:00"
+      "scraped_at": "2026-06-15T20:42:04.915228+00:00"
     },
     {
       "id": "ddb19ebf1335143e",
@@ -6872,7 +6872,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.980376+00:00"
+      "scraped_at": "2026-06-15T20:42:04.915768+00:00"
     },
     {
       "id": "479d5ced7ab6d285",
@@ -6967,7 +6967,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.984793+00:00"
+      "scraped_at": "2026-06-15T20:42:04.919445+00:00"
     },
     {
       "id": "ccc0ddc7aa6102f2",
@@ -7727,7 +7727,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.002673+00:00"
+      "scraped_at": "2026-06-15T20:42:04.948613+00:00"
     },
     {
       "id": "cdf5dd82c2742582",
@@ -7765,7 +7765,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.003305+00:00"
+      "scraped_at": "2026-06-15T20:42:04.949134+00:00"
     },
     {
       "id": "f845fb7c98cc55d9",
@@ -7860,7 +7860,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.002066+00:00"
+      "scraped_at": "2026-06-15T20:42:04.948099+00:00"
     },
     {
       "id": "948d9e950a759543",
@@ -7917,7 +7917,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.000785+00:00"
+      "scraped_at": "2026-06-15T20:42:04.947026+00:00"
     },
     {
       "id": "ad73a391b228a21e",
@@ -7955,7 +7955,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.001432+00:00"
+      "scraped_at": "2026-06-15T20:42:04.947564+00:00"
     },
     {
       "id": "53b9a4c2a9f58d66",
@@ -8354,7 +8354,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.981610+00:00"
+      "scraped_at": "2026-06-15T20:42:04.916837+00:00"
     },
     {
       "id": "a8eb1e2f1ed23d08",
@@ -9380,7 +9380,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.973857+00:00"
+      "scraped_at": "2026-06-15T20:42:04.909750+00:00"
     },
     {
       "id": "1cfb10e2b661995f",
@@ -10672,7 +10672,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.981005+00:00"
+      "scraped_at": "2026-06-15T20:42:04.916317+00:00"
     },
     {
       "id": "a31c3947355aeb77",
@@ -10824,7 +10824,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.004564+00:00"
+      "scraped_at": "2026-06-15T20:42:04.950257+00:00"
     },
     {
       "id": "3ccbfd38ac29fb39",
@@ -12002,7 +12002,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.986085+00:00"
+      "scraped_at": "2026-06-15T20:42:04.920555+00:00"
     },
     {
       "id": "f9025870bea2c8c0",
@@ -13066,7 +13066,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.976502+00:00"
+      "scraped_at": "2026-06-15T20:42:04.912349+00:00"
     },
     {
       "id": "6bac9afede82ab7d",
@@ -13807,7 +13807,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:00.975796+00:00"
+      "scraped_at": "2026-06-15T20:42:04.911740+00:00"
     },
     {
       "id": "2bd6d1418be1a078",
@@ -13940,7 +13940,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.064227+00:00"
+      "scraped_at": "2026-06-15T20:42:05.001925+00:00"
     },
     {
       "id": "e827937e99de2798",
@@ -13959,7 +13959,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.031272+00:00"
+      "scraped_at": "2026-06-15T20:42:04.973569+00:00"
     },
     {
       "id": "e20bf94577a7b721",
@@ -13978,7 +13978,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.067069+00:00"
+      "scraped_at": "2026-06-15T20:42:05.004313+00:00"
     },
     {
       "id": "d3239a392ba54392",
@@ -13997,7 +13997,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.063506+00:00"
+      "scraped_at": "2026-06-15T20:42:05.001361+00:00"
     },
     {
       "id": "ee2f905d281a9715",
@@ -14016,7 +14016,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.060211+00:00"
+      "scraped_at": "2026-06-15T20:42:04.998558+00:00"
     },
     {
       "id": "7cb2578796d92021",
@@ -14035,7 +14035,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.059470+00:00"
+      "scraped_at": "2026-06-15T20:42:04.997944+00:00"
     },
     {
       "id": "d0ade8b3930a318b",
@@ -14054,7 +14054,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.058706+00:00"
+      "scraped_at": "2026-06-15T20:42:04.997281+00:00"
     },
     {
       "id": "93a3e030e2f7d078",
@@ -14073,7 +14073,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.041922+00:00"
+      "scraped_at": "2026-06-15T20:42:04.982324+00:00"
     },
     {
       "id": "19feb53960281782",
@@ -14111,7 +14111,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.040398+00:00"
+      "scraped_at": "2026-06-15T20:42:04.981072+00:00"
     },
     {
       "id": "74021894a48dd464",
@@ -14130,7 +14130,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.045583+00:00"
+      "scraped_at": "2026-06-15T20:42:04.985296+00:00"
     },
     {
       "id": "c21457229afd61df",
@@ -14149,7 +14149,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.066425+00:00"
+      "scraped_at": "2026-06-15T20:42:05.003770+00:00"
     },
     {
       "id": "3e3c670b0e5d9c92",
@@ -14168,7 +14168,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.061515+00:00"
+      "scraped_at": "2026-06-15T20:42:04.999680+00:00"
     },
     {
       "id": "0a1a9f65e15b50f2",
@@ -14187,7 +14187,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.062156+00:00"
+      "scraped_at": "2026-06-15T20:42:05.000208+00:00"
     },
     {
       "id": "dd2a511739df8f86",
@@ -14206,7 +14206,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.035384+00:00"
+      "scraped_at": "2026-06-15T20:42:04.976923+00:00"
     },
     {
       "id": "3e1441d16a42befa",
@@ -14225,7 +14225,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.060874+00:00"
+      "scraped_at": "2026-06-15T20:42:04.999119+00:00"
     },
     {
       "id": "ecf40ebdd51cd8c9",
@@ -14244,7 +14244,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.034498+00:00"
+      "scraped_at": "2026-06-15T20:42:04.976197+00:00"
     },
     {
       "id": "c4f545296e6cca57",
@@ -14263,7 +14263,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.044149+00:00"
+      "scraped_at": "2026-06-15T20:42:04.984127+00:00"
     },
     {
       "id": "73532c9e1749bd2f",
@@ -14282,7 +14282,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.036275+00:00"
+      "scraped_at": "2026-06-15T20:42:04.977651+00:00"
     },
     {
       "id": "30fb53dc82f8f2ea",
@@ -14301,7 +14301,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.065048+00:00"
+      "scraped_at": "2026-06-15T20:42:05.002594+00:00"
     },
     {
       "id": "940683ead67eddb3",
@@ -14320,7 +14320,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.067700+00:00"
+      "scraped_at": "2026-06-15T20:42:05.004872+00:00"
     },
     {
       "id": "b747d03c6d2646c5",
@@ -14339,7 +14339,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.032203+00:00"
+      "scraped_at": "2026-06-15T20:42:04.974354+00:00"
     },
     {
       "id": "56affa42fdee24f5",
@@ -14358,7 +14358,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.044878+00:00"
+      "scraped_at": "2026-06-15T20:42:04.984710+00:00"
     },
     {
       "id": "f0e55b0afed70f4f",
@@ -14377,7 +14377,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.032931+00:00"
+      "scraped_at": "2026-06-15T20:42:04.974963+00:00"
     },
     {
       "id": "d0af7a44b433a25e",
@@ -14396,7 +14396,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.033674+00:00"
+      "scraped_at": "2026-06-15T20:42:04.975525+00:00"
     },
     {
       "id": "f342a5a5d69f7b39",
@@ -14415,7 +14415,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.062851+00:00"
+      "scraped_at": "2026-06-15T20:42:05.000796+00:00"
     },
     {
       "id": "c208884c29dbbefd",
@@ -14434,7 +14434,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.065735+00:00"
+      "scraped_at": "2026-06-15T20:42:05.003191+00:00"
     },
     {
       "id": "ba300ecdd2122641",
@@ -14453,7 +14453,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.038785+00:00"
+      "scraped_at": "2026-06-15T20:42:04.979742+00:00"
     },
     {
       "id": "d3e851e65fa13c97",
@@ -14472,7 +14472,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.039622+00:00"
+      "scraped_at": "2026-06-15T20:42:04.980428+00:00"
     },
     {
       "id": "86d1accab364ab7a",
@@ -14491,7 +14491,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.037115+00:00"
+      "scraped_at": "2026-06-15T20:42:04.978348+00:00"
     },
     {
       "id": "7590c46412f52bf4",
@@ -14510,7 +14510,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.041146+00:00"
+      "scraped_at": "2026-06-15T20:42:04.981689+00:00"
     },
     {
       "id": "3b6fcf9ec3e3a471",
@@ -14529,7 +14529,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.042666+00:00"
+      "scraped_at": "2026-06-15T20:42:04.982956+00:00"
     },
     {
       "id": "2b6bd3ee88e6f9e3",
@@ -14548,7 +14548,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.043399+00:00"
+      "scraped_at": "2026-06-15T20:42:04.983546+00:00"
     },
     {
       "id": "167dcb9260bd14c2",
@@ -14567,7 +14567,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.037953+00:00"
+      "scraped_at": "2026-06-15T20:42:04.979042+00:00"
     },
     {
       "id": "16266f809dad02e9",
@@ -14586,7 +14586,7 @@
       "confidence": "high",
       "available": true,
       "parser": "baitylia",
-      "scraped_at": "2026-06-15T14:57:01.046402+00:00"
+      "scraped_at": "2026-06-15T20:42:04.985966+00:00"
     },
     {
       "id": "31cb755b704828a3",
