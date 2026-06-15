@@ -307,15 +307,23 @@ function updateSummary(items) {
   setPriceSummary("bestDeal", summarizePricePerG(items, "best"));
 }
 
-function focusSourcesPanel() {
+function setSourcesPanelOpen(open) {
+  $("sourcesPanel").hidden = !open;
+  $("sourcesSummary").setAttribute("aria-expanded", String(open));
+}
+
+function openSourcesPanel() {
+  setSourcesPanelOpen(true);
   const heading = $("sourcesHeading");
+  const select = $("sourceInfoSelect");
+  const focusTarget = select && !select.disabled ? select : heading;
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const behavior = reduceMotion ? "auto" : "smooth";
   heading.scrollIntoView({ behavior, block: "start" });
   try {
-    heading.focus({ preventScroll: true });
+    focusTarget.focus({ preventScroll: true });
   } catch {
-    heading.focus();
+    focusTarget.focus();
   }
 }
 
@@ -333,25 +341,8 @@ function sourceStage(site) {
   return { key: "backlog", label: "Disabled backlog", cardClass: "disabled", statusClass: "backlog" };
 }
 
-function sourceCounts() {
-  const enabled = allSites.filter(siteIsEnabled).length;
-  const parserStarts = allSites.filter((site) => !siteIsEnabled(site) && site.parser).length;
-  const backlog = allSites.length - enabled - parserStarts;
-  return { configured: allSites.length, enabled, parserStarts, backlog, disabled: parserStarts + backlog };
-}
-
 function updateSourceSummary() {
-  const counts = sourceCounts();
-  $("totalSources").textContent = counts.configured;
-  const meta = $("sourcesMeta");
-  if (meta) {
-    meta.textContent = `${counts.configured} configured sources: ${counts.enabled} enabled with verified parsers, ${counts.parserStarts} disabled parser starts, and ${counts.backlog} disabled backlog candidates. Disabled sources are selectable here but excluded from scraping and results until a parser is verified.`;
-  }
-}
-
-function defaultSourceInfoIndex() {
-  const enabledIndex = allSites.findIndex(siteIsEnabled);
-  return enabledIndex >= 0 ? enabledIndex : 0;
+  $("totalSources").textContent = allSites.length;
 }
 
 function sourceOptionLabel(site) {
@@ -412,13 +403,11 @@ function renderSelectedSource() {
 
   detail.innerHTML = "";
   if (!site) {
-    const empty = document.createElement("p");
-    empty.className = "empty";
-    empty.textContent = "No configured source details are available.";
-    detail.appendChild(empty);
+    detail.hidden = true;
     return;
   }
 
+  detail.hidden = false;
   appendSourceCard(detail, site, index);
 }
 
@@ -429,27 +418,29 @@ function renderSources() {
 
   select.innerHTML = "";
   select.disabled = allSites.length === 0;
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = allSites.length ? "Select a source..." : "No configured sources";
+  select.appendChild(placeholder);
+
   if (!allSites.length) {
-    const option = document.createElement("option");
-    option.value = "";
-    option.textContent = "No configured sources";
-    select.appendChild(option);
     renderSelectedSource();
     return;
   }
 
-  for (const [index, site] of allSites.entries()) {
+  const sortedSites = allSites
+    .map((site, index) => ({ site, index }))
+    .sort((a, b) => (a.site.name || "").localeCompare(b.site.name || "", undefined, { numeric: true, sensitivity: "base" }));
+
+  for (const { site, index } of sortedSites) {
     const option = document.createElement("option");
     option.value = String(index);
     option.textContent = sourceOptionLabel(site);
     select.appendChild(option);
   }
 
-  const previousIndex = Number.parseInt(previousValue, 10);
-  const selectedIndex = Number.isInteger(previousIndex) && allSites[previousIndex]
-    ? previousIndex
-    : defaultSourceInfoIndex();
-  select.value = String(selectedIndex);
+  select.value = [...select.options].some((option) => option.value === previousValue) ? previousValue : "";
   renderSelectedSource();
 }
 
@@ -521,9 +512,10 @@ async function init() {
 
   $("sortBy").value = `${DEFAULT_SORT.key}:${DEFAULT_SORT.direction}`;
   sortState = parseSort($("sortBy").value);
+  setSourcesPanelOpen(false);
   fillFilters();
   renderSources();
-  $("sourcesSummary").addEventListener("click", focusSourcesPanel);
+  $("sourcesSummary").addEventListener("click", openSourcesPanel);
   $("sourceInfoSelect").addEventListener("change", renderSelectedSource);
 
   for (const id of ["search", "typeFilter", "sourceFilter"]) {

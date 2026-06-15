@@ -1,79 +1,167 @@
 # Meteorite Meta Search
 
-Static meteorite inventory search site powered by a scheduled scraper.
+Meteorite Meta Search is a static dashboard for comparing public meteorite seller inventory. A Python scraper normalizes selected seller pages into `data/listings.json`; the browser UI reads that JSON directly and provides search, source/type filters, sort controls, availability filtering, source status, and price-per-gram summaries.
 
 Target repo name: `meteorite-meta-search`
 
-Default public URL after GitHub Pages is enabled:
+Default public URL after GitHub Pages is enabled: `https://rayborg.github.io/meteorite-meta-search/`
 
-`https://rayborg.github.io/meteorite-meta-search/`
+## Project Purpose
 
-## What this does
+The project tracks short, factual listing metadata from meteorite dealer inventory pages so collectors can compare specimens across sources without copying seller pages or media into this repo. It focuses on individual sellable meteorite, tektite, and impactite specimens with useful fields such as title, source URL, price, currency, weight, estimated price/g, classification, availability, parser, scrape time, and remote image URL.
 
-- Scrapes a maintained list of private meteorite seller websites.
-- Normalizes inventory into `data/listings.json`.
-- Extracts likely meteorite type/subtype from title and description:
-  - pallasite
-  - chondrite
-  - carbonaceous chondrite
-  - ordinary chondrite
-  - H/L/LL subtype
-  - iron
-  - achondrite
-  - lunar
-  - Martian
-  - eucrite / diogenite / howardite
-  - ureilite / aubrite / angrite
-  - mesosiderite
-  - tektite / impactite
-- Extracts price, weight, and estimated price per gram when present.
-- Displays a searchable, sortable static dashboard.
-- Runs automatically with GitHub Actions every 5 minutes, rotating one enabled source per run and preserving existing rows for the enabled sources not scraped in that run.
+## Static Dashboard
 
-## Initial sites
+The frontend is intentionally static:
 
-Configured in `data/sites.json`:
+- `index.html` provides the page structure and table template.
+- `styles.css` provides the dark responsive dashboard styling.
+- `app.js` fetches `data/listings.json` and `data/sites.json` with `cache: "no-store"`.
+- No bundler, package manager, or local media pipeline is required.
 
-- SV Meteorites
-- Meteorlab
-- Meteorite and More
+Frontend behavior:
 
-You can add more seller inventory pages by editing `data/sites.json`.
+- Search covers title, source, type, subtype, classification text, and URL.
+- Type chips and type/source selects are built from currently visible individual listings.
+- Unavailable listings are hidden by default and can be included with the checkbox.
+- Non-individual leftovers such as generic category/book/catalog rows and decorative images are filtered client-side as a defensive fallback.
+- Table headers and the sort select share the same sort state.
+- Average and lowest price/g summaries are shown only after narrowing by search, type, source, or a single repeated title.
+- The source panel lists every configured source and labels it as enabled, disabled parser start, or disabled backlog.
+- Listing images remain remote `http` or `https` URLs; the app does not load local copies.
 
-## How to publish
+## Scraper
 
-1. Create a new **public** GitHub repo named:
+The scraper lives in `scraper/scrape.py` and uses site-specific parsers where output quality has been verified. It applies a normal user agent, waits between requests, does not bypass logins/CAPTCHAs/anti-bot systems, and writes normalized listing data to `data/listings.json`.
 
-   `meteorite-meta-search`
+It extracts or derives:
 
-2. Upload these files to that repo.
+- Meteorite type, including pallasite, chondrite, carbonaceous chondrite, ordinary chondrite, iron, achondrite, lunar, Martian, mesosiderite, and tektite/impactite.
+- Subtypes and classification clues such as H/L/LL, carbonaceous groups, HED terms, iron groups, NWA numbers, and related class text.
+- Price, currency, weight, estimated price/g, remote image URL, availability, parser confidence, and scrape timestamps when present.
 
-3. In the repo, go to:
+## Active Sources
 
-   **Settings → Pages → Build and deployment → Source → GitHub Actions**
+Enabled sources are configured in `data/sites.json` with `enabled: true` and are included in full scrapes, selected scrapes, and rotation runs.
 
-4. Go to:
+| Source | Parser | Notes |
+| --- | --- | --- |
+| SV Meteorites | `sv_meteorites` | Parses public inventory/detail pages with individual specimen fields and category/non-listing rejection. |
+| Meteorlab | `meteorlab` | Parses old static catalog tables, captures specimen images, skips sold markers, and supports email-for-price rows. |
+| BAITYLIA | `baitylia` | Parses categorized inventory rows and follows them to detail pages while rejecting header/category rows. |
+| FossilEra | `fossilera` | Parses active-only meteorite cards and detail pages with pagination and sold-card suppression. |
+| Aerolite Meteorites | `aerolite` | Parses narrow WooCommerce shop categories and excludes sold, jewelry, books, stands, equipment, and other non-specimens. |
+| Meteolovers | `meteolovers` | Parses Elementor/Woo product cards under meteorite paths with schema/meta prices and sold/status checks. |
+| The Meteorite Market | `meteorite_market` | Parses validated static sale pages with duplicate-cell cleanup and sold-price rejection. |
 
-   **Actions → Scrape and publish meteorite inventory → Run workflow**
+## Disabled And Backlog Sources
 
-5. After the workflow finishes, the site should be visible at:
+Disabled sources remain in `data/sites.json` for visibility but are excluded from scraping, rotation, and results until explicitly enabled.
 
-   `https://rayborg.github.io/meteorite-meta-search/`
+Disabled parsers with code present but not enabled:
 
-## Notes
+- Meteorite Exchange: WooCommerce parser start; needs category-card verification and strict add-to-cart/filter/category exclusion.
+- Galactic Stone & Ironworks: BigCommerce parser start; needs product-type policy because categories mix specimens, micromounts, collections, jewelry, and out-of-stock cards.
+- Arizona Skies Meteorites: narrow parser start; site is highly mixed and needs strict allowlists and crawl-delay policy.
+- IMPACTIKA
+- SkyFall Meteorites
+- justMETEORITES
+- Mini Museum Meteorites
+- Fossil Realm Meteorite Collection: parser remains available, but the source is disabled pending reliable full-fetch validation after SSL EOF fetch failures returned 0 listings in a full scrape despite smoke tests.
+- TOP Meteorite: parser remains available, but the source is disabled pending reliable full-fetch validation after SSL EOF fetch failures returned 0 listings in a full scrape despite smoke tests.
 
-This is intentionally polite and conservative:
-- Uses a normal user-agent.
-- Has a delay between requests.
-- Scheduled GitHub Actions runs use `python scraper/scrape.py --rotate --preserve-existing`, so they do not hit every enabled source every run.
-- Does not bypass logins, CAPTCHAs, or anti-bot systems.
-- Stores short normalized listing facts, not full seller pages.
+Policy-blocked disabled sources:
 
-If a site blocks scraping or disallows it in its terms, remove it from `data/sites.json`.
+- Collector Secret Meteorites: broad eBay affiliate/aggregator feed rather than direct verified inventory.
+- The Space Shop Meteorites: generic souvenir/gift products rather than named individual specimen inventory.
 
-## Scraper Commands
+Additional marketplace candidates and detailed parser notes are tracked in `docs/parser-backlog.md`.
 
-- `python scraper/scrape.py` refreshes all enabled sources and rewrites `data/listings.json`.
-- `python scraper/scrape.py --rotate --preserve-existing` refreshes one enabled source and keeps existing listings for the other enabled sources.
-- `python scraper/scrape.py --site "SV Meteorites" --preserve-existing` refreshes one named enabled source while preserving the rest.
-- `python scraper/validate_listings.py` validates the generated data and reports scraped/preserved source metadata.
+## Setup
+
+Python dependencies are only needed for scraping and validation.
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r scraper/requirements.txt
+```
+
+`.venv/` is ignored and should stay local.
+
+To view the static site locally, serve the repo root so browser `fetch()` calls work:
+
+```sh
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000/`.
+
+## Local Scraping
+
+Avoid bytecode while running local checks:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py
+```
+
+Useful scraper modes:
+
+- `PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py` refreshes all enabled sources and rewrites `data/listings.json`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --rotate --preserve-existing --rotation-key 1` refreshes one enabled source and preserves existing rows for the other enabled sources.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --site "FossilEra" --preserve-existing` refreshes one enabled source by name or parser id while preserving the rest.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --sites "FossilEra,Aerolite Meteorites" --preserve-existing` refreshes multiple enabled sources.
+
+The scraper refuses disabled sources in `--site`/`--sites` selections. Enable a source only after local parser verification shows individual sellable rows with safe filtering.
+
+## Validation
+
+Run these before committing scraper, data, or frontend behavior changes:
+
+```sh
+node --check app.js
+PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
+git diff --check
+```
+
+`scraper/validate_listings.py` checks required fields, metadata consistency, duplicate keys, price/g math, parser/source validity, sold/unavailable markers, bad decorative image URLs, suspicious category rows, and classification preservation.
+
+## Rotation Workflow
+
+`.github/workflows/scrape-and-publish.yml` runs on pushes to `main`, on hourly schedule, and by manual dispatch.
+
+- Scheduled runs execute `python scraper/scrape.py --rotate --preserve-existing --rotation-key "${{ github.run_number }}"`.
+- Rotation selects one enabled source per run and preserves existing rows for enabled sources that were not scraped in that run.
+- Push and manual runs currently execute a full scrape of all enabled sources.
+- The workflow validates `data/listings.json`, commits inventory changes, and pushes them back to the repository.
+- `data/listings.json` is ignored by the workflow trigger path filter so automated inventory commits do not immediately retrigger the workflow.
+
+GitHub Pages can serve the static files directly from the repository. No separate frontend build step is required.
+
+## Data Files
+
+- `data/sites.json` is the source registry. `enabled: true` means the source is eligible for scraping and rotation. `enabled: false` means backlog or disabled parser start.
+- `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array.
+- `docs/parser-backlog.md` tracks candidate sources, parser starts, marketplace rules, and parser-build checklists.
+- `docs/session-memory.md` summarizes current project context for future editing sessions.
+
+Do not hand-edit `data/listings.json` except for rare emergency repair. Prefer fixing parser logic or source config and regenerating it.
+
+## Source Enable Policy
+
+Do not enable a source with the generic parser first. Before changing a source to `enabled: true`:
+
+1. Inspect a small sample manually and understand index, detail, pagination, sold, and image patterns.
+2. Add or update a site-specific parser.
+3. Run a narrow local scrape for that source with `--preserve-existing`.
+4. Confirm rows are individual sellable meteorite, tektite, or impactite specimens, not categories, books, articles, jewelry-only products, generic gift sets, fossils, minerals, contact pages, or archived/sold-only pages.
+5. Confirm prices, weights, availability, source URLs, remote image URLs, and classifications are reasonable.
+6. Run validation before enabling and after enabling.
+
+Marketplace sources need stricter vetting. Prefer vetted storefront allowlists over broad marketplace search pages, and include only sellers with varied, credible meteorite inventory.
+
+If a site blocks scraping or disallows it in its terms, remove or disable it in `data/sites.json`.
+
+## No Local Media Copying
+
+Do not download, copy, optimize, commit, or mirror seller images or product media into this repository. Keep only remote `image_url` values in generated listing data, and let the static UI load those remote images directly. This keeps the repo small and avoids republishing seller media.

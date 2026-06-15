@@ -9,8 +9,12 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | Site | Status | Parser notes |
 | --- | --- | --- |
 | SV Meteorites | Active | Category discovery; individual listings are `Meteorite.aspx?id=...`. Do not emit category pages. |
-| BAITYLIA / Meteorite and More | Active | Index pages contain item rows; detail pages are `Meteorite.aspx?id=...`. Header/category pages are not listings. |
 | Meteorlab / New England Meteoritical Services | Active | Old static catalog pages with multiple specimens per page. Parser now reads paired/grid tables by logical item columns, captures remote product images, skips sold markers, and supports email-for-price rows. |
+| BAITYLIA / Meteorite and More | Active | Index pages contain item rows; detail pages are `Meteorite.aspx?id=...`. Header/category pages are not listings. |
+| FossilEra | Active | Active-only `meteorites-for-sale` category parser follows `/meteorites/...` detail pages, suppresses sold cards, and extracts schema/detail metadata. |
+| Aerolite Meteorites | Active | Narrow WooCommerce shop-category parser excludes sold, jewelry, books, stands, equipment, and other non-specimen products. |
+| Meteolovers | Active | Elementor/Woo product-card parser follows meteorite paths, uses schema/meta prices, and checks sold/status/category coverage. |
+| The Meteorite Market | Active | Static allowlist parser reads validated sale tables, dedupes repeated cells/images, and rejects sold prices. |
 
 Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Disabled parser starts below are excluded from rotation until `enabled` is changed to `true` after local verification.
 
@@ -21,9 +25,7 @@ These entries are present in `data/sites.json` with `enabled: false`. They are n
 | Site | Parser status | Inspection findings | Why disabled |
 | --- | --- | --- | --- |
 | Meteorite Exchange | `meteorite_exchange` parser start added | WooCommerce/WordPress pages. Category examples include `new-arrivals.html` and `moon-meteorites.html`; product links are `.html`; page has WooCommerce feeds and product/card markup mixed with add-to-cart affordances. | Needs local category-card verification across multiple categories and strict exclusion of add-to-cart/filter/category links before enabling. |
-| FossilEra | `fossilera` parser start added | `meteorites-for-sale` is well scoped. Cards use `.specimen-listing`, detail links are under `/meteorites/...`, prices/images are visible in cards, and sold cards use `price sold`/red `SOLD` banners. | Good candidate, but disabled until detail metadata parsing and sold-card suppression are verified over pagination. |
 | Galactic Stone & Ironworks | `galactic_stone` parser start added | BigCommerce category at `/meteorites/` has `article.card` product grid, product data attributes, remote CDN images, prices, and `rel=next` pagination. Cards include Add to Cart and Out of stock controls. | Disabled because the category mixes micromounts, collections, jewelry, memorabilia, and out-of-stock items; needs product-type policy before active output. |
-| The Meteorite Market | `meteorite_market` parser start added | Static page `NWA11273.htm` has allowlist-friendly item tables: image row, ID row, weight row, features row, price row. Sold appears as `Price: sold`. A local sanity run returned individual rows, but the page repeats at least one specimen cell. | Disabled until more static sales pages are allowlisted and duplicate table cells/images are handled. |
 | Arizona Skies Meteorites | `arizona_skies` parser start added | Home page is highly mixed: meteorites, fossils, jewelry, watches, military collectibles, art, and price-bucket links. Meteorite pages include lunar/Martian/category examples. | Disabled; requires narrow allowlist and crawl-delay policy. Do not broad-crawl this site. |
 
 ## High-Priority Candidates
@@ -31,26 +33,29 @@ These entries are present in `data/sites.json` with `enabled: false`. They are n
 | Priority | Site | URL | Why add | Likely parser style | First inspection notes |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Meteorite Exchange | https://www.meteorites-for-sale.com/ | Specialist meteorite store active since 1996; broad categories including lunar, Martian, tektites, impactites, jewelry. | Category pages plus product/detail pages. | Search shows category pages such as lunar price ranges. Crawl category links, then product cards/details. |
-| 2 | Aerolite Meteorites | https://aerolite.org/ | Large specialist dealer with authentic meteorites, lunar, Martian, high-end specimens, bulk meteorites, jewelry. | WordPress/WooCommerce-style product-category pages and product pages. | Product categories appear under `/product-category/...`; likely standard product cards. |
-| 3 | Galactic Stone & Ironworks | https://galactic-stone.com/ | Specialist shop with meteorite categories including lunar, Martian, NWA, USA finds/falls, tektites. | Modern ecommerce category pages with product cards. | Search snippet shows add-to-cart/quick-view cards; parse category collections first. |
-| 4 | IMPACTIKA | https://impactika.com/ | Long-running specialist source for rare, historical meteorites; sells online and at shows. | Old/static site parser. | Likely hand-built pages; inspect navigation and any inventory pages before enabling. |
-| 5 | FossilEra Meteorites | https://www.fossilera.com/meteorites-for-sale | Large inventory and clear meteorite category page; likely many priced items. | Modern ecommerce category pagination plus product pages. | Good candidate for robust product card extraction. |
-| 6 | SkyFall Meteorites | https://skyfallmeteorites.com/ | Specialist meteorite seller and buyer; authenticity guarantee; likely inventory pages. | WordPress/WooCommerce or custom shop parser. | Separate buy/sell resource pages from product listings. |
-| 7 | The Meteorite Market | https://www.meteoritemarket.com/ | Very old meteorite sales site, online since 1995; historically useful catalog. | Old/static table/page parser. | Expect static HTML and mixed educational/sales pages; needs careful page allowlist. |
-| 8 | Arizona Skies Meteorites | https://www.arizonaskiesmeteorites.com/ | Meteorites plus fossils; has price-bucket category links under $100 and under $250. | Category pages plus product/listing pages. | Must filter fossils/minerals and only parse meteorite sections. |
+| 2 | Galactic Stone & Ironworks | https://galactic-stone.com/ | Specialist shop with meteorite categories including lunar, Martian, NWA, USA finds/falls, tektites. | Modern ecommerce category pages with product cards. | Search snippet shows add-to-cart/quick-view cards; parse category collections first. |
+| 3 | IMPACTIKA | https://impactika.com/ | Long-running specialist source for rare, historical meteorites; sells online and at shows. | Old/static site parser. | Likely hand-built pages; inspect navigation and any inventory pages before enabling. |
+| 4 | SkyFall Meteorites | https://skyfallmeteorites.com/ | Specialist meteorite seller and buyer; authenticity guarantee; likely inventory pages. | WordPress/WooCommerce or custom shop parser. | Separate buy/sell resource pages from product listings. |
+| 5 | Arizona Skies Meteorites | https://www.arizonaskiesmeteorites.com/ | Meteorites plus fossils; has price-bucket category links under $100 and under $250. | Category pages plus product/listing pages. | Must filter fossils/minerals and only parse meteorite sections. |
 
 ## Medium-Priority Candidates
 
 | Priority | Site | URL | Why add | Likely parser style | First inspection notes |
 | --- | --- | --- | --- | --- | --- |
-| 9 | Meteolovers | https://meteolovers.com/ | IMCA-certified shop for meteorites, tektites, and related collectibles. | Shop category/product parser. | Likely clean ecommerce. Confirm product markup and pagination. |
-| 10 | justMETEORITES | https://justmeteorites.com/ | Authentic meteorites and impactites; visible sections for Vaca Muerta, Imilac, Monturaqui, chondrites. | Category/collection parser. | Need distinguish repeated SEO/category text from actual product cards. |
-| 11 | Collector Secret Meteorites | https://www.collector-secret.com/minerals/meteorites | Meteorites for collectors; says new meteorites listed often. | Ecommerce product-grid parser. | Multi-mineral marketplace; filter to meteorite collection only. |
-| 12 | Mini Museum Meteorites | https://shop.minimuseum.com/collections/meteorites | Retail meteorite collection with priced products. | Shopify collection/product parser. | Lower scientific depth, but easy parser and useful price baseline. |
-| 13 | Fossil Realm Meteorite Collection | https://www.fossilrealm.com/collections/meteorite-collection | High-end meteorite/mineral collection with specimen details and provenance. | Shopify collection/product parser. | Likely few high-value listings; parse full detail pages. |
-| 14 | TOP Meteorite | https://topmeteorite.com/ | Featured dealer on meteorite.com; rare/significant meteorites and jewelry. | Needs verification, then shop/detail parser. | Confirm active URL and inventory structure before adding. |
-| 15 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Older/mirror storefront for Galactic Stone; may expose cleaner product pages. | eCrater product-grid parser. | Use only if main site is hard to parse or incomplete. |
-| 16 | The Space Shop meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Retail meteorite products. | Product page parser only. | Low priority because many items may be generic lots, not individual named specimens. |
+| 6 | justMETEORITES | https://justmeteorites.com/ | Authentic meteorites and impactites; visible sections for Vaca Muerta, Imilac, Monturaqui, chondrites. | Category/collection parser. | Need distinguish repeated SEO/category text from actual product cards. |
+| 7 | Mini Museum Meteorites | https://shop.minimuseum.com/collections/meteorites | Retail meteorite collection with priced products. | Shopify collection/product parser. | Lower scientific depth, but easy parser and useful price baseline. |
+| 8 | Fossil Realm Meteorite Collection | https://www.fossilrealm.com/collections/meteorite-collection | High-end meteorite/mineral collection with specimen details and provenance. | Shopify collection/product parser. | Likely few high-value listings; parse full detail pages. |
+| 9 | TOP Meteorite | https://topmeteorite.com/ | Featured dealer on meteorite.com; rare/significant meteorites and jewelry. | Needs verification, then shop/detail parser. | Confirm active URL and inventory structure before adding. |
+| 10 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Older/mirror storefront for Galactic Stone; may expose cleaner product pages. | eCrater product-grid parser. | Use only if main site is hard to parse or incomplete. |
+
+## Policy-Blocked Disabled Sources
+
+These are present in `data/sites.json` with `enabled: false` and `stage: disabled_policy_blocked`. They should not be treated as ordinary parser candidates unless the source model changes.
+
+| Site | URL | Blocker |
+| --- | --- | --- |
+| Collector Secret Meteorites | https://www.collector-secret.com/minerals/meteorites | Broad eBay affiliate/aggregator feed rather than direct verified inventory. |
+| The Space Shop Meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Generic souvenir/gift products rather than named individual specimen inventory. |
 
 ## Marketplace Storefront Rules
 

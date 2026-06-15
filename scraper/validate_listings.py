@@ -25,6 +25,26 @@ METEORITE_RE = re.compile(
 BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|sold\.jpg|red(?:%20|\s)*dot|meteor50|frontis|wid%2012|micro%20enhanced", re.I)
 SOLD_TEXT_RE = re.compile(r"\b(on\s+hold|reserved|unavailable)\b|\bsold\b(?![\s-]+by\b)(?:\s+out\b)?", re.I)
 SLASH_CLASS_RE = re.compile(r"\b(?:H|L|LL)\s*[3-7](?:\.\d)?\s*/\s*[3-7](?:\.\d)?\b", re.I)
+TITLE_WEIGHT_NUMBER_RE = r"(?:[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]+)?|[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+)"
+TITLE_WEIGHT_RE = re.compile(
+    rf"(?<![0-9A-Za-z])({TITLE_WEIGHT_NUMBER_RE})\s*(kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
+METEOLOVERS_NON_INDIVIDUAL_RE = re.compile(
+    r"(?:^|[-_/])lots?(?:[-_/]|$)|\b(?:lots?|collections?|sets?|groups?|mixed|assort(?:ed|ment)|"
+    r"multiple\s+(?:pieces?|specimens?|individuals?)|small\s+individuals|"
+    r"\d+\s+(?:pieces?|individuals?|fragments?|slices?|endcuts?)\b.*\b\d+\s+(?:pieces?|individuals?|fragments?|slices?|endcuts?)|"
+    r"(?:slices?|endcuts?|individuals?)\s*,\s*(?:\d+\s+)?(?:slices?|endcuts?|individuals?)|"
+    r"(?:slices?|endcuts?)\s*(?:and|,)\s*(?:slices?|endcuts?))\b",
+    re.I,
+)
+ACTIVE_NON_INDIVIDUAL_RE = re.compile(
+    r"\b(?:matched[-_\s]+pairs?|choose[-_\s]*(?:your|a)[-_\s]*(?:pieces?|specimens?|slices?|fragments?)|"
+    r"variable[-_\s]*(?:pieces?|specimens?|weights?|sizes?)|many\s+(?:pieces?|specimens?|slices?|fragments?)|"
+    rf"(?:pieces?|specimens?|slices?|fragments?)\s+from\s+{TITLE_WEIGHT_NUMBER_RE}\s*(?:to|-|\u2013)\s*{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?))\b",
+    re.I,
+)
+ACTIVE_MIXED_ARTIFACT_RE = re.compile(r"\b(?:roof[-_\s]+panels?|broken[-_\s]+roof)\b", re.I)
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_CURRENCIES = {"USD", "EUR"}
 REQUIRED_KEYS = {
@@ -78,11 +98,49 @@ def suspicious_reasons(item: dict) -> list[str]:
         reasons.append("parser-contaminated title")
     if len(title) > 120:
         reasons.append("very long title")
+    active_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "classification_text", "subtype"])
+    if item.get("available") is True and ACTIVE_NON_INDIVIDUAL_RE.search(active_haystack):
+        reasons.append("active non-individual matched-pair/variable-piece row")
+    if item.get("available") is True and ACTIVE_MIXED_ARTIFACT_RE.search(active_haystack):
+        reasons.append("active mixed non-meteorite artifact row")
     return reasons
 
 
 def is_number(value) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def number_value(text: str) -> float | None:
+    value = text.replace("\xa0", "").strip()
+    if value.startswith((".", ",")):
+        value = f"0{value}"
+    if re.fullmatch(r"[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]+)?", value):
+        value = value.replace(",", "")
+    elif "," in value and "." not in value:
+        value = value.replace(",", ".")
+    else:
+        value = value.replace(",", "")
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def title_weight_g(title: str) -> float | None:
+    match = TITLE_WEIGHT_RE.search(title)
+    if not match:
+        return None
+    value = number_value(match.group(1))
+    if value is None:
+        return None
+    unit = match.group(2).lower()
+    if unit.startswith("kg"):
+        return value * 1000
+    if unit.startswith("mg"):
+        return value / 1000
+    if unit.startswith("oz"):
+        return value * 28.349523125
+    return value
 
 
 def validation_errors(item: dict, index: int, valid_sources: set[str], valid_parsers: set[str]) -> list[str]:
@@ -93,6 +151,7 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
 
     source = item.get("source")
     parser = item.get("parser")
+    title = str(item.get("title") or "").strip()
     currency = item.get("currency")
     confidence = item.get("confidence")
     price = item.get("price")
@@ -120,6 +179,13 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if ppg is not None and (not is_number(ppg) or ppg <= 0):
         errors.append(f"row {index}: price_per_g is not positive numeric")
 
+    parsed_title_weight = title_weight_g(title)
+    if parsed_title_weight is not None:
+        if not is_number(weight):
+            errors.append(f"row {index}: title has weight but weight_g is missing")
+        elif abs(weight - parsed_title_weight) > 0.001:
+            errors.append(f"row {index}: title weight {parsed_title_weight}g does not match weight_g {weight!r}")
+
     if is_number(price) and is_number(weight) and weight > 0:
         expected = round(price / weight, 4)
         if not is_number(ppg) or abs(ppg - expected) > 0.001:
@@ -137,6 +203,14 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     sold_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "image_url", "classification_text", "subtype"])
     if available is True and SOLD_TEXT_RE.search(sold_haystack):
         errors.append(f"row {index}: sold/on-hold/unavailable text marked available")
+
+    non_individual_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "classification_text", "subtype"])
+    if parser == "meteolovers" and available is True and METEOLOVERS_NON_INDIVIDUAL_RE.search(non_individual_haystack):
+        errors.append(f"row {index}: active Meteolovers lot/combined-piece row")
+    if available is True and ACTIVE_NON_INDIVIDUAL_RE.search(non_individual_haystack):
+        errors.append(f"row {index}: active matched-pair/choose-your-piece/variable-piece row")
+    if available is True and ACTIVE_MIXED_ARTIFACT_RE.search(non_individual_haystack):
+        errors.append(f"row {index}: active mixed non-meteorite artifact row")
 
     class_haystack = " ".join(str(item.get(key) or "") for key in ["title", "classification_text"])
     preserved_haystack = " ".join(str(item.get(key) or "") for key in ["subtype", "classification_text"])
