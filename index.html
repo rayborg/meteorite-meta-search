@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meteorite Meta Search</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Meteorite Meta Search</h1>
+      <p>Private seller inventory monitor for meteorites, organized by type, subtype, price, weight, and $/g.</p>
+    </div>
+    <div class="status-card"><div class="label">Last updated</div><div id="updated">Loading…</div></div>
+  </header>
+  <main>
+    <section class="controls">
+      <input id="search" type="search" placeholder="Search NWA, pallasite, Gibeon, lunar, seller, subtype…">
+      <select id="typeFilter"><option value="">All types</option></select>
+      <select id="sourceFilter"><option value="">All sources</option></select>
+      <select id="sortBy">
+        <option value="price_per_g">Sort: lowest $/g</option>
+        <option value="price">Sort: lowest price</option>
+        <option value="weight_g_desc">Sort: largest weight</option>
+        <option value="type">Sort: type/subtype</option>
+        <option value="source">Sort: source</option>
+      </select>
+    </section>
+    <section class="summary-grid">
+      <article><span class="big" id="totalListings">0</span><span>listings</span></article>
+      <article><span class="big" id="totalSources">0</span><span>sources</span></article>
+      <article><span class="big" id="avgPricePerG">—</span><span>avg $/g where available</span></article>
+      <article><span class="big" id="bestDeal">—</span><span>lowest $/g</span></article>
+    </section>
+    <section id="typeChips" class="chips"></section>
+    <section class="table-wrap">
+      <table>
+        <thead><tr><th>Listing</th><th>Type</th><th>Subtype</th><th>Price</th><th>Weight</th><th>$/g</th><th>Source</th><th>Confidence</th></tr></thead>
+        <tbody id="results"></tbody>
+      </table>
+    </section>
+  </main>
+  <template id="rowTemplate">
+    <tr>
+      <td class="listing-cell"><a class="title" target="_blank" rel="noopener noreferrer"></a><div class="classification"></div></td>
+      <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="confidence"></td>
+    </tr>
+  </template>
+  <script src="app.js"></script>
+</body>
+</html>
