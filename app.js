@@ -296,7 +296,7 @@ function setPriceSummary(id, value, isMessage = false) {
 
 function updateSummary(items) {
   $("totalListings").textContent = items.length;
-  $("totalSources").textContent = new Set(items.map((x) => x.source)).size;
+  updateSourceSummary();
   if (!hasPricePerGScope(items)) {
     setPriceSummary("avgPricePerG", "Filter by type/source/search to compare price/g", true);
     setPriceSummary("bestDeal", "Narrow results to show lowest price/g", true);
@@ -319,37 +319,115 @@ function focusSourcesPanel() {
   }
 }
 
+function siteIsEnabled(site) {
+  return site.enabled !== false;
+}
+
+function sourceStage(site) {
+  if (siteIsEnabled(site)) {
+    return { key: "enabled", label: "Enabled", cardClass: "enabled", statusClass: "enabled" };
+  }
+  if (site.parser) {
+    return { key: "parserStart", label: "Disabled parser start", cardClass: "disabled", statusClass: "parser-start" };
+  }
+  return { key: "backlog", label: "Disabled backlog", cardClass: "disabled", statusClass: "backlog" };
+}
+
+function sourceCounts() {
+  const enabled = allSites.filter(siteIsEnabled).length;
+  const parserStarts = allSites.filter((site) => !siteIsEnabled(site) && site.parser).length;
+  const backlog = allSites.length - enabled - parserStarts;
+  return { configured: allSites.length, enabled, parserStarts, backlog, disabled: parserStarts + backlog };
+}
+
+function updateSourceSummary() {
+  const counts = sourceCounts();
+  $("totalSources").textContent = counts.configured;
+  const meta = $("sourcesMeta");
+  if (meta) {
+    meta.textContent = `${counts.configured} configured sources: ${counts.enabled} enabled with verified parsers, ${counts.parserStarts} disabled parser starts, and ${counts.backlog} disabled backlog candidates. Disabled sources are shown here but excluded from scraping and results until a parser is verified.`;
+  }
+}
+
+function sortedSites(sites) {
+  return [...sites].sort((a, b) => normalize(a.name).localeCompare(normalize(b.name)));
+}
+
+function appendSourceCard(parent, site) {
+  const stage = sourceStage(site);
+  const card = document.createElement("article");
+  card.className = `source-card ${stage.cardClass}`;
+
+  const title = document.createElement("a");
+  title.href = site.base_url || site.inventory_urls?.[0] || "#";
+  title.target = "_blank";
+  title.rel = "noopener noreferrer";
+  title.textContent = site.name || "Unnamed source";
+
+  const status = document.createElement("span");
+  status.className = `source-status ${stage.statusClass}`;
+  status.textContent = stage.label;
+
+  const heading = document.createElement("div");
+  heading.className = "source-card-heading";
+  heading.append(title, status);
+
+  const description = document.createElement("p");
+  description.textContent = site.description || "No description provided.";
+
+  const notes = document.createElement("p");
+  notes.className = "source-notes";
+  notes.textContent = site.notes || (siteIsEnabled(site) ? "Enabled source with a verified parser." : "Disabled source; parser verification is still required before enabling.");
+
+  const meta = document.createElement("div");
+  meta.className = "source-meta";
+  const parser = document.createElement("span");
+  parser.textContent = site.parser ? `Parser: ${site.parser}` : "Parser: not implemented";
+  const urlCount = document.createElement("span");
+  const inventoryCount = site.inventory_urls?.length || 0;
+  urlCount.textContent = `${inventoryCount} inventory URL${inventoryCount === 1 ? "" : "s"}`;
+  meta.append(parser, urlCount);
+
+  const url = document.createElement("div");
+  url.className = "source-url";
+  url.textContent = site.base_url || "—";
+
+  card.append(heading, description, notes, meta, url);
+  parent.appendChild(card);
+}
+
+function appendSourceGroup(parent, title, description, sites) {
+  const group = document.createElement("section");
+  group.className = "source-group";
+
+  const heading = document.createElement("div");
+  heading.className = "source-group-heading";
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+  const p = document.createElement("p");
+  p.textContent = description;
+  heading.append(h3, p);
+
+  const grid = document.createElement("div");
+  grid.className = "source-card-grid";
+  for (const site of sortedSites(sites)) appendSourceCard(grid, site);
+
+  group.append(heading, grid);
+  parent.appendChild(group);
+}
+
 function renderSources() {
   const wrap = $("sourcesList");
   wrap.innerHTML = "";
-  for (const site of [...allSites].sort((a, b) => Number(b.enabled !== false) - Number(a.enabled !== false) || normalize(a.name).localeCompare(normalize(b.name)))) {
-    const card = document.createElement("article");
-    card.className = "source-card";
+  updateSourceSummary();
 
-    const title = document.createElement("a");
-    title.href = site.base_url || site.inventory_urls?.[0] || "#";
-    title.target = "_blank";
-    title.rel = "noopener noreferrer";
-    title.textContent = site.name || "Unnamed source";
+  const enabled = allSites.filter(siteIsEnabled);
+  const parserStarts = allSites.filter((site) => !siteIsEnabled(site) && site.parser);
+  const backlog = allSites.filter((site) => !siteIsEnabled(site) && !site.parser);
 
-    const status = document.createElement("span");
-    status.className = `source-status ${site.enabled === false ? "disabled" : "enabled"}`;
-    status.textContent = site.enabled === false ? "Disabled" : "Enabled";
-
-    const heading = document.createElement("div");
-    heading.className = "source-card-heading";
-    heading.append(title, status);
-
-    const description = document.createElement("p");
-    description.textContent = site.description || site.notes || "No description provided.";
-
-    const url = document.createElement("div");
-    url.className = "source-url";
-    url.textContent = site.base_url || "—";
-
-    card.append(heading, description, url);
-    wrap.appendChild(card);
-  }
+  appendSourceGroup(wrap, `Enabled active sources (${enabled.length})`, "These are included in scheduled scraping and results because their parsers have been verified against individual listings.", enabled);
+  appendSourceGroup(wrap, `Disabled parser starts (${parserStarts.length})`, "These have early parser work but remain excluded until row quality, sold filtering, and category/detail rules are verified.", parserStarts);
+  appendSourceGroup(wrap, `Disabled backlog candidates (${backlog.length})`, "These are concrete meteorite-source candidates from the backlog, but no verified parser exists yet.", backlog);
 }
 
 function render() {

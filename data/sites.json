@@ -95,5 +95,105 @@
     "enabled": false,
     "description": "Mixed static meteorite, fossil, jewelry, and collectible site requiring narrow meteorite allowlists.",
     "notes": "Parser start is intentionally narrow and disabled. The home page is highly mixed; lunar/Martian/price-bucket pages need manual verification and respectful crawl delay before enabling."
+  },
+  {
+    "name": "Aerolite Meteorites",
+    "base_url": "https://aerolite.org/",
+    "inventory_urls": [
+      "https://aerolite.org/"
+    ],
+    "enabled": false,
+    "description": "Large specialist meteorite dealer candidate with authentic meteorites, lunar, Martian, high-end specimens, bulk meteorites, and jewelry.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; inspect product-category pages, pagination, sold/out-of-stock markers, and product-detail metadata before enabling."
+  },
+  {
+    "name": "IMPACTIKA",
+    "base_url": "https://impactika.com/",
+    "inventory_urls": [
+      "https://impactika.com/"
+    ],
+    "enabled": false,
+    "description": "Long-running specialist source for rare and historical meteorites sold online and at shows.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; inspect static inventory pages and separate active sale specimens from show, archive, educational, and contact pages before enabling."
+  },
+  {
+    "name": "SkyFall Meteorites",
+    "base_url": "https://skyfallmeteorites.com/",
+    "inventory_urls": [
+      "https://skyfallmeteorites.com/"
+    ],
+    "enabled": false,
+    "description": "Specialist meteorite seller and buyer candidate with authenticity guarantees and likely inventory pages.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; identify the shop structure and keep buy/sell resources, articles, and non-inventory pages out of listing output."
+  },
+  {
+    "name": "Meteolovers",
+    "base_url": "https://meteolovers.com/",
+    "inventory_urls": [
+      "https://meteolovers.com/"
+    ],
+    "enabled": false,
+    "description": "IMCA-certified shop candidate for meteorites, tektites, and related collectibles.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; confirm product-card markup, pagination, sold status, and related-collectible filtering before enabling."
+  },
+  {
+    "name": "justMETEORITES",
+    "base_url": "https://justmeteorites.com/",
+    "inventory_urls": [
+      "https://justmeteorites.com/"
+    ],
+    "enabled": false,
+    "description": "Authentic meteorite and impactite dealer candidate with visible sections for Vaca Muerta, Imilac, Monturaqui, and chondrites.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; distinguish actual product cards from repeated SEO/category text before enabling."
+  },
+  {
+    "name": "Collector Secret Meteorites",
+    "base_url": "https://www.collector-secret.com/",
+    "inventory_urls": [
+      "https://www.collector-secret.com/minerals/meteorites"
+    ],
+    "enabled": false,
+    "description": "Meteorite collection candidate inside a broader minerals ecommerce site with recurring new listings.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; restrict parsing to the meteorite collection and filter mineral/category cross-links before enabling."
+  },
+  {
+    "name": "Mini Museum Meteorites",
+    "base_url": "https://shop.minimuseum.com/",
+    "inventory_urls": [
+      "https://shop.minimuseum.com/collections/meteorites"
+    ],
+    "enabled": false,
+    "description": "Retail meteorite collection candidate with priced products on a Shopify-style collection page.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; verify item weights/details and avoid generic gift sets or non-individual lots before enabling."
+  },
+  {
+    "name": "Fossil Realm Meteorite Collection",
+    "base_url": "https://www.fossilrealm.com/",
+    "inventory_urls": [
+      "https://www.fossilrealm.com/collections/meteorite-collection"
+    ],
+    "enabled": false,
+    "description": "High-end meteorite and mineral collection candidate with specimen details and provenance.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; parse product detail pages and filter broader fossil/mineral navigation before enabling."
+  },
+  {
+    "name": "TOP Meteorite",
+    "base_url": "https://topmeteorite.com/",
+    "inventory_urls": [
+      "https://topmeteorite.com/"
+    ],
+    "enabled": false,
+    "description": "Rare and significant meteorite dealer candidate that may include jewelry and high-end specimens.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; confirm the active inventory structure and separate individual specimens from jewelry, sets, and informational pages before enabling."
+  },
+  {
+    "name": "The Space Shop Meteorites",
+    "base_url": "https://thespaceshop.com/",
+    "inventory_urls": [
+      "https://thespaceshop.com/genuine-meteorite-3-grams/"
+    ],
+    "enabled": false,
+    "description": "Retail meteorite product-page candidate for genuine meteorite material.",
+    "notes": "Disabled backlog candidate. No verified parser exists yet; low priority unless the site exposes individual named and weighted specimens rather than generic lots."
   }
 ]
