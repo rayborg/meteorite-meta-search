@@ -1,29 +1,37 @@
 [
   {
     "name": "SV Meteorites",
+    "parser": "sv_meteorites",
     "base_url": "https://www.sv-meteorites.com/",
     "inventory_urls": [
-      "https://www.sv-meteorites.com/"
+      "https://www.sv-meteorites.com/Meteorites"
     ],
     "enabled": true,
-    "notes": "Private meteorite seller site. Generic parser starts at home/inventory URLs."
+    "notes": "SV uses category pages for discovery and Meteorite.aspx?id=... pages for individual specimens. Category pages are never emitted as listings."
   },
   {
     "name": "Meteorlab",
-    "base_url": "https://www.meteorlab.com/",
+    "parser": "meteorlab",
+    "base_url": "https://meteorlab.com/",
     "inventory_urls": [
-      "https://www.meteorlab.com/"
+      "https://meteorlab.com/METEORLAB2001dev/offering21o%20larger%20specimens%20pg1.htm",
+      "https://meteorlab.com/METEORLAB2001dev/offering21o2a%20larger%20specimens%20and%20macros.htm",
+      "https://meteorlab.com/METEORLAB2001dev/offering21o6a%20a%20to%20l.html",
+      "https://meteorlab.com/METEORLAB2001dev/offering21o7a%20m%20to%20z.html"
     ],
     "enabled": true,
-    "notes": "Private meteorite seller site. Generic parser starts at home/inventory URLs."
+    "notes": "Meteorlab has old static catalog pages with multiple specimens per page, so the parser extracts item clusters from known offering pages only."
   },
   {
-    "name": "Meteorite and More",
+    "name": "BAITYLIA",
+    "parser": "baitylia",
     "base_url": "https://meteoriteandmore.com/",
     "inventory_urls": [
-      "https://meteoriteandmore.com/Meteorites.aspx"
+      "https://meteoriteandmore.com/Meteorites.aspx",
+      "https://meteoriteandmore.com/Unclassified.aspx",
+      "https://meteoriteandmore.com/Tektites.aspx"
     ],
     "enabled": true,
-    "notes": "Known inventory page."
+    "notes": "BAITYLIA index pages are inventory lists; only detail pages with id=... are emitted as individual listings."
   }
 ]
