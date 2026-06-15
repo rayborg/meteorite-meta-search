@@ -64,7 +64,7 @@ SUBTYPE_RE = re.compile(
     r"\b(C)\s*-?\s*(2)\b|"
     r"\b(CVred|CVoxA)\s*-?\s*3\b|"
     r"\b(OC|H/L\s?3?)\b|"
-    r"\b(R)\s*-?\s*([3-6])\b|"
+    r"\b(R)\s*-?\s*([3-6](?:\s*-\s*[3-6])?)\b|"
     r"\b(EH|EL)\s*-?\s*([3-7])\b|"
     r"\b(IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b|"
     r"\b(HED|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|mesosiderite)\b",
@@ -79,6 +79,44 @@ METEORLAB_BAD_IMAGE_RE = re.compile(
     r"favicon|ajax-loader|logo|spinner|counter|meteor50|red(?:%20|\s)*dot|sold\.jpg|frontis|wid%2012|micro%20enhanced",
     re.I,
 )
+METEORLAB_NON_SPECIMEN_WEIGHT_RE = re.compile(
+    r"total|tkw|known|found|recovered|single mass|totalling|weighing|mass of|fell|fall|shower",
+    re.I,
+)
+METEORLAB_TITLE_FIXES = [
+    (re.compile(r"\bA\s+ll\s+ende\b", re.I), "Allende"),
+    (re.compile(r"\bC\s+umberland\b", re.I), "Cumberland"),
+    (re.compile(r"\bSikhote\s+Alin\b", re.I), "Sikhote-Alin"),
+]
+METEORLAB_CLASS_START_RE = re.compile(
+    r"\b(?:ordinary\s+chondrite|carbonaceous\s+chondrite|enstatite\s+chondrite|rumuruti\s+chondrite|"
+    r"primitive\s+achondrite|achondrite|chondrite(?:-ung)?|brachinite|acapulcoite|aubrite|diogenite|"
+    r"eucrite|howardite|angrite|ureilite|shergottite|nakhlite|pallasite|mesosiderite|stony[- ]iron|"
+    r"iron\s+meteorite|tektite|moldavite|impact[- ]?melt|impactite|meteorite|AEUC-M|ADIO|ANGR|"
+    r"EUC|MES-A4|PMG|PAL-MG|HED|OC|IAB|IIAB|IIIAB|IVA|IVB|IIE|IIF|IRUNGR|"
+    r"(?:H|L|LL|EL|EH|R|CK|CM|CV|CO|CR|CI)\s*-?\s*\d(?:\.\d)?(?:\s*[/\-]\s*\d(?:\.\d)?)?)\b",
+    re.I,
+)
+METEORLAB_LOCATION_START_RE = re.compile(
+    r"\b(?:North\s*west\s+Africa|Northwest\s+Africa|Western\s+Australia|South\s+Australia|"
+    r"New\s+South\s+Wales|Northern\s+Territory|Nullarbor\s+Plain|Atacama(?:\s+Desert)?|"
+    r"Buenos\s+Aires(?:\s+province)?|Santa\s+Fe(?:\s+Province)?|Santiago\s+del\s+Estero|"
+    r"Rio\s+Negro(?:\s+Province)?|Rio\s+de\s+Oro|Jiddat\s+al\s+Harasis|Al\s+Wusta|"
+    r"Casas\s+Grandes|Kem\s+Kem\s+Region|Occidental\s+Saharan\s+desert|"
+    r"Chihuahua|Sonora|Aldama|Tatawin|Tatahouine|Madaniyin|Temara|Zagora|Tagounite|Erfoud|"
+    r"Tindouf|Mali|Chubut|Antofagasta|Hidalgo|Jacala|Vendee|Indre|Charente|Saskatchewan|"
+    r"Punjab|Nurpur|Piemonte|East\s+Java|Equatoria|Cunere|Matabeleland\s+North|Zemgale|"
+    r"Old\s+Castillia|Burgos|"
+    r"Morocco|Algeria|Libya|Burkina\s+Faso|Tunisia|Oman|Canada|Nigeria|Uruguay|Ukraine|"
+    r"Poland|France|Brazil|Pakistan|Niger|Norway|Turkey|China|Tanzania|Peru|Romania|Italy|"
+    r"Indonesia|South\s+Sudan|Angola|Zimbabwe|Latvia|Spain|"
+    r"Chile|Argentina|Mexico|Australia|USA|Kenya|Tasmania|Queensland|Victoria|Texas|"
+    r"Oklahoma|Nebraska|Kansas|Colorado|New\s+Mexico|Arizona|Missouri|Iowa|South\s+Dakota|Ohio|"
+    r"Florida|Idaho|Wyoming|Arkansas|Tennessee|North\s+Dakota|Utah|Nevada|Kentucky)\b",
+    re.I,
+)
+METEORLAB_ADMIN_WORD_RE = re.compile(r"\b(?:County|Co\.?|district|Station|Plain|Desert|Region|Province|Municipality)\b", re.I)
+METEORLAB_MULTIWORD_ADMIN_PREFIXES = {"val", "de", "del", "santa", "san", "rio", "los", "new", "north", "south", "western", "northern", "st", "rural"}
 
 
 class SourceLog:
@@ -132,7 +170,11 @@ class SourceLog:
 
 
 def clean(text: str | None) -> str:
-    return re.sub(r"\s+", " ", text or "").strip()
+    text = re.sub(r"\s+", " ", text or "").strip()
+    text = re.sub(r"\s+([,.;:])", r"\1", text)
+    text = re.sub(r"([(\[])\s+", r"\1", text)
+    text = re.sub(r"\s+([)\]])", r"\1", text)
+    return text
 
 
 def lines_from(soup: BeautifulSoup) -> list[str]:
@@ -312,7 +354,7 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
     subtype = clean(sm.group(0)).upper() if sm else None
     bits = []
     for m in re.finditer(
-        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|R\s?[3-6]|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|shergottite|nakhlite|pallasite|mesosiderite|iron)\b",
+        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|R\s?[3-6](?:\s*-\s*[3-6])?|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|shergottite|nakhlite|pallasite|mesosiderite|iron)\b",
         text,
         re.I,
     ):
@@ -325,9 +367,14 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
 def classify(title: str, detail_text: str = "", explicit_type: str | None = None) -> tuple[str, str | None, str | None]:
     priority_text = clean(" ".join(x for x in [title, explicit_type] if x))
     result = classify_from_text(priority_text)
-    if result[0] != "unknown" or result[1] or result[2]:
+    detail_result = classify_from_text(clean(f"{title} {detail_text[:900]}"))
+    if result[0] != "unknown" or result[1]:
+        if detail_result[1] or detail_result[2]:
+            return result[0], result[1] or detail_result[1], result[2] or detail_result[2]
         return result
-    return classify_from_text(clean(f"{title} {detail_text[:900]}"))
+    if detail_result[0] != "unknown" or detail_result[1] or detail_result[2]:
+        return detail_result
+    return result
 
 
 def image_for(soup: BeautifulSoup, page_url: str) -> str | None:
@@ -661,8 +708,69 @@ def meteorlab_cell_text(cell) -> str:
     return clean(cell.get_text(" ", strip=True))
 
 
-def meteorlab_title(raw_title: str) -> str:
+def meteorlab_normalize_title_text(raw_title: str) -> str:
     title = clean(raw_title)
+    for pattern, replacement in METEORLAB_TITLE_FIXES:
+        title = pattern.sub(replacement, title)
+    return clean(title)
+
+
+def meteorlab_admin_location_start(title: str) -> int | None:
+    for marker in METEORLAB_ADMIN_WORD_RE.finditer(title):
+        before = title[:marker.start()].rstrip(" ,.;")
+        words = list(re.finditer(r"[A-Za-z][A-Za-z'.-]*", before))
+        if not words:
+            continue
+        start = words[-1].start()
+        if len(words) >= 2 and words[-2].group(0).lower().rstrip(".") in METEORLAB_MULTIWORD_ADMIN_PREFIXES:
+            start = words[-2].start()
+        if start > 0:
+            return start
+    return None
+
+
+def meteorlab_known_location_start(title: str) -> int | None:
+    for match in METEORLAB_LOCATION_START_RE.finditer(title):
+        if match.start() == 0:
+            continue
+        if title[match.start() - 1:match.start()] == "(":
+            continue
+        return match.start()
+    return None
+
+
+def meteorlab_name_only(title: str) -> str:
+    title = re.sub(r"^([A-Za-z][A-Za-z'.-]+),\s*(\d{2,5})\b", r"\1 \2", title)
+    nwa = re.match(r"^NWA\s*(\d+)\b", title, re.I)
+    if nwa:
+        return f"NWA {nwa.group(1)}"
+    nwa_long = re.match(r"^North\s*west\s+Africa\s*(\d+)\b|^Northwest\s+Africa\s*(\d+)\b", title, re.I)
+    if nwa_long:
+        return f"Northwest Africa {next(group for group in nwa_long.groups() if group)}"
+
+    title = re.sub(
+        r"\s*[,;:]?\s*\b[0-9]+(?:[,.][0-9]+)?\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b.*$",
+        "",
+        title,
+        flags=re.I,
+    )
+    class_start = METEORLAB_CLASS_START_RE.search(title)
+    if class_start and class_start.start() > 0:
+        title = title[:class_start.start()]
+
+    title = clean(title.strip(" .,-;:"))
+    starts = [start for start in [meteorlab_admin_location_start(title), meteorlab_known_location_start(title)] if start]
+    if starts:
+        title = title[:min(starts)]
+
+    title = clean(title.strip(" .,-;:"))
+    title = re.sub(r"\s+\((?:Texas|Queensland|Colorado|Oklahoma|Nebraska|Australia|Canada)\)$", "", title, flags=re.I)
+    title = re.sub(r"\(([a-z])\)", r"\1", title, flags=re.I)
+    return clean(title.strip(" .,-;:"))
+
+
+def meteorlab_title(raw_title: str) -> str:
+    title = meteorlab_normalize_title_text(raw_title)
     title = re.sub(r"\bsold\b(?![\s-]+by\b).*$", "", title, flags=re.I)
     title = re.sub(r"\b(?:Image|Images?)\b.*$", "", title, flags=re.I)
     title = re.sub(r"\s*[-\u2013\u2014]\s*(?:front|reverse|back).*", "", title, flags=re.I)
@@ -673,9 +781,9 @@ def meteorlab_title(raw_title: str) -> str:
         flags=re.I,
     )[0]
     title = re.sub(r"\s+meteoritestructures\.org.*$", "", title, flags=re.I)
-    title = clean(title.strip(" .,-;:"))
+    title = meteorlab_name_only(title)
     if len(title) > 140:
-        title = clean(re.split(r"[.;]", title, maxsplit=1)[0])
+        title = meteorlab_name_only(re.split(r"[.;]", title, maxsplit=1)[0])
     return title
 
 
@@ -699,15 +807,20 @@ def meteorlab_weight(title_text: str, price_text: str) -> float | None:
         value = num(start_weight.group(1))
         return weight_to_g(value, start_weight.group(2)) if value is not None else None
 
-    title_weight = first_weight_g(meteorlab_title(title_text))
-    if title_weight is not None:
-        return title_weight
+    normalized_title_text = meteorlab_normalize_title_text(title_text)
+    for match in reversed(list(WEIGHT_RE.finditer(normalized_title_text))):
+        context = normalized_title_text[max(0, match.start() - 45):match.end() + 45]
+        if METEORLAB_NON_SPECIMEN_WEIGHT_RE.search(context):
+            continue
+        value = num(match.group(1))
+        if value is not None:
+            return weight_to_g(value, match.group(2))
 
     price_matches = prices_in(price_text)
     price_pos = price_matches[-1][0] if price_matches else len(price_text)
     for match in reversed(list(WEIGHT_RE.finditer(price_text[:price_pos]))):
         context = price_text[max(0, match.start() - 45):match.end() + 45].lower()
-        if re.search(r"total|tkw|known|found|recovered|single mass|totalling|weighing", context):
+        if METEORLAB_NON_SPECIMEN_WEIGHT_RE.search(context):
             continue
         value = num(match.group(1))
         if value is not None:
@@ -810,6 +923,7 @@ def meteorlab_title_from_image(image_url: str | None) -> str | None:
     stem = clean(stem.replace("_", " ").replace("-", " "))
     stem = re.sub(r"\s*\b(?:front|reverse|back)\b.*$", "", stem, flags=re.I)
     stem = re.sub(r"\s*\b[0-9]+(?:[,.][0-9]+)?\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b.*$", "", stem, flags=re.I)
+    stem = re.sub(r"\s+\d+\.\d+\b$", "", stem)
     title = meteorlab_title(stem)
     return title or None
 
@@ -891,20 +1005,20 @@ def meteorlab_listing_from_state(
     image_url = state["image_url"]
     title = meteorlab_title(title_text)
     title_from_image = False
-    if (not title or re.search(r"\{\s*short description", title, re.I)) and image_url:
-        image_title = meteorlab_title_from_image(image_url)
-        if image_title:
-            title = image_title
-            title_from_image = True
+    image_title = meteorlab_title_from_image(image_url)
+    if image_title and (
+        not title
+        or re.search(r"\{\s*short description", title, re.I)
+        or title.lower().startswith(f"{image_title.lower()} ")
+    ):
+        title = image_title
+        title_from_image = True
     if not title:
         log.reject("meteorlab_missing_title")
         return None
     if re.search(r"\breverse side\b", title_text, re.I):
         log.reject("meteorlab_reverse_side")
         return None
-    if not METEORITE_RE.search(title) and (METEORITE_RE.search(title_text) or title_from_image):
-        title = f"{title} meteorite"
-
     weight = meteorlab_weight(title_text, status_text) or meteorlab_weight_from_image(image_url)
     if price is not None and weight is None:
         log.reject("meteorlab_missing_weight")
