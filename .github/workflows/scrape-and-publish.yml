@@ -1,20 +1,12 @@
-name: Scrape and publish meteorite inventory
+name: Scrape meteorite inventory
 
 on:
-  push:
-    branches: ["main"]
   schedule:
     - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   scrape:
@@ -37,11 +29,3 @@ jobs:
           git add data/listings.json
           git commit -m "Update meteorite inventory" || echo "No inventory changes"
           git push || echo "Nothing to push"
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-      - name: Upload static site artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: "."
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
