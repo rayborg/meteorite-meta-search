@@ -10,7 +10,7 @@
   <header class="site-header">
     <div>
       <h1>Meteorite Meta Search</h1>
-      <p>Private seller inventory monitor for meteorites, organized by type, subtype, price, weight, and $/g.</p>
+      <p>Private seller inventory monitor for meteorites, organized by type, subtype, price, weight, and price/g.</p>
     </div>
     <div class="status-card"><div class="label">Last updated</div><div id="updated">Loading…</div></div>
   </header>
@@ -21,7 +21,7 @@
       <select id="sourceFilter"><option value="">All sources</option></select>
       <select id="sortBy" autocomplete="off">
         <option value="title:asc" selected>Sort: meteorite name A-Z</option>
-        <option value="price_per_g:asc">Sort: lowest $/g</option>
+        <option value="price_per_g:asc">Sort: lowest price/g</option>
         <option value="price:asc">Sort: lowest price</option>
         <option value="weight_g:desc">Sort: largest weight</option>
         <option value="meteorite_type:asc">Sort: type/subtype</option>
@@ -33,9 +33,9 @@
     </section>
     <section class="summary-grid">
       <article><span class="big" id="totalListings">0</span><span>listings</span></article>
-      <article><span class="big" id="totalSources">0</span><span>sources</span></article>
-      <article><span class="big" id="avgPricePerG">—</span><span>avg $/g where available</span></article>
-      <article><span class="big" id="bestDeal">—</span><span>lowest $/g</span></article>
+      <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel"><span class="big" id="totalSources">0</span><span>sources</span><span class="visually-hidden">Show the full configured source-site list</span></button></article>
+      <article><span class="big price-summary" id="avgPricePerG">—</span><span>avg price/g where available</span></article>
+      <article><span class="big price-summary" id="bestDeal">—</span><span>lowest price/g</span></article>
     </section>
     <section id="typeChips" class="chips"></section>
     <section class="table-wrap">
@@ -47,7 +47,7 @@
           <th data-sort="subtype" aria-sort="none"><button type="button" class="sort-header">Subtype <span class="sort-indicator"></span></button></th>
           <th data-sort="price" aria-sort="none"><button type="button" class="sort-header">Price <span class="sort-indicator"></span></button></th>
           <th data-sort="weight_g" aria-sort="none"><button type="button" class="sort-header">Weight <span class="sort-indicator"></span></button></th>
-          <th data-sort="price_per_g" aria-sort="none"><button type="button" class="sort-header">$/g <span class="sort-indicator"></span></button></th>
+          <th data-sort="price_per_g" aria-sort="none"><button type="button" class="sort-header">Price/g <span class="sort-indicator"></span></button></th>
           <th data-sort="source" aria-sort="none"><button type="button" class="sort-header">Source <span class="sort-indicator"></span></button></th>
           <th data-sort="available" aria-sort="none"><button type="button" class="sort-header">Status <span class="sort-indicator"></span></button></th>
           <th data-sort="confidence" aria-sort="none"><button type="button" class="sort-header">Confidence <span class="sort-indicator"></span></button></th>
@@ -55,9 +55,9 @@
         <tbody id="results"></tbody>
       </table>
     </section>
-    <section class="sources-panel">
+    <section id="sourcesPanel" class="sources-panel" aria-labelledby="sourcesHeading">
       <div class="section-heading">
-        <h2>Sources</h2>
+        <h2 id="sourcesHeading" tabindex="-1">Sources</h2>
         <p>Configured source sites, including disabled backlog candidates.</p>
       </div>
       <div id="sourcesList" class="sources-list"></div>

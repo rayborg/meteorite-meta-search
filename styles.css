@@ -14,9 +14,13 @@ input, select, button { background:var(--panel); color:var(--text); border:1px s
 input:focus, select:focus, button:focus { outline:2px solid var(--accent); outline-offset:1px; }
 .check-control { display:flex; align-items:center; gap:.5rem; background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:12px; padding:.8rem .9rem; white-space:nowrap; }
 .check-control input { width:1rem; height:1rem; margin:0; padding:0; border-radius:4px; accent-color:var(--accent); }
+.visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
 .summary-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.75rem; margin-bottom:1rem; }
 .summary-grid article { display:flex; flex-direction:column; gap:.25rem; }
+.summary-button { display:flex; flex-direction:column; align-items:flex-start; gap:.25rem; width:100%; padding:0; border:0; border-radius:8px; background:transparent; color:inherit; text-align:left; cursor:pointer; }
+.summary-button:hover .big { color:#efc465; }
 .big { font-size:1.6rem; font-weight:750; color:var(--accent); }
+.big.summary-message { font-size:.95rem; line-height:1.25; color:var(--muted); }
 .chips { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0; }
 .chips button { cursor:pointer; padding:.55rem .75rem; }
 .chips button.active { border-color:var(--accent); color:var(--accent); }
@@ -41,6 +45,7 @@ a { color:var(--text); }
 .sources-panel { margin-top:1.25rem; }
 .section-heading { display:flex; justify-content:space-between; gap:1rem; align-items:end; margin-bottom:.75rem; }
 .section-heading h2 { margin:0; }
+.section-heading h2:focus { outline:2px solid var(--accent); outline-offset:4px; border-radius:8px; }
 .sources-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:.75rem; }
 .source-card { background:rgba(23,27,36,.82); border:1px solid var(--line); border-radius:16px; padding:1rem; }
 .source-card-heading { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.45rem; }

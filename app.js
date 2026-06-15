@@ -219,7 +219,7 @@ function sortLabel(key, direction) {
     subtype: "subtype",
     price: "price",
     weight_g: "weight",
-    price_per_g: "$/g",
+    price_per_g: "price/g",
     source: "source",
     available: "status",
     confidence: "confidence"
@@ -242,7 +242,7 @@ function setSort(key, direction) {
 }
 
 function filteredListings(baseItems = visibleBaseListings()) {
-  const q = normalize($("search").value);
+  const q = normalize($("search").value).trim();
   const type = $("typeFilter").value || currentType;
   const source = $("sourceFilter").value;
 
@@ -259,7 +259,7 @@ function filteredListings(baseItems = visibleBaseListings()) {
 function summarizePricePerG(items, mode) {
   const groups = new Map();
   for (const item of items) {
-    if (item.available === false || typeof item.price_per_g !== "number") continue;
+    if (isUnavailable(item) || !Number.isFinite(item.price_per_g)) continue;
     const currency = currencyCode(item.currency);
     if (!groups.has(currency)) groups.set(currency, []);
     groups.get(currency).push(item.price_per_g);
@@ -278,11 +278,45 @@ function summarizePricePerG(items, mode) {
   return pricePerG(value, currency);
 }
 
+function hasPricePerGScope(items) {
+  const q = normalize($("search").value).trim();
+  const type = $("typeFilter").value || currentType;
+  const source = $("sourceFilter").value;
+  if (q || type || source) return true;
+
+  const titles = new Set(items.map((item) => normalize(item.title).trim()).filter(Boolean));
+  return titles.size === 1;
+}
+
+function setPriceSummary(id, value, isMessage = false) {
+  const element = $(id);
+  element.textContent = value;
+  element.classList.toggle("summary-message", isMessage);
+}
+
 function updateSummary(items) {
   $("totalListings").textContent = items.length;
   $("totalSources").textContent = new Set(items.map((x) => x.source)).size;
-  $("avgPricePerG").textContent = summarizePricePerG(items, "avg");
-  $("bestDeal").textContent = summarizePricePerG(items, "best");
+  if (!hasPricePerGScope(items)) {
+    setPriceSummary("avgPricePerG", "Filter by type/source/search to compare price/g", true);
+    setPriceSummary("bestDeal", "Narrow results to show lowest price/g", true);
+    return;
+  }
+
+  setPriceSummary("avgPricePerG", summarizePricePerG(items, "avg"));
+  setPriceSummary("bestDeal", summarizePricePerG(items, "best"));
+}
+
+function focusSourcesPanel() {
+  const heading = $("sourcesHeading");
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const behavior = reduceMotion ? "auto" : "smooth";
+  heading.scrollIntoView({ behavior, block: "start" });
+  try {
+    heading.focus({ preventScroll: true });
+  } catch {
+    heading.focus();
+  }
 }
 
 function renderSources() {
@@ -388,6 +422,7 @@ async function init() {
   sortState = parseSort($("sortBy").value);
   fillFilters();
   renderSources();
+  $("sourcesSummary").addEventListener("click", focusSourcesPanel);
 
   for (const id of ["search", "typeFilter", "sourceFilter"]) {
     $(id).addEventListener("input", () => {
