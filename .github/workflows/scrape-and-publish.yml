@@ -3,6 +3,8 @@ name: Scrape meteorite inventory
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "data/listings.json"
   schedule:
     - cron: "0 */6 * * *"
   workflow_dispatch:
