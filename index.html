@@ -17,7 +17,7 @@
   <main>
     <section class="summary-grid">
       <article><span class="big" id="totalListings">0</span><span>listings</span></article>
-      <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel"><span class="big" id="totalSources">0</span><span>configured sources</span><span class="visually-hidden">Focus the full configured source-site list</span></button></article>
+      <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel"><span class="big" id="totalSources">0</span><span>configured sources</span><span class="visually-hidden">Focus the source information panel</span></button></article>
       <article><span class="big price-summary" id="avgPricePerG">—</span><span>avg price/g where available</span></article>
       <article><span class="big price-summary" id="bestDeal">—</span><span>lowest price/g</span></article>
     </section>
@@ -28,7 +28,11 @@
           <p id="sourcesMeta">Configured source sites. Enabled sources have verified parsers; disabled sources are parser-start/backlog candidates.</p>
         </div>
       </div>
-      <div id="sourcesList" class="sources-list"></div>
+      <div class="source-info-control">
+        <label for="sourceInfoSelect">Show source details</label>
+        <select id="sourceInfoSelect" aria-describedby="sourcesMeta" autocomplete="off"></select>
+      </div>
+      <div id="sourceInfoDetail" class="source-info-detail" aria-live="polite"></div>
     </section>
     <section class="controls">
       <input id="search" type="search" placeholder="Search NWA, pallasite, Gibeon, lunar, seller, subtype…">

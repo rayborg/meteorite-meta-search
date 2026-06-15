@@ -345,20 +345,28 @@ function updateSourceSummary() {
   $("totalSources").textContent = counts.configured;
   const meta = $("sourcesMeta");
   if (meta) {
-    meta.textContent = `${counts.configured} configured sources: ${counts.enabled} enabled with verified parsers, ${counts.parserStarts} disabled parser starts, and ${counts.backlog} disabled backlog candidates. Disabled sources are shown here but excluded from scraping and results until a parser is verified.`;
+    meta.textContent = `${counts.configured} configured sources: ${counts.enabled} enabled with verified parsers, ${counts.parserStarts} disabled parser starts, and ${counts.backlog} disabled backlog candidates. Disabled sources are selectable here but excluded from scraping and results until a parser is verified.`;
   }
 }
 
-function sortedSites(sites) {
-  return [...sites].sort((a, b) => normalize(a.name).localeCompare(normalize(b.name)));
+function defaultSourceInfoIndex() {
+  const enabledIndex = allSites.findIndex(siteIsEnabled);
+  return enabledIndex >= 0 ? enabledIndex : 0;
 }
 
-function appendSourceCard(parent, site) {
+function sourceOptionLabel(site) {
+  const stage = sourceStage(site);
+  return `${site.name || "Unnamed source"} - ${stage.label}`;
+}
+
+function appendSourceCard(parent, site, index) {
   const stage = sourceStage(site);
   const card = document.createElement("article");
   card.className = `source-card ${stage.cardClass}`;
+  if (Number.isInteger(index)) card.setAttribute("aria-labelledby", `source-info-title-${index}`);
 
   const title = document.createElement("a");
+  if (Number.isInteger(index)) title.id = `source-info-title-${index}`;
   title.href = site.base_url || site.inventory_urls?.[0] || "#";
   title.target = "_blank";
   title.rel = "noopener noreferrer";
@@ -396,38 +404,53 @@ function appendSourceCard(parent, site) {
   parent.appendChild(card);
 }
 
-function appendSourceGroup(parent, title, description, sites) {
-  const group = document.createElement("section");
-  group.className = "source-group";
+function renderSelectedSource() {
+  const select = $("sourceInfoSelect");
+  const detail = $("sourceInfoDetail");
+  const index = Number.parseInt(select.value, 10);
+  const site = allSites[index];
 
-  const heading = document.createElement("div");
-  heading.className = "source-group-heading";
-  const h3 = document.createElement("h3");
-  h3.textContent = title;
-  const p = document.createElement("p");
-  p.textContent = description;
-  heading.append(h3, p);
+  detail.innerHTML = "";
+  if (!site) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "No configured source details are available.";
+    detail.appendChild(empty);
+    return;
+  }
 
-  const grid = document.createElement("div");
-  grid.className = "source-card-grid";
-  for (const site of sortedSites(sites)) appendSourceCard(grid, site);
-
-  group.append(heading, grid);
-  parent.appendChild(group);
+  appendSourceCard(detail, site, index);
 }
 
 function renderSources() {
-  const wrap = $("sourcesList");
-  wrap.innerHTML = "";
+  const select = $("sourceInfoSelect");
+  const previousValue = select.value;
   updateSourceSummary();
 
-  const enabled = allSites.filter(siteIsEnabled);
-  const parserStarts = allSites.filter((site) => !siteIsEnabled(site) && site.parser);
-  const backlog = allSites.filter((site) => !siteIsEnabled(site) && !site.parser);
+  select.innerHTML = "";
+  select.disabled = allSites.length === 0;
+  if (!allSites.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No configured sources";
+    select.appendChild(option);
+    renderSelectedSource();
+    return;
+  }
 
-  appendSourceGroup(wrap, `Enabled active sources (${enabled.length})`, "These are included in scheduled scraping and results because their parsers have been verified against individual listings.", enabled);
-  appendSourceGroup(wrap, `Disabled parser starts (${parserStarts.length})`, "These have early parser work but remain excluded until row quality, sold filtering, and category/detail rules are verified.", parserStarts);
-  appendSourceGroup(wrap, `Disabled backlog candidates (${backlog.length})`, "These are concrete meteorite-source candidates from the backlog, but no verified parser exists yet.", backlog);
+  for (const [index, site] of allSites.entries()) {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = sourceOptionLabel(site);
+    select.appendChild(option);
+  }
+
+  const previousIndex = Number.parseInt(previousValue, 10);
+  const selectedIndex = Number.isInteger(previousIndex) && allSites[previousIndex]
+    ? previousIndex
+    : defaultSourceInfoIndex();
+  select.value = String(selectedIndex);
+  renderSelectedSource();
 }
 
 function render() {
@@ -501,6 +524,7 @@ async function init() {
   fillFilters();
   renderSources();
   $("sourcesSummary").addEventListener("click", focusSourcesPanel);
+  $("sourceInfoSelect").addEventListener("change", renderSelectedSource);
 
   for (const id of ["search", "typeFilter", "sourceFilter"]) {
     $(id).addEventListener("input", () => {
