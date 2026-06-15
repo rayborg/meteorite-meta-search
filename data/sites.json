@@ -1,0 +1,29 @@
+[
+  {
+    "name": "SV Meteorites",
+    "base_url": "https://www.sv-meteorites.com/",
+    "inventory_urls": [
+      "https://www.sv-meteorites.com/"
+    ],
+    "enabled": true,
+    "notes": "Private meteorite seller site. Generic parser starts at home/inventory URLs."
+  },
+  {
+    "name": "Meteorlab",
+    "base_url": "https://www.meteorlab.com/",
+    "inventory_urls": [
+      "https://www.meteorlab.com/"
+    ],
+    "enabled": true,
+    "notes": "Private meteorite seller site. Generic parser starts at home/inventory URLs."
+  },
+  {
+    "name": "Meteorite and More",
+    "base_url": "https://meteoriteandmore.com/",
+    "inventory_urls": [
+      "https://meteoriteandmore.com/Meteorites.aspx"
+    ],
+    "enabled": true,
+    "notes": "Known inventory page."
+  }
+]
