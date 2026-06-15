@@ -2,9 +2,13 @@ let allListings = [];
 let currentType = "";
 const $ = (id) => document.getElementById(id);
 
+function currencyCode(value) {
+  return value || "USD";
+}
+
 function money(value, currency = "USD") {
   if (value === null || value === undefined || Number.isNaN(value)) return "—";
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(value);
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: currencyCode(currency) }).format(value);
 }
 
 function grams(value) {
@@ -13,9 +17,9 @@ function grams(value) {
   return `${Number(value).toFixed(value < 10 ? 2 : 1)} g`;
 }
 
-function pricePerG(value) {
+function pricePerG(value, currency = "USD") {
   if (value === null || value === undefined || Number.isNaN(value)) return "—";
-  return `$${Number(value).toFixed(2)}/g`;
+  return `${money(value, currency)}/g`;
 }
 
 function normalize(value) {
@@ -38,7 +42,8 @@ function isNonIndividualItem(item) {
     "catalogue",
     "publications",
     "gallery",
-    "collection"
+    "collection",
+    "welcome to baitylia"
   ]);
 
   if (genericTitles.has(title)) return true;
@@ -146,20 +151,33 @@ function filteredListings() {
   return items;
 }
 
+function summarizePricePerG(items, mode) {
+  const groups = new Map();
+  for (const item of items) {
+    if (typeof item.price_per_g !== "number") continue;
+    const currency = currencyCode(item.currency);
+    if (!groups.has(currency)) groups.set(currency, []);
+    groups.get(currency).push(item.price_per_g);
+  }
+
+  if (!groups.size) return "—";
+  if (groups.size > 1) {
+    return [...groups.entries()].map(([currency, values]) => {
+      const value = mode === "best" ? Math.min(...values) : values.reduce((a, b) => a + b, 0) / values.length;
+      return pricePerG(value, currency);
+    }).join(" / ");
+  }
+
+  const [[currency, values]] = [...groups.entries()];
+  const value = mode === "best" ? Math.min(...values) : values.reduce((a, b) => a + b, 0) / values.length;
+  return pricePerG(value, currency);
+}
+
 function updateSummary(items) {
   $("totalListings").textContent = items.length;
   $("totalSources").textContent = new Set(items.map((x) => x.source)).size;
-
-  const ppgs = items.map((x) => x.price_per_g).filter((x) => typeof x === "number");
-  if (ppgs.length) {
-    const avg = ppgs.reduce((a, b) => a + b, 0) / ppgs.length;
-    const best = Math.min(...ppgs);
-    $("avgPricePerG").textContent = pricePerG(avg);
-    $("bestDeal").textContent = pricePerG(best);
-  } else {
-    $("avgPricePerG").textContent = "—";
-    $("bestDeal").textContent = "—";
-  }
+  $("avgPricePerG").textContent = summarizePricePerG(items, "avg");
+  $("bestDeal").textContent = summarizePricePerG(items, "best");
 }
 
 function render() {
@@ -189,7 +207,7 @@ function render() {
     row.querySelector(".subtype").textContent = item.subtype || "—";
     row.querySelector(".price").textContent = money(item.price, item.currency || "USD");
     row.querySelector(".weight").textContent = grams(item.weight_g);
-    row.querySelector(".ppg").textContent = pricePerG(item.price_per_g);
+    row.querySelector(".ppg").textContent = pricePerG(item.price_per_g, item.currency || "USD");
     row.querySelector(".source").textContent = item.source || "—";
     row.querySelector(".confidence").textContent = item.confidence || "—";
     tbody.appendChild(row);
