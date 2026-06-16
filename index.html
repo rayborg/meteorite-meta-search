@@ -34,10 +34,10 @@
       <div id="sourceInfoDetail" class="source-info-detail" aria-live="polite" hidden></div>
     </section>
     <section class="controls">
-      <input id="search" type="search" placeholder="Search NWA, pallasite, Gibeon, lunar, seller, subtype…">
-      <select id="typeFilter"><option value="">All types</option></select>
-      <select id="sourceFilter"><option value="">All sources</option></select>
-      <select id="sortBy" autocomplete="off">
+      <input id="search" type="search" aria-label="Search listings" placeholder="Search NWA, pallasite, Gibeon, lunar, seller, subtype…">
+      <select id="typeFilter" aria-label="Filter by meteorite type"><option value="">All types</option></select>
+      <select id="sourceFilter" aria-label="Filter by source"><option value="">All sources</option></select>
+      <select id="sortBy" autocomplete="off" aria-label="Sort listings">
         <option value="title:asc" selected>Sort: meteorite name A-Z</option>
         <option value="price_per_g:asc">Sort: lowest price/g</option>
         <option value="price:asc">Sort: lowest price</option>
@@ -49,7 +49,7 @@
       </select>
       <label class="check-control"><input id="includeUnavailable" type="checkbox"> Include unavailable</label>
     </section>
-    <section id="typeChips" class="chips"></section>
+    <section id="typeChips" class="chips" aria-label="Filter by meteorite type shortcuts"></section>
     <section class="table-wrap">
       <table>
         <thead><tr>

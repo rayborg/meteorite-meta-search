@@ -23,7 +23,7 @@ input:focus, select:focus, button:focus { outline:2px solid var(--accent); outli
 .big.summary-message { font-size:.95rem; line-height:1.25; color:var(--muted); }
 .chips { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0; }
 .chips button { cursor:pointer; padding:.55rem .75rem; }
-.chips button.active { border-color:var(--accent); color:var(--accent); }
+.chips button.active, .chips button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); }
 .table-wrap { overflow-x:auto; background:rgba(23,27,36,.82); border:1px solid var(--line); border-radius:16px; }
 table { width:100%; min-width:1120px; border-collapse:collapse; }
 th, td { padding:.8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }

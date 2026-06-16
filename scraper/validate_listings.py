@@ -31,6 +31,11 @@ TITLE_WEIGHT_RE = re.compile(
     rf"(?<![0-9A-Za-z])({TITLE_WEIGHT_NUMBER_RE})\s*(kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
     re.I,
 )
+TITLE_WEIGHT_RANGE_RE = re.compile(
+    rf"(?<![0-9A-Za-z])(?:{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)|[0-9]+[,.][0-9]+|[,.][0-9]+)\s*"
+    rf"(?:-|\u2013|\u2014|to)\s*{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
 METEOLOVERS_NON_INDIVIDUAL_RE = re.compile(
     r"(?:^|[-_/])lots?(?:[-_/]|$)|\b(?:lots?|collections?|sets?|groups?|mixed|assort(?:ed|ment)|"
     r"multiple\s+(?:pieces?|specimens?|individuals?)|small\s+individuals|"
@@ -46,6 +51,10 @@ ACTIVE_NON_INDIVIDUAL_RE = re.compile(
     re.I,
 )
 ACTIVE_MIXED_ARTIFACT_RE = re.compile(r"\b(?:roof[-_\s]+panels?|broken[-_\s]+roof)\b", re.I)
+ACTIVE_DISPLAY_OBJECT_RE = re.compile(
+    r"\b(?:display\s+(?:frames?|cases?|boxes?|stands?)|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?)\b",
+    re.I,
+)
 ARIZONA_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|rings?|watches?|cufflinks?|dog\s*tags?|knives?|dust|vials?|"
     r"display\s+boxes?|fossils?|minerals?|collectibles?|military|samurai|swords?|relics?|"
@@ -127,6 +136,8 @@ def suspicious_reasons(item: dict) -> list[str]:
         reasons.append("active non-individual matched-pair/variable-piece row")
     if item.get("available") is True and ACTIVE_MIXED_ARTIFACT_RE.search(active_haystack):
         reasons.append("active mixed non-meteorite artifact row")
+    if item.get("available") is True and ACTIVE_DISPLAY_OBJECT_RE.search(active_haystack):
+        reasons.append("active manufactured/display object row")
     return reasons
 
 
@@ -151,6 +162,8 @@ def number_value(text: str) -> float | None:
 
 
 def title_weight_g(title: str) -> float | None:
+    if TITLE_WEIGHT_RANGE_RE.search(title):
+        return None
     match = TITLE_WEIGHT_RE.search(title)
     if not match:
         return None
@@ -165,6 +178,99 @@ def title_weight_g(title: str) -> float | None:
     if unit.startswith("oz"):
         return value * 28.349523125
     return value
+
+
+def compact_classification_token(value: str | None) -> str:
+    return re.sub(r"\s+", "", str(value or "").strip().upper())
+
+
+def subtype_family(subtype: str | None) -> str | None:
+    token = compact_classification_token(subtype)
+    if not token:
+        return None
+    if token in {"OC", "H/L", "H/L3", "L(LL)3"} or re.fullmatch(r"(?:H|L|LL)-?[3-7](?:\.\d)?(?:[/\-][3-7](?:\.\d)?)?", token):
+        return "ordinary chondrite"
+    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?", token) or token in {"C2", "C-2", "CBA", "CBB"} or re.fullmatch(r"CVOX[A-Z]?3|CVRED3", token):
+        return "carbonaceous chondrite"
+    if re.fullmatch(r"(?:EH|EL|R)-?[3-7](?:\.\d)?(?:-[3-7](?:\.\d)?)?", token):
+        return "chondrite"
+    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", token):
+        return "iron"
+    if token == "PALLASITE":
+        return "pallasite"
+    if token == "MESOSIDERITE":
+        return "mesosiderite"
+    if token in {"SHERGOTTITE", "NAKHLITE", "CHASSIGNITE"}:
+        return "achondrite"
+    if token in {
+        "HED",
+        "EUC",
+        "EUCRITE",
+        "DIOGENITE",
+        "HOWARDITE",
+        "UREILITE",
+        "AUBRITE",
+        "ANGRITE",
+        "BRACHINITE",
+        "ACAPULCOITE",
+        "LODRANITE",
+        "WINONAITE",
+        "ACHONDRITE",
+        "ACHONDRITE-UNG",
+    }:
+        return "achondrite"
+    return None
+
+
+def type_family(mtype: str | None) -> str | None:
+    if mtype in {"ordinary chondrite", "carbonaceous chondrite", "iron", "pallasite", "mesosiderite"}:
+        return mtype
+    if mtype in {"achondrite", "lunar", "martian"}:
+        return "achondrite"
+    if mtype == "chondrite":
+        return "chondrite"
+    return None
+
+
+CLASSIFICATION_TOKEN_RE = re.compile(
+    r"\b(?:ordinary\s+chondrite|carbonaceous\s+chondrite|H\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
+    r"L\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|LL\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
+    r"OC|C\s?-?\s?2|CI\s?-?\s?\d|CM\s?-?\s?\d|CO\s?-?\s?\d|CV\s?-?\s?\d|CR\s?-?\s?\d|CK\s?-?\s?\d|CH\s?-?\s?\d|CBa|CBb|"
+    r"IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|HED|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
+    r"shergottite|nakhlite|chassignite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|iron)\b",
+    re.I,
+)
+
+
+def classification_text_families(text: str | None) -> set[str]:
+    families = set()
+    haystack = str(text or "")
+    for match in CLASSIFICATION_TOKEN_RE.finditer(haystack):
+        token = match.group(0)
+        if token.lower() == "iron" and re.search(r"oxidized\s+iron", haystack, re.I):
+            continue
+        if re.fullmatch(r"ordinary\s+chondrite", token, re.I):
+            families.add("ordinary chondrite")
+            continue
+        if re.fullmatch(r"carbonaceous\s+chondrite", token, re.I):
+            families.add("carbonaceous chondrite")
+            continue
+        family = subtype_family(token)
+        if family:
+            families.add(family)
+        elif token.lower() == "iron":
+            families.add("iron")
+    return families
+
+
+def families_compatible(row_family: str, text_family: str) -> bool:
+    if row_family == text_family:
+        return True
+    if row_family == "chondrite" and text_family in {"ordinary chondrite", "carbonaceous chondrite"}:
+        return True
+    if text_family == "chondrite" and row_family in {"ordinary chondrite", "carbonaceous chondrite"}:
+        return True
+    return False
 
 
 def validation_errors(item: dict, index: int, valid_sources: set[str], valid_parsers: set[str]) -> list[str]:
@@ -203,12 +309,18 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if ppg is not None and (not is_number(ppg) or ppg <= 0):
         errors.append(f"row {index}: price_per_g is not positive numeric")
 
+    if available is True and TITLE_WEIGHT_RANGE_RE.search(title):
+        errors.append(f"row {index}: active title has variable weight range")
+
     parsed_title_weight = title_weight_g(title)
     if parsed_title_weight is not None:
         if not is_number(weight):
             errors.append(f"row {index}: title has weight but weight_g is missing")
         elif abs(weight - parsed_title_weight) > 0.001:
             errors.append(f"row {index}: title weight {parsed_title_weight}g does not match weight_g {weight!r}")
+
+    if parser == "fossilera" and available is True and price is not None and is_number(weight) and parsed_title_weight is None and weight >= 1:
+        errors.append(f"row {index}: active FossilEra priced row has suspicious weight_g but title lacks exact gram weight")
 
     if is_number(price) and is_number(weight) and weight > 0:
         expected = round(price / weight, 4)
@@ -235,6 +347,8 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
         errors.append(f"row {index}: active matched-pair/choose-your-piece/variable-piece row")
     if available is True and ACTIVE_MIXED_ARTIFACT_RE.search(non_individual_haystack):
         errors.append(f"row {index}: active mixed non-meteorite artifact row")
+    if available is True and ACTIVE_DISPLAY_OBJECT_RE.search(non_individual_haystack):
+        errors.append(f"row {index}: active manufactured/display object row")
     if parser == "arizona_skies" and available is True:
         if price is None or weight is None:
             errors.append(f"row {index}: active Arizona Skies row lacks exact price/weight")
@@ -253,6 +367,31 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if SLASH_CLASS_RE.search(class_haystack) and not SLASH_CLASS_RE.search(preserved_haystack):
         errors.append(f"row {index}: slash classification not preserved in subtype/classification_text")
 
+    row_family = subtype_family(item.get("subtype"))
+    if row_family:
+        allowed = {
+            "ordinary chondrite": {"ordinary chondrite"},
+            "carbonaceous chondrite": {"carbonaceous chondrite"},
+            "chondrite": {"chondrite", "ordinary chondrite", "carbonaceous chondrite"},
+            "achondrite": {"achondrite", "lunar", "martian"},
+            "iron": {"iron"},
+            "pallasite": {"pallasite"},
+            "mesosiderite": {"mesosiderite"},
+        }[row_family]
+        if item.get("meteorite_type") not in allowed:
+            errors.append(
+                f"row {index}: meteorite_type {item.get('meteorite_type')!r} conflicts with subtype {item.get('subtype')!r}"
+            )
+
+    row_family = row_family or type_family(item.get("meteorite_type"))
+    text_families = classification_text_families(item.get("classification_text"))
+    if row_family:
+        incompatible = sorted(family for family in text_families if not families_compatible(row_family, family))
+        if incompatible:
+            errors.append(f"row {index}: classification_text family conflicts with row family: {', '.join(incompatible)}")
+    elif len(text_families) > 1:
+        errors.append(f"row {index}: classification_text contains incompatible families: {', '.join(sorted(text_families))}")
+
     return errors
 
 
@@ -260,6 +399,7 @@ def metadata_errors(data: dict, listings: list[dict], sites: list[dict]) -> list
     errors = []
     enabled_sources = {site["name"] for site in sites if site.get("enabled", True)}
     valid_sources = {site["name"] for site in sites}
+    listing_sources = {item.get("source") for item in listings}
 
     if data.get("listing_count") != len(listings):
         errors.append(f"metadata listing_count {data.get('listing_count')!r} does not match {len(listings)} rows")
@@ -276,11 +416,33 @@ def metadata_errors(data: dict, listings: list[dict], sites: list[dict]) -> list
         invalid = sorted(source for source in values if source not in valid_sources)
         if invalid:
             errors.append(f"metadata {key} contains invalid source(s): {', '.join(invalid)}")
+        disabled = sorted(source for source in values if source in valid_sources and source not in enabled_sources)
+        if disabled:
+            errors.append(f"metadata {key} contains disabled source(s): {', '.join(disabled)}")
+
+    missing_enabled = sorted(source for source in enabled_sources if source not in listing_sources)
+    if missing_enabled:
+        errors.append(f"enabled source(s) have no listing rows: {', '.join(missing_enabled)}")
 
     scraped_sources = set(data.get("scraped_sources") or [])
     preserved_sources = set(data.get("preserved_sources") or [])
-    if scraped_sources & preserved_sources and not set(data.get("empty_refresh_preserved_sources") or []):
-        errors.append("metadata source appears both scraped and preserved without empty_refresh_preserved_sources")
+    empty_refresh_sources = set(data.get("empty_refresh_preserved_sources") or [])
+    overlap = scraped_sources & preserved_sources
+    undocumented = overlap - empty_refresh_sources
+    if undocumented:
+        errors.append(
+            "metadata source appears both scraped and preserved without empty_refresh_preserved_sources: "
+            + ", ".join(sorted(undocumented))
+        )
+    not_scraped = empty_refresh_sources - scraped_sources
+    if not_scraped:
+        errors.append(f"metadata empty_refresh_preserved_sources not in scraped_sources: {', '.join(sorted(not_scraped))}")
+    not_preserved = empty_refresh_sources - preserved_sources
+    if not_preserved:
+        errors.append(f"metadata empty_refresh_preserved_sources not in preserved_sources: {', '.join(sorted(not_preserved))}")
+    empty_without_rows = sorted(source for source in empty_refresh_sources if source not in listing_sources)
+    if empty_without_rows:
+        errors.append(f"metadata empty_refresh_preserved_sources have no rows: {', '.join(empty_without_rows)}")
 
     return errors
 

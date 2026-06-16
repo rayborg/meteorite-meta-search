@@ -42,6 +42,12 @@ function safeRemoteImageUrl(value) {
   }
 }
 
+function showNoImage(thumb, noImage) {
+  thumb.removeAttribute("src");
+  thumb.hidden = true;
+  noImage.hidden = false;
+}
+
 function prepareListing(item) {
   const imageUrl = safeRemoteImageUrl(item.image_url);
   return {
@@ -131,20 +137,33 @@ function fillFilters() {
   renderChips();
 }
 
-function renderChips(baseItems = visibleBaseListings()) {
+function chipCountListings(baseItems = visibleBaseListings()) {
+  const q = normalize($("search")?.value).trim();
+  const source = $("sourceFilter")?.value;
+  return baseItems.filter((item) => {
+    return (!q || item._searchText.includes(q)) &&
+      (!source || item.source === source);
+  });
+}
+
+function renderChips(baseItems = chipCountListings()) {
   const counts = new Map();
 
   for (const item of baseItems) {
     const type = item.meteorite_type || "unknown";
     counts.set(type, (counts.get(type) || 0) + 1);
   }
+  if (currentType && !counts.has(currentType)) counts.set(currentType, 0);
 
   const chips = $("typeChips");
   chips.innerHTML = "";
 
   const all = document.createElement("button");
+  const allActive = currentType === "";
+  all.type = "button";
   all.textContent = `All (${baseItems.length})`;
-  all.className = currentType === "" ? "active" : "";
+  all.className = allActive ? "active" : "";
+  all.setAttribute("aria-pressed", String(allActive));
   all.onclick = () => {
     currentType = "";
     $("typeFilter").value = "";
@@ -154,8 +173,11 @@ function renderChips(baseItems = visibleBaseListings()) {
 
   for (const [type, count] of [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
     const btn = document.createElement("button");
+    const active = currentType === type;
+    btn.type = "button";
     btn.textContent = `${type} (${count})`;
-    btn.className = currentType === type ? "active" : "";
+    btn.className = active ? "active" : "";
+    btn.setAttribute("aria-pressed", String(active));
     btn.onclick = () => {
       currentType = type;
       $("typeFilter").value = type;
@@ -454,7 +476,7 @@ function render() {
   tbody.innerHTML = "";
   updateSummary(items);
   updateSortHeaders();
-  renderChips(baseItems);
+  renderChips(chipCountListings(baseItems));
 
   if (!items.length) {
     const tr = document.createElement("tr");
@@ -472,14 +494,13 @@ function render() {
     const imageUrl = item._imageUrl;
 
     if (imageUrl) {
+      thumb.addEventListener("error", () => showNoImage(thumb, noImage), { once: true });
       thumb.src = imageUrl;
       thumb.alt = `${item.title || "Meteorite listing"} image`;
       thumb.hidden = false;
       noImage.hidden = true;
     } else {
-      thumb.removeAttribute("src");
-      thumb.hidden = true;
-      noImage.hidden = false;
+      showNoImage(thumb, noImage);
     }
 
     title.textContent = item.title || "Untitled listing";

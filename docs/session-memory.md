@@ -1,13 +1,13 @@
 # Session Memory
 
-Last updated: 2026-06-15
+Last updated: 2026-06-16
 
 ## Current State
 
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current checked data has 2,365 listings from 16 enabled sources.
+- Generated listing data lives in `data/listings.json`; current checked data has 2,357 listings from 16 enabled sources.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
 

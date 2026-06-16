@@ -43,6 +43,11 @@ WEIGHT_RE = re.compile(
     rf"(?<![0-9A-Za-z])({WEIGHT_NUMBER_RE})\s*(kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
     re.I,
 )
+WEIGHT_RANGE_RE = re.compile(
+    rf"(?<![0-9A-Za-z])(?:{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)|[0-9]+[,.][0-9]+|[,.][0-9]+)\s*"
+    rf"(?:-|\u2013|\u2014|to)\s*{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
 PRICE_RE = re.compile(
     r"(?:(US\$|\$)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)|"
     r"\b(USD|US\$)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)|"
@@ -56,10 +61,10 @@ TYPE_RULES = [
     ("martian", r"\b(martian|mars|shergottite|nakhlite|chassignite)\b"),
     ("pallasite", r"\b(pallasite|olivine pallasite|esquel|im-?ilac|sericho|brahin|admire)\b"),
     ("mesosiderite", r"\bmesosiderite\b"),
-    ("iron", r"\b(iron meteorite|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
-    ("carbonaceous chondrite", r"\b(carbonaceous|c\s?2|cv\s?3|cvred\s?3|cvox[a-z]?\s?3|cm\s?2|ci\s?1|co\s?3|cr\s?2|ck|cb\s?[ab]?|c3-?ung|c2-?ung|c1-?ung)\b"),
+    ("iron", r"\b(iron\s+meteorites?|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
+    ("carbonaceous chondrite", r"\b(carbonaceous|c\s?2|cv\s?3|cvred\s?3|cvox[a-z]?\s?3|cm\s?2|ci\s?1|co\s?3|cr\s?2|ck\s?\d?|ch\s?\d?|cb\s?[ab]?|c3-?ung|c2-?ung|c1-?ung)\b"),
     ("ordinary chondrite", r"\b(ordinary chondrite|oc|h\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|h/l\s?3?|l\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|ll\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|l\s?\(\s?ll\s?\)\s?3|h/l|l/ll|H|L|LL)\b"),
-    ("achondrite", r"\b(achondrite|eucrite|EUC|diogenite|howardite|hed\b|ureilite|aubrite|angrite|acapulcoite|lodranite|winonaite)\b"),
+    ("achondrite", r"\b(achondrite|brachinite|eucrite|EUC|diogenite|howardite|hed\b|ureilite|aubrite|angrite|acapulcoite|lodranite|winonaite)\b"),
     ("chondrite", r"\b(chondrite|chondritic)\b"),
     ("stone", r"\bstone\s*\([^)]*\)|\bmeteorite\s+type\s*:\s*stone\b"),
     ("tektite/impactite", r"\b(tektite|moldavite|libyan desert glass|impactite|impact melt|saffordite)\b"),
@@ -75,11 +80,11 @@ SUBTYPE_RE = re.compile(
     r"\b(R)\s*-?\s*([3-6](?:\s*-\s*[3-6])?)\b|"
     r"\b(EH|EL)\s*-?\s*([3-7])\b|"
     r"\b(IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b|"
-    r"\b(HED|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|mesosiderite)\b",
+    r"\b(HED|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|lodranite|winonaite|mesosiderite|achondrite(?:-ung)?)\b",
     re.I,
 )
 BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|placeholder|heart/(?:dis|en)abled|sold\.jpg|red(?:%20|\s)*dot", re.I)
-PRODUCT_DETAIL_STOP_RE = re.compile(r"^(?:Related products|Shopping cart|You may also like|Recently viewed)$", re.I)
+PRODUCT_DETAIL_STOP_RE = re.compile(r"^(?:Related products|Related items|Shopping cart|You may also like|Recently viewed)$", re.I)
 PRODUCT_LABEL_BOUNDARY_RE = re.compile(
     r"\s+(?:Weight|Measurements?|Approximate Measurements?|Dimensions?|Size|Category|Categories|Availability|Price|SKU)\s*:",
     re.I,
@@ -91,14 +96,14 @@ EMAIL_PRICE_RE = re.compile(r"\bemail\s+for(?:\s+new)?\s+price\b", re.I)
 NON_SPECIMEN_PRODUCT_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|cabochons?|"
     r"watches?|cufflinks?|dog\s*tags?|knives?|book|books|posters?|prints?|shirts?|t-?shirts?|"
-    r"apparel|mugs?|stands?|display\s+(?:case|box|stand)|riker|equipment|gifts?|gift\s*cards?|"
+    r"apparel|mugs?|stands?|display\s+(?:cases?|boxes?|stands?|frames?)|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|riker|equipment|gifts?|gift\s*cards?|"
     r"souvenirs?|catalog(?:ue)?s?|guides?|magazines?|dvds?|vials?|dust|stickers?|sets?|lots?|"
     r"matched[-_\s]+pairs?|roof[-_\s]+panels?)\b",
     re.I,
 )
 ARIZONA_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|rings?|watches?|cufflinks?|dog\s*tags?|knives?|dust|vials?|"
-    r"display\s+boxes?|fossils?|minerals?|collectibles?|military|samurai|swords?|relics?|"
+    r"display\s+(?:boxes?|frames?)|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|fossils?|minerals?|collectibles?|military|samurai|swords?|relics?|"
     r"paintings?|prints?|art|teeth|tusks?|trilobites?|petrified\s+wood|dinosaurs?|gifts?)\b",
     re.I,
 )
@@ -128,7 +133,7 @@ IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
 )
 METEORITE_EXCHANGE_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|cabochons?|"
-    r"stands?|display\s*(?:stands?|cases?|boxes?)?|riker|gifts?|gift\s*cards?|souvenirs?|"
+    r"stands?|display\s*(?:stands?|cases?|boxes?|frames?)?|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|riker|gifts?|gift\s*cards?|souvenirs?|"
     r"books?|posters?|prints?|shirts?|t-?shirts?|apparel|mugs?|equipment|catalog(?:ue)?s?|"
     r"dust|vials?|collection|collections?|sets?|lots?|filters?)\b",
     re.I,
@@ -148,12 +153,12 @@ METEOLOVERS_NON_INDIVIDUAL_RE = re.compile(
 )
 JUSTMETEORITES_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|books?|"
-    r"knives?|posters?|prints?|display\s+(?:case|box|stand)|riker|gift|souvenirs?|vials?|dust|sets?|lots?)\b",
+    r"knives?|posters?|prints?|display\s+(?:cases?|boxes?|stands?|frames?)|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|riker|gift|souvenirs?|vials?|dust|sets?|lots?)\b",
     re.I,
 )
 GALACTIC_STONE_NON_SPECIMEN_RE = re.compile(
     r"\b(?:collections?|collector\s+lots?|lots?|sets?|jewelry|jewellery|pendants?|rings?|"
-    r"necklaces?|bracelets?|earrings?|beads?|displays?|display\s+(?:cases?|boxes?|stands?)|"
+    r"necklaces?|bracelets?|earrings?|beads?|displays?|display\s+(?:cases?|boxes?|stands?|frames?)|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|"
     r"memorabilia|souvenirs?|glass\s+vials?|vials?|dust|sample\s+cards?|faux\s+meteorites?|"
     r"meteorwrongs?|replicas?|stickers?|pins?)\b",
     re.I,
@@ -285,6 +290,20 @@ def product_main_lines(lines: list[str]) -> list[str]:
             break
         main_lines.append(line)
     return main_lines
+
+
+def product_scope(soup: BeautifulSoup):
+    for selector in [
+        "div[id^='product-'].product.type-product",
+        "div[id^='product-'].product",
+        "div.product.type-product",
+        ".productView",
+        "main",
+    ]:
+        node = soup.select_one(selector)
+        if node:
+            return node
+    return soup
 
 
 def num(text: str | None) -> float | None:
@@ -468,12 +487,23 @@ def weight_to_g(value: float, unit: str) -> float:
     return value
 
 
+def weight_range_spans(text: str) -> list[tuple[int, int]]:
+    return [(match.start(), match.end()) for match in WEIGHT_RANGE_RE.finditer(text)]
+
+
+def span_inside(span: tuple[int, int], ranges: list[tuple[int, int]]) -> bool:
+    return any(start <= span[0] and span[1] <= end for start, end in ranges)
+
+
 def first_weight_g(text: str) -> float | None:
-    m = WEIGHT_RE.search(text)
-    if not m:
-        return None
-    value = num(m.group(1))
-    return weight_to_g(value, m.group(2)) if value is not None else None
+    ranges = weight_range_spans(text)
+    for m in WEIGHT_RE.finditer(text):
+        if span_inside((m.start(), m.end()), ranges):
+            continue
+        value = num(m.group(1))
+        if value is not None:
+            return weight_to_g(value, m.group(2))
+    return None
 
 
 def first_individual_weight_g(title: str, detail_text: str = "", *, title_only: bool = False) -> float | None:
@@ -490,6 +520,82 @@ def first_individual_weight_g(title: str, detail_text: str = "", *, title_only: 
         if value is not None:
             return weight_to_g(value, match.group(2))
     return None
+
+
+def compact_classification_token(value: str | None) -> str:
+    return re.sub(r"\s+", "", clean(value or "").upper())
+
+
+def meteorite_type_for_subtype(subtype: str | None) -> str | None:
+    token = clean(subtype or "").upper()
+    compact = compact_classification_token(token)
+    if not compact:
+        return None
+    if compact in {"OC", "H/L", "H/L3", "L(LL)3"} or re.fullmatch(r"(?:H|L|LL)-?[3-7](?:\.\d)?(?:[/\-][3-7](?:\.\d)?)?", compact):
+        return "ordinary chondrite"
+    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?", compact) or compact in {"C2", "C-2", "CBA", "CBB"} or re.fullmatch(r"CVOX[A-Z]?3|CVRED3", compact):
+        return "carbonaceous chondrite"
+    if re.fullmatch(r"(?:EH|EL|R)-?[3-7](?:\.\d)?(?:-[3-7](?:\.\d)?)?", compact):
+        return "chondrite"
+    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", compact):
+        return "iron"
+    if compact in {"PALLASITE"}:
+        return "pallasite"
+    if compact in {"MESOSIDERITE"}:
+        return "mesosiderite"
+    if compact in {"SHERGOTTITE", "NAKHLITE", "CHASSIGNITE"}:
+        return "martian"
+    if compact in {
+        "HED",
+        "EUC",
+        "EUCRITE",
+        "DIOGENITE",
+        "HOWARDITE",
+        "UREILITE",
+        "AUBRITE",
+        "ANGRITE",
+        "BRACHINITE",
+        "ACAPULCOITE",
+        "LODRANITE",
+        "WINONAITE",
+        "ACHONDRITE",
+        "ACHONDRITE-UNG",
+    }:
+        return "achondrite"
+    return None
+
+
+def meteorite_family_key(mtype: str | None) -> str | None:
+    if mtype in {"ordinary chondrite", "carbonaceous chondrite", "achondrite", "iron", "pallasite", "mesosiderite"}:
+        return mtype
+    if mtype in {"lunar", "martian"}:
+        return "achondrite"
+    if mtype == "chondrite":
+        return "chondrite"
+    return None
+
+
+def filtered_classification_text(ctext: str | None, mtype: str, subtype: str | None) -> str | None:
+    if not ctext:
+        return None
+    target_family = meteorite_family_key(meteorite_type_for_subtype(subtype) or mtype)
+    kept = []
+    for bit in [clean(part) for part in ctext.split(",")]:
+        if not bit:
+            continue
+        bit_family = meteorite_family_key(meteorite_type_for_subtype(bit))
+        if target_family and bit_family and bit_family != target_family:
+            continue
+        if bit.lower() not in {value.lower() for value in kept}:
+            kept.append(bit)
+    return ", ".join(kept[:6]) or None
+
+
+def normalized_classification(mtype: str, subtype: str | None, ctext: str | None) -> tuple[str, str | None, str | None]:
+    subtype_type = meteorite_type_for_subtype(subtype)
+    if subtype_type:
+        mtype = subtype_type
+    return mtype, subtype, filtered_classification_text(ctext, mtype, subtype)
 
 
 def labeled_value(lines: list[str], label: str) -> str | None:
@@ -535,14 +641,14 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
     subtype = clean(sm.group(0)).upper() if sm else None
     bits = []
     for m in re.finditer(
-        r"Stone\s*\([^)]*\)|\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|shergottite|nakhlite|pallasite|mesosiderite|iron)\b",
+        r"Stone\s*\([^)]*\)|\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite)\b",
         text,
         re.I,
     ):
         bit = clean(m.group(0))
         if bit and bit.lower() not in {x.lower() for x in bits}:
             bits.append(bit)
-    return mtype, subtype, ", ".join(bits[:6]) or None
+    return normalized_classification(mtype, subtype, ", ".join(bits[:6]) or None)
 
 
 def classify(title: str, detail_text: str = "", explicit_type: str | None = None) -> tuple[str, str | None, str | None]:
@@ -551,7 +657,7 @@ def classify(title: str, detail_text: str = "", explicit_type: str | None = None
     detail_result = classify_from_text(clean(f"{title} {detail_text[:900]}"))
     if result[0] != "unknown" or result[1]:
         if detail_result[1] or detail_result[2]:
-            return result[0], result[1] or detail_result[1], result[2] or detail_result[2]
+            return normalized_classification(result[0], result[1] or detail_result[1], result[2] or detail_result[2])
         return result
     if detail_result[0] != "unknown" or detail_result[1] or detail_result[2]:
         return detail_result
@@ -1406,12 +1512,14 @@ def product_detail_listing(
     *,
     reject_title_re: re.Pattern | None = None,
     title_weight_only: bool = False,
+    title_or_labeled_weight_only: bool = False,
     allow_missing_price: bool = False,
     allow_missing_weight: bool = False,
     european_price: bool = False,
     ignore_text_sold: bool = False,
     reject_detail_re: re.Pattern | None = None,
     require_title_meteorite: bool = False,
+    reject_weight_range_title: bool = False,
     allow_image_fallback: bool = True,
     detail_proof=None,
 ) -> dict | None:
@@ -1442,10 +1550,14 @@ def product_detail_listing(
     if reject_title_re and reject_title_re.search(title):
         log.reject("product_non_specimen_title")
         return None
+    if reject_weight_range_title and WEIGHT_RANGE_RE.search(title):
+        log.reject("product_weight_range_title")
+        return None
     if require_title_meteorite and not product_title_has_meteorite_marker(title):
         log.reject("product_missing_title_meteorite_marker")
         return None
-    lines = product_main_lines(lines_from(soup))
+    scope = product_scope(soup)
+    lines = product_main_lines(lines_from(scope))
     schema_description = clean((product or {}).get("description") if isinstance((product or {}).get("description"), str) else "")
     source_type = explicit_meteorite_type(schema_description, lines)
     text = "\n".join([x for x in [schema_description, *lines[:120]] if x])
@@ -1472,7 +1584,9 @@ def product_detail_listing(
         log.reject("product_nonpositive_price")
         return None
 
-    if title_weight_only:
+    if title_or_labeled_weight_only:
+        weight = first_individual_weight_g(title, title_only=True) or labeled_weight(lines)
+    elif title_weight_only:
         weight = first_individual_weight_g(title, title_only=True)
     else:
         weight = first_individual_weight_g(title, text[:2000]) or labeled_weight(lines)
@@ -1496,7 +1610,7 @@ def product_detail_listing(
         weight_g=weight,
         detail_text=text,
         explicit_type=source_type or fallback_type,
-        image_url=image_url or (image_for(soup, url) if allow_image_fallback else None),
+        image_url=image_url or (image_for(scope, url) if allow_image_fallback else None),
         item_key=clean(str((product or {}).get("sku") or offer.get("sku") or title)),
         parser=parser,
     )
@@ -1595,11 +1709,13 @@ def scrape_product_card_details(
     card_reject_re: re.Pattern | None = None,
     reject_title_re: re.Pattern | None = None,
     title_weight_only: bool = False,
+    title_or_labeled_weight_only: bool = False,
     allow_missing_price: bool = False,
     allow_missing_weight: bool = False,
     european_price: bool = False,
     reject_detail_re: re.Pattern | None = None,
     require_title_meteorite: bool = False,
+    reject_weight_range_title: bool = False,
     card_filter=None,
     link_reject_re: re.Pattern | None = None,
     detail_proof=None,
@@ -1629,11 +1745,13 @@ def scrape_product_card_details(
             fallback_type=fallback_type,
             reject_title_re=reject_title_re,
             title_weight_only=title_weight_only,
+            title_or_labeled_weight_only=title_or_labeled_weight_only,
             allow_missing_price=allow_missing_price,
             allow_missing_weight=allow_missing_weight,
             european_price=european_price,
             reject_detail_re=reject_detail_re,
             require_title_meteorite=require_title_meteorite,
+            reject_weight_range_title=reject_weight_range_title,
             detail_proof=detail_proof,
         )
         if item:
@@ -1716,7 +1834,7 @@ def shopify_tags(product: dict) -> list[str]:
     return []
 
 
-def shopify_explicit_type(product: dict) -> str | None:
+def shopify_explicit_type(product: dict, *, include_keyword_tags: bool = True) -> str | None:
     bits = []
     ptype = shopify_product_type(product)
     if ptype:
@@ -1725,7 +1843,7 @@ def shopify_explicit_type(product: dict) -> str | None:
         match = re.search(r"Meteorite Type-([^,]+)$", tag, re.I)
         if match:
             bits.append(clean(match.group(1)))
-        elif METEORITE_RE.search(tag):
+        elif include_keyword_tags and METEORITE_RE.search(tag):
             bits.append(tag)
     seen = []
     for bit in bits:
@@ -1764,7 +1882,8 @@ def shopify_listing(
     variant_title = clean(str(variant.get("title") or ""))
     if variant_title and not re.fullmatch(r"default\s+title", variant_title, re.I):
         title = clean(f"{title} - {variant_title}")
-    detail_text = clean(" ".join([html_to_text(product.get("body_html")), shopify_product_type(product), " ".join(shopify_tags(product))]))
+    tag_text = "" if parser == "top_meteorite" else " ".join(shopify_tags(product))
+    detail_text = clean(" ".join([html_to_text(product.get("body_html")), shopify_product_type(product), tag_text]))
     price = price_num(str(variant.get("price") or ""))
     weight = first_individual_weight_g(title, detail_text[:2400])
     reason = source_filter(product, title, detail_text, price, weight, variant)
@@ -1781,7 +1900,7 @@ def shopify_listing(
         currency="USD" if price is not None else None,
         weight_g=weight,
         detail_text=detail_text,
-        explicit_type=shopify_explicit_type(product),
+        explicit_type=shopify_explicit_type(product, include_keyword_tags=parser != "top_meteorite"),
         image_url=shopify_image(product),
         item_key=clean(str(variant.get("id") or product.get("id") or title)),
         parser=parser,
@@ -1859,6 +1978,8 @@ def meteorite_exchange_card_filter(card, page_url: str) -> str | None:
     title_node = card.select_one(".woocommerce-loop-product__title, h2, h3")
     title = clean(title_node.get_text(" ", strip=True) if title_node else "")
     haystack = clean(" ".join([title, card.get_text(" ", strip=True), classes]))
+    if WEIGHT_RANGE_RE.search(title):
+        return "meteorite_exchange_weight_range_title"
     if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
         return "meteorite_exchange_non_specimen"
     return None
@@ -1881,6 +2002,8 @@ def meteorite_exchange_detail_proof(soup: BeautifulSoup, product: dict | None, o
     if not (meta_content(soup, "product:retailer_item_id") or product_node.select_one(".product_meta .sku, .product_meta .posted_in")):
         return "woo_missing_product_metadata"
     title = meta_content(soup, "og:title", "twitter:title") or title_for(soup)
+    if WEIGHT_RANGE_RE.search(title):
+        return "meteorite_exchange_weight_range_title_detail"
     category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
     if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(clean(f"{title} {category_text}")):
         return "meteorite_exchange_non_specimen_detail"
@@ -1945,6 +2068,7 @@ def scrape_meteorite_exchange(site: dict, log: SourceLog) -> list[dict]:
         fallback_type="meteorite",
         card_reject_re=METEORITE_EXCHANGE_NON_SPECIMEN_RE,
         reject_title_re=METEORITE_EXCHANGE_NON_SPECIMEN_RE,
+        reject_weight_range_title=True,
         card_filter=meteorite_exchange_card_filter,
         link_reject_re=link_reject_re,
         detail_proof=meteorite_exchange_detail_proof,
@@ -1962,6 +2086,7 @@ def scrape_fossilera(site: dict, log: SourceLog) -> list[dict]:
         fallback_type="meteorite",
         card_reject_re=NON_SPECIMEN_PRODUCT_RE,
         reject_title_re=NON_SPECIMEN_PRODUCT_RE,
+        title_or_labeled_weight_only=True,
     )
 
 
@@ -2429,6 +2554,30 @@ def impactika_image_url(product: dict, base_url: str) -> str | None:
     return None
 
 
+def impactika_taxonomy_names(product: dict, key: str) -> list[str]:
+    return [clean(item.get("name")) for item in product.get(key) or [] if clean(item.get("name"))]
+
+
+def impactika_classification_snippets(text: str) -> str:
+    snippets = []
+    for sentence in re.split(r"(?<=[.!?])\s+", clean(text)):
+        if re.search(
+            r"\b(?:classified\s+as|classification|iron\s+meteorites?|ordinary\s+chondrite|"
+            r"carbonaceous|achondrite|pallasite|mesosiderite|shergottite|nakhlite|"
+            r"chassignite|eucrite|diogenite|howardite|ureilite|aubrite|angrite|"
+            r"octahedrite|ataxite|hexahedrite|IVA|IAB|IIAB|IIIAB|IVB|IIE|IRUNGR|"
+            r"H\s?[3-7]|L\s?[3-7]|LL\s?[3-7]|CM\s?2|CV\s?3|CO\s?3|CR\s?2|CI\s?1)\b",
+            sentence,
+            re.I,
+        ):
+            snippets.append(sentence)
+    return " ".join(snippets[:3])
+
+
+def impactika_classification_context(categories: str, tag_names: list[str], text: str) -> str:
+    return clean(" ".join(part for part in [categories, ", ".join(tag_names), impactika_classification_snippets(text)] if part))
+
+
 def impactika_display_name(name: str) -> str:
     display = clean(name.title())
     return re.sub(r"\b(Nwa|Dag|Nakhla|Nininger)\b", lambda m: {"Nwa": "NWA", "Dag": "DaG"}.get(m.group(1), m.group(1)), display)
@@ -2461,7 +2610,9 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
         for product in products:
             name = clean(BeautifulSoup(str(product.get("name") or ""), "lxml").get_text(" ", strip=True))
             permalink = product.get("permalink") or site["base_url"]
-            categories = ", ".join(clean(cat.get("name")) for cat in product.get("categories") or [] if cat.get("name"))
+            category_names = impactika_taxonomy_names(product, "categories")
+            tag_names = impactika_taxonomy_names(product, "tags")
+            categories = ", ".join(category_names)
             if NON_SPECIMEN_PRODUCT_RE.search(name) or re.search(r"\b(?:print|catalog|book|drilling)\b", categories, re.I):
                 log.reject("impactika_non_specimen_product")
                 continue
@@ -2469,12 +2620,16 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                 log.reject("impactika_unavailable_product")
                 continue
             text = BeautifulSoup(product.get("short_description") or product.get("description") or "", "lxml").get_text("\n", strip=True)
+            classification_context = impactika_classification_context(categories, tag_names, text)
             log.detail(permalink)
             for idx, line in enumerate([clean(x) for x in text.splitlines() if clean(x)]):
                 if not (PRICE_RE.search(line) and WEIGHT_RE.search(line)):
                     continue
                 if SOLD_STATUS_RE.search(line):
                     log.reject("impactika_sold_row")
+                    continue
+                if NON_SPECIMEN_PRODUCT_RE.search(line):
+                    log.reject("impactika_non_specimen_row")
                     continue
                 row_values = impactika_exact_row_values(line, log)
                 if row_values is None:
@@ -2492,8 +2647,8 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                     price=price,
                     currency=currency or "USD",
                     weight_g=weight,
-                    detail_text=clean(f"{categories} {text[:1200]}"),
-                    explicit_type=categories or "meteorite",
+                    detail_text=clean(f"{classification_context} {text[:1200]}"),
+                    explicit_type=classification_context or categories or "meteorite",
                     image_url=impactika_image_url(product, permalink),
                     item_key=f"{product.get('id')}:{idx}:{line}",
                     parser="impactika",
@@ -2826,6 +2981,8 @@ def merge_listings(
     scraped_counts: dict[str, int],
     scraped_sources: set[str],
     enabled_sources: set[str],
+    *,
+    preserve_unselected_sources: bool,
 ) -> tuple[list[dict], set[str], set[str]]:
     merged_by_id = {}
     preserved_sources = set()
@@ -2836,10 +2993,16 @@ def merge_listings(
         item_id = item.get("id")
         if source not in enabled_sources or not item_id:
             continue
-        if source in scraped_sources and scraped_counts.get(source, 0) > 0:
-            continue
+        preserve_item = False
         if source in scraped_sources:
+            if scraped_counts.get(source, 0) > 0:
+                continue
             empty_refresh_preserved_sources.add(source)
+            preserve_item = True
+        elif preserve_unselected_sources:
+            preserve_item = True
+        if not preserve_item:
+            continue
         preserved_sources.add(source)
         merged_by_id[str(item_id)] = item
 
@@ -2900,18 +3063,14 @@ def main() -> None:
     scraped_sources = {site["name"] for site in selected_sites}
     enabled_sources = {site["name"] for site in enabled_sites}
 
-    if preserve_existing:
-        listings, preserved_sources, empty_refresh_preserved_sources = merge_listings(
-            load_existing_data(),
-            refreshed_by_id,
-            scraped_counts,
-            scraped_sources,
-            enabled_sources,
-        )
-    else:
-        listings = list(refreshed_by_id.values())
-        preserved_sources = set()
-        empty_refresh_preserved_sources = set()
+    listings, preserved_sources, empty_refresh_preserved_sources = merge_listings(
+        load_existing_data(),
+        refreshed_by_id,
+        scraped_counts,
+        scraped_sources,
+        enabled_sources,
+        preserve_unselected_sources=preserve_existing,
+    )
 
     listings = sort_listings(listings)
     payload = output_payload(
