@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-06-15T22:53:24.909182+00:00",
+  "generated_at": "2026-06-16T00:27:56.331817+00:00",
   "source_count": 7,
-  "listing_count": 1313,
+  "listing_count": 1312,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "BAITYLIA"
+    "FossilEra"
   ],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
-    "FossilEra",
+    "BAITYLIA",
     "The Meteorite Market",
     "Aerolite Meteorites",
     "Meteolovers"
   ],
-  "rotation_index": 2,
+  "rotation_index": 3,
   "rotation_total": 7,
-  "rotation_key": "17",
+  "rotation_key": "18",
   "listings": [
     {
       "id": "9f7866887ce1a579",
@@ -397,7 +397,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:12.834218+00:00"
+      "scraped_at": "2026-06-16T00:26:42.069515+00:00"
     },
     {
       "id": "849289a4563cc066",
@@ -606,7 +606,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:59.267782+00:00"
+      "scraped_at": "2026-06-16T00:23:15.310587+00:00"
     },
     {
       "id": "9e58e28c17639813",
@@ -625,7 +625,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:50.098495+00:00"
+      "scraped_at": "2026-06-16T00:23:05.259604+00:00"
     },
     {
       "id": "a28d206af05a24ba",
@@ -644,7 +644,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:15.316299+00:00"
+      "scraped_at": "2026-06-16T00:24:35.134839+00:00"
     },
     {
       "id": "c6d766b579461a92",
@@ -663,7 +663,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:58.829226+00:00"
+      "scraped_at": "2026-06-16T00:27:31.555252+00:00"
     },
     {
       "id": "0a2154019a1da138",
@@ -758,7 +758,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:17.926110+00:00"
+      "scraped_at": "2026-06-16T00:22:30.611894+00:00"
     },
     {
       "id": "cbcaf1bca2279771",
@@ -777,7 +777,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:59.602505+00:00"
+      "scraped_at": "2026-06-16T00:22:10.681527+00:00"
     },
     {
       "id": "b8ddb3fe66253954",
@@ -815,7 +815,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:17.650380+00:00"
+      "scraped_at": "2026-06-16T00:23:35.144137+00:00"
     },
     {
       "id": "d8e9980b27db3e10",
@@ -834,7 +834,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:11.067935+00:00"
+      "scraped_at": "2026-06-16T00:22:23.140095+00:00"
     },
     {
       "id": "11e1b08a002e3e78",
@@ -1043,7 +1043,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:48.273740+00:00"
+      "scraped_at": "2026-06-16T00:20:53.599766+00:00"
     },
     {
       "id": "5cccdbd307374315",
@@ -1328,7 +1328,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:25.001686+00:00"
+      "scraped_at": "2026-06-16T00:21:33.272813+00:00"
     },
     {
       "id": "703dd2c0d75329e0",
@@ -2069,7 +2069,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:10.290722+00:00"
+      "scraped_at": "2026-06-16T00:27:43.881168+00:00"
     },
     {
       "id": "c7d62e2b53935d2e",
@@ -2088,7 +2088,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:08.003520+00:00"
+      "scraped_at": "2026-06-16T00:27:41.436356+00:00"
     },
     {
       "id": "8320693645876786",
@@ -2107,7 +2107,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:01.173489+00:00"
+      "scraped_at": "2026-06-16T00:27:34.008022+00:00"
     },
     {
       "id": "6e7f66185f8439de",
@@ -2126,7 +2126,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:45.177688+00:00"
+      "scraped_at": "2026-06-16T00:27:16.770954+00:00"
     },
     {
       "id": "3983ca4c7c7f011f",
@@ -2145,7 +2145,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:03.485963+00:00"
+      "scraped_at": "2026-06-16T00:26:32.180537+00:00"
     },
     {
       "id": "da3cfad3a25ae90d",
@@ -2164,7 +2164,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:52.268409+00:00"
+      "scraped_at": "2026-06-16T00:24:12.683181+00:00"
     },
     {
       "id": "b85ae842e536544d",
@@ -2183,7 +2183,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:29.133907+00:00"
+      "scraped_at": "2026-06-16T00:24:50.162243+00:00"
     },
     {
       "id": "69c05926f6606796",
@@ -2202,7 +2202,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:15.835155+00:00"
+      "scraped_at": "2026-06-16T00:20:18.339105+00:00"
     },
     {
       "id": "860f0fad21c68c7b",
@@ -2281,15 +2281,15 @@
       "scraped_at": "2026-06-15T22:53:24.849892+00:00"
     },
     {
-      "id": "95735c96a5c14f54",
+      "id": "7f5c3532269a2b72",
       "source": "FossilEra",
       "source_url": "https://www.fossilera.com/",
       "url": "https://www.fossilera.com/meteorites/13-el-medano-395-brachinite-meteorite-slice-chile",
       "title": ".13\" El M\u00e9dano (395) Brachinite Meteorite Slice - Chile",
       "price": 45.0,
       "currency": "USD",
-      "weight_g": 30.48,
-      "price_per_g": 1.4764,
+      "weight_g": 18.26,
+      "price_per_g": 2.4644,
       "meteorite_type": "achondrite",
       "subtype": "UREILITE",
       "classification_text": "ureilite",
@@ -2297,7 +2297,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:28.983382+00:00"
+      "scraped_at": "2026-06-16T00:26:59.341396+00:00"
     },
     {
       "id": "12f8311c8d62e0a6",
@@ -2335,7 +2335,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:06.433504+00:00"
+      "scraped_at": "2026-06-16T00:22:18.163286+00:00"
     },
     {
       "id": "c48e2ad3ee0b4059",
@@ -2354,7 +2354,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:20.415201+00:00"
+      "scraped_at": "2026-06-16T00:21:28.332911+00:00"
     },
     {
       "id": "bb4330e38e69cb3b",
@@ -2848,7 +2848,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:10.720132+00:00"
+      "scraped_at": "2026-06-16T00:24:30.157856+00:00"
     },
     {
       "id": "f2b685e5fd81e0e5",
@@ -3209,7 +3209,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:12.570320+00:00"
+      "scraped_at": "2026-06-16T00:27:46.379423+00:00"
     },
     {
       "id": "2ca7daada0303b44",
@@ -3228,7 +3228,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:14.861642+00:00"
+      "scraped_at": "2026-06-16T00:27:48.875505+00:00"
     },
     {
       "id": "98dc2540bae308ce",
@@ -3247,7 +3247,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:21.736437+00:00"
+      "scraped_at": "2026-06-16T00:27:56.325755+00:00"
     },
     {
       "id": "c9f7f89dd8676d86",
@@ -3266,7 +3266,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:17.118861+00:00"
+      "scraped_at": "2026-06-16T00:27:51.359330+00:00"
     },
     {
       "id": "bef626277720fad5",
@@ -3456,7 +3456,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:19.397543+00:00"
+      "scraped_at": "2026-06-16T00:27:53.850257+00:00"
     },
     {
       "id": "9e401ea198b691ee",
@@ -3570,7 +3570,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:05.722793+00:00"
+      "scraped_at": "2026-06-16T00:27:38.958867+00:00"
     },
     {
       "id": "c16f8efbc45d2430",
@@ -3589,7 +3589,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:35.999239+00:00"
+      "scraped_at": "2026-06-16T00:24:57.642675+00:00"
     },
     {
       "id": "8fefc055c59d747c",
@@ -4045,7 +4045,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:20.463793+00:00"
+      "scraped_at": "2026-06-16T00:20:23.339801+00:00"
     },
     {
       "id": "3bd9bb969c2ded11",
@@ -4083,7 +4083,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:59.244797+00:00"
+      "scraped_at": "2026-06-16T00:24:20.088880+00:00"
     },
     {
       "id": "c44bae545d0f6efd",
@@ -4102,7 +4102,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:42.955958+00:00"
+      "scraped_at": "2026-06-16T00:26:09.868319+00:00"
     },
     {
       "id": "6161105be0f20b87",
@@ -4140,7 +4140,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:08.437795+00:00"
+      "scraped_at": "2026-06-16T00:24:27.658946+00:00"
     },
     {
       "id": "b93a954da587100e",
@@ -4159,7 +4159,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:50.396145+00:00"
+      "scraped_at": "2026-06-16T00:22:00.624614+00:00"
     },
     {
       "id": "d845e79a6f9bfa7e",
@@ -4178,7 +4178,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:06.222471+00:00"
+      "scraped_at": "2026-06-16T00:23:22.735740+00:00"
     },
     {
       "id": "53cab05c3c1fd71b",
@@ -4197,7 +4197,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:34.142373+00:00"
+      "scraped_at": "2026-06-16T00:21:43.248712+00:00"
     },
     {
       "id": "52d8bc261bfde32d",
@@ -4216,7 +4216,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:29.179914+00:00"
+      "scraped_at": "2026-06-16T00:23:47.632619+00:00"
     },
     {
       "id": "c47c038dc7f99a63",
@@ -4273,7 +4273,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:22.459955+00:00"
+      "scraped_at": "2026-06-16T00:22:35.529712+00:00"
     },
     {
       "id": "dcfe0f1ebaabcd2d",
@@ -4292,7 +4292,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:29.394150+00:00"
+      "scraped_at": "2026-06-16T00:22:42.905134+00:00"
     },
     {
       "id": "37d29a39244f430e",
@@ -4311,7 +4311,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:54.596095+00:00"
+      "scraped_at": "2026-06-16T00:24:15.163464+00:00"
     },
     {
       "id": "bc20df0f8314e614",
@@ -4330,7 +4330,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:36.111256+00:00"
+      "scraped_at": "2026-06-16T00:23:55.199705+00:00"
     },
     {
       "id": "46b7b23d32d4c88a",
@@ -4349,7 +4349,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:38.456570+00:00"
+      "scraped_at": "2026-06-16T00:23:57.685766+00:00"
     },
     {
       "id": "1edc1dafc3e9306e",
@@ -4463,7 +4463,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:45.934430+00:00"
+      "scraped_at": "2026-06-16T00:20:51.155066+00:00"
     },
     {
       "id": "92c75e35796a638a",
@@ -4482,7 +4482,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:18.147869+00:00"
+      "scraped_at": "2026-06-16T00:21:25.884040+00:00"
     },
     {
       "id": "781d62464ec6d3d7",
@@ -4501,7 +4501,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:08.232875+00:00"
+      "scraped_at": "2026-06-16T00:25:32.570141+00:00"
     },
     {
       "id": "9386a1cb6a1ca2ec",
@@ -4520,7 +4520,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:33.701811+00:00"
+      "scraped_at": "2026-06-16T00:25:59.870290+00:00"
     },
     {
       "id": "b30ecceb98bb491d",
@@ -4539,7 +4539,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:54.415768+00:00"
+      "scraped_at": "2026-06-16T00:25:17.677055+00:00"
     },
     {
       "id": "e316023ab73cb08e",
@@ -4558,7 +4558,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:36.030557+00:00"
+      "scraped_at": "2026-06-16T00:26:02.415901+00:00"
     },
     {
       "id": "7c294537247cd07a",
@@ -4577,7 +4577,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:24.399868+00:00"
+      "scraped_at": "2026-06-16T00:26:54.417902+00:00"
     },
     {
       "id": "f83846293f36a0a2",
@@ -4596,7 +4596,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:17.556482+00:00"
+      "scraped_at": "2026-06-16T00:25:42.456762+00:00"
     },
     {
       "id": "e2a75a52a0df566f",
@@ -4615,7 +4615,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:13.049724+00:00"
+      "scraped_at": "2026-06-16T00:24:32.690843+00:00"
     },
     {
       "id": "e198451e89028936",
@@ -4634,7 +4634,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:38.427607+00:00"
+      "scraped_at": "2026-06-16T00:25:00.159685+00:00"
     },
     {
       "id": "6938c7dff42d4f9a",
@@ -4653,7 +4653,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:04.485840+00:00"
+      "scraped_at": "2026-06-16T00:21:11.052230+00:00"
     },
     {
       "id": "50f903288e8d35bc",
@@ -4672,7 +4672,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:24.514228+00:00"
+      "scraped_at": "2026-06-16T00:24:45.111465+00:00"
     },
     {
       "id": "846d102ddd8512f0",
@@ -4691,7 +4691,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:49.812354+00:00"
+      "scraped_at": "2026-06-16T00:25:12.626653+00:00"
     },
     {
       "id": "235ebc4adb19a67e",
@@ -4710,7 +4710,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:24.387871+00:00"
+      "scraped_at": "2026-06-16T00:25:49.910099+00:00"
     },
     {
       "id": "cb2a0ebfcda5db13",
@@ -4729,7 +4729,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:56.569487+00:00"
+      "scraped_at": "2026-06-16T00:27:29.086038+00:00"
     },
     {
       "id": "507d60e73a15678d",
@@ -4748,7 +4748,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:26.788747+00:00"
+      "scraped_at": "2026-06-16T00:23:45.174101+00:00"
     },
     {
       "id": "5e5ea1a73d38a117",
@@ -5109,7 +5109,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:45.342822+00:00"
+      "scraped_at": "2026-06-16T00:24:05.202030+00:00"
     },
     {
       "id": "97c6b0b1d03aa4b7",
@@ -5128,7 +5128,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:19.841576+00:00"
+      "scraped_at": "2026-06-16T00:25:44.940112+00:00"
     },
     {
       "id": "054a29b37dc743ed",
@@ -5147,7 +5147,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:22.127048+00:00"
+      "scraped_at": "2026-06-16T00:25:47.421688+00:00"
     },
     {
       "id": "1ce51c8b609f0215",
@@ -5223,7 +5223,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:33.700597+00:00"
+      "scraped_at": "2026-06-16T00:24:55.120017+00:00"
     },
     {
       "id": "e5d8fc509e1bd493",
@@ -5242,7 +5242,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:12.784120+00:00"
+      "scraped_at": "2026-06-16T00:25:37.465834+00:00"
     },
     {
       "id": "e71bf2c370840e34",
@@ -5261,7 +5261,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:47.527727+00:00"
+      "scraped_at": "2026-06-16T00:25:10.081111+00:00"
     },
     {
       "id": "d394ed8872c407ad",
@@ -5280,7 +5280,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:58.977946+00:00"
+      "scraped_at": "2026-06-16T00:25:22.601452+00:00"
     },
     {
       "id": "1d54cf98a238e5ca",
@@ -5413,7 +5413,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:43.638842+00:00"
+      "scraped_at": "2026-06-16T00:20:48.590105+00:00"
     },
     {
       "id": "c5ed4158472609d6",
@@ -5451,7 +5451,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:15.379684+00:00"
+      "scraped_at": "2026-06-16T00:23:32.662060+00:00"
     },
     {
       "id": "a64f40bb68780110",
@@ -5470,7 +5470,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:19.917241+00:00"
+      "scraped_at": "2026-06-16T00:23:37.640884+00:00"
     },
     {
       "id": "9722741b07c3bb0f",
@@ -5489,7 +5489,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:40.743709+00:00"
+      "scraped_at": "2026-06-16T00:24:00.246639+00:00"
     },
     {
       "id": "0bc4c7c12a151769",
@@ -5508,7 +5508,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:24.522001+00:00"
+      "scraped_at": "2026-06-16T00:23:42.640506+00:00"
     },
     {
       "id": "3bed0f7160348202",
@@ -6819,7 +6819,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:40.651747+00:00"
+      "scraped_at": "2026-06-16T00:26:07.365521+00:00"
     },
     {
       "id": "dcc39443fce80975",
@@ -6838,7 +6838,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:10.528449+00:00"
+      "scraped_at": "2026-06-16T00:26:39.604879+00:00"
     },
     {
       "id": "a022eb30c2d2fac2",
@@ -7028,7 +7028,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:52.395495+00:00"
+      "scraped_at": "2026-06-16T00:23:07.734602+00:00"
     },
     {
       "id": "cbe3781dff81fd8e",
@@ -7047,7 +7047,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:22.240949+00:00"
+      "scraped_at": "2026-06-16T00:23:40.153581+00:00"
     },
     {
       "id": "7110c7e18e98abb6",
@@ -7066,7 +7066,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:43.067186+00:00"
+      "scraped_at": "2026-06-16T00:24:02.738675+00:00"
     },
     {
       "id": "52316e74d8908c08",
@@ -7409,25 +7409,6 @@
       "available": true,
       "parser": "sv_meteorites",
       "scraped_at": "2026-06-15T22:18:16.629218+00:00"
-    },
-    {
-      "id": "fc71a13505b54f27",
-      "source": "FossilEra",
-      "source_url": "https://www.fossilera.com/",
-      "url": "https://www.fossilera.com/meteorites/1-36-lunar-meteorite-fragment-6-8-g-nwa-15373",
-      "title": "1.36\" Lunar Meteorite Fragment (6.8 g) - NWA 15373",
-      "price": 175.0,
-      "currency": "USD",
-      "weight_g": 6.8,
-      "price_per_g": 25.7353,
-      "meteorite_type": "lunar",
-      "subtype": null,
-      "classification_text": "NWA 15373",
-      "image_url": "https://assets1.fossilera.com/sp/748187/nwa-15373-meteorites/lunar-feldspathic-breccia.jpg",
-      "confidence": "medium",
-      "available": true,
-      "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:06.163537+00:00"
     },
     {
       "id": "534ef55037861f1d",
@@ -7959,7 +7940,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:33.974398+00:00"
+      "scraped_at": "2026-06-16T00:22:47.928014+00:00"
     },
     {
       "id": "6c9dbeabd67e82b1",
@@ -7978,7 +7959,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:31.681520+00:00"
+      "scraped_at": "2026-06-16T00:22:45.407473+00:00"
     },
     {
       "id": "d5648abf84b22efb",
@@ -7997,7 +7978,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:02.206825+00:00"
+      "scraped_at": "2026-06-16T00:21:08.576846+00:00"
     },
     {
       "id": "1a8eb3588b25c0a3",
@@ -8016,7 +7997,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:24.783542+00:00"
+      "scraped_at": "2026-06-16T00:22:37.979479+00:00"
     },
     {
       "id": "81ff79afeaaf2f5c",
@@ -8035,7 +8016,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:31.865650+00:00"
+      "scraped_at": "2026-06-16T00:21:40.729714+00:00"
     },
     {
       "id": "29f2ac6846729103",
@@ -8054,7 +8035,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:15.662134+00:00"
+      "scraped_at": "2026-06-16T00:22:28.141091+00:00"
     },
     {
       "id": "9a52744fe1155515",
@@ -8073,7 +8054,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:55.042371+00:00"
+      "scraped_at": "2026-06-16T00:22:05.668377+00:00"
     },
     {
       "id": "60a2c00bbe0590d1",
@@ -8092,7 +8073,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:27.474661+00:00"
+      "scraped_at": "2026-06-16T00:20:30.941194+00:00"
     },
     {
       "id": "2026acd9c754b9db",
@@ -8111,7 +8092,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:06.765409+00:00"
+      "scraped_at": "2026-06-16T00:21:13.508894+00:00"
     },
     {
       "id": "c43ddc0f3fb34380",
@@ -8130,7 +8111,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:48.098468+00:00"
+      "scraped_at": "2026-06-16T00:21:58.112222+00:00"
     },
     {
       "id": "83ff165dbd72b84e",
@@ -8149,7 +8130,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:43.515371+00:00"
+      "scraped_at": "2026-06-16T00:21:53.138285+00:00"
     },
     {
       "id": "b2bb7df6ed82ddf7",
@@ -8168,7 +8149,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:59.910106+00:00"
+      "scraped_at": "2026-06-16T00:21:06.108138+00:00"
     },
     {
       "id": "e0fa880e427c804e",
@@ -8187,7 +8168,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:54.705979+00:00"
+      "scraped_at": "2026-06-16T00:23:10.231123+00:00"
     },
     {
       "id": "ee7ba11e98dec50f",
@@ -8206,7 +8187,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:10.789124+00:00"
+      "scraped_at": "2026-06-16T00:23:27.666923+00:00"
     },
     {
       "id": "b99a98b1019da785",
@@ -8225,7 +8206,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:45.786658+00:00"
+      "scraped_at": "2026-06-16T00:21:55.623528+00:00"
     },
     {
       "id": "322d6aafa1b85b51",
@@ -8244,7 +8225,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:29.590937+00:00"
+      "scraped_at": "2026-06-16T00:21:38.256335+00:00"
     },
     {
       "id": "7a848b39efdce04e",
@@ -8263,7 +8244,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:17.636382+00:00"
+      "scraped_at": "2026-06-16T00:24:37.612336+00:00"
     },
     {
       "id": "9ef33e8ecaeae650",
@@ -8282,7 +8263,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:41.343108+00:00"
+      "scraped_at": "2026-06-16T00:20:46.052663+00:00"
     },
     {
       "id": "b8340a53f40aad51",
@@ -8301,7 +8282,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:55.314053+00:00"
+      "scraped_at": "2026-06-16T00:21:01.152088+00:00"
     },
     {
       "id": "a5c8939134cd33d5",
@@ -8320,7 +8301,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:11.313418+00:00"
+      "scraped_at": "2026-06-16T00:21:18.501553+00:00"
     },
     {
       "id": "b81b2ed8a8ab359d",
@@ -8339,7 +8320,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:15.876444+00:00"
+      "scraped_at": "2026-06-16T00:21:23.400802+00:00"
     },
     {
       "id": "d70566cf8470fb3e",
@@ -8358,7 +8339,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:01.885181+00:00"
+      "scraped_at": "2026-06-16T00:22:13.132787+00:00"
     },
     {
       "id": "89471e4035712fcc",
@@ -8396,7 +8377,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:13.613038+00:00"
+      "scraped_at": "2026-06-16T00:21:20.941861+00:00"
     },
     {
       "id": "ab9c6ac9f02c0c88",
@@ -8415,7 +8396,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:05.768204+00:00"
+      "scraped_at": "2026-06-16T00:26:34.644773+00:00"
     },
     {
       "id": "a3d2bff2c264361d",
@@ -8434,7 +8415,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:26.652902+00:00"
+      "scraped_at": "2026-06-16T00:25:52.377649+00:00"
     },
     {
       "id": "785b83648d300a94",
@@ -8472,7 +8453,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:54.340053+00:00"
+      "scraped_at": "2026-06-16T00:26:22.273244+00:00"
     },
     {
       "id": "277fa2b408034d0e",
@@ -8491,7 +8472,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:47.509231+00:00"
+      "scraped_at": "2026-06-16T00:26:14.822660+00:00"
     },
     {
       "id": "2ea61d9513f26a83",
@@ -8548,7 +8529,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:29.757677+00:00"
+      "scraped_at": "2026-06-16T00:20:33.384344+00:00"
     },
     {
       "id": "dcc7e97b495c8874",
@@ -9460,7 +9441,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:36.419545+00:00"
+      "scraped_at": "2026-06-16T00:21:45.712592+00:00"
     },
     {
       "id": "d2bd7f358e68e76f",
@@ -9479,7 +9460,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:27.062917+00:00"
+      "scraped_at": "2026-06-16T00:22:40.439884+00:00"
     },
     {
       "id": "4cc6de639d2206b3",
@@ -9973,7 +9954,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:13.475042+00:00"
+      "scraped_at": "2026-06-16T00:20:15.798937+00:00"
     },
     {
       "id": "855e79f38b0591a0",
@@ -9992,7 +9973,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:38.675768+00:00"
+      "scraped_at": "2026-06-16T00:22:52.876346+00:00"
     },
     {
       "id": "41db9f7da6f4ae66",
@@ -10011,7 +9992,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:08.483893+00:00"
+      "scraped_at": "2026-06-16T00:23:25.212875+00:00"
     },
     {
       "id": "6b304a8a2b24aeb4",
@@ -10201,7 +10182,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:40.959777+00:00"
+      "scraped_at": "2026-06-16T00:22:55.344739+00:00"
     },
     {
       "id": "97ce0ab255fa7c2c",
@@ -10220,7 +10201,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:38.683351+00:00"
+      "scraped_at": "2026-06-16T00:21:48.175053+00:00"
     },
     {
       "id": "b08e81b4e9ef5d39",
@@ -10980,7 +10961,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:04.158741+00:00"
+      "scraped_at": "2026-06-16T00:22:15.695801+00:00"
     },
     {
       "id": "9f168994845762b8",
@@ -12785,7 +12766,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:13.070965+00:00"
+      "scraped_at": "2026-06-16T00:23:30.177934+00:00"
     },
     {
       "id": "aeae0c5fcd8eedec",
@@ -12804,7 +12785,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:45.273743+00:00"
+      "scraped_at": "2026-06-16T00:25:07.618542+00:00"
     },
     {
       "id": "e8c10e375e528c5f",
@@ -12861,7 +12842,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:49.945296+00:00"
+      "scraped_at": "2026-06-16T00:24:10.187115+00:00"
     },
     {
       "id": "b6569ba9bc06713d",
@@ -13222,7 +13203,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:41.118693+00:00"
+      "scraped_at": "2026-06-16T00:21:50.661374+00:00"
     },
     {
       "id": "479d5ced7ab6d285",
@@ -13355,7 +13336,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:56.892746+00:00"
+      "scraped_at": "2026-06-16T00:24:17.626718+00:00"
     },
     {
       "id": "182dcc09f383cad8",
@@ -17345,7 +17326,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:36.309269+00:00"
+      "scraped_at": "2026-06-16T00:22:50.413811+00:00"
     },
     {
       "id": "574f2e102caf8713",
@@ -18485,7 +18466,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:52.742624+00:00"
+      "scraped_at": "2026-06-16T00:22:03.162477+00:00"
     },
     {
       "id": "5042f611f52ef4c1",
@@ -18504,7 +18485,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:08.763709+00:00"
+      "scraped_at": "2026-06-16T00:22:20.674324+00:00"
     },
     {
       "id": "7b392a8838c61e13",
@@ -21240,7 +21221,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:13.354238+00:00"
+      "scraped_at": "2026-06-16T00:22:25.611336+00:00"
     },
     {
       "id": "9ddfaaa4d5ec0a45",
@@ -21259,7 +21240,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:47.814130+00:00"
+      "scraped_at": "2026-06-16T00:23:02.802003+00:00"
     },
     {
       "id": "4fba41b3968f091e",
@@ -21905,7 +21886,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:25.160935+00:00"
+      "scraped_at": "2026-06-16T00:20:28.415163+00:00"
     },
     {
       "id": "5628be8c29681e63",
@@ -21924,7 +21905,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:27.290093+00:00"
+      "scraped_at": "2026-06-16T00:21:35.746462+00:00"
     },
     {
       "id": "73f353f40674abc7",
@@ -21962,7 +21943,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:38.314027+00:00"
+      "scraped_at": "2026-06-16T00:27:09.363009+00:00"
     },
     {
       "id": "06e341515860a5eb",
@@ -21981,7 +21962,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:01.223580+00:00"
+      "scraped_at": "2026-06-16T00:26:29.678646+00:00"
     },
     {
       "id": "785bb3d44dc7a890",
@@ -22000,7 +21981,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:22.050723+00:00"
+      "scraped_at": "2026-06-16T00:26:51.896377+00:00"
     },
     {
       "id": "9c7d3da07b2f54fc",
@@ -22038,7 +22019,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:25:36.019683+00:00"
+      "scraped_at": "2026-06-16T00:27:06.808536+00:00"
     },
     {
       "id": "7c72ae3664a782b2",
@@ -22057,7 +22038,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:26:03.471165+00:00"
+      "scraped_at": "2026-06-16T00:27:36.480672+00:00"
     },
     {
       "id": "ac3b9189ce267502",
@@ -22076,7 +22057,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:18.145538+00:00"
+      "scraped_at": "2026-06-16T00:20:20.829347+00:00"
     },
     {
       "id": "bc0222a5f21b1a59",
@@ -22570,7 +22551,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:36.708066+00:00"
+      "scraped_at": "2026-06-16T00:20:40.946273+00:00"
     },
     {
       "id": "06ff077ecfe66e24",
@@ -22589,7 +22570,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:01.536347+00:00"
+      "scraped_at": "2026-06-16T00:24:22.590600+00:00"
     },
     {
       "id": "9fd1eea602228008",
@@ -22608,7 +22589,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:52.106934+00:00"
+      "scraped_at": "2026-06-16T00:25:15.115741+00:00"
     },
     {
       "id": "90e15002c3b742fa",
@@ -22627,7 +22608,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:31.431892+00:00"
+      "scraped_at": "2026-06-16T00:24:52.642979+00:00"
     },
     {
       "id": "ffe45bf45e6b0a84",
@@ -22646,7 +22627,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:50.629052+00:00"
+      "scraped_at": "2026-06-16T00:20:56.094281+00:00"
     },
     {
       "id": "bfa6e8c5737b14df",
@@ -22665,7 +22646,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:32.053216+00:00"
+      "scraped_at": "2026-06-16T00:20:35.900907+00:00"
     },
     {
       "id": "3fef8c8852313d45",
@@ -22684,7 +22665,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:34.429180+00:00"
+      "scraped_at": "2026-06-16T00:20:38.381962+00:00"
     },
     {
       "id": "635890447ff4378c",
@@ -22703,7 +22684,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:39.025732+00:00"
+      "scraped_at": "2026-06-16T00:20:43.439751+00:00"
     },
     {
       "id": "b836c178aac17baa",
@@ -22722,7 +22703,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:19:52.955475+00:00"
+      "scraped_at": "2026-06-16T00:20:58.651066+00:00"
     },
     {
       "id": "38fbf0371b9f65bd",
@@ -22931,7 +22912,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:47.663350+00:00"
+      "scraped_at": "2026-06-16T00:24:07.713844+00:00"
     },
     {
       "id": "7cb2578796d92021",
@@ -23045,7 +23026,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:56.704243+00:00"
+      "scraped_at": "2026-06-16T00:25:20.147286+00:00"
     },
     {
       "id": "b5167b51fe6c9609",
@@ -23064,7 +23045,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:10.505606+00:00"
+      "scraped_at": "2026-06-16T00:25:35.028971+00:00"
     },
     {
       "id": "f85acfa6977259a7",
@@ -23083,7 +23064,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:43.000814+00:00"
+      "scraped_at": "2026-06-16T00:25:05.155537+00:00"
     },
     {
       "id": "3b0c59b91922ea60",
@@ -23102,7 +23083,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:31.248927+00:00"
+      "scraped_at": "2026-06-16T00:25:57.326031+00:00"
     },
     {
       "id": "ec558b3e6da4fd65",
@@ -23121,7 +23102,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:49.784470+00:00"
+      "scraped_at": "2026-06-16T00:26:17.334494+00:00"
     },
     {
       "id": "007636da83448ca0",
@@ -23140,7 +23121,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:40.721499+00:00"
+      "scraped_at": "2026-06-16T00:25:02.662290+00:00"
     },
     {
       "id": "bdee9db10468cf75",
@@ -23159,7 +23140,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:15.060572+00:00"
+      "scraped_at": "2026-06-16T00:25:39.947980+00:00"
     },
     {
       "id": "dece6ce7e46e7883",
@@ -23178,7 +23159,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:56.989007+00:00"
+      "scraped_at": "2026-06-16T00:23:12.722841+00:00"
     },
     {
       "id": "0fc23286d3838415",
@@ -23197,7 +23178,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:22:33.791773+00:00"
+      "scraped_at": "2026-06-16T00:23:52.677406+00:00"
     },
     {
       "id": "f8c408af82c5413a",
@@ -23216,7 +23197,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:03.854504+00:00"
+      "scraped_at": "2026-06-16T00:24:25.160516+00:00"
     },
     {
       "id": "74021894a48dd464",
@@ -23425,7 +23406,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:58.912847+00:00"
+      "scraped_at": "2026-06-16T00:26:27.203956+00:00"
     },
     {
       "id": "778d09e4ae1289d4",
@@ -23444,7 +23425,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:56.621614+00:00"
+      "scraped_at": "2026-06-16T00:26:24.772154+00:00"
     },
     {
       "id": "940683ead67eddb3",
@@ -23482,7 +23463,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:28.955080+00:00"
+      "scraped_at": "2026-06-16T00:25:54.861140+00:00"
     },
     {
       "id": "c8fcbd353bf15b59",
@@ -23501,7 +23482,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:05.906459+00:00"
+      "scraped_at": "2026-06-16T00:25:30.004466+00:00"
     },
     {
       "id": "c00d7640a7e9dda1",
@@ -23520,7 +23501,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:01.274079+00:00"
+      "scraped_at": "2026-06-16T00:25:25.064642+00:00"
     },
     {
       "id": "57f3b0de072150d6",
@@ -23539,7 +23520,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:24:03.574823+00:00"
+      "scraped_at": "2026-06-16T00:25:27.503721+00:00"
     },
     {
       "id": "dc81265c9f9d61d0",
@@ -23558,7 +23539,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:22.182540+00:00"
+      "scraped_at": "2026-06-16T00:24:42.606152+00:00"
     },
     {
       "id": "547ba9ec5d3345f8",
@@ -23577,7 +23558,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:19.905183+00:00"
+      "scraped_at": "2026-06-16T00:24:40.125552+00:00"
     },
     {
       "id": "f6935e7ede478c1e",
@@ -23596,7 +23577,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:23:26.813618+00:00"
+      "scraped_at": "2026-06-16T00:24:47.684885+00:00"
     },
     {
       "id": "b747d03c6d2646c5",
@@ -23881,7 +23862,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:21:20.189766+00:00"
+      "scraped_at": "2026-06-16T00:22:33.074207+00:00"
     },
     {
       "id": "1353d04b782c9800",
@@ -23900,7 +23881,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:09.031115+00:00"
+      "scraped_at": "2026-06-16T00:21:16.003507+00:00"
     },
     {
       "id": "3b6fcf9ec3e3a471",
@@ -23938,7 +23919,7 @@
       "confidence": "medium",
       "available": true,
       "parser": "fossilera",
-      "scraped_at": "2026-06-15T22:20:57.330283+00:00"
+      "scraped_at": "2026-06-16T00:22:08.177289+00:00"
     },
     {
       "id": "2b6bd3ee88e6f9e3",
