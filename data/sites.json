@@ -43,15 +43,15 @@
   {
     "name": "Meteorite Exchange",
     "parser": "meteorite_exchange",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://www.meteorites-for-sale.com/",
     "inventory_urls": [
       "https://www.meteorites-for-sale.com/new-arrivals.html",
       "https://www.meteorites-for-sale.com/moon-meteorites.html"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "WooCommerce meteorite dealer catalog with category pages and .html product detail pages.",
-    "notes": "Strict WooCommerce parser is present and requires product detail pages, price, weight, availability, and non-specimen filtering. Disabled until sample output is validated across categories and add-to-cart/filter noise."
+    "notes": "Enabled after strict bounded validation. Parser follows only Woo single-product/type-product root .html detail pages with product metadata, rejects category/archive/add-to-cart/filter links, and excludes gift, stand, dust, jewelry, cabochon, and other non-specimen products."
   },
   {
     "name": "FossilEra",
@@ -68,15 +68,15 @@
   {
     "name": "Galactic Stone & Ironworks",
     "parser": "galactic_stone",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://galactic-stone.com/",
     "inventory_urls": [
       "https://galactic-stone.com/meteorites/",
       "https://galactic-stone.com/meteorites/collectorspecs"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "BigCommerce storefront with meteorite product grids, rel=next pagination, and card pricing.",
-    "notes": "Parser requires detail-page product proof and an individual weight. Disabled because categories mix micromounts, collections, jewelry, memorabilia, and out-of-stock cards."
+    "notes": "Enabled after strict bounded validation. Parser accepts only available BigCommerce productView detail pages with add-to-cart proof, title-derived individual weights, and title meteorite/class markers; rejects micromounts without weights, collections, jewelry, displays, memorabilia, and out-of-stock cards."
   },
   {
     "name": "The Meteorite Market",
@@ -93,16 +93,16 @@
   {
     "name": "Arizona Skies Meteorites",
     "parser": "arizona_skies",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://www.arizonaskiesmeteorites.com/",
     "inventory_urls": [
       "https://www.arizonaskiesmeteorites.com/AZ_Skies_Links/Lunar/index.html",
       "https://www.arizonaskiesmeteorites.com/AZ_Skies_Links/Martian/index.html",
       "https://www.arizonaskiesmeteorites.com/Inexpensive_Meteorites"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Mixed static meteorite, fossil, jewelry, and collectible site requiring narrow meteorite allowlists.",
-    "notes": "Strict static parser follows only Lunar/Martian final pages and inexpensive meteorite rows with price plus individual weight. Disabled pending broader validation and respectful crawl-delay review."
+    "notes": "Enabled after strict validation. Parser follows only Lunar/Martian final specimen pages and clean inexpensive meteorite rows, requires exact price, individual weight, and valid specimen image, and rejects sold, jewelry, fossils, collectibles, display boxes, dust/vials, and broad page-copy rows."
   },
   {
     "name": "Aerolite Meteorites",
@@ -127,26 +127,26 @@
   {
     "name": "IMPACTIKA",
     "parser": "impactika",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://impactika.com/",
     "inventory_urls": [
       "https://impactika.com/wp-json/wc/store/v1/products?per_page=50"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Long-running specialist source with Woo Store API products whose descriptions can contain individual sale rows.",
-    "notes": "Parser emits price/weight rows from product short descriptions and skips sold rows and books/prints. Disabled until row parsing is validated across historical inventory pages."
+    "notes": "Enabled after strict validation. Parser uses smaller Woo Store API pages with browser-like JSON headers and longer timeout, requires available product status plus one exact row price and individual weight, and rejects sold, lot, range, from-to, per-gram, books, prints, and non-specimen rows."
   },
   {
     "name": "SkyFall Meteorites",
     "parser": "skyfall_meteorites",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://skyfallmeteorites.com/",
     "inventory_urls": [
       "https://skyfallmeteorites.com/product-sitemap.xml"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Specialist meteorite seller with Woo product sitemap and meteorites-for-sale detail paths.",
-    "notes": "Parser only accepts /meteorites-for-sale/ product pages with positive title weights and prices; rejects NFS, 0g, read-more, jewelry, books, and category failures. Disabled until output is validated."
+    "notes": "Enabled after bounded validation. Parser only accepts /meteorites-for-sale/ product pages with positive title weights and prices; rejects NFS, 0g, read-more, jewelry, books, and category failures."
   },
   {
     "name": "Meteolovers",
@@ -164,14 +164,14 @@
   {
     "name": "justMETEORITES",
     "parser": "justmeteorites",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://justmeteorites.com/",
     "inventory_urls": [
       "https://justmeteorites.com/product-sitemap.xml"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Authentic meteorite and impactite dealer with Woo product pages and visible stock markers.",
-    "notes": "Parser uses the product sitemap, rejects /c/sold/ and out-of-stock/sold detail pages, and relies on schema prices. Disabled because site price freshness still needs verification."
+    "notes": "Enabled after bounded validation. Parser uses the product sitemap, rejects /c/sold/, knife-material/gift/non-specimen paths, and out-of-stock/sold detail pages, and relies on schema prices."
   },
   {
     "name": "Collector Secret Meteorites",
@@ -188,38 +188,38 @@
   {
     "name": "Mini Museum Meteorites",
     "parser": "mini_museum",
-    "stage": "disabled_parser",
+    "stage": "active_verified",
     "base_url": "https://shop.minimuseum.com/",
     "inventory_urls": [
       "https://shop.minimuseum.com/collections/meteorites"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Shopify meteorite collection mixed with gifts, jewelry, complete collections, and educational specimen cards.",
-    "notes": "Parser uses collection products.json with strict product_type, gift/jewelry/collection exclusions, and weight requirement. Disabled while mixed gift/specimen noise remains."
+    "notes": "Enabled only for a narrow subset after bounded validation. Parser uses collection products.json with strict product_type, gift/jewelry/card/collection exclusions, positive prices, and title-weight requirements to avoid generic retail products."
   },
   {
     "name": "Fossil Realm Meteorite Collection",
     "parser": "fossil_realm",
-    "stage": "disabled_fetch_validation",
+    "stage": "active_verified",
     "base_url": "https://www.fossilrealm.com/",
     "inventory_urls": [
       "https://www.fossilrealm.com/collections/meteorite-collection"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Shopify meteorite collection with product_type Meteorites, specimen details, prices, images, and provenance.",
-    "notes": "Parser code remains available, but this source is disabled pending reliable full-fetch validation. The previous full scrape returned 0 listings due SSL EOF fetch failures despite passing smoke tests."
+    "notes": "Enabled after independent validation. Shopify products.json parser uses browser-like retrying fetches, requires product_type Meteorites, available variants, positive non-placeholder prices, and title weights."
   },
   {
     "name": "TOP Meteorite",
     "parser": "top_meteorite",
-    "stage": "disabled_fetch_validation",
+    "stage": "active_verified",
     "base_url": "https://topmeteorite.com/",
     "inventory_urls": [
       "https://topmeteorite.com/products.json?limit=250"
     ],
-    "enabled": false,
+    "enabled": true,
     "description": "Shopify-style rare meteorite dealer with active specimen products and some non-specimen merchandise risk.",
-    "notes": "Parser code remains available, but this source is disabled pending reliable full-fetch validation. The previous full scrape returned 0 listings due SSL EOF fetch failures despite passing smoke tests."
+    "notes": "Enabled after independent validation. Shopify products.json parser uses browser-like retrying fetches, requires product_type Specimen, available variants, positive prices, title weights, and meteorite keywords."
   },
   {
     "name": "The Space Shop Meteorites",

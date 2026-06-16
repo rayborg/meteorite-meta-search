@@ -49,26 +49,23 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | SV Meteorites | `sv_meteorites` | Parses public inventory/detail pages with individual specimen fields and category/non-listing rejection. |
 | Meteorlab | `meteorlab` | Parses old static catalog tables, captures specimen images, skips sold markers, and supports email-for-price rows. |
 | BAITYLIA | `baitylia` | Parses categorized inventory rows and follows them to detail pages while rejecting header/category rows. |
+| Meteorite Exchange | `meteorite_exchange` | Parses bounded WooCommerce product pages with product-detail proof, category/archive/add-to-cart/filter rejection, and non-specimen filtering. |
 | FossilEra | `fossilera` | Parses active-only meteorite cards and detail pages with pagination and sold-card suppression. |
-| Aerolite Meteorites | `aerolite` | Parses narrow WooCommerce shop categories and excludes sold, jewelry, books, stands, equipment, and other non-specimens. |
-| Meteolovers | `meteolovers` | Parses Elementor/Woo product cards under meteorite paths with schema/meta prices and sold/status checks. |
+| Galactic Stone & Ironworks | `galactic_stone` | Parses BigCommerce product grids with add-to-cart/detail proof, title weights, and non-specimen/out-of-stock rejection. |
 | The Meteorite Market | `meteorite_market` | Parses validated static sale pages with duplicate-cell cleanup and sold-price rejection. |
+| Arizona Skies Meteorites | `arizona_skies` | Parses only Lunar/Martian final specimen pages and clean inexpensive rows with exact price, individual weight, valid image, and sold/non-specimen rejection. |
+| Aerolite Meteorites | `aerolite` | Parses narrow WooCommerce shop categories and excludes sold, jewelry, books, stands, equipment, and other non-specimens. |
+| IMPACTIKA | `impactika` | Parses Woo Store API description rows with smaller retried JSON requests and rejects sold, lot/range, from-to, per-gram, and non-specimen rows. |
+| SkyFall Meteorites | `skyfall_meteorites` | Parses Woo product sitemap entries under meteorites-for-sale paths with positive title weights and prices. |
+| Meteolovers | `meteolovers` | Parses Elementor/Woo product cards under meteorite paths with schema/meta prices and sold/status checks. |
+| justMETEORITES | `justmeteorites` | Parses product-sitemap detail pages while excluding sold paths, knife material, gifts, and non-specimen products. |
+| Mini Museum Meteorites | `mini_museum` | Parses a narrow Shopify meteorite subset with product-type, gift/jewelry/card/collection, positive-price, and title-weight checks. |
+| Fossil Realm Meteorite Collection | `fossil_realm` | Parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights. |
+| TOP Meteorite | `top_meteorite` | Parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords. |
 
 ## Disabled And Backlog Sources
 
-Disabled sources remain in `data/sites.json` for visibility but are excluded from scraping, rotation, and results until explicitly enabled.
-
-Disabled parsers with code present but not enabled:
-
-- Meteorite Exchange: WooCommerce parser start; needs category-card verification and strict add-to-cart/filter/category exclusion.
-- Galactic Stone & Ironworks: BigCommerce parser start; needs product-type policy because categories mix specimens, micromounts, collections, jewelry, and out-of-stock cards.
-- Arizona Skies Meteorites: narrow parser start; site is highly mixed and needs strict allowlists and crawl-delay policy.
-- IMPACTIKA
-- SkyFall Meteorites
-- justMETEORITES
-- Mini Museum Meteorites
-- Fossil Realm Meteorite Collection: parser remains available, but the source is disabled pending reliable full-fetch validation after SSL EOF fetch failures returned 0 listings in a full scrape despite smoke tests.
-- TOP Meteorite: parser remains available, but the source is disabled pending reliable full-fetch validation after SSL EOF fetch failures returned 0 listings in a full scrape despite smoke tests.
+Disabled sources remain in `data/sites.json` for visibility but are excluded from scraping, rotation, and results until explicitly enabled. There are currently no ordinary disabled parser starts in the source registry.
 
 Policy-blocked disabled sources:
 

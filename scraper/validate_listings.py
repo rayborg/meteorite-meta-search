@@ -19,10 +19,11 @@ METEORITE_RE = re.compile(
     r"northwest africa|"
     r"sikhote|gibeon|campo|diablo|tektite|moldavite|eucrite|diogenite|howardite|"
     r"shergottite|nakhlite|aubrite|ureilite|angrite|mesosiderite|octahedrite|ataxite|"
+    r"saffordite|"
     r"\b(?:OC|C\s?2|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC)\b",
     re.I,
 )
-BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|sold\.jpg|red(?:%20|\s)*dot|meteor50|frontis|wid%2012|micro%20enhanced", re.I)
+BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|placeholder|heart/(?:dis|en)abled|sold\.jpg|red(?:%20|\s)*dot|meteor50|frontis|wid%2012|micro%20enhanced", re.I)
 SOLD_TEXT_RE = re.compile(r"\b(on\s+hold|reserved|unavailable)\b|\bsold\b(?![\s-]+by\b)(?:\s+out\b)?", re.I)
 SLASH_CLASS_RE = re.compile(r"\b(?:H|L|LL)\s*[3-7](?:\.\d)?\s*/\s*[3-7](?:\.\d)?\b", re.I)
 TITLE_WEIGHT_NUMBER_RE = r"(?:[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]+)?|[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+)"
@@ -45,6 +46,29 @@ ACTIVE_NON_INDIVIDUAL_RE = re.compile(
     re.I,
 )
 ACTIVE_MIXED_ARTIFACT_RE = re.compile(r"\b(?:roof[-_\s]+panels?|broken[-_\s]+roof)\b", re.I)
+ARIZONA_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:jewelry|jewellery|rings?|watches?|cufflinks?|dog\s*tags?|knives?|dust|vials?|"
+    r"display\s+boxes?|fossils?|minerals?|collectibles?|military|samurai|swords?|relics?|"
+    r"paintings?|prints?|art|teeth|tusks?|trilobites?|petrified\s+wood|dinosaurs?|gifts?)\b",
+    re.I,
+)
+ARIZONA_BAD_IMAGE_RE = re.compile(
+    r"favicon|ajax-loader|logo|spinner|counter|sold\.jpg|red(?:%20|\s)*dot|meteor50|frontis|"
+    r"wid%2012|micro%20enhanced|seal|bbb|AZ_Skies_MiniMe|Moon\.jpg|Mars\.jpg|"
+    r"Lunar-Meteorite-Display-Box|Meteorite-Star-Dust|Star-Dust|Dust-Vials",
+    re.I,
+)
+IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
+    r"\b(?:lots?|sets?|groups?|collections?|assort(?:ed|ment)|several|many|multiple|"
+    r"choose|choice|sizes?|weights?|pieces?\s+(?:available|from|between)|"
+    r"fragments?\s+(?:available|from|between)|slices?\s+(?:available|from|between)|"
+    r"per\s+(?:gram|g)|/\s*(?:gram|g)\b|from\s+\$|starting\s+at)\b|"
+    rf"\b(?:from|between)\s+{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\s*"
+    rf"(?:to|and|-|\u2013)\s*{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b|"
+    rf"\b{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\s*"
+    rf"(?:to|-|\u2013)\s*{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_CURRENCIES = {"USD", "EUR"}
 REQUIRED_KEYS = {
@@ -211,6 +235,18 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
         errors.append(f"row {index}: active matched-pair/choose-your-piece/variable-piece row")
     if available is True and ACTIVE_MIXED_ARTIFACT_RE.search(non_individual_haystack):
         errors.append(f"row {index}: active mixed non-meteorite artifact row")
+    if parser == "arizona_skies" and available is True:
+        if price is None or weight is None:
+            errors.append(f"row {index}: active Arizona Skies row lacks exact price/weight")
+        if not image_url or ARIZONA_BAD_IMAGE_RE.search(image_url):
+            errors.append(f"row {index}: active Arizona Skies row lacks valid specimen image")
+        if ARIZONA_NON_SPECIMEN_RE.search(non_individual_haystack):
+            errors.append(f"row {index}: active Arizona Skies non-specimen/category row")
+    if parser == "impactika" and available is True:
+        if price is None or weight is None:
+            errors.append(f"row {index}: active IMPACTIKA row lacks exact price/weight")
+        if IMPACTIKA_AMBIGUOUS_ROW_RE.search(non_individual_haystack):
+            errors.append(f"row {index}: active IMPACTIKA ambiguous lot/range/per-gram row")
 
     class_haystack = " ".join(str(item.get(key) or "") for key in ["title", "classification_text"])
     preserved_haystack = " ".join(str(item.get(key) or "") for key in ["subtype", "classification_text"])

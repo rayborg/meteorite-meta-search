@@ -26,12 +26,15 @@ DELAY = 2.0
 MAX_INDEX_PAGES_PER_SITE = 80
 MAX_DETAIL_PAGES_PER_SITE = 300
 MAX_SHOPIFY_PAGES_PER_SITE = 4
+SHOPIFY_PRODUCTS_PER_SITE_CAP = MAX_SHOPIFY_PAGES_PER_SITE * 250
+SHOPIFY_JSON_RETRIES = 3
 
 METEORITE_RE = re.compile(
     r"meteorite|chondrite|achondrite|pallasite|lunar|martian|nwa\s*\d+|"
     r"northwest africa|"
     r"sikhote|gibeon|campo|diablo|tektite|moldavite|eucrite|diogenite|howardite|"
     r"shergottite|nakhlite|aubrite|ureilite|angrite|mesosiderite|octahedrite|ataxite|"
+    r"saffordite|"
     r"\b(?:IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC)\b",
     re.I,
 )
@@ -59,7 +62,7 @@ TYPE_RULES = [
     ("achondrite", r"\b(achondrite|eucrite|EUC|diogenite|howardite|hed\b|ureilite|aubrite|angrite|acapulcoite|lodranite|winonaite)\b"),
     ("chondrite", r"\b(chondrite|chondritic)\b"),
     ("stone", r"\bstone\s*\([^)]*\)|\bmeteorite\s+type\s*:\s*stone\b"),
-    ("tektite/impactite", r"\b(tektite|moldavite|libyan desert glass|impactite|impact melt)\b"),
+    ("tektite/impactite", r"\b(tektite|moldavite|libyan desert glass|impactite|impact melt|saffordite)\b"),
 ]
 SUBTYPE_RE = re.compile(
     r"\b(H|L|LL)\s*-?\s*([3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?)\b|"
@@ -75,7 +78,7 @@ SUBTYPE_RE = re.compile(
     r"\b(HED|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|mesosiderite)\b",
     re.I,
 )
-BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|sold\.jpg|red(?:%20|\s)*dot", re.I)
+BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|placeholder|heart/(?:dis|en)abled|sold\.jpg|red(?:%20|\s)*dot", re.I)
 PRODUCT_DETAIL_STOP_RE = re.compile(r"^(?:Related products|Shopping cart|You may also like|Recently viewed)$", re.I)
 PRODUCT_LABEL_BOUNDARY_RE = re.compile(
     r"\s+(?:Weight|Measurements?|Approximate Measurements?|Dimensions?|Size|Category|Categories|Availability|Price|SKU)\s*:",
@@ -88,9 +91,46 @@ EMAIL_PRICE_RE = re.compile(r"\bemail\s+for(?:\s+new)?\s+price\b", re.I)
 NON_SPECIMEN_PRODUCT_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|cabochons?|"
     r"watches?|cufflinks?|dog\s*tags?|knives?|book|books|posters?|prints?|shirts?|t-?shirts?|"
-    r"apparel|mugs?|stands?|display\s+(?:case|box|stand)|riker|equipment|gift\s*cards?|"
+    r"apparel|mugs?|stands?|display\s+(?:case|box|stand)|riker|equipment|gifts?|gift\s*cards?|"
     r"souvenirs?|catalog(?:ue)?s?|guides?|magazines?|dvds?|vials?|dust|stickers?|sets?|lots?|"
     r"matched[-_\s]+pairs?|roof[-_\s]+panels?)\b",
+    re.I,
+)
+ARIZONA_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:jewelry|jewellery|rings?|watches?|cufflinks?|dog\s*tags?|knives?|dust|vials?|"
+    r"display\s+boxes?|fossils?|minerals?|collectibles?|military|samurai|swords?|relics?|"
+    r"paintings?|prints?|art|teeth|tusks?|trilobites?|petrified\s+wood|dinosaurs?|gifts?)\b",
+    re.I,
+)
+ARIZONA_BAD_IMAGE_RE = re.compile(
+    r"favicon|logo|seal|bbb|AZ_Skies_MiniMe|Moon\.jpg|Mars\.jpg|Lunar-Meteorite-Display-Box|"
+    r"Meteorite-Star-Dust|Star-Dust|Dust-Vials",
+    re.I,
+)
+ARIZONA_FOOTER_START_RE = re.compile(
+    r"^(?:To place your order|Arizona Skies Meteorites|Fossils & Meteorites For Sale|"
+    r"To See other wonderful|We accept|We can accept)\b",
+    re.I,
+)
+IMPACTIKA_API_PER_PAGE = 10
+IMPACTIKA_API_TIMEOUT = 90
+IMPACTIKA_API_RETRIES = 3
+IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
+    r"\b(?:lots?|sets?|groups?|collections?|assort(?:ed|ment)|several|many|multiple|"
+    r"choose|choice|sizes?|weights?|pieces?\s+(?:available|from|between)|"
+    r"fragments?\s+(?:available|from|between)|slices?\s+(?:available|from|between)|"
+    r"per\s+(?:gram|g)|/\s*(?:gram|g)\b|from\s+\$|starting\s+at)\b|"
+    rf"\b(?:from|between)\s+{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\s*"
+    rf"(?:to|and|-|\u2013)\s*{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b|"
+    rf"\b{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\s*"
+    rf"(?:to|-|\u2013)\s*{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
+METEORITE_EXCHANGE_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|cabochons?|"
+    r"stands?|display\s*(?:stands?|cases?|boxes?)?|riker|gifts?|gift\s*cards?|souvenirs?|"
+    r"books?|posters?|prints?|shirts?|t-?shirts?|apparel|mugs?|equipment|catalog(?:ue)?s?|"
+    r"dust|vials?|collection|collections?|sets?|lots?|filters?)\b",
     re.I,
 )
 AEROLITE_NON_INDIVIDUAL_RE = re.compile(r"matched[-_\s]*pairs?", re.I)
@@ -108,7 +148,22 @@ METEOLOVERS_NON_INDIVIDUAL_RE = re.compile(
 )
 JUSTMETEORITES_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|books?|"
-    r"posters?|prints?|display\s+(?:case|box|stand)|riker|gift|souvenirs?|vials?|dust|sets?|lots?)\b",
+    r"knives?|posters?|prints?|display\s+(?:case|box|stand)|riker|gift|souvenirs?|vials?|dust|sets?|lots?)\b",
+    re.I,
+)
+GALACTIC_STONE_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:collections?|collector\s+lots?|lots?|sets?|jewelry|jewellery|pendants?|rings?|"
+    r"necklaces?|bracelets?|earrings?|beads?|displays?|display\s+(?:cases?|boxes?|stands?)|"
+    r"memorabilia|souvenirs?|glass\s+vials?|vials?|dust|sample\s+cards?|faux\s+meteorites?|"
+    r"meteorwrongs?|replicas?|stickers?|pins?)\b",
+    re.I,
+)
+GALACTIC_STONE_TITLE_METEORITE_RE = re.compile(
+    r"\b(?:meteorite|chondrite|achondrite|pallasite|lunar|martian|shergottite|nakhlite|"
+    r"eucrite|diogenite|howardite|aubrite|ureilite|angrite|mesosiderite|octahedrite|"
+    r"ataxite|tektite|moldavite|impactite|nwa\s*\d+|northwest\s+africa\s*\d+|"
+    r"(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI)\s*-?\s*\d(?:\.\d)?|"
+    r"IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|HED|EUC)\b",
     re.I,
 )
 SHOPIFY_PLACEHOLDER_PRICE_RE = re.compile(r"\b(price\s+on\s+request|contact\s+for\s+price|call\s+for\s+price)\b", re.I)
@@ -272,13 +327,14 @@ def fetch(
     kind: str = "page",
     session: requests.Session | None = None,
     headers: dict | None = None,
+    timeout: int = 30,
 ) -> str | None:
     try:
         client = session or requests
         request_headers = {"User-Agent": UA, "Accept": "text/html"}
         if headers:
             request_headers.update(headers)
-        r = client.get(url, headers=request_headers, timeout=30)
+        r = client.get(url, headers=request_headers, timeout=timeout)
         if log:
             log.fetched(r.status_code)
         if r.status_code >= 400:
@@ -294,8 +350,15 @@ def fetch(
         return None
 
 
-def fetch_json(url: str, log: SourceLog | None = None, kind: str = "api", headers: dict | None = None):
-    text = fetch(url, log, kind, headers={"Accept": "application/json", **(headers or {})})
+def fetch_json(
+    url: str,
+    log: SourceLog | None = None,
+    kind: str = "api",
+    headers: dict | None = None,
+    session: requests.Session | None = None,
+    timeout: int = 30,
+):
+    text = fetch(url, log, kind, session=session, headers={"Accept": "application/json", **(headers or {})}, timeout=timeout)
     if not text:
         return None
     try:
@@ -493,6 +556,10 @@ def classify(title: str, detail_text: str = "", explicit_type: str | None = None
     if detail_result[0] != "unknown" or detail_result[1] or detail_result[2]:
         return detail_result
     return result
+
+
+def product_title_has_meteorite_marker(title: str) -> bool:
+    return bool(METEORITE_RE.search(title) or SUBTYPE_RE.search(title) or GALACTIC_STONE_TITLE_METEORITE_RE.search(title))
 
 
 def image_for(soup: BeautifulSoup, page_url: str) -> str | None:
@@ -1344,10 +1411,18 @@ def product_detail_listing(
     european_price: bool = False,
     ignore_text_sold: bool = False,
     reject_detail_re: re.Pattern | None = None,
+    require_title_meteorite: bool = False,
+    allow_image_fallback: bool = True,
+    detail_proof=None,
 ) -> dict | None:
     soup = BeautifulSoup(html, "lxml")
     product = schema_product(soup)
     offer = first_schema_offer(product)
+    if detail_proof:
+        proof_reject = detail_proof(soup, product, offer, url)
+        if proof_reject:
+            log.reject(proof_reject)
+            return None
     for bad in soup(["script", "style", "noscript", "svg", "nav", "footer", "header"]):
         bad.decompose()
 
@@ -1366,6 +1441,9 @@ def product_detail_listing(
     title = clean(title.strip(" -"))
     if reject_title_re and reject_title_re.search(title):
         log.reject("product_non_specimen_title")
+        return None
+    if require_title_meteorite and not product_title_has_meteorite_marker(title):
+        log.reject("product_missing_title_meteorite_marker")
         return None
     lines = product_main_lines(lines_from(soup))
     schema_description = clean((product or {}).get("description") if isinstance((product or {}).get("description"), str) else "")
@@ -1390,8 +1468,14 @@ def product_detail_listing(
     if price is None and not allow_missing_price:
         log.reject("product_missing_price")
         return None
+    if price is not None and price <= 0:
+        log.reject("product_nonpositive_price")
+        return None
 
-    weight = first_individual_weight_g(title, text[:2000], title_only=title_weight_only) or labeled_weight(lines)
+    if title_weight_only:
+        weight = first_individual_weight_g(title, title_only=True)
+    else:
+        weight = first_individual_weight_g(title, text[:2000]) or labeled_weight(lines)
     if weight is None and not title_weight_only:
         weight = first_individual_weight_g("", text[:2000])
     if weight is None and not allow_missing_weight:
@@ -1401,6 +1485,8 @@ def product_detail_listing(
     image_url = schema_image_url(product, url) or meta_content(soup, "og:image", "twitter:image")
     if image_url:
         image_url = safe_http_url(url, image_url)
+        if image_url and BAD_IMAGE_RE.search(image_url):
+            image_url = None
     item = make_listing(
         site,
         url,
@@ -1410,7 +1496,7 @@ def product_detail_listing(
         weight_g=weight,
         detail_text=text,
         explicit_type=source_type or fallback_type,
-        image_url=image_url or image_for(soup, url),
+        image_url=image_url or (image_for(soup, url) if allow_image_fallback else None),
         item_key=clean(str((product or {}).get("sku") or offer.get("sku") or title)),
         parser=parser,
     )
@@ -1429,6 +1515,8 @@ def discover_product_cards(
     *,
     headers: dict | None = None,
     card_reject_re: re.Pattern | None = None,
+    card_filter=None,
+    link_reject_re: re.Pattern | None = None,
 ) -> list[str]:
     details: dict[str, None] = {}
     queue = [urljoin(site["base_url"], url) for url in site.get("inventory_urls", [])]
@@ -1452,9 +1540,15 @@ def discover_product_cards(
             if len(details) >= MAX_DETAIL_PAGES_PER_SITE:
                 break
             card_text = clean(card.get_text(" ", strip=True))
-            if SOLD_STATUS_RE.search(card_text) or re.search(r"out of stock", card_text, re.I):
+            card_classes = " ".join(card.get("class") or [])
+            if SOLD_STATUS_RE.search(card_text) or re.search(r"out of stock|\boutofstock\b", f"{card_text} {card_classes}", re.I):
                 log.reject("card_unavailable")
                 continue
+            if card_filter:
+                filter_reject = card_filter(card, page_url)
+                if filter_reject:
+                    log.reject(filter_reject)
+                    continue
             if card_reject_re and card_reject_re.search(card_text):
                 log.reject("card_non_specimen")
                 continue
@@ -1463,6 +1557,8 @@ def discover_product_cards(
                 if not same_domain(site["base_url"], href):
                     continue
                 if re.search(r"add[-_]?to[-_]?cart|cart\.php|quickview|login|compare|search", href, re.I):
+                    continue
+                if link_reject_re and link_reject_re.search(href):
                     continue
                 if detail_re.search(url_path_query(href)):
                     details[href] = None
@@ -1503,9 +1599,22 @@ def scrape_product_card_details(
     allow_missing_weight: bool = False,
     european_price: bool = False,
     reject_detail_re: re.Pattern | None = None,
+    require_title_meteorite: bool = False,
+    card_filter=None,
+    link_reject_re: re.Pattern | None = None,
+    detail_proof=None,
 ) -> list[dict]:
     listings = []
-    for url in discover_product_cards(site, log, detail_re, card_selectors, headers=headers, card_reject_re=card_reject_re):
+    for url in discover_product_cards(
+        site,
+        log,
+        detail_re,
+        card_selectors,
+        headers=headers,
+        card_reject_re=card_reject_re,
+        card_filter=card_filter,
+        link_reject_re=link_reject_re,
+    ):
         html = fetch(url, log, "detail", headers=headers)
         time.sleep(DELAY)
         if not html:
@@ -1524,6 +1633,8 @@ def scrape_product_card_details(
             allow_missing_weight=allow_missing_weight,
             european_price=european_price,
             reject_detail_re=reject_detail_re,
+            require_title_meteorite=require_title_meteorite,
+            detail_proof=detail_proof,
         )
         if item:
             listings.append(item)
@@ -1537,7 +1648,24 @@ def html_to_text(value: str | None) -> str:
     return clean(soup.get_text(" ", strip=True))
 
 
-def shopify_products_api_url(site: dict, inventory_url: str, page: int) -> str:
+def shopify_inventory_limit(inventory_url: str) -> int:
+    query = dict(parse_qsl(urlparse(inventory_url).query, keep_blank_values=True))
+    try:
+        limit = int(query.get("limit") or 250)
+    except ValueError:
+        limit = 250
+    return min(max(limit, 1), 250)
+
+
+def shopify_page_limits(inventory_url: str) -> list[int]:
+    limits = [shopify_inventory_limit(inventory_url)]
+    for fallback in [100, 50]:
+        if fallback < limits[0] and fallback not in limits:
+            limits.append(fallback)
+    return limits
+
+
+def shopify_products_api_url(site: dict, inventory_url: str, page: int, limit: int | None = None) -> str:
     url = urljoin(site["base_url"], inventory_url)
     parsed = urlparse(url)
     path = parsed.path.rstrip("/")
@@ -1547,9 +1675,32 @@ def shopify_products_api_url(site: dict, inventory_url: str, page: int) -> str:
         else:
             path = "/products.json"
     query = dict(parse_qsl(parsed.query, keep_blank_values=True))
-    query.setdefault("limit", "250")
+    if limit is None:
+        query.setdefault("limit", "250")
+    else:
+        query["limit"] = str(limit)
     query["page"] = str(page)
     return urlunparse((parsed.scheme, parsed.netloc, path, "", urlencode(query), ""))
+
+
+def shopify_json_headers(site: dict) -> dict:
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "application/json,text/javascript,*/*;q=0.01",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": urljoin(site["base_url"], "/"),
+    }
+
+
+def fetch_shopify_json_page(api_url: str, log: SourceLog, session: requests.Session, headers: dict):
+    for attempt in range(1, SHOPIFY_JSON_RETRIES + 1):
+        log.index(api_url)
+        data = fetch_json(api_url, log, "api", headers=headers, session=session)
+        if data is not None:
+            return data
+        if attempt < SHOPIFY_JSON_RETRIES:
+            time.sleep(DELAY * attempt)
+    return None
 
 
 def shopify_product_type(product: dict) -> str:
@@ -1645,27 +1796,37 @@ def shopify_listing(
 def scrape_shopify_products_json(site: dict, log: SourceLog, parser: str, source_filter) -> list[dict]:
     listings = []
     seen_products: set[str] = set()
+    session = requests.Session()
+    headers = shopify_json_headers(site)
     for inventory_url in site.get("inventory_urls", []):
-        for page in range(1, MAX_SHOPIFY_PAGES_PER_SITE + 1):
-            api_url = shopify_products_api_url(site, inventory_url, page)
-            log.index(api_url)
-            data = fetch_json(api_url, log, "api")
-            time.sleep(DELAY)
-            if not data:
-                log.reject_page("shopify_api_fetch_failed")
-                break
-            products = data.get("products") if isinstance(data, dict) else None
-            if not products:
-                break
-            for product in products:
-                product_key = str(product.get("id") or product.get("handle") or "")
-                if not product_key or product_key in seen_products:
-                    continue
-                seen_products.add(product_key)
-                item = shopify_listing(site, parser, product, log, source_filter)
-                if item:
-                    listings.append(item)
-            if len(products) < int(dict(parse_qsl(urlparse(api_url).query)).get("limit", 250)):
+        for limit in shopify_page_limits(inventory_url):
+            failed = False
+            completed = False
+            max_pages = min(MAX_INDEX_PAGES_PER_SITE, max(MAX_SHOPIFY_PAGES_PER_SITE, (SHOPIFY_PRODUCTS_PER_SITE_CAP + limit - 1) // limit))
+            for page in range(1, max_pages + 1):
+                api_url = shopify_products_api_url(site, inventory_url, page, limit)
+                data = fetch_shopify_json_page(api_url, log, session, headers)
+                time.sleep(DELAY)
+                if data is None:
+                    log.reject_page("shopify_api_fetch_failed")
+                    failed = True
+                    break
+                products = data.get("products") if isinstance(data, dict) else None
+                if not products:
+                    completed = True
+                    break
+                for product in products:
+                    product_key = str(product.get("id") or product.get("handle") or "")
+                    if not product_key or product_key in seen_products:
+                        continue
+                    seen_products.add(product_key)
+                    item = shopify_listing(site, parser, product, log, source_filter)
+                    if item:
+                        listings.append(item)
+                if len(products) < limit:
+                    completed = True
+                    break
+            if completed or not failed:
                 break
     return listings
 
@@ -1689,8 +1850,92 @@ def sitemap_product_urls(site: dict, log: SourceLog, *, headers: dict | None = N
     return urls
 
 
+def meteorite_exchange_card_filter(card, page_url: str) -> str | None:
+    classes = " ".join(card.get("class") or [])
+    if re.search(r"\bproduct-category\b", classes, re.I):
+        return "woo_category_card"
+    if not re.search(r"\btype-product\b", classes, re.I):
+        return "woo_card_missing_type_product"
+    title_node = card.select_one(".woocommerce-loop-product__title, h2, h3")
+    title = clean(title_node.get_text(" ", strip=True) if title_node else "")
+    haystack = clean(" ".join([title, card.get_text(" ", strip=True), classes]))
+    if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "meteorite_exchange_non_specimen"
+    return None
+
+
+def meteorite_exchange_detail_proof(soup: BeautifulSoup, product: dict | None, offer: dict, url: str) -> str | None:
+    path = urlparse(url).path.lower()
+    if not re.fullmatch(r"/[^/]+\.html", path):
+        return "woo_not_root_product_html"
+    body_classes = " ".join(soup.body.get("class") or []) if soup.body else ""
+    if not re.search(r"\bsingle-product\b", body_classes, re.I):
+        return "woo_missing_single_product_body"
+    if re.search(r"\b(?:archive|tax-product_cat|post-type-archive|product-category|woocommerce-shop)\b", body_classes, re.I):
+        return "woo_archive_page"
+    product_node = soup.select_one("div[id^='product-'].product.type-product, div.product.type-product")
+    if not product_node:
+        return "woo_missing_type_product_detail"
+    if clean(meta_content(soup, "og:type") or "").lower() != "product":
+        return "woo_missing_product_meta"
+    if not (meta_content(soup, "product:retailer_item_id") or product_node.select_one(".product_meta .sku, .product_meta .posted_in")):
+        return "woo_missing_product_metadata"
+    title = meta_content(soup, "og:title", "twitter:title") or title_for(soup)
+    category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
+    if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(clean(f"{title} {category_text}")):
+        return "meteorite_exchange_non_specimen_detail"
+    return None
+
+
+def galactic_stone_card_filter(card, page_url: str) -> str | None:
+    title = clean(str(card.get("data-name") or ""))
+    if not title:
+        title_node = card.select_one(".card-title")
+        title = clean(title_node.get_text(" ", strip=True) if title_node else "")
+    categories = clean(str(card.get("data-product-category") or ""))
+    haystack = clean(f"{title} {categories}")
+    if not card.get("data-entity-id"):
+        return "galactic_card_missing_product_id"
+    if not (card.select_one('[data-button-type="add-cart"]') or card.select_one('a[href*="cart.php?action=add"]')):
+        return "galactic_card_not_add_to_cart"
+    if GALACTIC_STONE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "galactic_non_specimen"
+    if first_weight_g(title) is None:
+        return "galactic_missing_title_weight"
+    if not product_title_has_meteorite_marker(title):
+        return "galactic_missing_title_meteorite_marker"
+    return None
+
+
+def galactic_stone_detail_proof(soup: BeautifulSoup, product: dict | None, offer: dict, url: str) -> str | None:
+    if clean(meta_content(soup, "platform") or "").lower() != "bigcommerce.stencil":
+        return "bigcommerce_missing_platform_meta"
+    product_view = soup.select_one('.productView[data-event-type="product"][data-entity-id]')
+    if not product_view:
+        return "bigcommerce_missing_product_view"
+    if clean(meta_content(soup, "og:type") or "").lower() != "product":
+        return "bigcommerce_missing_product_meta"
+    title = clean(str(product_view.get("data-name") or meta_content(soup, "og:title", "twitter:title") or title_for(soup)))
+    categories = clean(str(product_view.get("data-product-category") or ""))
+    haystack = clean(f"{title} {categories}")
+    if GALACTIC_STONE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "galactic_non_specimen_detail"
+    if first_weight_g(title) is None:
+        return "galactic_missing_title_weight_detail"
+    if not product_title_has_meteorite_marker(title):
+        return "galactic_missing_title_meteorite_marker_detail"
+    script_text = " ".join(script.get_text(" ", strip=True) for script in soup.find_all("script") if "BCData" in script.get_text(" ", strip=True))
+    visible_status = clean(product_view.get_text(" ", strip=True)[:1200])
+    if re.search(r'"(?:instock|purchasable)"\s*:\s*false|out\s+of\s+stock|unavailable', f"{script_text} {visible_status}", re.I):
+        return "bigcommerce_unavailable"
+    if not soup.select_one('form[data-cart-item-add] input[name="product_id"], #form-action-addToCart'):
+        return "bigcommerce_missing_add_to_cart"
+    return None
+
+
 def scrape_meteorite_exchange(site: dict, log: SourceLog) -> list[dict]:
     detail_re = re.compile(r"/[^/#?]+\.html$", re.I)
+    link_reject_re = re.compile(r"(?:[?&](?:add-to-cart|filter|orderby|min_price|max_price|rating_filter|s)=|/(?:cart|checkout|my-account)(?:/|$)|/product-category/|/feed/?$|/wp-json/)", re.I)
     return scrape_product_card_details(
         site,
         log,
@@ -1698,8 +1943,11 @@ def scrape_meteorite_exchange(site: dict, log: SourceLog) -> list[dict]:
         detail_re,
         ["li.product", ".wc-block-grid__product"],
         fallback_type="meteorite",
-        card_reject_re=NON_SPECIMEN_PRODUCT_RE,
-        reject_title_re=NON_SPECIMEN_PRODUCT_RE,
+        card_reject_re=METEORITE_EXCHANGE_NON_SPECIMEN_RE,
+        reject_title_re=METEORITE_EXCHANGE_NON_SPECIMEN_RE,
+        card_filter=meteorite_exchange_card_filter,
+        link_reject_re=link_reject_re,
+        detail_proof=meteorite_exchange_detail_proof,
     )
 
 
@@ -1758,9 +2006,13 @@ def scrape_galactic_stone(site: dict, log: SourceLog) -> list[dict]:
         "galactic_stone",
         detail_re,
         ["article.card", ".card"],
-        fallback_type="meteorite",
-        card_reject_re=NON_SPECIMEN_PRODUCT_RE,
-        reject_title_re=NON_SPECIMEN_PRODUCT_RE,
+        card_reject_re=GALACTIC_STONE_NON_SPECIMEN_RE,
+        reject_title_re=GALACTIC_STONE_NON_SPECIMEN_RE,
+        title_weight_only=True,
+        reject_detail_re=GALACTIC_STONE_NON_SPECIMEN_RE,
+        require_title_meteorite=True,
+        card_filter=galactic_stone_card_filter,
+        detail_proof=galactic_stone_detail_proof,
     )
 
 
@@ -1769,9 +2021,9 @@ def fossil_realm_filter(product: dict, title: str, detail_text: str, price: floa
         return "fossil_realm_non_meteorite_type"
     if SHOPIFY_PLACEHOLDER_PRICE_RE.search(detail_text) or price is None or price <= 0 or price >= 1_000_000:
         return "fossil_realm_placeholder_price"
-    if weight is None:
-        return "fossil_realm_missing_weight"
-    if NON_SPECIMEN_PRODUCT_RE.search(title):
+    if first_weight_g(title) is None:
+        return "fossil_realm_missing_title_weight"
+    if NON_SPECIMEN_PRODUCT_RE.search(title) or SOLD_STATUS_RE.search(title):
         return "fossil_realm_non_specimen"
     return None
 
@@ -1787,7 +2039,7 @@ def top_meteorite_filter(product: dict, title: str, detail_text: str, price: flo
         return "top_missing_meteorite_keyword"
     if NON_SPECIMEN_PRODUCT_RE.search(title) or SOLD_STATUS_RE.search(title):
         return "top_non_specimen_title"
-    if price is None or price <= 0:
+    if SHOPIFY_PLACEHOLDER_PRICE_RE.search(detail_text) or price is None or price <= 0 or price >= 1_000_000:
         return "top_missing_price"
     if first_weight_g(title) is None:
         return "top_missing_title_weight"
@@ -1802,8 +2054,10 @@ def mini_museum_filter(product: dict, title: str, detail_text: str, price: float
     ptype = shopify_product_type(product).lower()
     if "meteorite" not in ptype or "jewelry" in ptype or "exhibits" in ptype or "complete collections" in ptype:
         return "mini_museum_non_specimen_type"
-    if re.search(r"\b(?:tunguska|necklace|bracelet|mini\s+museum|edition|amino\s+acids|death\s+of\s+the\s+dinosaurs|k-pg|dust|riker|display\s+case)\b", title, re.I):
+    if NON_SPECIMEN_PRODUCT_RE.search(title) or re.search(r"\b(?:tunguska|cards?|mini\s+museum|edition|amino\s+acids|death\s+of\s+the\s+dinosaurs|k-pg)\b", title, re.I):
         return "mini_museum_gift_or_mixed_item"
+    if first_weight_g(title) is None:
+        return "mini_museum_missing_title_weight"
     if weight is None:
         return "mini_museum_missing_weight"
     if price is None or price <= 0:
@@ -1881,22 +2135,96 @@ def scrape_meteorite_market(site: dict, log: SourceLog) -> list[dict]:
     return listings
 
 
+def arizona_bad_image_url(image_url: str | None) -> bool:
+    return not image_url or bool(BAD_IMAGE_RE.search(image_url) or ARIZONA_BAD_IMAGE_RE.search(image_url))
+
+
+def arizona_main_lines(soup: BeautifulSoup) -> list[str]:
+    main_lines = []
+    for line in lines_from(soup):
+        if ARIZONA_FOOTER_START_RE.search(line):
+            break
+        main_lines.append(line)
+    return main_lines
+
+
+def arizona_clean_title(text: str) -> str:
+    title = re.sub(r"\bPrice\s*:.*$", "", text, flags=re.I)
+    title = re.sub(r"\b(?:NEW|SOLD)\s*!.*$", "", title, flags=re.I)
+    title = re.sub(r"\s+For Sale\s*$", "", title, flags=re.I)
+    return clean(title.strip(" !,.;"))
+
+
+def arizona_exact_price(text: str) -> tuple[float | None, str | None]:
+    for start, value, currency in prices_in(text):
+        context = text[max(0, start - 60):start + 90]
+        if re.search(r"\b(?:under|less\s+than|from|starting\s+at)\b|\bper\s+(?:vial|gram|g)\b|/\s*(?:gram|g)\b", context, re.I):
+            continue
+        if re.search(r"\b(?:price|available\s+for|only|sale\s+price)\b", context, re.I):
+            return value, currency
+    return None, None
+
+
+def arizona_image_for(soup: BeautifulSoup, page_url: str) -> str | None:
+    for img in soup.find_all("img"):
+        image_url = safe_http_url(page_url, img.get("src"))
+        if image_url and not arizona_bad_image_url(image_url):
+            return image_url
+    return None
+
+
+def arizona_page_heading(soup: BeautifulSoup) -> str:
+    for selector in ["h1", "title"]:
+        node = soup.select_one(selector)
+        if not node:
+            continue
+        heading = clean(node.get_text(" ", strip=True))
+        heading = clean(re.split(r"\b(?:Price\s*:|To place your order|CONTACT)\b", heading, maxsplit=1, flags=re.I)[0])
+        if heading and len(heading) <= 80:
+            return heading
+    return ""
+
+
+def arizona_reject_text(text: str) -> bool:
+    return bool(NON_SPECIMEN_PRODUCT_RE.search(text) or ARIZONA_NON_SPECIMEN_RE.search(text))
+
+
+def arizona_link_nearby_text(link) -> str:
+    parts = [clean(link.get_text(" ", strip=True))]
+    for sibling in link.next_siblings:
+        if getattr(sibling, "name", None) == "br":
+            break
+        value = clean(sibling.get_text(" ", strip=True) if hasattr(sibling, "get_text") else str(sibling))
+        if value:
+            parts.append(value)
+        if len(" ".join(parts)) > 180:
+            break
+    return clean(" ".join(parts))
+
+
 def arizona_candidate_links(site: dict, page_url: str, soup: BeautifulSoup, log: SourceLog) -> list[str]:
     links = []
     for a in soup.find_all("a", href=True):
         text = clean(a.get_text(" ", strip=True))
+        nearby_text = arizona_link_nearby_text(a)
         href = urljoin(page_url, a.get("href")).split("#", 1)[0]
         if not same_domain(site["base_url"], href):
             continue
         path = urlparse(href).path
-        if re.search(r"jewelry|rings?|watches?|cufflinks?|dog-tags?|knives?|fossils?|contact", path, re.I):
+        haystack = clean(f"{path} {nearby_text}")
+        if arizona_reject_text(haystack) or SOLD_STATUS_RE.search(nearby_text):
             continue
-        if re.search(r"/AZ_Skies_Links/(?:Lunar|Martian)/", path, re.I) and (METEORITE_RE.search(text) or WEIGHT_RE.search(text)):
+        if re.search(r"/Inexpensive_Meteorites_2/?$", path, re.I):
             links.append(href)
             log.detail(href)
-        elif re.search(r"/Inexpensive_Meteorites(?:_2)?/?$", path, re.I):
+            continue
+        if not re.search(r"/AZ_Skies_Links/(?:Lunar|Martian)/", path, re.I):
+            continue
+        if WEIGHT_RE.search(text) and METEORITE_RE.search(text):
             links.append(href)
             log.detail(href)
+        elif re.search(r"\bspecimens?\s+for\s+sale\b", text, re.I):
+            links.append(href)
     return links
 
 
@@ -1904,19 +2232,35 @@ def arizona_listing_from_page(site: dict, url: str, html: str, log: SourceLog) -
     soup = BeautifulSoup(html, "lxml")
     for bad in soup(["script", "style", "noscript", "svg", "nav", "footer", "header"]):
         bad.decompose()
-    lines = lines_from(soup)
-    text = "\n".join(lines[:80])
-    price, currency = first_price(text)
-    weight = first_individual_weight_g(title_for(soup), text)
-    if SOLD_STATUS_RE.search(text[:800]) or re.search(r"\bSOLD\s*!", text[:800], re.I):
+    lines = arizona_main_lines(soup)
+    text = "\n".join(lines)
+    title_line = next(
+        (
+            arizona_clean_title(line)
+            for line in lines
+            if WEIGHT_RE.search(line) and METEORITE_RE.search(line) and not arizona_reject_text(line)
+        ),
+        "",
+    )
+    if not title_line:
+        log.reject("arizona_not_final_specimen_page")
+        return None
+    if SOLD_STATUS_RE.search(text):
         log.reject("arizona_sold")
         return None
+    price, currency = arizona_exact_price(text)
+    weight = first_individual_weight_g(title_line, title_only=True)
+    image_url = arizona_image_for(soup, url)
     if price is None or weight is None:
         log.reject("arizona_missing_price_or_weight")
         return None
-    title = clean(title_for(soup).title())
-    if weight is not None and not WEIGHT_RE.search(title):
-        title = clean(f"{title} ({weight:g} g)")
+    if arizona_bad_image_url(image_url):
+        log.reject("arizona_missing_valid_image")
+        return None
+    page_title = arizona_page_heading(soup)
+    title = title_line
+    if page_title and page_title.lower() not in title.lower():
+        title = clean(f"{page_title} - {title_line}")
     item = make_listing(
         site,
         url,
@@ -1926,7 +2270,7 @@ def arizona_listing_from_page(site: dict, url: str, html: str, log: SourceLog) -
         weight_g=weight,
         detail_text=text,
         explicit_type="meteorite",
-        image_url=image_for(soup, url),
+        image_url=image_url,
         item_key=f"{url}:{weight}:{price}",
         parser="arizona_skies",
     )
@@ -1939,22 +2283,30 @@ def arizona_listing_from_page(site: dict, url: str, html: str, log: SourceLog) -
 
 def arizona_list_page_rows(site: dict, url: str, soup: BeautifulSoup, log: SourceLog) -> list[dict]:
     listings = []
-    lines = lines_from(soup)
-    for idx, line in enumerate(lines):
-        if not (WEIGHT_RE.search(line) and PRICE_RE.search(line) and METEORITE_RE.search(line)):
+    current_image = None
+    seen_rows = set()
+    for idx, node in enumerate(soup.find_all(["img", "font", "a"])):
+        if node.name == "img":
+            image_url = safe_http_url(url, node.get("src"))
+            current_image = None if arizona_bad_image_url(image_url) else image_url
             continue
-        nearby = " ".join(lines[idx:idx + 2])
-        if SOLD_STATUS_RE.search(nearby):
+        line = clean(node.get_text(" ", strip=True))
+        if not current_image or not (WEIGHT_RE.search(line) and PRICE_RE.search(line) and METEORITE_RE.search(line)):
+            continue
+        if line in seen_rows:
+            continue
+        seen_rows.add(line)
+        if SOLD_STATUS_RE.search(line):
             log.reject("arizona_sold")
             continue
-        price, currency = first_price(line)
-        weight = first_individual_weight_g(line)
+        title = arizona_clean_title(line)
+        if not title or arizona_reject_text(title):
+            log.reject("arizona_non_specimen")
+            continue
+        price, currency = arizona_exact_price(line)
+        weight = first_individual_weight_g(title, title_only=True)
         if price is None or weight is None:
             log.reject("arizona_missing_price_or_weight")
-            continue
-        title = clean(re.sub(r"\bPrice\s*:.*$", "", line, flags=re.I).strip(" !"))
-        if NON_SPECIMEN_PRODUCT_RE.search(title):
-            log.reject("arizona_non_specimen")
             continue
         item = make_listing(
             site,
@@ -1963,10 +2315,10 @@ def arizona_list_page_rows(site: dict, url: str, soup: BeautifulSoup, log: Sourc
             price=price,
             currency=currency or "USD",
             weight_g=weight,
-            detail_text=nearby,
+            detail_text=line,
             explicit_type="meteorite",
-            image_url=image_for(soup, url),
-            item_key=f"row:{idx}:{title}:{weight}:{price}",
+            image_url=current_image,
+            item_key=f"row:{idx}:{title}:{weight}:{price}:{current_image}",
             parser="arizona_skies",
         )
         if item:
@@ -2005,24 +2357,106 @@ def scrape_arizona_skies(site: dict, log: SourceLog) -> list[dict]:
     return listings
 
 
+def impactika_headers(site: dict) -> dict:
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "application/json,text/plain,*/*;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": urljoin(site["base_url"], "/"),
+    }
+
+
+def fetch_impactika_products(api_url: str, log: SourceLog, session: requests.Session, headers: dict):
+    for attempt in range(1, IMPACTIKA_API_RETRIES + 1):
+        log.index(api_url)
+        products = fetch_json(api_url, log, "api", headers=headers, session=session, timeout=IMPACTIKA_API_TIMEOUT)
+        if products is not None:
+            return products
+        if attempt < IMPACTIKA_API_RETRIES:
+            time.sleep(DELAY * attempt)
+    return None
+
+
+def impactika_product_available(product: dict) -> bool:
+    stock = product.get("stock_availability") or {}
+    status_text = clean(
+        " ".join(
+            str(x or "")
+            for x in [
+                stock.get("text"),
+                stock.get("class"),
+                (product.get("add_to_cart") or {}).get("text"),
+                (product.get("add_to_cart") or {}).get("description"),
+            ]
+        )
+    )
+    if product.get("is_in_stock") is False:
+        return False
+    return not re.search(r"\b(?:out\s+of\s+stock|sold|unavailable|on\s+backorder)\b", status_text, re.I)
+
+
+def impactika_exact_row_values(line: str, log: SourceLog) -> tuple[float, str | None, float] | None:
+    if IMPACTIKA_AMBIGUOUS_ROW_RE.search(line):
+        log.reject("impactika_ambiguous_row")
+        return None
+    prices = prices_in(line)
+    weights = list(WEIGHT_RE.finditer(line))
+    if len(prices) != 1 or len(weights) != 1:
+        log.reject("impactika_missing_or_multiple_price_weight")
+        return None
+    weight_match = weights[0]
+    context = line[max(0, weight_match.start() - 45):weight_match.end() + 45]
+    if NON_INDIVIDUAL_WEIGHT_CONTEXT_RE.search(context):
+        log.reject("impactika_non_individual_weight")
+        return None
+    weight_value = num(weight_match.group(1))
+    if weight_value is None:
+        log.reject("impactika_missing_or_multiple_price_weight")
+        return None
+    _, price, currency = prices[0]
+    weight = weight_to_g(weight_value, weight_match.group(2))
+    if price <= 0 or weight <= 0:
+        log.reject("impactika_missing_or_multiple_price_weight")
+        return None
+    return price, currency, weight
+
+
+def impactika_image_url(product: dict, base_url: str) -> str | None:
+    for image in product.get("images") or []:
+        image_url = safe_http_url(base_url, image.get("src"))
+        if image_url and not BAD_IMAGE_RE.search(image_url):
+            return image_url
+    return None
+
+
+def impactika_display_name(name: str) -> str:
+    display = clean(name.title())
+    return re.sub(r"\b(Nwa|Dag|Nakhla|Nininger)\b", lambda m: {"Nwa": "NWA", "Dag": "DaG"}.get(m.group(1), m.group(1)), display)
+
+
 def impactika_row_title(name: str, line: str) -> str:
     descriptor = re.sub(r"\$\s*[0-9][0-9,]*(?:\.[0-9]{1,2})?.*$", "", line).strip(" ,.;")
     descriptor = re.sub(r"\bSOLD\b.*$", "", descriptor, flags=re.I).strip(" ,.;")
+    display_name = impactika_display_name(name)
     if descriptor and not re.search(re.escape(descriptor), name, re.I):
-        return clean(f"{name.title()} - {descriptor}")
-    return clean(name.title())
+        return clean(f"{display_name} - {descriptor}")
+    return display_name
 
 
 def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
     listings = []
     seen_keys = set()
-    base_api = urljoin(site["base_url"], "/wp-json/wc/store/v1/products?per_page=50")
-    for page in range(1, min(MAX_INDEX_PAGES_PER_SITE, 6) + 1):
-        api_url = f"{base_api}&page={page}"
-        log.index(api_url)
-        products = fetch_json(api_url, log, "api")
+    session = requests.Session()
+    headers = impactika_headers(site)
+    base_api = urljoin(site["base_url"], "/wp-json/wc/store/v1/products")
+    for page in range(1, min(MAX_INDEX_PAGES_PER_SITE, 30) + 1):
+        api_url = f"{base_api}?per_page={IMPACTIKA_API_PER_PAGE}&page={page}"
+        products = fetch_impactika_products(api_url, log, session, headers)
         time.sleep(DELAY)
         if not products:
+            break
+        if not isinstance(products, list):
+            log.reject_page("impactika_api_not_list")
             break
         for product in products:
             name = clean(BeautifulSoup(str(product.get("name") or ""), "lxml").get_text(" ", strip=True))
@@ -2031,16 +2465,21 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
             if NON_SPECIMEN_PRODUCT_RE.search(name) or re.search(r"\b(?:print|catalog|book|drilling)\b", categories, re.I):
                 log.reject("impactika_non_specimen_product")
                 continue
+            if not impactika_product_available(product):
+                log.reject("impactika_unavailable_product")
+                continue
             text = BeautifulSoup(product.get("short_description") or product.get("description") or "", "lxml").get_text("\n", strip=True)
             log.detail(permalink)
             for idx, line in enumerate([clean(x) for x in text.splitlines() if clean(x)]):
+                if not (PRICE_RE.search(line) and WEIGHT_RE.search(line)):
+                    continue
                 if SOLD_STATUS_RE.search(line):
                     log.reject("impactika_sold_row")
                     continue
-                price, currency = first_price(line)
-                weight = first_individual_weight_g(line)
-                if price is None or weight is None:
+                row_values = impactika_exact_row_values(line, log)
+                if row_values is None:
                     continue
+                price, currency, weight = row_values
                 key = (permalink, idx, weight, price, line)
                 if key in seen_keys:
                     log.reject("impactika_duplicate_row")
@@ -2055,7 +2494,7 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                     weight_g=weight,
                     detail_text=clean(f"{categories} {text[:1200]}"),
                     explicit_type=categories or "meteorite",
-                    image_url=((product.get("images") or [{}])[0] or {}).get("src"),
+                    image_url=impactika_image_url(product, permalink),
                     item_key=f"{product.get('id')}:{idx}:{line}",
                     parser="impactika",
                 )
@@ -2064,7 +2503,7 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                     log.parsed_listing()
                 else:
                     log.reject("make_listing_filtered")
-        if len(products) < 50:
+        if len(products) < IMPACTIKA_API_PER_PAGE:
             break
     return listings
 
@@ -2078,6 +2517,7 @@ def scrape_sitemap_detail_pages(
     reject_title_re: re.Pattern | None = None,
     title_weight_only: bool = False,
     ignore_text_sold: bool = False,
+    allow_image_fallback: bool = True,
 ) -> list[dict]:
     listings = []
     attempts = 0
@@ -2105,6 +2545,7 @@ def scrape_sitemap_detail_pages(
             reject_title_re=reject_title_re,
             title_weight_only=title_weight_only,
             ignore_text_sold=ignore_text_sold,
+            allow_image_fallback=allow_image_fallback,
         )
         if item:
             listings.append(item)
@@ -2134,6 +2575,7 @@ def scrape_skyfall_meteorites(site: dict, log: SourceLog) -> list[dict]:
         skyfall_url_filter,
         reject_title_re=NON_SPECIMEN_PRODUCT_RE,
         title_weight_only=True,
+        allow_image_fallback=False,
     )
 
 
