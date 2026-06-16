@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: scrape-meteorite-inventory
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   scrape:
@@ -39,6 +39,12 @@ jobs:
         run: python scraper/validate_listings.py
       - name: Commit updated inventory data
         run: |
+          git fetch --no-tags origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo "Remote main changed during scrape; skipping stale inventory commit"
+            exit 0
+          fi
+
           git config user.name "meteorite-meta-search-bot"
           git config user.email "meteorite-meta-search-bot@users.noreply.github.com"
           git add data/listings.json
