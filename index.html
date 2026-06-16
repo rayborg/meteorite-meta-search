@@ -10,7 +10,7 @@
   <header class="site-header">
     <div>
       <h1>Meteorite Meta Search</h1>
-      <p>Private seller inventory monitor for meteorites, organized by type, subtype, price, weight, and price/g.</p>
+      <p>Private seller inventory monitor for meteorites, organized by category, subtype, price, weight, and price/g.</p>
     </div>
     <div class="status-card"><div class="label">Last updated</div><div id="updated">Loading…</div></div>
   </header>
@@ -35,27 +35,27 @@
     </section>
     <section class="controls">
       <input id="search" type="search" aria-label="Search listings" placeholder="Search NWA, pallasite, Gibeon, lunar, seller, subtype…">
-      <select id="typeFilter" aria-label="Filter by meteorite type"><option value="">All types</option></select>
+      <select id="typeFilter" aria-label="Filter by meteorite category"><option value="">All categories</option></select>
       <select id="sourceFilter" aria-label="Filter by source"><option value="">All sources</option></select>
       <select id="sortBy" autocomplete="off" aria-label="Sort listings">
         <option value="title:asc" selected>Sort: meteorite name A-Z</option>
         <option value="price_per_g:asc">Sort: lowest price/g</option>
         <option value="price:asc">Sort: lowest price</option>
         <option value="weight_g:desc">Sort: largest weight</option>
-        <option value="meteorite_type:asc">Sort: type/subtype</option>
+        <option value="meteorite_type:asc">Sort: category/subtype</option>
         <option value="source:asc">Sort: source</option>
         <option value="available:asc">Sort: status</option>
         <option value="confidence:desc">Sort: confidence</option>
       </select>
       <label class="check-control"><input id="includeUnavailable" type="checkbox"> Include unavailable</label>
     </section>
-    <section id="typeChips" class="chips" aria-label="Filter by meteorite type shortcuts"></section>
+    <section id="typeChips" class="chips" aria-label="Filter by meteorite category and subtype shortcuts"></section>
     <section class="table-wrap">
       <table>
         <thead><tr>
           <th data-sort="image" aria-sort="none"><button type="button" class="sort-header">Image <span class="sort-indicator"></span></button></th>
           <th data-sort="title" aria-sort="ascending"><button type="button" class="sort-header active">Meteorite <span class="sort-indicator">▲</span></button></th>
-          <th data-sort="meteorite_type" aria-sort="none"><button type="button" class="sort-header">Type <span class="sort-indicator"></span></button></th>
+          <th data-sort="meteorite_type" aria-sort="none"><button type="button" class="sort-header">Category <span class="sort-indicator"></span></button></th>
           <th data-sort="subtype" aria-sort="none"><button type="button" class="sort-header">Subtype <span class="sort-indicator"></span></button></th>
           <th data-sort="price" aria-sort="none"><button type="button" class="sort-header">Price <span class="sort-indicator"></span></button></th>
           <th data-sort="weight_g" aria-sort="none"><button type="button" class="sort-header">Weight <span class="sort-indicator"></span></button></th>

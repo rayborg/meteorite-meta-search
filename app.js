@@ -1,12 +1,83 @@
 let allListings = [];
 let allSites = [];
 let currentType = "";
+let currentSubtype = "";
+let expandedType = "";
 const DEFAULT_SORT = { key: "title", direction: "asc" };
 let sortState = { ...DEFAULT_SORT };
 
 const $ = (id) => document.getElementById(id);
 const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "image", "available", "confidence"]);
 const CONFIDENCE_RANK = { low: 1, medium: 2, high: 3 };
+const UNSPECIFIED_SUBTYPE = "__unspecified__";
+const CATEGORY_ALIASES = new Map([
+  ["stone", "unknown"]
+]);
+const CATEGORY_LABELS = new Map([
+  ["ordinary chondrite", "Ordinary chondrites"],
+  ["carbonaceous chondrite", "Carbonaceous chondrites"],
+  ["achondrite", "Achondrites"],
+  ["lunar", "Lunar meteorites"],
+  ["martian", "Martian meteorites"],
+  ["iron", "Iron meteorites"],
+  ["pallasite", "Pallasites"],
+  ["mesosiderite", "Mesosiderites"],
+  ["chondrite", "Other chondrites"],
+  ["tektite/impactite", "Tektites & impactites"],
+  ["unknown", "Unclassified / unknown"]
+]);
+const TYPE_ORDER = [
+  "ordinary chondrite",
+  "carbonaceous chondrite",
+  "chondrite",
+  "achondrite",
+  "lunar",
+  "martian",
+  "iron",
+  "pallasite",
+  "mesosiderite",
+  "tektite/impactite",
+  "unknown"
+];
+const SUBTYPE_LABELS = new Map([
+  ["ACAPULCOITE", "Acapulcoite"],
+  ["LODRANITE", "Lodranite"],
+  ["WINONAITE", "Winonaite"],
+  ["AUBRITE", "Aubrite"],
+  ["UREILITE", "Ureilite"],
+  ["ANGRITE", "Angrite"],
+  ["BRACHINITE", "Brachinite"],
+  ["HOWARDITE", "Howardite"],
+  ["EUCRITE", "Eucrite"],
+  ["EUC", "Eucrite"],
+  ["DIOGENITE", "Diogenite"],
+  ["ACHONDRITE-UNG", "Ungrouped achondrite"],
+  ["ACHONDRITE", "Achondrite"],
+  ["SHERGOTTITE", "Shergottite"],
+  ["NAKHLITE", "Nakhlite"],
+  ["CHASSIGNITE", "Chassignite"],
+  ["OCTAHEDRITE", "Octahedrite"],
+  ["HEXAHEDRITE", "Hexahedrite"],
+  ["ATAXITE", "Ataxite"],
+  ["IRUNGR", "Ungrouped iron"],
+  ["PALLASITE", "Pallasite"],
+  ["MESOSIDERITE", "Mesosiderite"],
+  ["L-MELTBRECCIA", "L-melt breccia"]
+]);
+const SUBTYPE_ORDER = new Map([
+  ["CI", 10], ["C2", 20], ["CM", 30], ["CO", 40], ["CV", 50], ["CVRED", 51], ["CVOXA", 52],
+  ["CK", 60], ["CR", 70], ["CH", 80], ["CBA", 90], ["CBB", 91], ["CB", 92],
+  ["H", 110], ["L", 210], ["LL", 310], ["H/L", 405], ["H/L3", 406], ["L(LL)", 410], ["L(LL)3", 411],
+  ["OC", 490], ["L-MELTBRECCIA", 500],
+  ["EH", 610], ["EL", 620], ["R", 630],
+  ["ACAPULCOITE", 710], ["LODRANITE", 720], ["WINONAITE", 730], ["AUBRITE", 740], ["UREILITE", 750],
+  ["ANGRITE", 760], ["BRACHINITE", 770], ["HED", 780], ["HOWARDITE", 790], ["EUCRITE", 800],
+  ["EUC", 801], ["DIOGENITE", 810], ["ACHONDRITE-UNG", 850], ["ACHONDRITE", 860],
+  ["SHERGOTTITE", 910], ["NAKHLITE", 920], ["CHASSIGNITE", 930],
+  ["IAB", 1010], ["IIA", 1020], ["IIAB", 1030], ["IIIAB", 1040], ["IVA", 1050], ["IVB", 1060],
+  ["IIE", 1070], ["IRUNGR", 1080], ["IC", 1090], ["OCTAHEDRITE", 1100], ["HEXAHEDRITE", 1110],
+  ["ATAXITE", 1120], ["PALLASITE", 1210], ["MESOSIDERITE", 1310]
+]);
 
 function currencyCode(value) {
   return value || "USD";
@@ -30,6 +101,99 @@ function pricePerG(value, currency = "USD") {
 
 function normalize(value) {
   return String(value || "").toLowerCase();
+}
+
+function titleCaseLabel(value) {
+  return String(value || "").toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase());
+}
+
+function categoryKey(value) {
+  const key = normalize(value).trim();
+  return CATEGORY_ALIASES.get(key) || key || "unknown";
+}
+
+function categoryLabel(value) {
+  const key = categoryKey(value);
+  return CATEGORY_LABELS.get(key) || titleCaseLabel(key);
+}
+
+function itemCategoryKey(item) {
+  return categoryKey(item.meteorite_type);
+}
+
+function subtypeKey(value) {
+  return value ? String(value) : UNSPECIFIED_SUBTYPE;
+}
+
+function subtypeOrderToken(value) {
+  return String(value || "").toUpperCase().replace(/\s+/g, "");
+}
+
+function subtypeCodeLabel(value) {
+  const token = subtypeOrderToken(value);
+  const cvMatch = token.match(/^CV(OXA|RED)(\d(?:\.\d)?)?$/);
+  if (cvMatch) return `CV${cvMatch[1] === "OXA" ? "oxA" : "red"}${cvMatch[2] || ""}`;
+  const cbMatch = token.match(/^CB([AB])(\d(?:\.\d)?)?$/);
+  if (cbMatch) return `CB${cbMatch[1] === "A" ? "a" : "b"}${cbMatch[2] || ""}`;
+  if (/^(?:H|L|LL|EH|EL|R)\d(?:\.\d)?(?:[-/]\d(?:\.\d)?)?$/.test(token)) return token;
+  if (/^L\(LL\)\d(?:[-/]\d)?$/.test(token)) return token;
+  if (/^(?:CI|CM|CO|CV|CK|CR|CH|CB|CBA|CBB|C2)\d?(?:\.\d)?$/.test(token)) return token;
+  if (/^(?:IAB|IIA|IIAB|IIIAB|IVA|IVB|IIE|IC|HED|OC)$/.test(token)) return token;
+  return "";
+}
+
+function subtypeLabel(value) {
+  if (value === UNSPECIFIED_SUBTYPE || !String(value || "").trim()) return "No subtype recorded";
+  const raw = String(value).trim().replace(/\s+/g, " ");
+  const token = subtypeOrderToken(raw);
+  if (SUBTYPE_LABELS.has(token)) return SUBTYPE_LABELS.get(token);
+  return subtypeCodeLabel(raw) || (/^[A-Z][A-Z\s/-]+$/.test(raw) ? titleCaseLabel(raw.replace(/-/g, " ")) : raw);
+}
+
+function subtypeDisplayLabel(value) {
+  return value ? subtypeLabel(value) : "—";
+}
+
+function subtypeRank(value) {
+  if (value === UNSPECIFIED_SUBTYPE) return 100000;
+  const token = subtypeOrderToken(value);
+  if (!token) return 99999;
+  if (SUBTYPE_ORDER.has(token)) return SUBTYPE_ORDER.get(token);
+
+  let match = token.match(/^(CVRED|CVOXA|CI|CM|CO|CV|CK|CR|CH|CB)(\d(?:\.\d)?)?/);
+  if (match && SUBTYPE_ORDER.has(match[1])) return SUBTYPE_ORDER.get(match[1]) + Number(match[2] || 0);
+
+  match = token.match(/^(H|L|LL)(\d(?:\.\d)?)(?:[/\-](\d(?:\.\d)?))?/);
+  if (match && SUBTYPE_ORDER.has(match[1])) return SUBTYPE_ORDER.get(match[1]) + Number(match[2]);
+
+  match = token.match(/^(EH|EL|R)(\d(?:\.\d)?)(?:[/\-](\d(?:\.\d)?))?/);
+  if (match && SUBTYPE_ORDER.has(match[1])) return SUBTYPE_ORDER.get(match[1]) + Number(match[2]);
+
+  return 99998;
+}
+
+function compareTypes(a, b) {
+  const aKey = categoryKey(a);
+  const bKey = categoryKey(b);
+  const aRank = TYPE_ORDER.indexOf(aKey);
+  const bRank = TYPE_ORDER.indexOf(bKey);
+  const rankDiff = (aRank === -1 ? TYPE_ORDER.length : aRank) - (bRank === -1 ? TYPE_ORDER.length : bRank);
+  return rankDiff || categoryLabel(aKey).localeCompare(categoryLabel(bKey), undefined, { numeric: true, sensitivity: "base" });
+}
+
+function compareSubtypes(a, b) {
+  return subtypeRank(a) - subtypeRank(b) ||
+    subtypeLabel(a).localeCompare(subtypeLabel(b), undefined, { numeric: true, sensitivity: "base" });
+}
+
+function controlId(prefix, value) {
+  const slug = normalize(value).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "unknown";
+  return `${prefix}-${slug}`;
+}
+
+function matchesSubtype(item, subtype) {
+  if (!subtype) return true;
+  return subtype === UNSPECIFIED_SUBTYPE ? !item.subtype : item.subtype === subtype;
 }
 
 function safeRemoteImageUrl(value) {
@@ -104,23 +268,24 @@ function visibleBaseListings() {
 }
 
 function fillFilters() {
-  const selectedType = $("typeFilter").value;
+  const selectedTypeValue = $("typeFilter").value || currentType;
+  const selectedType = selectedTypeValue ? categoryKey(selectedTypeValue) : "";
   const selectedSource = $("sourceFilter").value;
   const typeSet = new Set();
   const sourceSet = new Set();
 
   for (const item of visibleBaseListings()) {
-    if (item.meteorite_type) typeSet.add(item.meteorite_type);
+    typeSet.add(itemCategoryKey(item));
     if (item.source) sourceSet.add(item.source);
   }
 
-  $("typeFilter").innerHTML = '<option value="">All types</option>';
+  $("typeFilter").innerHTML = '<option value="">All categories</option>';
   $("sourceFilter").innerHTML = '<option value="">All sources</option>';
 
-  for (const type of [...typeSet].sort()) {
+  for (const type of [...typeSet].sort(compareTypes)) {
     const opt = document.createElement("option");
     opt.value = type;
-    opt.textContent = type;
+    opt.textContent = categoryLabel(type);
     $("typeFilter").appendChild(opt);
   }
 
@@ -134,6 +299,8 @@ function fillFilters() {
   $("typeFilter").value = typeSet.has(selectedType) ? selectedType : "";
   $("sourceFilter").value = sourceSet.has(selectedSource) ? selectedSource : "";
   currentType = $("typeFilter").value;
+  if (!currentType) currentSubtype = "";
+  if (expandedType && expandedType !== currentType && !typeSet.has(expandedType)) expandedType = "";
   renderChips();
 }
 
@@ -148,12 +315,24 @@ function chipCountListings(baseItems = visibleBaseListings()) {
 
 function renderChips(baseItems = chipCountListings()) {
   const counts = new Map();
+  const subtypeCounts = new Map();
 
   for (const item of baseItems) {
-    const type = item.meteorite_type || "unknown";
+    const type = itemCategoryKey(item);
     counts.set(type, (counts.get(type) || 0) + 1);
+    if (!subtypeCounts.has(type)) subtypeCounts.set(type, new Map());
+    const subtype = subtypeKey(item.subtype);
+    const typeSubtypeCounts = subtypeCounts.get(type);
+    typeSubtypeCounts.set(subtype, (typeSubtypeCounts.get(subtype) || 0) + 1);
   }
   if (currentType && !counts.has(currentType)) counts.set(currentType, 0);
+  if (currentType) {
+    if (!subtypeCounts.has(currentType)) subtypeCounts.set(currentType, new Map());
+    if (currentSubtype) {
+      const typeSubtypeCounts = subtypeCounts.get(currentType);
+      if (!typeSubtypeCounts.has(currentSubtype)) typeSubtypeCounts.set(currentSubtype, 0);
+    }
+  }
 
   const chips = $("typeChips");
   chips.innerHTML = "";
@@ -161,29 +340,103 @@ function renderChips(baseItems = chipCountListings()) {
   const all = document.createElement("button");
   const allActive = currentType === "";
   all.type = "button";
-  all.textContent = `All (${baseItems.length})`;
+  all.textContent = `All categories (${baseItems.length})`;
   all.className = allActive ? "active" : "";
   all.setAttribute("aria-pressed", String(allActive));
   all.onclick = () => {
     currentType = "";
+    currentSubtype = "";
+    expandedType = "";
     $("typeFilter").value = "";
     render();
   };
   chips.appendChild(all);
 
-  for (const [type, count] of [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+  for (const [type, count] of [...counts.entries()].sort((a, b) => compareTypes(a[0], b[0]))) {
+    const group = document.createElement("div");
+    const listId = controlId("subtypes", type);
+    const typeLabel = categoryLabel(type);
     const btn = document.createElement("button");
     const active = currentType === type;
+    const expanded = expandedType === type;
     btn.type = "button";
-    btn.textContent = `${type} (${count})`;
-    btn.className = active ? "active" : "";
+    btn.textContent = `${typeLabel} (${count})`;
+    btn.className = `category-chip${active ? " active" : ""}`;
     btn.setAttribute("aria-pressed", String(active));
+    btn.setAttribute("aria-expanded", String(expanded));
+    btn.setAttribute("aria-controls", listId);
     btn.onclick = () => {
+      expandedType = expanded ? "" : type;
       currentType = type;
+      currentSubtype = "";
       $("typeFilter").value = type;
       render();
     };
-    chips.appendChild(btn);
+    group.className = `category-group${active ? " active" : ""}`;
+    group.appendChild(btn);
+
+    if (expanded) {
+      const subtypeList = document.createElement("div");
+      const typeSubtypeCounts = subtypeCounts.get(type) || new Map();
+      const unspecified = typeSubtypeCounts.has(UNSPECIFIED_SUBTYPE)
+        ? [[UNSPECIFIED_SUBTYPE, typeSubtypeCounts.get(UNSPECIFIED_SUBTYPE)]]
+        : [];
+      const subtypeEntries = [...typeSubtypeCounts.entries()]
+        .filter(([subtype]) => subtype !== UNSPECIFIED_SUBTYPE)
+        .sort((a, b) => compareSubtypes(a[0], b[0]));
+      if (unspecified.length) {
+        subtypeEntries.push(unspecified[0]);
+      }
+
+      subtypeList.id = listId;
+      subtypeList.className = "subtype-list";
+      subtypeList.setAttribute("role", "group");
+      subtypeList.setAttribute("aria-label", `${typeLabel} subtype filters`);
+
+      if (type === "tektite/impactite") {
+        const helper = document.createElement("p");
+        helper.id = `${listId}-note`;
+        helper.className = "category-helper";
+        helper.textContent = "Includes tektites and related impact material; not a formal meteorite category.";
+        subtypeList.setAttribute("aria-describedby", helper.id);
+        subtypeList.appendChild(helper);
+      }
+
+      const allType = document.createElement("button");
+      const allTypeActive = currentType === type && !currentSubtype;
+      allType.type = "button";
+      allType.textContent = `All ${typeLabel} (${count})`;
+      allType.className = allTypeActive ? "subtype-chip active" : "subtype-chip";
+      allType.setAttribute("aria-pressed", String(allTypeActive));
+      allType.onclick = () => {
+        currentType = type;
+        currentSubtype = "";
+        expandedType = type;
+        $("typeFilter").value = type;
+        render();
+      };
+      subtypeList.appendChild(allType);
+
+      for (const [subtype, subtypeCount] of subtypeEntries) {
+        const subtypeButton = document.createElement("button");
+        const subtypeActive = currentType === type && currentSubtype === subtype;
+        subtypeButton.type = "button";
+        subtypeButton.textContent = `${subtypeLabel(subtype)} (${subtypeCount})`;
+        subtypeButton.className = subtypeActive ? "subtype-chip active" : "subtype-chip";
+        subtypeButton.setAttribute("aria-pressed", String(subtypeActive));
+        subtypeButton.onclick = () => {
+          currentType = type;
+          currentSubtype = subtype;
+          expandedType = type;
+          $("typeFilter").value = type;
+          render();
+        };
+        subtypeList.appendChild(subtypeButton);
+      }
+      group.appendChild(subtypeList);
+    }
+
+    chips.appendChild(group);
   }
 }
 
@@ -195,7 +448,7 @@ function parseSort(value) {
 function sortValue(item, key) {
   if (key === "image") return item._imageUrl ? 1 : 0;
   if (key === "title") return item._titleSort || normalize(item.title);
-  if (key === "meteorite_type") return normalize(`${item.meteorite_type || "unknown"} ${item.subtype || ""} ${item.title || ""}`);
+  if (key === "meteorite_type") return normalize(`${itemCategoryKey(item)} ${item.subtype || ""} ${item.title || ""}`);
   if (key === "subtype") return normalize(`${item.subtype || ""} ${item.title || ""}`);
   if (key === "source") return normalize(`${item.source || ""} ${item.title || ""}`);
   if (key === "available") return isUnavailable(item) ? 0 : 1;
@@ -237,7 +490,7 @@ function sortLabel(key, direction) {
   const labels = {
     image: "image",
     title: "meteorite name",
-    meteorite_type: "type",
+    meteorite_type: "category",
     subtype: "subtype",
     price: "price",
     weight_g: "weight",
@@ -265,12 +518,14 @@ function setSort(key, direction) {
 
 function filteredListings(baseItems = visibleBaseListings()) {
   const q = normalize($("search").value).trim();
-  const type = $("typeFilter").value || currentType;
+  const type = currentType;
+  const subtype = currentSubtype;
   const source = $("sourceFilter").value;
 
   const items = baseItems.filter((item) => {
     return (!q || item._searchText.includes(q)) &&
-      (!type || item.meteorite_type === type) &&
+      (!type || itemCategoryKey(item) === type) &&
+      (!subtype || matchesSubtype(item, subtype)) &&
       (!source || item.source === source);
   });
 
@@ -302,9 +557,9 @@ function summarizePricePerG(items, mode) {
 
 function hasPricePerGScope(items) {
   const q = normalize($("search").value).trim();
-  const type = $("typeFilter").value || currentType;
+  const type = currentType;
   const source = $("sourceFilter").value;
-  if (q || type || source) return true;
+  if (q || type || currentSubtype || source) return true;
 
   const titles = new Set(items.map((item) => normalize(item.title).trim()).filter(Boolean));
   return titles.size === 1;
@@ -320,7 +575,7 @@ function updateSummary(items) {
   $("totalListings").textContent = items.length;
   updateSourceSummary();
   if (!hasPricePerGScope(items)) {
-    setPriceSummary("avgPricePerG", "Filter by type/source/search to compare price/g", true);
+    setPriceSummary("avgPricePerG", "Filter by category/source/search to compare price/g", true);
     setPriceSummary("bestDeal", "Narrow results to show lowest price/g", true);
     return;
   }
@@ -467,7 +722,8 @@ function renderSources() {
 }
 
 function render() {
-  currentType = $("typeFilter").value || currentType;
+  currentType = $("typeFilter").value;
+  if (!currentType) currentSubtype = "";
   const baseItems = visibleBaseListings();
   const items = filteredListings(baseItems);
   const tbody = $("results");
@@ -506,8 +762,8 @@ function render() {
     title.textContent = item.title || "Untitled listing";
     title.href = item.url;
     row.querySelector(".classification").textContent = item.classification_text || "";
-    row.querySelector(".type").textContent = item.meteorite_type || "unknown";
-    row.querySelector(".subtype").textContent = item.subtype || "—";
+    row.querySelector(".type").textContent = categoryLabel(itemCategoryKey(item));
+    row.querySelector(".subtype").textContent = subtypeDisplayLabel(item.subtype);
     row.querySelector(".price").textContent = money(item.price, item.currency || "USD");
     row.querySelector(".weight").textContent = grams(item.weight_g);
     row.querySelector(".ppg").textContent = pricePerG(item.price_per_g, item.currency || "USD");
@@ -541,7 +797,11 @@ async function init() {
 
   for (const id of ["search", "typeFilter", "sourceFilter"]) {
     $(id).addEventListener("input", () => {
-      if (id === "typeFilter") currentType = $("typeFilter").value;
+      if (id === "typeFilter") {
+        currentType = $("typeFilter").value;
+        currentSubtype = "";
+        expandedType = currentType;
+      }
       render();
     });
   }

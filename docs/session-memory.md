@@ -67,9 +67,13 @@ Last updated: 2026-06-16
 ## UI Decisions
 
 - UI fetches `data/listings.json` and `data/sites.json` with `cache: "no-store"`.
-- Search includes title, source, type, subtype, classification text, and URL.
+- Search includes title, source, category, subtype, classification text, and URL.
 - Unavailable rows are hidden by default; the checkbox includes them.
 - Client-side filtering defensively hides obvious non-individual/category rows and decorative image leftovers.
+- Category chips now render in a MetBull-inspired order with friendly plural labels, and each category chip can expand an in-flow subtype control group.
+- Expanded subtype groups are generated only from current `subtype` values in `data/listings.json`; `All <friendly category>` clears the subtype while keeping the top-level category, and blank subtypes are labeled `No subtype recorded`.
+- `Tektites & impactites` includes concise helper copy because it contains related impact material and is not a formal meteorite category.
+- Category/subtype control counts honor search, source, and unavailable filters, but intentionally ignore the currently selected category/subtype so sibling counts remain comparable.
 - Price/g summaries are only shown after narrowing results or when all visible rows share a title.
 - Source panel exposes enabled, disabled parser start, and disabled backlog states.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
