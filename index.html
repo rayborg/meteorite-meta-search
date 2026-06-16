@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meteorite Meta Search</title>
-  <link rel="stylesheet" href="styles.css?v=20260616-category-subtypes">
+  <link rel="stylesheet" href="styles.css?v=20260616-usd-fx">
 </head>
 <body>
   <header class="site-header">
     <div>
       <h1>Meteorite Meta Search</h1>
-      <p>Private seller inventory monitor for meteorites, organized by category, subtype, price, weight, and price/g.</p>
+      <p>Private seller inventory monitor for meteorites, organized by category, subtype, USD-normalized price, weight, and price/g.</p>
     </div>
     <div class="status-card"><div class="label">Last updated</div><div id="updated">Loading…</div></div>
   </header>
@@ -18,8 +18,8 @@
     <section class="summary-grid">
       <article><span class="big" id="totalListings">0</span><span>listings</span></article>
       <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel" aria-expanded="false"><span class="big" id="totalSources">0</span><span>configured sources</span><span class="visually-hidden">Show the source information panel</span></button></article>
-      <article><span class="big price-summary" id="avgPricePerG">—</span><span>avg price/g where available</span></article>
-      <article><span class="big price-summary" id="bestDeal">—</span><span>lowest price/g</span></article>
+      <article><span class="big price-summary" id="avgPricePerG">—</span><span>avg USD price/g where available</span></article>
+      <article><span class="big price-summary" id="bestDeal">—</span><span>lowest USD price/g</span></article>
     </section>
     <section id="sourcesPanel" class="sources-panel" aria-labelledby="sourcesHeading" hidden>
       <div class="section-heading">
@@ -39,8 +39,8 @@
       <select id="sourceFilter" aria-label="Filter by source"><option value="">All sources</option></select>
       <select id="sortBy" autocomplete="off" aria-label="Sort listings">
         <option value="title:asc" selected>Sort: meteorite name A-Z</option>
-        <option value="price_per_g:asc">Sort: lowest price/g</option>
-        <option value="price:asc">Sort: lowest price</option>
+        <option value="price_per_g:asc">Sort: lowest USD price/g</option>
+        <option value="price:asc">Sort: lowest USD price</option>
         <option value="weight_g:desc">Sort: largest weight</option>
         <option value="meteorite_type:asc">Sort: category/subtype</option>
         <option value="source:asc">Sort: source</option>
@@ -57,9 +57,9 @@
           <th data-sort="title" aria-sort="ascending"><button type="button" class="sort-header active">Meteorite <span class="sort-indicator">▲</span></button></th>
           <th data-sort="meteorite_type" aria-sort="none"><button type="button" class="sort-header">Category <span class="sort-indicator"></span></button></th>
           <th data-sort="subtype" aria-sort="none"><button type="button" class="sort-header">Subtype <span class="sort-indicator"></span></button></th>
-          <th data-sort="price" aria-sort="none"><button type="button" class="sort-header">Price <span class="sort-indicator"></span></button></th>
+          <th data-sort="price" aria-sort="none"><button type="button" class="sort-header">Price (USD) <span class="sort-indicator"></span></button></th>
           <th data-sort="weight_g" aria-sort="none"><button type="button" class="sort-header">Weight <span class="sort-indicator"></span></button></th>
-          <th data-sort="price_per_g" aria-sort="none"><button type="button" class="sort-header">Price/g <span class="sort-indicator"></span></button></th>
+          <th data-sort="price_per_g" aria-sort="none"><button type="button" class="sort-header">Price/g (USD) <span class="sort-indicator"></span></button></th>
           <th data-sort="source" aria-sort="none"><button type="button" class="sort-header">Source <span class="sort-indicator"></span></button></th>
           <th data-sort="available" aria-sort="none"><button type="button" class="sort-header">Status <span class="sort-indicator"></span></button></th>
           <th data-sort="confidence" aria-sort="none"><button type="button" class="sort-header">Confidence <span class="sort-indicator"></span></button></th>
@@ -75,6 +75,6 @@
       <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="availability"></td><td class="confidence"></td>
     </tr>
   </template>
-  <script src="app.js?v=20260616-category-subtypes"></script>
+  <script src="app.js?v=20260616-usd-fx"></script>
 </body>
 </html>

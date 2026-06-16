@@ -17,7 +17,7 @@ SITES = ROOT / "data" / "sites.json"
 METEORITE_RE = re.compile(
     r"meteorite|chondrite|achondrite|pallasite|lunar|martian|nwa\s*\d+|"
     r"northwest africa|"
-    r"sikhote|gibeon|campo|diablo|tektite|moldavite|eucrite|diogenite|howardite|"
+    r"sikhote|gibeon|campo|diablo|gebel\s+kamil|dronino|tektite|moldavite|eucrite|diogenite|howardite|"
     r"shergottite|nakhlite|aubrite|ureilite|angrite|mesosiderite|octahedrite|ataxite|"
     r"saffordite|"
     r"\b(?:OC|C\s?2|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC)\b",
@@ -34,6 +34,14 @@ TITLE_WEIGHT_RE = re.compile(
 TITLE_WEIGHT_RANGE_RE = re.compile(
     rf"(?<![0-9A-Za-z])(?:{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)|[0-9]+[,.][0-9]+|[,.][0-9]+)\s*"
     rf"(?:-|\u2013|\u2014|to)\s*{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
+DIMENSION_NUMBER_RE = r"(?:[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+|[0-9]+\s*/\s*[0-9]+)"
+DIMENSION_UNIT_RE = r"(?:\"|in(?:ch(?:es)?)?\.?|cm|mm)"
+DIMENSION_RE = re.compile(rf"(?<![0-9A-Za-z]){DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z])", re.I)
+LEADING_DIMENSION_RE = re.compile(
+    rf"^\s*(?:approx(?:imately)?\.?\s*)?{DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z])"
+    rf"(?:\s*(?:x|by)\s*{DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z]))*\s*",
     re.I,
 )
 METEOLOVERS_NON_INDIVIDUAL_RE = re.compile(
@@ -80,6 +88,7 @@ IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
 )
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_CURRENCIES = {"USD", "EUR"}
+FX_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 REQUIRED_KEYS = {
     "id",
     "source",
@@ -90,6 +99,10 @@ REQUIRED_KEYS = {
     "currency",
     "weight_g",
     "price_per_g",
+    "price_usd",
+    "price_per_g_usd",
+    "fx_rate_to_usd",
+    "fx_rate_date",
     "meteorite_type",
     "subtype",
     "classification_text",
@@ -105,11 +118,32 @@ CATEGORY_TITLE_RE = re.compile(
 )
 CATEGORY_PATH_RE = re.compile(r"/(?:Meteorites|Unclassified|Tektites|Impactites|Minerals|Books)(?:\.aspx)?/?$", re.I)
 DETAIL_PATH_RE = re.compile(r"/(?:Meteorite|unclassified_meteorite|Tektite)\.aspx$|/[^/]*(?:product|item|specimen)[^/]*", re.I)
+CLEAN_TITLE_PARSERS = {
+    "aerolite",
+    "fossil_realm",
+    "fossilera",
+    "galactic_stone",
+    "impactika",
+    "justmeteorites",
+    "meteolovers",
+    "meteorite_exchange",
+    "mini_museum",
+    "skyfall_meteorites",
+    "top_meteorite",
+}
+PRODUCT_TITLE_PHRASE_RE = re.compile(r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|slice|fragment|fragement|specimen)\b", re.I)
+SUFFIX_ONLY_TITLE_RE = re.compile(
+    r"^(?:Algeria|Arizona|Australia|Czech\s+Republic|Besednice\s*,\s*Czech\s+Republic|Fresh\s+(?:19|20)\d{2}\s+Fall|"
+    r"(?:19|20)\d{2}\s+Witnessed\s+Fall|Witnessed\s+Fall|New\s+Find)\s*!?$",
+    re.I,
+)
 
 
 def suspicious_reasons(item: dict) -> list[str]:
     reasons = []
     title = str(item.get("title") or "").strip()
+    classification_text = str(item.get("classification_text") or "").strip()
+    parser = str(item.get("parser") or "")
     url = str(item.get("url") or "")
     image_url = str(item.get("image_url") or "")
     parsed = urlparse(url)
@@ -118,10 +152,11 @@ def suspicious_reasons(item: dict) -> list[str]:
         reasons.append("category title")
     if BAD_IMAGE_RE.search(image_url):
         reasons.append("favicon/logo image")
-    if item.get("weight_g") and item.get("price_per_g") is not None:
-        if item["weight_g"] >= 100_000 and item["price_per_g"] < 0.05:
+    ppg_usd = item.get("price_per_g_usd") if item.get("price_per_g_usd") is not None else item.get("price_per_g")
+    if item.get("weight_g") and ppg_usd is not None:
+        if item["weight_g"] >= 100_000 and ppg_usd < 0.05:
             reasons.append("possible total-known-weight price_per_g")
-    if not (METEORITE_RE.search(title) or item.get("meteorite_type") not in {None, "unknown"} or item.get("classification_text") or item.get("subtype")):
+    if not (METEORITE_RE.search(f"{title} {url}") or item.get("meteorite_type") not in {None, "unknown"} or item.get("classification_text") or item.get("subtype")):
         reasons.append("no meteorite keyword/classification")
     if CATEGORY_PATH_RE.search(parsed.path) and not parsed.query:
         reasons.append("category URL without id/product pattern")
@@ -131,6 +166,18 @@ def suspicious_reasons(item: dict) -> list[str]:
         reasons.append("parser-contaminated title")
     if len(title) > 120:
         reasons.append("very long title")
+    if LEADING_DIMENSION_RE.search(title):
+        reasons.append("title starts with dimension")
+    if parser in CLEAN_TITLE_PARSERS and (TITLE_WEIGHT_RE.search(title) or TITLE_WEIGHT_RANGE_RE.search(title)):
+        reasons.append("clean-name source title contains weight")
+    if classification_text and (TITLE_WEIGHT_RE.search(classification_text) or TITLE_WEIGHT_RANGE_RE.search(classification_text) or DIMENSION_RE.search(classification_text)):
+        reasons.append("classification_text contains weight/dimension")
+    if parser in CLEAN_TITLE_PARSERS and PRODUCT_TITLE_PHRASE_RE.search(title):
+        reasons.append("clean-name source title contains product phrase")
+    if parser in CLEAN_TITLE_PARSERS and SUFFIX_ONLY_TITLE_RE.fullmatch(title):
+        reasons.append("clean-name source title is suffix-only location/event")
+    if classification_text and PRODUCT_TITLE_PHRASE_RE.search(classification_text):
+        reasons.append("classification_text contains product phrase")
     active_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "classification_text", "subtype"])
     if item.get("available") is True and ACTIVE_NON_INDIVIDUAL_RE.search(active_haystack):
         reasons.append("active non-individual matched-pair/variable-piece row")
@@ -287,6 +334,10 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     price = item.get("price")
     weight = item.get("weight_g")
     ppg = item.get("price_per_g")
+    price_usd = item.get("price_usd")
+    ppg_usd = item.get("price_per_g_usd")
+    fx_rate = item.get("fx_rate_to_usd")
+    fx_date = item.get("fx_rate_date")
     available = item.get("available")
 
     if source not in valid_sources:
@@ -308,6 +359,12 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
         errors.append(f"row {index}: weight_g is not positive numeric")
     if ppg is not None and (not is_number(ppg) or ppg <= 0):
         errors.append(f"row {index}: price_per_g is not positive numeric")
+    if price_usd is not None and (not is_number(price_usd) or price_usd <= 0):
+        errors.append(f"row {index}: price_usd is not positive numeric")
+    if ppg_usd is not None and (not is_number(ppg_usd) or ppg_usd <= 0):
+        errors.append(f"row {index}: price_per_g_usd is not positive numeric")
+    if fx_rate is not None and (not is_number(fx_rate) or fx_rate <= 0):
+        errors.append(f"row {index}: fx_rate_to_usd is not positive numeric")
 
     if available is True and TITLE_WEIGHT_RANGE_RE.search(title):
         errors.append(f"row {index}: active title has variable weight range")
@@ -319,15 +376,44 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
         elif abs(weight - parsed_title_weight) > 0.001:
             errors.append(f"row {index}: title weight {parsed_title_weight}g does not match weight_g {weight!r}")
 
-    if parser == "fossilera" and available is True and price is not None and is_number(weight) and parsed_title_weight is None and weight >= 1:
-        errors.append(f"row {index}: active FossilEra priced row has suspicious weight_g but title lacks exact gram weight")
-
     if is_number(price) and is_number(weight) and weight > 0:
         expected = round(price / weight, 4)
         if not is_number(ppg) or abs(ppg - expected) > 0.001:
             errors.append(f"row {index}: price_per_g {ppg!r} does not match recomputed {expected}")
     elif price is None and ppg is not None:
         errors.append(f"row {index}: price_per_g present without price")
+
+    if price is not None:
+        if not is_number(price_usd):
+            errors.append(f"row {index}: priced item missing price_usd")
+        if not is_number(fx_rate):
+            errors.append(f"row {index}: priced item missing fx_rate_to_usd")
+        if not isinstance(fx_date, str) or not FX_DATE_RE.fullmatch(fx_date):
+            errors.append(f"row {index}: priced item missing YYYY-MM-DD fx_rate_date")
+        if currency == "USD" and is_number(fx_rate) and abs(fx_rate - 1.0) > 0.000001:
+            errors.append(f"row {index}: USD item fx_rate_to_usd is not 1")
+        if currency == "EUR" and is_number(fx_rate) and abs(fx_rate - 1.0) <= 0.000001:
+            errors.append(f"row {index}: EUR item fx_rate_to_usd must not be 1")
+        if is_number(price_usd) and is_number(fx_rate):
+            expected_usd = round(price * fx_rate, 2)
+            if abs(price_usd - expected_usd) > 0.01:
+                errors.append(f"row {index}: price_usd {price_usd!r} does not match converted {expected_usd}")
+    else:
+        if price_usd is not None:
+            errors.append(f"row {index}: price_usd present without price")
+        if ppg_usd is not None:
+            errors.append(f"row {index}: price_per_g_usd present without price")
+        if fx_rate is not None:
+            errors.append(f"row {index}: fx_rate_to_usd present without price")
+        if fx_date is not None:
+            errors.append(f"row {index}: fx_rate_date present without price")
+
+    if is_number(price_usd) and is_number(weight) and weight > 0:
+        expected_usd_ppg = round(price_usd / weight, 4)
+        if not is_number(ppg_usd) or abs(ppg_usd - expected_usd_ppg) > 0.001:
+            errors.append(f"row {index}: price_per_g_usd {ppg_usd!r} does not match recomputed {expected_usd_ppg}")
+    elif price is not None and ppg_usd is not None:
+        errors.append(f"row {index}: price_per_g_usd present without weight")
 
     if parser == "meteorlab" and available is True and price is not None and (weight is None or ppg is None):
         errors.append(f"row {index}: active Meteorlab priced row lacks weight/price_per_g")
@@ -444,6 +530,29 @@ def metadata_errors(data: dict, listings: list[dict], sites: list[dict]) -> list
     if empty_without_rows:
         errors.append(f"metadata empty_refresh_preserved_sources have no rows: {', '.join(empty_without_rows)}")
 
+    fx = data.get("exchange_rates")
+    priced_currencies = {item.get("currency") for item in listings if item.get("price") is not None}
+    if not isinstance(fx, dict):
+        errors.append("metadata exchange_rates is missing or not an object")
+    else:
+        rates = fx.get("rates_to_usd")
+        if fx.get("target") != "USD":
+            errors.append("metadata exchange_rates target is not USD")
+        if not isinstance(rates, dict):
+            errors.append("metadata exchange_rates.rates_to_usd is missing or not an object")
+        else:
+            usd_rate = rates.get("USD")
+            if not is_number(usd_rate) or abs(usd_rate - 1.0) > 0.000001:
+                errors.append("metadata USD exchange rate is not 1")
+            missing_rates = sorted(currency for currency in priced_currencies if currency in VALID_CURRENCIES and currency not in rates)
+            if missing_rates:
+                errors.append(f"metadata missing exchange rate(s): {', '.join(missing_rates)}")
+            eur_rate = rates.get("EUR")
+            if "EUR" in priced_currencies and (not is_number(eur_rate) or abs(eur_rate - 1.0) <= 0.000001):
+                errors.append("metadata EUR exchange rate must be present and not 1 when EUR rows exist")
+        if not isinstance(fx.get("date"), str) or not FX_DATE_RE.fullmatch(fx.get("date")):
+            errors.append("metadata exchange_rates.date is not YYYY-MM-DD")
+
     return errors
 
 
@@ -478,7 +587,7 @@ def main() -> None:
 
     print(f"total listings: {len(listings)}")
     print(f"scrape mode: {data.get('scrape_mode') or 'unknown'}")
-    print(f"scraped sources: {', '.join(data.get('scraped_sources') or []) or 'unknown'}")
+    print(f"scraped sources: {', '.join(data.get('scraped_sources') or []) or 'none'}")
     print(f"preserved sources: {', '.join(data.get('preserved_sources') or []) or 'none'}")
     if data.get("rotation_index") is not None:
         print(f"rotation index: {data.get('rotation_index')} of {data.get('rotation_total')}")
@@ -487,8 +596,10 @@ def main() -> None:
         print(f"  {source}: {count}")
     print(f"distinct row scraped_at values: {len(by_scraped_at)}")
     print(f"with price: {sum(item.get('price') is not None for item in listings)}")
+    print(f"with price_usd: {sum(item.get('price_usd') is not None for item in listings)}")
     print(f"with weight: {sum(item.get('weight_g') is not None for item in listings)}")
     print(f"with price_per_g: {sum(item.get('price_per_g') is not None for item in listings)}")
+    print(f"with price_per_g_usd: {sum(item.get('price_per_g_usd') is not None for item in listings)}")
     print(f"validation errors: {len(errors)}")
     for error in errors[:50]:
         print(f"  ERROR {error}")

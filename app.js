@@ -10,6 +10,7 @@ const $ = (id) => document.getElementById(id);
 const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "image", "available", "confidence"]);
 const CONFIDENCE_RANK = { low: 1, medium: 2, high: 3 };
 const UNSPECIFIED_SUBTYPE = "__unspecified__";
+const HEAVY_PRICE_PER_KG_WEIGHT_G = 1000;
 const CATEGORY_ALIASES = new Map([
   ["stone", "unknown"]
 ]);
@@ -97,6 +98,40 @@ function grams(value) {
 function pricePerG(value, currency = "USD") {
   if (value === null || value === undefined || Number.isNaN(value)) return "—";
   return `${money(value, currency)}/g`;
+}
+
+function pricePerKg(value, currency = "USD") {
+  if (value === null || value === undefined || Number.isNaN(value)) return "—";
+  return `${money(value * 1000, currency)}/kg`;
+}
+
+function usdPriceValue(item) {
+  if (Number.isFinite(item.price_usd)) return item.price_usd;
+  return currencyCode(item.currency) === "USD" && Number.isFinite(item.price) ? item.price : null;
+}
+
+function usdPricePerGValue(item) {
+  if (Number.isFinite(item.price_per_g_usd)) return item.price_per_g_usd;
+  return currencyCode(item.currency) === "USD" && Number.isFinite(item.price_per_g) ? item.price_per_g : null;
+}
+
+function pricePerGDisplay(item) {
+  const value = usdPricePerGValue(item);
+  if (!Number.isFinite(value)) return "—";
+  const perG = pricePerG(value, "USD");
+  return Number.isFinite(item.weight_g) && item.weight_g >= HEAVY_PRICE_PER_KG_WEIGHT_G
+    ? `${perG} (${pricePerKg(value, "USD")})`
+    : perG;
+}
+
+function originalPriceLabel(item) {
+  const currency = currencyCode(item.currency);
+  if (currency === "USD" || !Number.isFinite(item.price)) return "";
+  const parts = [`Original price: ${money(item.price, currency)}`];
+  if (Number.isFinite(item.fx_rate_to_usd) && item.fx_rate_date) {
+    parts.push(`FX: ${item.fx_rate_to_usd} USD/${currency} on ${item.fx_rate_date}`);
+  }
+  return parts.join("; ");
 }
 
 function normalize(value) {
@@ -453,6 +488,8 @@ function sortValue(item, key) {
   if (key === "source") return normalize(`${item.source || ""} ${item.title || ""}`);
   if (key === "available") return isUnavailable(item) ? 0 : 1;
   if (key === "confidence") return CONFIDENCE_RANK[normalize(item.confidence)] || 0;
+  if (key === "price") return usdPriceValue(item);
+  if (key === "price_per_g") return usdPricePerGValue(item);
   return item[key];
 }
 
@@ -492,9 +529,9 @@ function sortLabel(key, direction) {
     title: "meteorite name",
     meteorite_type: "category",
     subtype: "subtype",
-    price: "price",
+    price: "price (USD)",
     weight_g: "weight",
-    price_per_g: "price/g",
+    price_per_g: "price/g (USD)",
     source: "source",
     available: "status",
     confidence: "confidence"
@@ -534,25 +571,15 @@ function filteredListings(baseItems = visibleBaseListings()) {
 }
 
 function summarizePricePerG(items, mode) {
-  const groups = new Map();
+  const values = [];
   for (const item of items) {
-    if (isUnavailable(item) || !Number.isFinite(item.price_per_g)) continue;
-    const currency = currencyCode(item.currency);
-    if (!groups.has(currency)) groups.set(currency, []);
-    groups.get(currency).push(item.price_per_g);
+    const value = usdPricePerGValue(item);
+    if (!isUnavailable(item) && Number.isFinite(value)) values.push(value);
   }
 
-  if (!groups.size) return "—";
-  if (groups.size > 1) {
-    return [...groups.entries()].map(([currency, values]) => {
-      const value = mode === "best" ? Math.min(...values) : values.reduce((a, b) => a + b, 0) / values.length;
-      return pricePerG(value, currency);
-    }).join(" / ");
-  }
-
-  const [[currency, values]] = [...groups.entries()];
+  if (!values.length) return "—";
   const value = mode === "best" ? Math.min(...values) : values.reduce((a, b) => a + b, 0) / values.length;
-  return pricePerG(value, currency);
+  return pricePerG(value, "USD");
 }
 
 function hasPricePerGScope(items) {
@@ -764,9 +791,16 @@ function render() {
     row.querySelector(".classification").textContent = item.classification_text || "";
     row.querySelector(".type").textContent = categoryLabel(itemCategoryKey(item));
     row.querySelector(".subtype").textContent = subtypeDisplayLabel(item.subtype);
-    row.querySelector(".price").textContent = money(item.price, item.currency || "USD");
+    const priceCell = row.querySelector(".price");
+    const priceText = money(usdPriceValue(item), "USD");
+    const originalPrice = originalPriceLabel(item);
+    priceCell.textContent = priceText;
+    if (originalPrice) {
+      priceCell.title = originalPrice;
+      priceCell.setAttribute("aria-label", `${priceText}; ${originalPrice}`);
+    }
     row.querySelector(".weight").textContent = grams(item.weight_g);
-    row.querySelector(".ppg").textContent = pricePerG(item.price_per_g, item.currency || "USD");
+    row.querySelector(".ppg").textContent = pricePerGDisplay(item);
     row.querySelector(".source").textContent = item.source || "—";
     row.querySelector(".confidence").textContent = item.confidence || "—";
     const availability = row.querySelector(".availability");

@@ -11,6 +11,7 @@ import re
 import time
 from collections import Counter
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import parse_qsl, unquote, urlencode, urljoin, urlparse, urlunparse
 
@@ -28,11 +29,13 @@ MAX_DETAIL_PAGES_PER_SITE = 300
 MAX_SHOPIFY_PAGES_PER_SITE = 4
 SHOPIFY_PRODUCTS_PER_SITE_CAP = MAX_SHOPIFY_PAGES_PER_SITE * 250
 SHOPIFY_JSON_RETRIES = 3
+FX_SUPPORTED_CURRENCIES = ("USD", "EUR")
+FX_TIMEOUT = 15
 
 METEORITE_RE = re.compile(
     r"meteorite|chondrite|achondrite|pallasite|lunar|martian|nwa\s*\d+|"
     r"northwest africa|"
-    r"sikhote|gibeon|campo|diablo|tektite|moldavite|eucrite|diogenite|howardite|"
+    r"sikhote|gibeon|campo|diablo|gebel\s+kamil|dronino|tektite|moldavite|eucrite|diogenite|howardite|"
     r"shergottite|nakhlite|aubrite|ureilite|angrite|mesosiderite|octahedrite|ataxite|"
     r"saffordite|"
     r"\b(?:IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC)\b",
@@ -48,6 +51,14 @@ WEIGHT_RANGE_RE = re.compile(
     rf"(?:-|\u2013|\u2014|to)\s*{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
     re.I,
 )
+DIMENSION_NUMBER_RE = r"(?:[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+|[0-9]+\s*/\s*[0-9]+)"
+DIMENSION_UNIT_RE = r"(?:\"|in(?:ch(?:es)?)?\.?|cm|mm)"
+DIMENSION_RE = re.compile(rf"(?<![0-9A-Za-z]){DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z])", re.I)
+LEADING_DIMENSION_RE = re.compile(
+    rf"^\s*(?:approx(?:imately)?\.?\s*)?{DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z])"
+    rf"(?:\s*(?:x|by)\s*{DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z]))*\s*",
+    re.I,
+)
 PRICE_RE = re.compile(
     r"(?:(US\$|\$)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)|"
     r"\b(USD|US\$)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)|"
@@ -61,12 +72,12 @@ TYPE_RULES = [
     ("martian", r"\b(martian|mars|shergottite|nakhlite|chassignite)\b"),
     ("pallasite", r"\b(pallasite|olivine pallasite|esquel|im-?ilac|sericho|brahin|admire)\b"),
     ("mesosiderite", r"\bmesosiderite\b"),
-    ("iron", r"\b(iron\s+meteorites?|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
+    ("iron", r"\b(iron\s+meteorites?|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|gebel\s+kamil|dronino|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
     ("carbonaceous chondrite", r"\b(carbonaceous|c\s?2|cv\s?3|cvred\s?3|cvox[a-z]?\s?3|cm\s?2|ci\s?1|co\s?3|cr\s?2|ck\s?\d?|ch\s?\d?|cb\s?[ab]?|c3-?ung|c2-?ung|c1-?ung)\b"),
     ("ordinary chondrite", r"\b(ordinary chondrite|oc|h\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|h/l\s?3?|l\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|ll\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|l\s?\(\s?ll\s?\)\s?3|h/l|l/ll|H|L|LL)\b"),
     ("achondrite", r"\b(achondrite|brachinite|eucrite|EUC|diogenite|howardite|hed\b|ureilite|aubrite|angrite|acapulcoite|lodranite|winonaite)\b"),
     ("chondrite", r"\b(chondrite|chondritic)\b"),
-    ("stone", r"\bstone\s*\([^)]*\)|\bmeteorite\s+type\s*:\s*stone\b"),
+    ("stone", r"\bmeteorite\s+type\s*:\s*stone\b"),
     ("tektite/impactite", r"\b(tektite|moldavite|libyan desert glass|impactite|impact melt|saffordite)\b"),
 ]
 SUBTYPE_RE = re.compile(
@@ -169,6 +180,69 @@ GALACTIC_STONE_TITLE_METEORITE_RE = re.compile(
     r"ataxite|tektite|moldavite|impactite|nwa\s*\d+|northwest\s+africa\s*\d+|"
     r"(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI)\s*-?\s*\d(?:\.\d)?|"
     r"IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|HED|EUC)\b",
+    re.I,
+)
+ECOMMERCE_CLEAN_TITLE_PARSERS = {
+    "aerolite",
+    "fossil_realm",
+    "fossilera",
+    "galactic_stone",
+    "impactika",
+    "justmeteorites",
+    "meteolovers",
+    "meteorite_exchange",
+    "mini_museum",
+    "skyfall_meteorites",
+    "top_meteorite",
+}
+CATALOG_NAME_RE = re.compile(r"\b(NWA|North\s*west\s+Africa|Northwest\s+Africa)\s*(\d{2,6})(?:\s*([A-Z]))?\b", re.I)
+NUMBERED_OFFICIAL_NAME_RE = re.compile(
+    r"\b(?:Abadla|Adrar|Al\s+Haggounia|Bechar|DaG|Dar\s+al\s+Gani|Dhofar|Erg\s+Chech|JAH|Jiddat\s+al\s+Harasis|"
+    r"Jikharra|Ksar\s+Ghilane|Laayoune|NEA|Northeast\s+Africa|Oued\s+el\s+Hamim|Taoudenni|Tirhert)\s+\d{2,6}[A-Za-z]?\b",
+    re.I,
+)
+KNOWN_DISPLAY_NAME_RE = re.compile(
+    r"\b(?:Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|Campo\s+del\s+Cielo|Chelyabinsk|Dronino|El\s+Menia|"
+    r"Gebel\s+Kamil|Gibeon|Holbrook|Mundrabilla|Murchison|Seymchan|Sikhote[-\s]+Alin)\b",
+    re.I,
+)
+TEKTITE_DISPLAY_NAME_RE = re.compile(
+    r"\b(?:Moldavite|Libyan\s+Desert\s+Glass|Irghizite|Australite|Indochinite|Saffordite|Wabar\s+Pearl|Atacamaite)\b",
+    re.I,
+)
+DISPLAY_CLASS_START_RE = re.compile(
+    r"\b(?:ordinary\s+chondrite|carbonaceous\s+chondrite|chondrite|achondrite|lunar|martian|"
+    r"aubrite|eucrite|diogenite|howardite|ureilite|angrite|brachinite|acapulcoite|lodranite|winonaite|meteorite|"
+    r"shergottite|nakhlite|chassignite|pallasite|mesosiderite|iron\s+meteorite|octahedrite|ataxite|hexahedrite|"
+    r"tektite|impactite|impact\s+glass|"
+    r"HED|EUC|OC|(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI)\s*-?\s*\d(?:\.\d)?|"
+    r"IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR)\b",
+    re.I,
+)
+DISPLAY_PRODUCT_TRAILING_RE = re.compile(
+    r"(?:[,;:]?\s*\b(?:polished|complete|full|part|partial|thin|thick|end\s*cut|endcut|slice|section|fragment|fragement|"
+    r"individual|specimen|hammer\s+stone|stone|piece|window|cut)\b)+$",
+    re.I,
+)
+DISPLAY_PRODUCT_LEADING_RE = re.compile(r"^(?:polished|complete|full|part|partial|thin|thick|beautiful|rare)\s+", re.I)
+DISPLAY_GENERIC_SUFFIX_RE = re.compile(
+    r"^(?:new\s+find|fresh\s+(?:19|20)\d{2}\s+fall|(?:19|20)\d{2}\s+witnessed\s+fall|witnessed\s+fall|from\b|for\s+sale|"
+    r"main\s+mass|museum\s+quality|rare|beautiful|complete|full|part|partial|thin|thick|"
+    r"slice|section|fragment|fragement|end\s*cut|endcut|specimen|piece|hammer\s+stone|stone)\b",
+    re.I,
+)
+DISPLAY_GENERIC_PREFIX_RE = re.compile(r"^(?:ungrouped|primitive|polymict|brecciated|aqueous\s+altered|beautiful|rare)$", re.I)
+DISPLAY_SUFFIX_ONLY_RE = re.compile(
+    r"^(?:Algeria|Argentina|Australia|Austria|Brazil|Canada|Chile|China|Czech\s+Republic|France|Indonesia|Italy|Kenya|Libya|Mexico|Morocco|"
+    r"Nigeria|Oman|Pakistan|Peru|Poland|Romania|Russia|Spain|Tunisia|Turkey|Ukraine|Uruguay|USA|Zimbabwe|"
+    r"Arizona|Arkansas|Colorado|Florida|Idaho|Iowa|Kansas|Kentucky|Missouri|Nebraska|Nevada|New\s+Mexico|North\s+Dakota|Ohio|Oklahoma|"
+    r"South\s+Dakota|Tennessee|Texas|Utah|Wyoming|Queensland|Tasmania|Victoria|Western\s+Australia|South\s+Australia|Northern\s+Territory|"
+    r"Besednice\s*,\s*Czech\s+Republic|Fresh\s+(?:19|20)\d{2}\s+Fall|(?:19|20)\d{2}\s+Fall|"
+    r"(?:19|20)\d{2}\s+Witnessed\s+Fall|Witnessed\s+Fall|New\s+Find)\s*!?$",
+    re.I,
+)
+CLASSIFICATION_PRODUCT_TEXT_RE = re.compile(
+    r"\b(?:hammer\s+stone|end\s+slice|slice|section|fragment|fragement|end\s*cut|endcut|specimen|individual|piece|polished)\b",
     re.I,
 )
 SHOPIFY_PLACEHOLDER_PRICE_RE = re.compile(r"\b(price\s+on\s+request|contact\s+for\s+price|call\s+for\s+price)\b", re.I)
@@ -279,6 +353,211 @@ def clean(text: str | None) -> str:
     return text
 
 
+def currency_code(value: str | None) -> str | None:
+    code = clean(str(value or "")).upper()
+    if code in {"$", "US$"}:
+        return "USD"
+    if code == "€":
+        return "EUR"
+    return code or None
+
+
+def numeric_value(value) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    return None
+
+
+def round_rate(value: float) -> float:
+    return round(float(value), 8)
+
+
+def normalized_catalog_name(match: re.Match) -> str:
+    prefix, number, suffix = match.groups()
+    suffix_text = f" {suffix.upper()}" if suffix else ""
+    if re.match(r"NWA", prefix, re.I):
+        return f"NWA {number}{suffix_text}"
+    return f"Northwest Africa {number}{suffix_text}"
+
+
+def first_catalog_name(text: str) -> str | None:
+    match = CATALOG_NAME_RE.search(text or "")
+    return normalized_catalog_name(match) if match else None
+
+
+def display_case_name(name: str) -> str:
+    name = clean(name)
+    if name.isupper() and len(name) > 3:
+        name = name.title()
+    return re.sub(r"\b(?:Nwa|Nea|Jah|Dag)\b", lambda m: {"Nwa": "NWA", "Nea": "NEA", "Jah": "JAH", "Dag": "DaG"}[m.group(0)], name)
+
+
+def first_numbered_official_name(text: str) -> str | None:
+    match = NUMBERED_OFFICIAL_NAME_RE.search(text or "")
+    return display_case_name(match.group(0)) if match else None
+
+
+def first_known_display_name(text: str) -> str | None:
+    match = KNOWN_DISPLAY_NAME_RE.search(text or "")
+    if match and re.fullmatch(r"Sikhote[-\s]+Alin", match.group(0), re.I):
+        return "Sikhote-Alin"
+    return display_case_name(match.group(0)) if match else None
+
+
+def first_tektite_display_name(text: str) -> str | None:
+    match = TEKTITE_DISPLAY_NAME_RE.search(text or "")
+    return display_case_name(match.group(0)) if match else None
+
+
+def strip_product_measurements(text: str) -> str:
+    text = clean(text)
+    text = re.sub(
+        rf"\([^)]*(?:{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)|{DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE})[^)]*\)",
+        " ",
+        text,
+        flags=re.I,
+    )
+    text = WEIGHT_RANGE_RE.sub(" ", text)
+    text = WEIGHT_RE.sub(" ", text)
+    text = DIMENSION_RE.sub(" ", text)
+    text = re.sub(r"\(\s*\)", " ", text)
+    return clean(text)
+
+
+def tidy_display_candidate(text: str) -> str:
+    candidate = strip_product_measurements(text)
+    candidate = re.sub(r"\b(?:For\s+Sale|New\s+Find|Witnessed\s+Fall)\b.*$", "", candidate, flags=re.I)
+    candidate = re.sub(
+        r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|thick\s+slice|full\s+slice|part\s+slice|partial\s+slice|"
+        r"slice|section|fragment|fragement|end\s*cut|endcut|specimen|individual|piece)\b",
+        " ",
+        candidate,
+        flags=re.I,
+    )
+    previous = None
+    while candidate and candidate != previous:
+        previous = candidate
+        candidate = clean(DISPLAY_PRODUCT_LEADING_RE.sub("", candidate))
+        candidate = clean(DISPLAY_PRODUCT_TRAILING_RE.sub("", candidate).strip(" .,-;:!"))
+    return clean(candidate.strip(" .,-;:!"))
+
+
+def clean_suffix_name(segment: str) -> str | None:
+    segment = clean(segment.strip(" .,-;:!"))
+    catalog = first_catalog_name(segment)
+    if catalog:
+        return catalog
+    numbered_name = first_numbered_official_name(segment)
+    if numbered_name:
+        return numbered_name
+    known_name = first_known_display_name(segment)
+    if known_name:
+        return known_name
+    tektite_name = first_tektite_display_name(segment)
+    if tektite_name:
+        return tektite_name
+    candidate = tidy_display_candidate(segment)
+    if not candidate or len(candidate) > 80:
+        return None
+    if not re.search(r"[A-Za-z]", candidate):
+        return None
+    if DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate):
+        return None
+    if DISPLAY_GENERIC_SUFFIX_RE.search(candidate):
+        return None
+    if CLASSIFICATION_PRODUCT_TEXT_RE.search(candidate):
+        return None
+    if re.search(r"\b(?:meteorite|chondrite|achondrite|shergottite|eucrite|diogenite|howardite|aubrite|ureilite|pallasite)\b", candidate, re.I):
+        return None
+    return candidate
+
+
+def name_before_classification(candidate: str) -> str | None:
+    match = DISPLAY_CLASS_START_RE.search(candidate)
+    if not match or match.start() == 0:
+        return None
+    prefix = tidy_display_candidate(candidate[:match.start()])
+    if not prefix or len(prefix) < 3 or DISPLAY_GENERIC_PREFIX_RE.fullmatch(prefix):
+        return None
+    if CLASSIFICATION_PRODUCT_TEXT_RE.search(prefix):
+        return None
+    return display_case_name(prefix)
+
+
+def product_identity_from_title(raw_title: str) -> str | None:
+    candidate = tidy_display_candidate(raw_title)
+    if not candidate or not re.search(r"[A-Za-z]", candidate):
+        return None
+    catalog = first_catalog_name(candidate)
+    if catalog:
+        return catalog
+    numbered_name = first_numbered_official_name(candidate)
+    if numbered_name:
+        return numbered_name
+    known_name = first_known_display_name(candidate)
+    if known_name:
+        return known_name
+    tektite_name = first_tektite_display_name(candidate)
+    if tektite_name:
+        return tektite_name
+    named_prefix = name_before_classification(candidate)
+    if named_prefix:
+        return named_prefix
+    if len(candidate) <= 80 and not DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate) and not DISPLAY_GENERIC_SUFFIX_RE.search(candidate):
+        if not CLASSIFICATION_PRODUCT_TEXT_RE.search(candidate) and not DISPLAY_CLASS_START_RE.fullmatch(candidate):
+            return display_case_name(candidate)
+    return None
+
+
+def product_identity_from_url(url: str | None) -> str | None:
+    if not url:
+        return None
+    slug = unquote(urlparse(url).path.rstrip("/").rsplit("/", 1)[-1])
+    if not slug:
+        return None
+    slug = re.sub(r"--+\d+$", "", slug)
+    slug_text = clean(re.sub(r"[-_]+", " ", slug))
+    tokens = slug_text.split()
+    while len(tokens) > 1 and re.fullmatch(r"\d+", tokens[0]):
+        tokens.pop(0)
+    slug_title = " ".join(tokens).title()
+    return product_identity_from_title(slug_title)
+
+
+def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None) -> str:
+    title = clean(raw_title)
+    parts = re.split(r"\s+-\s+", title)
+    if len(parts) > 1:
+        for segment in reversed(parts[1:]):
+            suffix_name = clean_suffix_name(segment)
+            if suffix_name:
+                return suffix_name
+
+    leading_name = product_identity_from_title(parts[0] if parts else title)
+    if leading_name:
+        return leading_name
+    whole_title_name = product_identity_from_title(title)
+    if whole_title_name:
+        return whole_title_name
+    url_name = product_identity_from_url(url)
+    if url_name:
+        return url_name
+    candidate = tidy_display_candidate(parts[0] if parts else title)
+    if candidate and not DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate):
+        return candidate
+    return title
+
+
+def display_title(raw_title: str, parser: str | None = None, url: str | None = None) -> str:
+    parser = parser or "generic"
+    title = clean(raw_title)
+    if parser in ECOMMERCE_CLEAN_TITLE_PARSERS:
+        return ecommerce_display_title(title, parser, url)
+    return title
+
+
 def lines_from(soup: BeautifulSoup) -> list[str]:
     return [clean(x) for x in soup.get_text("\n", strip=True).splitlines() if clean(x)]
 
@@ -386,6 +665,146 @@ def fetch_json(
         if log:
             log.failed(url, f"{kind} JSON decode failed: {exc}")
         return None
+
+
+def fx_date_from_open_exchange(data: dict) -> str:
+    timestamp = numeric_value(data.get("time_last_update_unix"))
+    if timestamp:
+        return datetime.fromtimestamp(timestamp, timezone.utc).date().isoformat()
+    text = clean(str(data.get("time_last_update_utc") or ""))
+    if text:
+        try:
+            return parsedate_to_datetime(text).date().isoformat()
+        except (TypeError, ValueError):
+            pass
+    return datetime.now(timezone.utc).date().isoformat()
+
+
+def open_exchange_fx_metadata(data: dict) -> dict | None:
+    rates = data.get("rates") if isinstance(data, dict) else None
+    if not isinstance(rates, dict):
+        return None
+    rates_to_usd = {"USD": 1.0}
+    for currency in FX_SUPPORTED_CURRENCIES:
+        if currency == "USD":
+            continue
+        units_per_usd = numeric_value(rates.get(currency))
+        if units_per_usd and units_per_usd > 0:
+            rates_to_usd[currency] = round_rate(1 / units_per_usd)
+    if len(rates_to_usd) < len(FX_SUPPORTED_CURRENCIES):
+        return None
+    return {
+        "base": "USD",
+        "target": "USD",
+        "rates_to_usd": rates_to_usd,
+        "date": fx_date_from_open_exchange(data),
+        "source": "open.er-api.com",
+    }
+
+
+def frankfurter_fx_metadata(data: dict) -> dict | None:
+    rates = data.get("rates") if isinstance(data, dict) else None
+    usd_per_eur = numeric_value(rates.get("USD")) if isinstance(rates, dict) else None
+    if not usd_per_eur or usd_per_eur <= 0:
+        return None
+    return {
+        "base": "USD",
+        "target": "USD",
+        "rates_to_usd": {"USD": 1.0, "EUR": round_rate(usd_per_eur)},
+        "date": clean(str(data.get("date") or "")) or datetime.now(timezone.utc).date().isoformat(),
+        "source": "frankfurter.app",
+    }
+
+
+def fetch_current_fx_metadata() -> dict | None:
+    endpoints = [
+        ("https://open.er-api.com/v6/latest/USD", open_exchange_fx_metadata),
+        ("https://api.frankfurter.app/latest?from=EUR&to=USD", frankfurter_fx_metadata),
+    ]
+    for url, parser in endpoints:
+        try:
+            response = requests.get(url, headers={"User-Agent": UA, "Accept": "application/json"}, timeout=FX_TIMEOUT)
+            if response.status_code >= 400:
+                print(f"WARN FX fetch HTTP {response.status_code}: {url}")
+                continue
+            metadata = parser(response.json())
+            if metadata:
+                print(f"Using FX rates from {metadata['source']} for {metadata['date']}")
+                return metadata
+            print(f"WARN FX response missing required USD/EUR rates: {url}")
+        except (requests.RequestException, ValueError) as exc:
+            print(f"WARN FX fetch failed {url}: {exc}")
+    return None
+
+
+def normalize_fx_metadata(metadata: dict | None, source: str) -> dict | None:
+    if not isinstance(metadata, dict):
+        return None
+    raw_rates = metadata.get("rates_to_usd")
+    if not isinstance(raw_rates, dict):
+        return None
+    rates_to_usd = {"USD": 1.0}
+    for raw_currency, raw_rate in raw_rates.items():
+        currency = currency_code(str(raw_currency))
+        rate = numeric_value(raw_rate)
+        if currency and rate and rate > 0:
+            rates_to_usd[currency] = round_rate(rate)
+    date = clean(str(metadata.get("date") or metadata.get("fx_rate_date") or ""))
+    if not date:
+        return None
+    return {
+        "base": "USD",
+        "target": "USD",
+        "rates_to_usd": rates_to_usd,
+        "date": date,
+        "source": clean(str(metadata.get("source") or source)),
+    }
+
+
+def existing_fx_metadata(existing_data: dict) -> dict | None:
+    metadata = normalize_fx_metadata(existing_data.get("exchange_rates"), "existing data")
+    if metadata:
+        return metadata
+
+    rates_to_usd = {"USD": 1.0}
+    date = ""
+    for item in existing_data.get("listings", []):
+        currency = currency_code(item.get("currency"))
+        rate = numeric_value(item.get("fx_rate_to_usd"))
+        if currency and rate and rate > 0:
+            rates_to_usd[currency] = round_rate(rate)
+            date = date or clean(str(item.get("fx_rate_date") or ""))
+    if date and len(rates_to_usd) > 1:
+        return {
+            "base": "USD",
+            "target": "USD",
+            "rates_to_usd": rates_to_usd,
+            "date": date,
+            "source": "existing listing fx metadata",
+        }
+    return None
+
+
+def usd_only_fx_metadata() -> dict:
+    return {
+        "base": "USD",
+        "target": "USD",
+        "rates_to_usd": {"USD": 1.0},
+        "date": datetime.now(timezone.utc).date().isoformat(),
+        "source": "USD-only fallback",
+    }
+
+
+def resolve_fx_metadata(existing_data: dict) -> dict:
+    fetched = fetch_current_fx_metadata()
+    if fetched:
+        return fetched
+    existing = existing_fx_metadata(existing_data)
+    if existing:
+        print(f"WARN using existing FX rates from {existing['source']} for {existing['date']}")
+        return existing
+    print("WARN using USD-only FX metadata; non-USD prices cannot be normalized without rates")
+    return usd_only_fx_metadata()
 
 
 def post_webform(session: requests.Session, url: str, soup: BeautifulSoup, target: str, argument: str, log: SourceLog) -> str | None:
@@ -526,6 +945,22 @@ def compact_classification_token(value: str | None) -> str:
     return re.sub(r"\s+", "", clean(value or "").upper())
 
 
+def clean_classification_bit(value: str | None) -> str | None:
+    bit = clean(value or "")
+    if not bit:
+        return None
+    stone_match = re.fullmatch(r"Stone\s*\(([^)]*)\)", bit, re.I)
+    if stone_match:
+        bit = clean(stone_match.group(1))
+    if not bit or WEIGHT_RE.search(bit) or WEIGHT_RANGE_RE.search(bit) or DIMENSION_RE.search(bit):
+        return None
+    if CLASSIFICATION_PRODUCT_TEXT_RE.search(bit):
+        return None
+    if re.fullmatch(r"(?:stone|meteorites?|specimens?|pieces?|new\s+find)", bit, re.I):
+        return None
+    return bit
+
+
 def meteorite_type_for_subtype(subtype: str | None) -> str | None:
     token = clean(subtype or "").upper()
     compact = compact_classification_token(token)
@@ -580,7 +1015,7 @@ def filtered_classification_text(ctext: str | None, mtype: str, subtype: str | N
         return None
     target_family = meteorite_family_key(meteorite_type_for_subtype(subtype) or mtype)
     kept = []
-    for bit in [clean(part) for part in ctext.split(",")]:
+    for bit in [clean_classification_bit(part) for part in ctext.split(",")]:
         if not bit:
             continue
         bit_family = meteorite_family_key(meteorite_type_for_subtype(bit))
@@ -641,7 +1076,7 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
     subtype = clean(sm.group(0)).upper() if sm else None
     bits = []
     for m in re.finditer(
-        r"Stone\s*\([^)]*\)|\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite)\b",
+        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite)\b",
         text,
         re.I,
     ):
@@ -708,14 +1143,16 @@ def make_listing(
     available: bool = True,
     parser: str | None = None,
 ) -> dict | None:
-    title = clean(title)
-    if not title or title.lower() in {"meteorites", "books", "contact", "home", "welcome to baitylia"}:
+    raw_title = clean(title)
+    if not raw_title or raw_title.lower() in {"meteorites", "books", "contact", "home", "welcome to baitylia"}:
         return None
-    if not (METEORITE_RE.search(title) or METEORITE_RE.search(detail_text) or explicit_type):
+    if not (METEORITE_RE.search(raw_title) or METEORITE_RE.search(detail_text) or explicit_type):
         return None
+    parser_name = parser or site.get("parser") or "generic"
+    title = display_title(raw_title, parser_name, url)
     mtype, subtype, ctext = classify(title, detail_text, explicit_type)
     ppg = round(price / weight_g, 4) if price and weight_g and weight_g > 0 else None
-    raw_id = f"{site['name']}|{url}|{item_key or title}|{weight_g}|{price}".encode("utf-8", "ignore")
+    raw_id = f"{site['name']}|{url}|{item_key or raw_title}|{weight_g}|{price}".encode("utf-8", "ignore")
     return {
         "id": hashlib.sha1(raw_id).hexdigest()[:16],
         "source": site["name"],
@@ -732,7 +1169,7 @@ def make_listing(
         "image_url": image_url,
         "confidence": confidence(price, weight_g, bool(re.search(r"[?&]id=\d+", url)), explicit_type),
         "available": available,
-        "parser": parser or site.get("parser") or "generic",
+        "parser": parser_name,
         "scraped_at": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -2864,6 +3301,11 @@ def parse_args() -> argparse.Namespace:
         action="store_false",
         help="Write only listings scraped in this run.",
     )
+    parser.add_argument(
+        "--normalize-existing",
+        action="store_true",
+        help="Normalize the existing listings file and refresh USD conversion metadata without scraping sources.",
+    )
     parser.set_defaults(preserve_existing=None)
     return parser.parse_args()
 
@@ -2942,7 +3384,7 @@ def sort_listings(listings) -> list[dict]:
         key=lambda x: (
             x.get("meteorite_type") or "unknown",
             x.get("subtype") or "",
-            x.get("price_per_g") if x.get("price_per_g") is not None else 10**9,
+            x.get("price_per_g_usd") if x.get("price_per_g_usd") is not None else 10**9,
             x.get("title") or "",
         ),
     )
@@ -2975,12 +3417,68 @@ def scrape_selected_sites(selected_sites: list[dict]) -> tuple[dict[str, dict], 
     return by_id, scraped_counts
 
 
+def apply_usd_conversion(item: dict, fx_metadata: dict) -> None:
+    rates_to_usd = fx_metadata.get("rates_to_usd") if isinstance(fx_metadata, dict) else {}
+    if not isinstance(rates_to_usd, dict):
+        rates_to_usd = {}
+    price = numeric_value(item.get("price"))
+    weight = numeric_value(item.get("weight_g"))
+    currency = currency_code(item.get("currency"))
+    if currency:
+        item["currency"] = currency
+
+    rate = numeric_value(rates_to_usd.get(currency)) if price is not None and currency else None
+    if price is not None and rate and rate > 0:
+        price_usd = round(price * rate, 2)
+        item["price_usd"] = price_usd
+        item["fx_rate_to_usd"] = round_rate(rate)
+        item["fx_rate_date"] = clean(str(fx_metadata.get("date") or "")) or None
+        item["price_per_g_usd"] = round(price_usd / weight, 4) if weight and weight > 0 else None
+    else:
+        item["price_usd"] = None
+        item["price_per_g_usd"] = None
+        item["fx_rate_to_usd"] = None
+        item["fx_rate_date"] = None
+
+
+def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
+    normalized = dict(item)
+    parser = str(normalized.get("parser") or "generic")
+    normalized["title"] = display_title(str(normalized.get("title") or ""), parser, str(normalized.get("url") or ""))
+    mtype, subtype, ctext = normalized_classification(
+        str(normalized.get("meteorite_type") or "unknown"),
+        normalized.get("subtype"),
+        normalized.get("classification_text"),
+    )
+    normalized["meteorite_type"] = mtype
+    normalized["subtype"] = subtype
+    normalized["classification_text"] = ctext
+    price = numeric_value(normalized.get("price"))
+    weight = numeric_value(normalized.get("weight_g"))
+    normalized["price_per_g"] = round(price / weight, 4) if price is not None and weight and weight > 0 else None
+    apply_usd_conversion(normalized, fx_metadata)
+    return normalized
+
+
+def normalize_existing_listings(existing_data: dict, enabled_sources: set[str], fx_metadata: dict) -> tuple[list[dict], set[str]]:
+    listings = []
+    preserved_sources = set()
+    for item in existing_data.get("listings", []):
+        source = item.get("source")
+        if source not in enabled_sources or not item.get("id"):
+            continue
+        listings.append(normalize_listing_item(item, fx_metadata))
+        preserved_sources.add(source)
+    return listings, preserved_sources
+
+
 def merge_listings(
     existing_data: dict,
     refreshed_by_id: dict[str, dict],
     scraped_counts: dict[str, int],
     scraped_sources: set[str],
     enabled_sources: set[str],
+    fx_metadata: dict,
     *,
     preserve_unselected_sources: bool,
 ) -> tuple[list[dict], set[str], set[str]]:
@@ -3004,9 +3502,9 @@ def merge_listings(
         if not preserve_item:
             continue
         preserved_sources.add(source)
-        merged_by_id[str(item_id)] = item
+        merged_by_id[str(item_id)] = normalize_listing_item(item, fx_metadata)
 
-    merged_by_id.update(refreshed_by_id)
+    merged_by_id.update({item_id: normalize_listing_item(item, fx_metadata) for item_id, item in refreshed_by_id.items()})
     return list(merged_by_id.values()), preserved_sources, empty_refresh_preserved_sources
 
 
@@ -3019,9 +3517,11 @@ def output_payload(
     empty_refresh_preserved_sources: set[str],
     rotation_info: dict,
     preserve_existing: bool,
+    fx_metadata: dict,
+    scrape_mode: str | None = None,
 ) -> dict:
     scraped_sources = [site["name"] for site in selected_sites]
-    mode = "rotation" if rotation_info else "selected" if len(selected_sites) != len(enabled_sites) else "full"
+    mode = scrape_mode or ("rotation" if rotation_info else "selected" if len(selected_sites) != len(enabled_sites) else "full")
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_count": len(enabled_sites),
@@ -3030,6 +3530,7 @@ def output_payload(
         "preserve_existing": preserve_existing,
         "scraped_sources": scraped_sources,
         "preserved_sources": source_ordered_names(preserved_sources, enabled_sites),
+        "exchange_rates": fx_metadata,
     }
     if rotation_info:
         payload.update(rotation_info)
@@ -3043,6 +3544,33 @@ def main() -> None:
     args = parse_args()
     sites = json.loads(SITES.read_text(encoding="utf-8"))
     enabled_sites = [s for s in sites if s.get("enabled", True)]
+    existing_data = load_existing_data()
+    enabled_sources = {site["name"] for site in enabled_sites}
+
+    if args.normalize_existing:
+        if args.rotate or requested_site_tokens(args):
+            raise SystemExit("--normalize-existing cannot be combined with --rotate, --site, or --sites")
+        fx_metadata = resolve_fx_metadata(existing_data)
+        listings, preserved_sources = normalize_existing_listings(existing_data, enabled_sources, fx_metadata)
+        listings = sort_listings(listings)
+        payload = output_payload(
+            listings=listings,
+            enabled_sites=enabled_sites,
+            selected_sites=[],
+            preserved_sources=preserved_sources,
+            empty_refresh_preserved_sources=set(),
+            rotation_info={},
+            preserve_existing=True,
+            fx_metadata=fx_metadata,
+            scrape_mode="normalize",
+        )
+        OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        print(f"Wrote {OUT} with {len(listings)} listings")
+        print("Scraped sources: none")
+        if payload["preserved_sources"]:
+            print(f"Preserved sources: {', '.join(payload['preserved_sources'])}")
+        return
+
     selected_sites, rotation_info = select_run_sites(args, enabled_sites)
     preserve_existing = args.preserve_existing if args.preserve_existing is not None else args.rotate
 
@@ -3060,15 +3588,16 @@ def main() -> None:
         print("Scraping all enabled sources")
 
     refreshed_by_id, scraped_counts = scrape_selected_sites(selected_sites)
+    fx_metadata = resolve_fx_metadata(existing_data)
     scraped_sources = {site["name"] for site in selected_sites}
-    enabled_sources = {site["name"] for site in enabled_sites}
 
     listings, preserved_sources, empty_refresh_preserved_sources = merge_listings(
-        load_existing_data(),
+        existing_data,
         refreshed_by_id,
         scraped_counts,
         scraped_sources,
         enabled_sources,
+        fx_metadata,
         preserve_unselected_sources=preserve_existing,
     )
 
@@ -3081,6 +3610,7 @@ def main() -> None:
         empty_refresh_preserved_sources=empty_refresh_preserved_sources,
         rotation_info=rotation_info,
         preserve_existing=preserve_existing,
+        fx_metadata=fx_metadata,
     )
     OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 

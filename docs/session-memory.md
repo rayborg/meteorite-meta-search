@@ -8,6 +8,7 @@ Last updated: 2026-06-16
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
 - Generated listing data lives in `data/listings.json`; current checked data has 2,357 listings from 16 enabled sources.
+- `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
 
@@ -42,6 +43,7 @@ Last updated: 2026-06-16
 - A session memory file was added under `docs/` for future agents.
 - Current active source registry was reconciled to 16 enabled sources; Meteorite Exchange and Galactic Stone now have refreshed listings in `data/listings.json`.
 - Saffordite is treated as an impactite marker so Meteorite Exchange impactite rows classify without suspicious-row noise.
+- Scraper output now normalizes priced rows to USD using daily no-key FX rates when available, falling back to saved exchange-rate metadata or USD-only metadata if offline.
 - `.gitignore` now covers common Python, Node/static tooling, local environment, editor, OS, build, temp, and cache artifacts without ignoring source/data docs.
 - `scraper/__pycache__/` was removed as a generated artifact.
 - `.venv/` was intentionally left in place because it may be useful locally and is ignored.
@@ -75,6 +77,8 @@ Last updated: 2026-06-16
 - `Tektites & impactites` includes concise helper copy because it contains related impact material and is not a formal meteorite category.
 - Category/subtype control counts honor search, source, and unavailable filters, but intentionally ignore the currently selected category/subtype so sibling counts remain comparable.
 - Price/g summaries are only shown after narrowing results or when all visible rows share a title.
+- Price and price/g UI display, sorting, and summaries use USD-normalized fields only; non-USD source prices are preserved in listing data and exposed as concise price-cell title/aria metadata.
+- Listings weighing at least 1000 g show USD price/kg alongside USD price/g in the price/g cell.
 - Source panel exposes enabled, disabled parser start, and disabled backlog states.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
 
@@ -85,6 +89,7 @@ Run from the repo root:
 ```sh
 node --check app.js
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py
 git diff --check
 ```
 
@@ -94,6 +99,7 @@ Useful local scrape commands:
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --rotate --preserve-existing --rotation-key 1
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --site "FossilEra" --preserve-existing
+PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --normalize-existing
 ```
 
 ## Next Tasks
