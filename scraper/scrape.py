@@ -211,7 +211,7 @@ NUMBERED_OFFICIAL_NAME_RE = re.compile(
     re.I,
 )
 KNOWN_DISPLAY_NAME_RE = re.compile(
-    r"\b(?:Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|Campo\s+del\s+Cielo|Chelyabinsk|Dronino|El\s+Menia|"
+    r"\b(?:Agoudal|Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|Campo\s+del\s+Cielo|Chelyabinsk|Dronino|El\s+Menia|"
     r"Gebel\s+Kamil|Gibeon|Holbrook|Mundrabilla|Murchison|Seymchan|Sikhote[-\s]+Alin)\b",
     re.I,
 )
@@ -252,6 +252,13 @@ DISPLAY_SUFFIX_ONLY_RE = re.compile(
 )
 CLASSIFICATION_PRODUCT_TEXT_RE = re.compile(
     r"\b(?:hammer\s+stone|end\s+slice|slice|section|fragment|fragement|end\s*cut|endcut|specimen|individual|piece|polished)\b",
+    re.I,
+)
+DISPLAY_CLASSIFICATION_ONLY_RE = re.compile(
+    r"^(?:(?:Iron|Stone|Stony[-\s]+Iron)\s*,?\s*)?"
+    r"(?:IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|IC|"
+    r"H|L|LL|EH|EL|R|CI|CM|CO|CV|CR|CK|CH|CB|C|OC)\s*-?\s*\d?(?:\.\d)?(?:\s*/\s*\d(?:\.\d)?)?"
+    r"(?:\s+(?:Iron|Meteorite|Chondrite|Achondrite|Pallasite|Mesosiderite|Stone))*$",
     re.I,
 )
 SHOPIFY_PLACEHOLDER_PRICE_RE = re.compile(r"\b(price\s+on\s+request|contact\s+for\s+price|call\s+for\s+price)\b", re.I)
@@ -400,6 +407,7 @@ def display_case_name(name: str) -> str:
     name = clean(name)
     if name.isupper() and len(name) > 3:
         name = name.title()
+    name = re.sub(r"\bCampo\s+Del\s+Cielo\b", "Campo del Cielo", name)
     return re.sub(r"\b(?:Nwa|Nea|Jah|Dag)\b", lambda m: {"Nwa": "NWA", "Nea": "NEA", "Jah": "JAH", "Dag": "DaG"}[m.group(0)], name)
 
 
@@ -474,6 +482,8 @@ def clean_suffix_name(segment: str) -> str | None:
         return None
     if DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate):
         return None
+    if DISPLAY_CLASSIFICATION_ONLY_RE.fullmatch(candidate):
+        return None
     if DISPLAY_GENERIC_SUFFIX_RE.search(candidate):
         return None
     if CLASSIFICATION_PRODUCT_TEXT_RE.search(candidate):
@@ -514,7 +524,7 @@ def product_identity_from_title(raw_title: str) -> str | None:
     named_prefix = name_before_classification(candidate)
     if named_prefix:
         return named_prefix
-    if len(candidate) <= 80 and not DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate) and not DISPLAY_GENERIC_SUFFIX_RE.search(candidate):
+    if len(candidate) <= 80 and not DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate) and not DISPLAY_CLASSIFICATION_ONLY_RE.fullmatch(candidate) and not DISPLAY_GENERIC_SUFFIX_RE.search(candidate):
         if not CLASSIFICATION_PRODUCT_TEXT_RE.search(candidate) and not DISPLAY_CLASS_START_RE.fullmatch(candidate):
             return display_case_name(candidate)
     return None
@@ -1049,6 +1059,7 @@ def clean_classification_bit(value: str | None) -> str | None:
     stone_match = re.fullmatch(r"Stone\s*\(([^)]*)\)", bit, re.I)
     if stone_match:
         bit = clean(stone_match.group(1))
+    bit = re.sub(r"\bCampo\s+Del\s+Cielo\b", "Campo del Cielo", bit)
     if not bit or WEIGHT_RE.search(bit) or WEIGHT_RANGE_RE.search(bit) or DIMENSION_RE.search(bit):
         return None
     if CLASSIFICATION_PRODUCT_TEXT_RE.search(bit):
