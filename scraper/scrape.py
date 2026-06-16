@@ -72,7 +72,7 @@ TYPE_RULES = [
     ("martian", r"\b(martian|mars|shergottite|nakhlite|chassignite)\b"),
     ("pallasite", r"\b(pallasite|olivine pallasite|esquel|im-?ilac|sericho|brahin|admire)\b"),
     ("mesosiderite", r"\bmesosiderite\b"),
-    ("iron", r"\b(iron\s+meteorites?|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|gebel\s+kamil|dronino|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
+    ("iron", r"\b(iron\s+meteorites?|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|gebel\s+kamil|dronino|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
     ("carbonaceous chondrite", r"\b(carbonaceous|c\s?2|cv\s?3|cvred\s?3|cvox[a-z]?\s?3|cm\s?2|ci\s?1|co\s?3|cr\s?2|ck\s?\d?|ch\s?\d?|cb\s?[ab]?|c3-?ung|c2-?ung|c1-?ung)\b"),
     ("ordinary chondrite", r"\b(ordinary chondrite|oc|h\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|h/l\s?3?|l\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|ll\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|l\s?\(\s?ll\s?\)\s?3|h/l|l/ll|H|L|LL)\b"),
     ("achondrite", r"\b(achondrite|brachinite|eucrite|EUC|diogenite|howardite|hed\b|ureilite|aubrite|angrite|acapulcoite|lodranite|winonaite)\b"),
@@ -81,17 +81,20 @@ TYPE_RULES = [
     ("tektite/impactite", r"\b(tektite|moldavite|libyan desert glass|impactite|impact melt|saffordite)\b"),
 ]
 SUBTYPE_RE = re.compile(
+    r"\b(?:H/L|L/LL|H/LL)\s*-?\s*[3-7](?:\.\d)?\b|"
     r"\b(H|L|LL)\s*-?\s*([3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?)\b|"
     r"\b(L\s?\(\s?LL\s?\)\s?3|L\s*-\s*melt breccia|LL\s?7)\b|"
     r"\b(CBa|CBb)\b|"
+    r"\bC\s*-?\s*[123]\s*-\s*ung\b|"
     r"\b(CI|CM|CO|CV|CR|CK|CH|CB)\s*-?\s*(\d(?:\.\d)?)\b|"
     r"\b(C)\s*-?\s*(2)\b|"
     r"\b(CVred|CVoxA)\s*-?\s*3\b|"
     r"\b(OC|H/L\s?3?)\b|"
     r"\b(R)\s*-?\s*([3-6](?:\s*-\s*[3-6])?)\b|"
-    r"\b(EH|EL)\s*-?\s*([3-7])\b|"
-    r"\b(IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|I\s*C)\b|"
-    r"\b(HED|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|lodranite|winonaite|mesosiderite|achondrite(?:-ung)?)\b",
+    r"\b(EH|EL)\s*-?\s*([3-7](?:\s*[/\-]\s*(?:(?:EH|EL)\s*)?[3-7])?)\b|"
+    r"\bEH\s*-\s*melt\s+rock\b|"
+    r"\b(IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|I\s*C)\b|"
+    r"\b(HED|EUC|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|lodranite|winonaite|mesosiderite|achondrite(?:-ung)?)\b",
     re.I,
 )
 BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|placeholder|heart/(?:dis|en)abled|sold\.jpg|red(?:%20|\s)*dot", re.I)
@@ -142,6 +145,12 @@ IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
     rf"(?:to|-|\u2013)\s*{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
     re.I,
 )
+IMPACTIKA_URL_NAME_OVERRIDES = {
+    "ab1971-plainview": "Plainview 1917",
+    "cm110-north-branch": "Northbranch",
+}
+IMPACTIKA_INVENTORY_CODE_RE = re.compile(r"^(?:AB|AC|CM|OC)\s*-?\s*\d+[A-Za-z]?$", re.I)
+IMPACTIKA_SPLIT_INVENTORY_CODE_RE = re.compile(r"^(?:AB|AC|CM|OC)$", re.I)
 METEORITE_EXCHANGE_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|cabochons?|"
     r"stands?|display\s*(?:stands?|cases?|boxes?|frames?)?|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|riker|gifts?|gift\s*cards?|souvenirs?|"
@@ -528,6 +537,12 @@ def product_identity_from_url(url: str | None) -> str | None:
 
 def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None) -> str:
     title = clean(raw_title)
+    if parser == "impactika":
+        impactika_name = impactika_name_from_url(url)
+        if impactika_name:
+            return impactika_name
+    if parser == "aerolite":
+        title = clean(re.sub(r"\s*\|\s*Aerolite Meteorites.*$", "", title, flags=re.I))
     parts = re.split(r"\s+-\s+", title)
     if len(parts) > 1:
         for segment in reversed(parts[1:]):
@@ -945,6 +960,88 @@ def compact_classification_token(value: str | None) -> str:
     return re.sub(r"\s+", "", clean(value or "").upper())
 
 
+def canonical_subtype(value: str | None) -> str | None:
+    subtype = clean(value or "")
+    if not subtype:
+        return None
+    subtype = re.sub(r"\s*/\s*", "/", subtype)
+    subtype = re.sub(r"\s*-\s*", "-", subtype)
+    compact = compact_classification_token(subtype)
+    if re.fullmatch(r"C[123]-UNG", compact):
+        return compact
+    if re.fullmatch(r"C[123]", compact):
+        return compact
+    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?", compact):
+        return compact.replace("-", "")
+    compacted_range = re.fullmatch(r"(H|L|LL)([3-7])([3-7])", compact)
+    if compacted_range:
+        group, start, end = compacted_range.groups()
+        return f"{group}{start}-{end}"
+    ordinary = re.fullmatch(r"(H|L|LL)-?([3-7](?:\.\d)?)(?:([/\-])([3-7](?:\.\d)?))?", compact)
+    if ordinary:
+        group, number, separator, second_number = ordinary.groups()
+        return f"{group}{number}{separator or ''}{second_number or ''}"
+    mixed_ordinary = re.fullmatch(r"(H/L|L/LL|H/LL)-?([3-7](?:\.\d)?)", compact)
+    if mixed_ordinary:
+        return f"{mixed_ordinary.group(1)}{mixed_ordinary.group(2)}"
+    if compact == "EH-MELTROCK":
+        return "EH-MELT ROCK"
+    enstatite = re.fullmatch(r"(EH|EL)-?([3-7])(?:([/\-])((?:EH|EL)?)([3-7]))?", compact)
+    if enstatite:
+        prefix, number, separator, second_prefix, second_number = enstatite.groups()
+        if separator:
+            return f"{prefix}{number}/{second_prefix}{second_number}"
+        return f"{prefix}{number}"
+    eucrite = re.fullmatch(r"EUCRITE-(MMICT|UNBR|PMICT|BR|MELTBRECCIA)", compact)
+    if eucrite:
+        qualifier = {"MELTBRECCIA": "melt breccia"}.get(eucrite.group(1), eucrite.group(1).lower())
+        return f"Eucrite-{qualifier}"
+    if compact == "ACHONDRITE-UNG":
+        return "Achondrite-ung"
+    if compact in {
+        "OC",
+        "H/L",
+        "L(LL)3",
+        "CBA",
+        "CBB",
+        "CVRED3",
+        "CVOXA3",
+        "HED",
+        "EUC",
+        "EUCRITE",
+        "DIOGENITE",
+        "HOWARDITE",
+        "UREILITE",
+        "AUBRITE",
+        "ANGRITE",
+        "BRACHINITE",
+        "SHERGOTTITE",
+        "NAKHLITE",
+        "CHASSIGNITE",
+        "OCTAHEDRITE",
+        "ATAXITE",
+        "HEXAHEDRITE",
+        "ACAPULCOITE",
+        "LODRANITE",
+        "WINONAITE",
+        "MESOSIDERITE",
+        "PALLASITE",
+        "ACHONDRITE",
+        "IIA",
+        "IAB",
+        "IIAB",
+        "IIIAB",
+        "IIIE-AN",
+        "IVA",
+        "IVB",
+        "IIE",
+        "IRUNGR",
+        "IC",
+    }:
+        return compact
+    return subtype.upper()
+
+
 def clean_classification_bit(value: str | None) -> str | None:
     bit = clean(value or "")
     if not bit:
@@ -966,13 +1063,13 @@ def meteorite_type_for_subtype(subtype: str | None) -> str | None:
     compact = compact_classification_token(token)
     if not compact:
         return None
-    if compact in {"OC", "H/L", "H/L3", "L(LL)3"} or re.fullmatch(r"(?:H|L|LL)-?[3-7](?:\.\d)?(?:[/\-][3-7](?:\.\d)?)?", compact):
+    if compact in {"OC", "H/L", "H/L3", "L(LL)3"} or re.fullmatch(r"(?:H|L|LL)-?[3-7](?:\.\d)?(?:[/\-][3-7](?:\.\d)?)?|(?:H/L|L/LL|H/LL)-?[3-7](?:\.\d)?", compact):
         return "ordinary chondrite"
-    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?", compact) or compact in {"C2", "C-2", "CBA", "CBB"} or re.fullmatch(r"CVOX[A-Z]?3|CVRED3", compact):
+    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?|C[123]-UNG", compact) or compact in {"C2", "C-2", "CBA", "CBB"} or re.fullmatch(r"CVOX[A-Z]?3|CVRED3", compact):
         return "carbonaceous chondrite"
-    if re.fullmatch(r"(?:EH|EL|R)-?[3-7](?:\.\d)?(?:-[3-7](?:\.\d)?)?", compact):
+    if re.fullmatch(r"(?:EH|EL)-?[3-7](?:\.\d)?(?:[/\-](?:EH|EL)?[3-7](?:\.\d)?)?|(?:R)-?[3-7](?:\.\d)?(?:-[3-7](?:\.\d)?)?|EH-MELTROCK", compact):
         return "chondrite"
-    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", compact):
+    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", compact):
         return "iron"
     if compact in {"PALLASITE"}:
         return "pallasite"
@@ -997,7 +1094,36 @@ def meteorite_type_for_subtype(subtype: str | None) -> str | None:
         "ACHONDRITE-UNG",
     }:
         return "achondrite"
+    if re.fullmatch(r"EUCRITE-.+", compact):
+        return "achondrite"
     return None
+
+
+def subtype_priority(subtype: str | None) -> int:
+    compact = compact_classification_token(subtype)
+    if not compact:
+        return 0
+    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|IC)", compact):
+        return 90
+    if compact in {"OCTAHEDRITE", "ATAXITE", "HEXAHEDRITE"}:
+        return 20
+    if compact in {"ACHONDRITE", "EUCRITE", "EUC", "HED"}:
+        return 30
+    if re.fullmatch(r"EUCRITE-(?:MMICT|UNBR|PMICT|BR|MELTBRECCIA)", compact):
+        return 80
+    if compact == "ACHONDRITE-UNG":
+        return 80
+    if re.search(r"[/\-]|UNG|MELT", compact):
+        return 70
+    return 50
+
+
+def best_subtype_from_text(text: str) -> str | None:
+    subtypes = [canonical_subtype(match.group(0)) for match in SUBTYPE_RE.finditer(text)]
+    subtypes = [subtype for subtype in subtypes if subtype]
+    if not subtypes:
+        return None
+    return max(subtypes, key=subtype_priority)
 
 
 def meteorite_family_key(mtype: str | None) -> str | None:
@@ -1027,10 +1153,94 @@ def filtered_classification_text(ctext: str | None, mtype: str, subtype: str | N
 
 
 def normalized_classification(mtype: str, subtype: str | None, ctext: str | None) -> tuple[str, str | None, str | None]:
+    subtype = canonical_subtype(subtype)
     subtype_type = meteorite_type_for_subtype(subtype)
-    if subtype_type:
+    if subtype_type and not (mtype in {"lunar", "martian"} and subtype_type == "achondrite"):
         mtype = subtype_type
     return mtype, subtype, filtered_classification_text(ctext, mtype, subtype)
+
+
+def merge_classification_text(ctext: str | None, *bits: str | None) -> str | None:
+    kept = []
+    for bit in [*(ctext or "").split(","), *bits]:
+        cleaned = clean_classification_bit(bit)
+        if cleaned and cleaned.lower() not in {value.lower() for value in kept}:
+            kept.append(cleaned)
+    return ", ".join(kept[:8]) or None
+
+
+def subtype_is_more_specific(candidate: str | None, current: str | None) -> bool:
+    candidate = canonical_subtype(candidate)
+    current = canonical_subtype(current)
+    if not candidate:
+        return False
+    if not current:
+        return True
+    candidate_compact = compact_classification_token(candidate)
+    current_compact = compact_classification_token(current)
+    if candidate_compact == current_compact:
+        return candidate != current
+    if candidate_compact.startswith(current_compact) and len(candidate_compact) > len(current_compact):
+        return True
+    if meteorite_type_for_subtype(candidate) != meteorite_type_for_subtype(current):
+        return False
+    return any(marker in candidate_compact for marker in ["/", "-UNG", "MELT", "MMICT", "UNBR", "PMICT", "BR"])
+
+
+def classification_title_variants(title: str, url: str | None, mtype: str, subtype: str | None, ctext: str | None) -> tuple[str, str | None, str | None]:
+    title_type, title_subtype, title_ctext = classify_from_text(clean(f"{title} {url or ''}"))
+    if title_type != "unknown" and (mtype == "unknown" or title_type in {"lunar", "martian"}):
+        mtype = title_type
+    if subtype_is_more_specific(title_subtype, subtype):
+        subtype = title_subtype
+        ctext = merge_classification_text(ctext, title_ctext or title_subtype)
+    elif title_ctext:
+        ctext = merge_classification_text(ctext, title_ctext)
+    return normalized_classification(mtype, subtype, ctext)
+
+
+def source_specific_classification(
+    parser: str,
+    title: str,
+    url: str | None,
+    detail_text: str,
+    mtype: str,
+    subtype: str | None,
+    ctext: str | None,
+) -> tuple[str, str | None, str | None]:
+    haystack = clean(f"{title} {url or ''} {detail_text[:1200]}")
+    if parser == "fossilera" and re.search(r"\blunar(?:[-\s]+meteorite)?\b", haystack, re.I):
+        mtype = "lunar"
+        ctext = merge_classification_text(ctext, "Lunar Meteorite")
+    if re.search(r"\btarda\b", haystack, re.I):
+        mtype = "carbonaceous chondrite"
+        subtype = "C2-UNG"
+        ctext = merge_classification_text(ctext, "C2-UNG")
+    if parser == "arizona_skies" and re.search(r"\b(?:baby\s+)?campocito\b", haystack, re.I):
+        mtype = "iron"
+        subtype = None
+        ctext = "Campo del Cielo"
+    if parser == "justmeteorites" and re.search(r"\bvaca[-\s]+muerta\b", haystack, re.I):
+        mtype = "mesosiderite"
+        subtype = "MESOSIDERITE"
+        ctext = merge_classification_text("Vaca Muerta", "Mesosiderite")
+    if parser == "justmeteorites" and re.search(r"\bmonturaqui[-\s]+meteorite\b", haystack, re.I) and not re.search(r"\bimpactite|impact\s+(?:melt|glass)\b", haystack, re.I):
+        mtype = "iron"
+        subtype = "IAB"
+        ctext = merge_classification_text("Monturaqui", "IAB")
+    if parser == "meteorite_exchange" and re.search(r"\bnwa[-\s]+4799\b|eh[-\s]+melt[-\s]+rock", haystack, re.I):
+        mtype = "chondrite"
+        subtype = "EH-MELT ROCK"
+        ctext = merge_classification_text("NWA 4799", "EH melt rock")
+    if parser == "galactic_stone" and re.search(r"\bkapustin[-\s]+yar\b", haystack, re.I):
+        mtype = "ordinary chondrite"
+        subtype = "L/LL6"
+        ctext = merge_classification_text("Kapustin Yar", "L/LL6")
+    if parser == "fossil_realm" and re.search(r"\baletai\b|huge-iron-meteorite-slice", haystack, re.I):
+        mtype = "iron"
+        subtype = "IIIE-AN"
+        ctext = merge_classification_text("Aletai", "Medium Octahedrite", "IIIE-AN")
+    return normalized_classification(mtype, subtype, ctext)
 
 
 def labeled_value(lines: list[str], label: str) -> str | None:
@@ -1072,11 +1282,10 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
         if re.search(pattern, text, re.I):
             mtype = name
             break
-    sm = SUBTYPE_RE.search(text)
-    subtype = clean(sm.group(0)).upper() if sm else None
+    subtype = best_subtype_from_text(text)
     bits = []
     for m in re.finditer(
-        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite)\b",
+        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|(?:H/L|L/LL|H/LL)\s?[3-7](?:\.\d)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?[123]\s*-\s*ung|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|EH\s?[3-7](?:\s*[/\-]\s*(?:EH\s*)?[3-7])?|EL\s?[3-7](?:\s*[/\-]\s*(?:EL\s*)?[3-7])?|EH\s*-\s*melt\s+rock|IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|EUC|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|campo\s+del\s+cielo)\b",
         text,
         re.I,
     ):
@@ -1089,7 +1298,7 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
 def classify(title: str, detail_text: str = "", explicit_type: str | None = None) -> tuple[str, str | None, str | None]:
     priority_text = clean(" ".join(x for x in [title, explicit_type] if x))
     result = classify_from_text(priority_text)
-    detail_result = classify_from_text(clean(f"{title} {detail_text[:900]}"))
+    detail_result = classify_from_text(clean(f"{title} {detail_text[:2400]}"))
     if result[0] != "unknown" or result[1]:
         if detail_result[1] or detail_result[2]:
             return normalized_classification(result[0], result[1] or detail_result[1], result[2] or detail_result[2])
@@ -1151,6 +1360,8 @@ def make_listing(
     parser_name = parser or site.get("parser") or "generic"
     title = display_title(raw_title, parser_name, url)
     mtype, subtype, ctext = classify(title, detail_text, explicit_type)
+    mtype, subtype, ctext = classification_title_variants(title, url, mtype, subtype, ctext)
+    mtype, subtype, ctext = source_specific_classification(parser_name, title, url, detail_text, mtype, subtype, ctext)
     ppg = round(price / weight_g, 4) if price and weight_g and weight_g > 0 else None
     raw_id = f"{site['name']}|{url}|{item_key or raw_title}|{weight_g}|{price}".encode("utf-8", "ignore")
     return {
@@ -1977,7 +2188,7 @@ def product_detail_listing(
     title = title or meta_content(soup, "og:title", "twitter:title") or title_for(soup)
     title = clean(
         re.sub(
-            r"\s+(?:For\s+Sale\s*)?-\s+(?:FossilEra\.com|Aerolite Meteorites.*|Meteorite Exchange.*|justMETEORITES|Impactika|SkyFall Meteorites.*|Meteolovers).*$",
+            r"\s*(?:(?:For\s+Sale\s*)?-\s+|\|\s*)(?:FossilEra\.com|Aerolite Meteorites.*|Meteorite Exchange.*|justMETEORITES|Impactika|SkyFall Meteorites.*|Meteolovers).*$",
             "",
             title,
             flags=re.I,
@@ -1997,6 +2208,8 @@ def product_detail_listing(
     lines = product_main_lines(lines_from(scope))
     schema_description = clean((product or {}).get("description") if isinstance((product or {}).get("description"), str) else "")
     source_type = explicit_meteorite_type(schema_description, lines)
+    if parser == "fossilera":
+        source_type = source_type or labeled_value(lines, "Type")
     text = "\n".join([x for x in [schema_description, *lines[:120]] if x])
     if reject_detail_re and reject_detail_re.search("\n".join([url, title, text[:2400]])):
         log.reject("product_non_individual_detail")
@@ -3015,8 +3228,35 @@ def impactika_classification_context(categories: str, tag_names: list[str], text
     return clean(" ".join(part for part in [categories, ", ".join(tag_names), impactika_classification_snippets(text)] if part))
 
 
-def impactika_display_name(name: str) -> str:
-    display = clean(name.title())
+def impactika_name_from_url(url: str | None) -> str | None:
+    if not url:
+        return None
+    slug = unquote(urlparse(url).path.rstrip("/").rsplit("/", 1)[-1]).lower()
+    if not slug:
+        return None
+    if slug in IMPACTIKA_URL_NAME_OVERRIDES:
+        return IMPACTIKA_URL_NAME_OVERRIDES[slug]
+    tokens = clean(re.sub(r"[-_]+", " ", slug)).split()
+    cleaned = []
+    idx = 0
+    while idx < len(tokens):
+        token = tokens[idx]
+        if IMPACTIKA_INVENTORY_CODE_RE.fullmatch(token):
+            idx += 1
+            continue
+        if IMPACTIKA_SPLIT_INVENTORY_CODE_RE.fullmatch(token) and idx + 1 < len(tokens) and re.fullmatch(r"\d+[A-Za-z]?", tokens[idx + 1], re.I):
+            idx += 2
+            continue
+        cleaned.append(token)
+        idx += 1
+    while len(cleaned) > 1 and re.fullmatch(r"\d+", cleaned[0]):
+        cleaned.pop(0)
+    candidate = clean(" ".join(cleaned))
+    return display_case_name(candidate.title()) if candidate else None
+
+
+def impactika_display_name(name: str, url: str | None = None) -> str:
+    display = impactika_name_from_url(url) or clean(name.title())
     return re.sub(r"\b(Nwa|Dag|Nakhla|Nininger)\b", lambda m: {"Nwa": "NWA", "Dag": "DaG"}.get(m.group(1), m.group(1)), display)
 
 
@@ -3080,7 +3320,7 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                 item = make_listing(
                     site,
                     permalink,
-                    impactika_row_title(name, line),
+                    impactika_display_name(name, permalink),
                     price=price,
                     currency=currency or "USD",
                     weight_g=weight,
@@ -3449,6 +3689,22 @@ def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
         str(normalized.get("meteorite_type") or "unknown"),
         normalized.get("subtype"),
         normalized.get("classification_text"),
+    )
+    mtype, subtype, ctext = classification_title_variants(
+        normalized["title"],
+        str(normalized.get("url") or ""),
+        mtype,
+        subtype,
+        ctext,
+    )
+    mtype, subtype, ctext = source_specific_classification(
+        parser,
+        normalized["title"],
+        str(normalized.get("url") or ""),
+        str(normalized.get("classification_text") or ""),
+        mtype,
+        subtype,
+        ctext,
     )
     normalized["meteorite_type"] = mtype
     normalized["subtype"] = subtype

@@ -22,8 +22,8 @@ Last updated: 2026-06-16
 - Galactic Stone & Ironworks uses `galactic_stone` and parses BigCommerce product grids with add-to-cart/detail proof, title weights, and non-specimen/out-of-stock rejection.
 - The Meteorite Market uses `meteorite_market` and parses validated static sale pages with duplicate-cell cleanup and sold-price rejection.
 - Arizona Skies Meteorites uses `arizona_skies` and parses only Lunar/Martian final specimen pages plus clean inexpensive rows with exact price, individual weight, valid image, and sold/non-specimen rejection.
-- Aerolite Meteorites uses `aerolite` and parses narrow WooCommerce shop categories while excluding sold and non-specimen products.
-- IMPACTIKA uses `impactika` and parses Woo Store API description rows with smaller retried JSON requests, exact price/weight row validation, stock checks, and lot/range/per-gram rejection.
+- Aerolite Meteorites uses `aerolite` and parses narrow WooCommerce shop categories while excluding sold and non-specimen products; branded schema suffixes such as `| Aerolite Meteorites Incorporated` are stripped during normalization.
+- IMPACTIKA uses `impactika` and parses Woo Store API description rows with smaller retried JSON requests, exact price/weight row validation, stock checks, lot/range/per-gram rejection, and product/URL-derived display names instead of AB inventory row codes.
 - SkyFall Meteorites uses `skyfall_meteorites` and parses product sitemap entries under meteorites-for-sale paths with positive title weights/prices and path/title rejection rules.
 - Meteolovers uses `meteolovers` and parses Elementor/Woo product cards under meteorite paths with schema/meta prices and sold/status checks.
 - justMETEORITES uses `justmeteorites` and parses product-sitemap detail pages while excluding sold paths, non-specimen paths, and unavailable detail pages.
@@ -47,6 +47,7 @@ Last updated: 2026-06-16
 - `.gitignore` now covers common Python, Node/static tooling, local environment, editor, OS, build, temp, and cache artifacts without ignoring source/data docs.
 - `scraper/__pycache__/` was removed as a generated artifact.
 - `.venv/` was intentionally left in place because it may be useful locally and is ignored.
+- Parser normalization now preserves high-confidence subtype variants such as `C2-UNG`, `EH3/EH4`, `L/LL6`, Eucrite qualifiers, `Achondrite-ung`, and `IIIE-AN`; targeted source fixes cover FossilEra lunar Type labels, Arizona Skies Campocito/Campo del Cielo rows, justMETEORITES Vaca Muerta and Monturaqui, and Meteorite Exchange NWA 4799 EH-melt rock.
 
 ## Parser Policy
 

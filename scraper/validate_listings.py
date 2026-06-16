@@ -20,12 +20,13 @@ METEORITE_RE = re.compile(
     r"sikhote|gibeon|campo|diablo|gebel\s+kamil|dronino|tektite|moldavite|eucrite|diogenite|howardite|"
     r"shergottite|nakhlite|aubrite|ureilite|angrite|mesosiderite|octahedrite|ataxite|"
     r"saffordite|"
-    r"\b(?:OC|C\s?2|IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC)\b",
+    r"\b(?:OC|C\s?2|C\s?[123]\s*-\s*ung|IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|EUC)\b",
     re.I,
 )
 BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|placeholder|heart/(?:dis|en)abled|sold\.jpg|red(?:%20|\s)*dot|meteor50|frontis|wid%2012|micro%20enhanced", re.I)
 SOLD_TEXT_RE = re.compile(r"\b(on\s+hold|reserved|unavailable)\b|\bsold\b(?![\s-]+by\b)(?:\s+out\b)?", re.I)
-SLASH_CLASS_RE = re.compile(r"\b(?:H|L|LL)\s*[3-7](?:\.\d)?\s*/\s*[3-7](?:\.\d)?\b", re.I)
+SLASH_CLASS_RE = re.compile(r"\b(?:(?:H|L|LL)\s*[3-7](?:\.\d)?\s*/\s*[3-7](?:\.\d)?|(?:H/L|L/LL|H/LL)\s*[3-7](?:\.\d)?)\b", re.I)
+IMPACTIKA_INVENTORY_TITLE_RE = re.compile(r"^(?:AB|Ab)\d+[A-Za-z]?\b")
 TITLE_WEIGHT_NUMBER_RE = r"(?:[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]+)?|[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+)"
 TITLE_WEIGHT_RE = re.compile(
     rf"(?<![0-9A-Za-z])({TITLE_WEIGHT_NUMBER_RE})\s*(kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
@@ -235,13 +236,13 @@ def subtype_family(subtype: str | None) -> str | None:
     token = compact_classification_token(subtype)
     if not token:
         return None
-    if token in {"OC", "H/L", "H/L3", "L(LL)3"} or re.fullmatch(r"(?:H|L|LL)-?[3-7](?:\.\d)?(?:[/\-][3-7](?:\.\d)?)?", token):
+    if token in {"OC", "H/L", "H/L3", "L(LL)3"} or re.fullmatch(r"(?:H|L|LL)-?[3-7](?:\.\d)?(?:[/\-][3-7](?:\.\d)?)?|(?:H/L|L/LL|H/LL)-?[3-7](?:\.\d)?", token):
         return "ordinary chondrite"
-    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?", token) or token in {"C2", "C-2", "CBA", "CBB"} or re.fullmatch(r"CVOX[A-Z]?3|CVRED3", token):
+    if re.fullmatch(r"(?:CI|CM|CO|CV|CR|CK|CH|CB)-?\d(?:\.\d)?|C[123]-UNG", token) or token in {"C2", "C-2", "CBA", "CBB"} or re.fullmatch(r"CVOX[A-Z]?3|CVRED3", token):
         return "carbonaceous chondrite"
-    if re.fullmatch(r"(?:EH|EL|R)-?[3-7](?:\.\d)?(?:-[3-7](?:\.\d)?)?", token):
+    if re.fullmatch(r"(?:EH|EL)-?[3-7](?:\.\d)?(?:[/\-](?:EH|EL)?[3-7](?:\.\d)?)?|(?:R)-?[3-7](?:\.\d)?(?:-[3-7](?:\.\d)?)?|EH-MELTROCK", token):
         return "chondrite"
-    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", token):
+    if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", token):
         return "iron"
     if token == "PALLASITE":
         return "pallasite"
@@ -266,6 +267,8 @@ def subtype_family(subtype: str | None) -> str | None:
         "ACHONDRITE-UNG",
     }:
         return "achondrite"
+    if re.fullmatch(r"EUCRITE-.+", token):
+        return "achondrite"
     return None
 
 
@@ -281,9 +284,10 @@ def type_family(mtype: str | None) -> str | None:
 
 CLASSIFICATION_TOKEN_RE = re.compile(
     r"\b(?:ordinary\s+chondrite|carbonaceous\s+chondrite|H\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
-    r"L\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|LL\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
-    r"OC|C\s?-?\s?2|CI\s?-?\s?\d|CM\s?-?\s?\d|CO\s?-?\s?\d|CV\s?-?\s?\d|CR\s?-?\s?\d|CK\s?-?\s?\d|CH\s?-?\s?\d|CBa|CBb|"
-    r"IIA|IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|EUC|HED|eucrite|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
+    r"(?:H/L|L/LL|H/LL)\s?-?\s?[3-7](?:\.\d)?|L\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|LL\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
+    r"OC|C\s?-?\s?[123]\s*-\s*ung|C\s?-?\s?2|CI\s?-?\s?\d|CM\s?-?\s?\d|CO\s?-?\s?\d|CV\s?-?\s?\d|CR\s?-?\s?\d|CK\s?-?\s?\d|CH\s?-?\s?\d|CBa|CBb|"
+    r"EH\s?-?\s?[3-7](?:\s*[/\-]\s*(?:EH\s*)?[3-7])?|EL\s?-?\s?[3-7](?:\s*[/\-]\s*(?:EL\s*)?[3-7])?|EH\s*-\s*melt\s+rock|"
+    r"IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|EUC|HED|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
     r"shergottite|nakhlite|chassignite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|iron)\b",
     re.I,
 )
@@ -445,8 +449,14 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if parser == "impactika" and available is True:
         if price is None or weight is None:
             errors.append(f"row {index}: active IMPACTIKA row lacks exact price/weight")
+        if IMPACTIKA_INVENTORY_TITLE_RE.search(title):
+            errors.append(f"row {index}: active IMPACTIKA title starts with inventory code")
         if IMPACTIKA_AMBIGUOUS_ROW_RE.search(non_individual_haystack):
             errors.append(f"row {index}: active IMPACTIKA ambiguous lot/range/per-gram row")
+
+    subtype_token = compact_classification_token(item.get("subtype"))
+    if re.fullmatch(r"(?:H|L|LL)[3-7][3-7]", subtype_token):
+        errors.append(f"row {index}: ordinary chondrite subtype range lacks separator: {item.get('subtype')!r}")
 
     class_haystack = " ".join(str(item.get(key) or "") for key in ["title", "classification_text"])
     preserved_haystack = " ".join(str(item.get(key) or "") for key in ["subtype", "classification_text"])
