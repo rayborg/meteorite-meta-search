@@ -1,28 +1,33 @@
 {
-  "generated_at": "2026-06-16T01:46:53.116126+00:00",
+  "generated_at": "2026-06-16T06:18:49.206045+00:00",
   "source_count": 16,
   "listing_count": 2286,
-  "scrape_mode": "full",
-  "preserve_existing": false,
+  "scrape_mode": "rotation",
+  "preserve_existing": true,
   "scraped_sources": [
+    "Meteorite Exchange"
+  ],
+  "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
     "BAITYLIA",
     "Meteorite Exchange",
     "FossilEra",
     "Galactic Stone & Ironworks",
-    "The Meteorite Market",
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
     "IMPACTIKA",
-    "SkyFall Meteorites",
-    "Meteolovers",
     "justMETEORITES",
     "Mini Museum Meteorites",
     "Fossil Realm Meteorite Collection",
     "TOP Meteorite"
   ],
-  "preserved_sources": [],
+  "rotation_index": 3,
+  "rotation_total": 16,
+  "rotation_key": "20",
+  "empty_refresh_preserved_sources": [
+    "Meteorite Exchange"
+  ],
   "listings": [
     {
       "id": "9f7866887ce1a579",
