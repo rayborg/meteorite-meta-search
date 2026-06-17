@@ -8,7 +8,7 @@ Last updated: 2026-06-17
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
 - Generated listing data lives in `data/listings.json`; current generated data has 3,183 listings from 20 enabled sources.
-- Source registry has 37 configured sources: 20 enabled and 17 disabled.
+- Source registry has 35 configured sources: 20 enabled and 15 disabled.
 - Current changes are intended for commit; commit/push are pending only until the user-requested commit is performed.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
@@ -39,10 +39,9 @@ Last updated: 2026-06-17
 
 ## Disabled Sources
 
-- Collector Secret Meteorites, The Space Shop Meteorites, broad eBay/Etsy marketplace search, Facebook Meteorite Groups, and IMCA Member List remain policy-blocked or reference-only disabled sources.
+- Collector Secret Meteorites, broad eBay/Etsy marketplace search, Facebook Meteorite Groups, and IMCA Member List remain policy-blocked or reference-only disabled sources.
 - Seven disabled eBay Browse API parser-start entries are present: `whitehouse_meteorites`, `topherspin`, `fobos13ali`, `yoda_meteorites`, `the.interstellar.collection`, `meteoritetreasure`, and `topmeteorite`.
 - eBay entries are official Browse API only, seller-allowlist only, fixed-price only, and must remain disabled until API secrets are configured and rows are manually reviewed.
-- Galactic Stone eCrater Mirror has disabled parser start `galactic_stone_ecrater`; keep it disabled because bounded review found display kits, pendants/vials, collections, and other non-individual or weightless rows rather than useful non-duplicate specimens.
 - Disabled backlog entries are present for Etsy SpaceTreasuresUS, Etsy SPACEMANGIFT, and Etsy saharagems. They use the no-op `disabled_backlog` parser until a real parser is built.
 - Etsy SpaceTreasuresUS, SPACEMANGIFT, and saharagems were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe/reliable public-HTML parser was added; future Etsy work should use official Etsy Open API credentials plus manual row-quality review before enablement.
 - Disabled sources are visible in the UI source panel but are excluded from scraper runs and listing results.
@@ -57,7 +56,7 @@ Last updated: 2026-06-17
 - A conservative MetBull-assisted canonical-name layer adds `canonical_name`, `canonical_name_display`, `canonical_name_status`, and `canonical_name_source` fields, plus optional MetBull metadata where available.
 - PolandMET and KD Meteorites parser work has passed targeted local scrape review and validation.
 - eBay Browse API connector work is present but disabled/config-gated until API secrets and manual row review exist.
-- Galactic Stone eCrater Mirror parser work is present but disabled; do not enable unless a future review finds individual sellable meteorite/tektite/impactite specimens with exact price and weight that add non-duplicate coverage beyond the direct Galactic Stone source.
+- Disqualified storefronts such as The Space Shop Meteorites and Galactic Stone eCrater Mirror are intentionally not configured because bounded review found souvenir/display/non-individual inventory rather than useful individual specimens.
 - The user's long dealer list should be treated as candidate backlog/input, not as permission to scrape every site or broad marketplace results.
 
 ## Active Todo List

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meteorite Meta Search</title>
-  <link rel="stylesheet" href="styles.css?v=20260616-usd-fx">
+  <link rel="stylesheet" href="styles.css?v=20260617-source-counts">
 </head>
 <body>
   <header class="site-header">
@@ -17,7 +17,7 @@
   <main>
     <section class="summary-grid">
       <article><span class="big" id="totalListings">0</span><span>listings</span></article>
-      <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel" aria-expanded="false"><span class="big" id="totalSources">0</span><span>configured sources</span><span class="visually-hidden">Show the source information panel</span></button></article>
+      <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel" aria-expanded="false"><span class="big" id="totalSources">0</span><span>connected sources</span><span class="summary-meta" id="sourceSummaryMeta">0 configured total</span><span class="visually-hidden">Show the source information panel</span></button></article>
       <article><span class="big price-summary" id="avgPricePerG">—</span><span>avg USD price/g where available</span></article>
       <article><span class="big price-summary" id="bestDeal">—</span><span>lowest USD price/g</span></article>
     </section>
@@ -27,6 +27,7 @@
           <h2 id="sourcesHeading" tabindex="-1">Sources</h2>
         </div>
       </div>
+      <div id="sourceStatusCounts" class="source-status-counts" role="list" aria-label="Source status breakdown; categories sum to configured total"></div>
       <div class="source-info-control">
         <label for="sourceInfoSelect">Show source details</label>
         <select id="sourceInfoSelect" autocomplete="off"></select>
@@ -75,6 +76,6 @@
       <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="availability"></td><td class="confidence"></td>
     </tr>
   </template>
-  <script src="app.js?v=20260616-usd-fx"></script>
+  <script src="app.js?v=20260617-source-counts"></script>
 </body>
 </html>

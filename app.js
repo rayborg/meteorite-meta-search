@@ -684,14 +684,71 @@ function sourceStage(site) {
   if (site.stage === "disabled_backlog") {
     return { key: "backlog", label: "Disabled backlog", cardClass: "disabled", statusClass: "backlog" };
   }
-  if (site.parser) {
+  if (site.stage === "disabled_parser_start") {
     return { key: "parserStart", label: "Disabled parser start", cardClass: "disabled", statusClass: "parser-start" };
   }
   return { key: "backlog", label: "Disabled backlog", cardClass: "disabled", statusClass: "backlog" };
 }
 
+function sourceStatusCounts() {
+  const counts = {
+    enabled: 0,
+    total: allSites.length,
+    parserStart: 0,
+    backlog: 0,
+    policyBlocked: 0
+  };
+
+  for (const site of allSites) {
+    if (siteIsEnabled(site)) {
+      counts.enabled += 1;
+    }
+
+    if (site.stage === "disabled_parser_start") counts.parserStart += 1;
+    if (site.stage === "disabled_backlog") counts.backlog += 1;
+    if (site.stage === "disabled_policy_blocked") counts.policyBlocked += 1;
+  }
+
+  return counts;
+}
+
+function renderSourceStatusCounts(counts) {
+  const container = $("sourceStatusCounts");
+  if (!container) return;
+
+  const entries = [
+    { value: counts.enabled, label: "Connected", ariaLabel: "Connected or enabled sources" },
+    { value: counts.parserStart, label: "Parser starts", ariaLabel: "Disabled parser starts" },
+    { value: counts.backlog, label: "Backlog", ariaLabel: "Disabled backlog sources" },
+    { value: counts.policyBlocked, label: "Policy/ref", ariaLabel: "Policy-blocked or reference sources" }
+  ];
+
+  container.innerHTML = "";
+  for (const entry of entries) {
+    const item = document.createElement("div");
+    item.className = "source-count";
+    item.setAttribute("role", "listitem");
+    item.setAttribute("aria-label", `${entry.ariaLabel}: ${entry.value}`);
+
+    const value = document.createElement("span");
+    value.className = "source-count-value";
+    value.textContent = entry.value;
+
+    const label = document.createElement("span");
+    label.className = "source-count-label";
+    label.textContent = entry.label;
+
+    item.append(value, label);
+    container.appendChild(item);
+  }
+}
+
 function updateSourceSummary() {
-  $("totalSources").textContent = allSites.length;
+  const counts = sourceStatusCounts();
+  $("totalSources").textContent = counts.enabled;
+  $("sourceSummaryMeta").textContent = `${counts.total} configured total`;
+  $("sourcesSummary").setAttribute("aria-label", `${counts.enabled} connected or enabled sources; ${counts.total} total configured. Show source status counts and details.`);
+  renderSourceStatusCounts(counts);
 }
 
 function sourceOptionLabel(site) {

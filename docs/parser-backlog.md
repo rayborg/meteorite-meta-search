@@ -42,7 +42,6 @@ These sources are present in `data/sites.json` with `enabled: false` and `stage:
 | eBay - fobos13ali | `ebay_browse` | Candidate from user-provided list. Needs storefront quality review before any enablement. |
 | eBay - yoda_meteorites | `ebay_browse` | Candidate from user-provided list. Needs storefront quality review before any enablement. |
 | eBay - the.interstellar.collection | `ebay_browse` | Candidate with possible dust/vial noise. Needs manual review confirming enough individual specimens. |
-| Galactic Stone eCrater Mirror | `galactic_stone_ecrater` | Parser is implemented for the narrow eCrater Meteorites category, but keep disabled. Bounded review on 2026-06-17 found current rows are display kits, pendants/vials, collections, and other non-individual or weightless products, adding no safe useful inventory beyond active Galactic Stone direct. |
 | eBay - meteoritetreasure | `ebay_browse` | Provisional seller allowlist from `/str/meteoritetreasure`. Needs API credential setup, seller verification, and manual row review before enabling. |
 | eBay - Top Meteorite Store | `ebay_browse` | Provisional seller allowlist from `/str/topmeteorite`. Needs API credential setup, seller verification, and manual row review before enabling. |
 
@@ -56,11 +55,14 @@ These are present in `data/sites.json` with `enabled: false`, `stage: disabled_b
 | Etsy - SPACEMANGIFT | https://www.etsy.com/shop/SPACEMANGIFT | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
 | Etsy - saharagems | https://www.etsy.com/shop/saharagems | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
 
-## High-Priority Candidates
+## Disqualified / Not Configured
 
-| Priority | Site | URL | Why add | Likely parser style | First inspection notes |
-| --- | --- | --- | --- | --- | --- |
-| 10 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Older/mirror storefront for Galactic Stone. | eCrater product-grid parser exists but is disabled. | Current inventory does not pass quality gate; revisit only if the mirror later has individual exact price/weight specimens not covered by the direct source. |
+These were reviewed and intentionally removed from the configured source list because they are not useful individual-specimen inventory sources right now.
+
+| Site | URL | Reason |
+| --- | --- | --- |
+| Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Bounded review on 2026-06-17 found display kits, pendants/vials, collections, and other non-individual or weightless products, adding no safe useful inventory beyond active Galactic Stone direct. |
+| The Space Shop Meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Generic souvenir/gift gram products rather than named individual specimen inventory. |
 
 ## Medium-Priority Candidates
 
@@ -75,7 +77,6 @@ These are present in `data/sites.json` with `enabled: false` and `stage: disable
 | Site | URL | Blocker |
 | --- | --- | --- |
 | Collector Secret Meteorites | https://www.collector-secret.com/minerals/meteorites | Broad eBay affiliate/aggregator feed rather than direct verified inventory. |
-| The Space Shop Meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Generic souvenir/gift products rather than named individual specimen inventory. |
 | eBay Marketplace Search | https://www.ebay.com/ | Broad marketplace search/category scraping is blocked; use official Browse API seller allowlists only. |
 | Etsy Marketplace Search | https://www.etsy.com/ | Broad marketplace search/category scraping is blocked; use official Etsy Open API credentials with vetted storefront allowlists only. |
 | Facebook Meteorite Groups | https://www.facebook.com/ | Login/community source; keep manual/research only. |

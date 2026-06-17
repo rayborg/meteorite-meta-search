@@ -73,7 +73,6 @@ Disabled sources remain in `data/sites.json` for visibility but are excluded fro
 
 Disabled parser starts:
 
-- `Galactic Stone eCrater Mirror`
 - `eBay - whitehouse_meteorites`
 - `eBay - topherspin`
 - `eBay - fobos13ali`
@@ -83,8 +82,6 @@ Disabled parser starts:
 - `eBay - Top Meteorite Store`
 
 The eBay connector is official Browse API only, seller-allowlist only, fixed-price only, and disabled/config-gated until `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` are configured and rows are manually reviewed. Do not scrape broad eBay search/category pages.
-
-Galactic Stone eCrater Mirror has a source-specific parser but remains disabled after bounded review because the visible eCrater inventory is display kits, pendants/vials, collections, and other non-individual or weightless rows rather than useful non-duplicate individual specimens.
 
 Disabled backlog entries visible in the source panel:
 
@@ -97,11 +94,12 @@ The Etsy storefront candidates were reassessed on 2026-06-17. Narrow public stor
 Policy-blocked disabled sources:
 
 - Collector Secret Meteorites: broad eBay affiliate/aggregator feed rather than direct verified inventory.
-- The Space Shop Meteorites: generic souvenir/gift products rather than named individual specimen inventory.
 - eBay Marketplace Search: broad marketplace search/category scraping is blocked; use seller allowlists only.
 - Etsy Marketplace Search: broad marketplace search/category scraping is blocked; use official Etsy Open API credentials with vetted storefront allowlists only.
 - Facebook Meteorite Groups: login/community source; keep manual/research only.
 - IMCA Member List: reference/vetting source, not inventory.
+
+Disqualified storefronts such as The Space Shop Meteorites and the Galactic Stone eCrater mirror are intentionally not counted as configured sources because bounded review found souvenir/display/non-individual inventory rather than useful individual specimens.
 
 Additional marketplace candidates and detailed parser notes are tracked in `docs/parser-backlog.md`.
 

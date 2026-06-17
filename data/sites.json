@@ -339,19 +339,6 @@
     "notes": "Candidate only; prior snippets suggest possible dust/vial noise. Enable only after manual review confirms enough individual specimens."
   },
   {
-    "name": "Galactic Stone eCrater Mirror",
-    "parser": "galactic_stone_ecrater",
-    "stage": "disabled_parser_start",
-    "base_url": "https://galacticstone.ecrater.com/",
-    "inventory_urls": [
-      "https://galacticstone.ecrater.com/c/135113977/meteorites"
-    ],
-    "max_detail_pages": 30,
-    "enabled": false,
-    "description": "Disabled eCrater mirror storefront for Galactic Stone & Ironworks with a narrow Meteorites category parser.",
-    "notes": "Parser exists but remains disabled after bounded review on 2026-06-17. Current visible inventory is display kits, pendants/vials, collections, and other non-individual or weightless rows, with no safe non-duplicate useful inventory beyond the active direct Galactic Stone source."
-  },
-  {
     "name": "Meteorite Recon",
     "parser": "meteorite_recon",
     "stage": "active_verified",
@@ -494,17 +481,5 @@
     "enabled": false,
     "description": "Reference list useful for seller vetting, not an inventory source.",
     "notes": "Reference/backlog visibility only. IMCA itself does not sell meteorites and should not be scraped as inventory."
-  },
-  {
-    "name": "The Space Shop Meteorites",
-    "parser": "the_space_shop",
-    "stage": "disabled_policy_blocked",
-    "base_url": "https://thespaceshop.com/",
-    "inventory_urls": [
-      "https://thespaceshop.com/genuine-meteorite-3-grams/"
-    ],
-    "enabled": false,
-    "description": "Retail generic meteorite souvenir/gift products rather than named individual specimen inventory.",
-    "notes": "Policy-blocked for normal scraping: current products are generic grams, lots, souvenirs, or jewelry. Parser is an explicit no-op so enabling cannot fall back to generic output."
   }
 ]
