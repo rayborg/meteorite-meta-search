@@ -241,19 +241,58 @@ function safeRemoteImageUrl(value) {
   }
 }
 
+function imageCandidates(item) {
+  const rawValues = [
+    item.image_url,
+    ...(Array.isArray(item.image_urls) ? item.image_urls : [])
+  ];
+  const urls = [];
+  const seen = new Set();
+
+  for (const value of rawValues) {
+    const url = safeRemoteImageUrl(value);
+    if (url && !seen.has(url)) {
+      urls.push(url);
+      seen.add(url);
+    }
+  }
+
+  return urls;
+}
+
 function showNoImage(thumb, noImage) {
   thumb.removeAttribute("src");
   thumb.hidden = true;
   noImage.hidden = false;
 }
 
+function showImageAtIndex(thumb, noImage, item, index = 0) {
+  const urls = item._imageUrls || [];
+  const imageUrl = urls[index];
+
+  if (!imageUrl) {
+    showNoImage(thumb, noImage);
+    return;
+  }
+
+  thumb.addEventListener("error", () => showImageAtIndex(thumb, noImage, item, index + 1), { once: true });
+  thumb.src = imageUrl;
+  thumb.alt = `${item.title || "Meteorite listing"} image`;
+  thumb.hidden = false;
+  noImage.hidden = true;
+}
+
 function prepareListing(item) {
-  const imageUrl = safeRemoteImageUrl(item.image_url);
+  const imageUrls = imageCandidates(item);
+  const imageUrl = imageUrls[0] || null;
   return {
     ...item,
     _imageUrl: imageUrl,
+    _imageUrls: imageUrls,
     _searchText: normalize([
       item.title,
+      item.canonical_name,
+      item.canonical_name_display,
       item.source,
       item.meteorite_type,
       item.subtype,
@@ -639,6 +678,12 @@ function sourceStage(site) {
   if (siteIsEnabled(site)) {
     return { key: "enabled", label: "Enabled", cardClass: "enabled", statusClass: "enabled" };
   }
+  if (site.stage === "disabled_policy_blocked") {
+    return { key: "policyBlocked", label: "Policy blocked", cardClass: "disabled", statusClass: "disabled" };
+  }
+  if (site.stage === "disabled_backlog") {
+    return { key: "backlog", label: "Disabled backlog", cardClass: "disabled", statusClass: "backlog" };
+  }
   if (site.parser) {
     return { key: "parserStart", label: "Disabled parser start", cardClass: "disabled", statusClass: "parser-start" };
   }
@@ -774,17 +819,8 @@ function render() {
     const title = row.querySelector(".title");
     const thumb = row.querySelector(".thumb");
     const noImage = row.querySelector(".no-image");
-    const imageUrl = item._imageUrl;
 
-    if (imageUrl) {
-      thumb.addEventListener("error", () => showNoImage(thumb, noImage), { once: true });
-      thumb.src = imageUrl;
-      thumb.alt = `${item.title || "Meteorite listing"} image`;
-      thumb.hidden = false;
-      noImage.hidden = true;
-    } else {
-      showNoImage(thumb, noImage);
-    }
+    showImageAtIndex(thumb, noImage, item);
 
     title.textContent = item.title || "Untitled listing";
     title.href = item.url;

@@ -1,13 +1,15 @@
 # Session Memory
 
-Last updated: 2026-06-16
+Last updated: 2026-06-17
 
 ## Current State
 
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current checked data has 2,357 listings from 16 enabled sources.
+- Generated listing data lives in `data/listings.json`; current generated data has 3,183 listings from 20 enabled sources.
+- Source registry has 37 configured sources: 20 enabled and 17 disabled.
+- Current changes are intended for commit; commit/push are pending only until the user-requested commit is performed.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
@@ -30,24 +32,54 @@ Last updated: 2026-06-16
 - Mini Museum Meteorites uses `mini_museum` and parses a narrow Shopify meteorite subset with product-type, gift/jewelry/card/collection, positive-price, and title-weight checks.
 - Fossil Realm Meteorite Collection uses `fossil_realm` and parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights.
 - TOP Meteorite uses `top_meteorite` and parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords.
+- PolandMET uses `polandmet` and parses five bounded Woo Store API pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallback candidates, and local MetBull-assisted display names.
+- KD Meteorites uses `kd_meteorites` and parses bounded static sale hubs/detail pages with non-specimen/info-page rejection, exact price/weight/image requirements, and page/URL-derived clean titles.
+- Meteorite Recon uses `meteorite_recon` and parses only the static Stones and Irons sale pages with row-scoped images, exact price/individual-weight requirements, and offer-price/category/non-specimen rejection.
+- WWMeteorites uses `wwmeteorites` and parses bounded same-domain sale/detail pages with exact row price/weight requirements, sold/category/lot/range/non-specimen rejection, duplicate row suppression, and remote image URLs only.
 
 ## Disabled Sources
 
-- Collector Secret Meteorites and The Space Shop Meteorites remain policy-blocked disabled sources.
-- There are currently no ordinary disabled parser starts in `data/sites.json`.
+- Collector Secret Meteorites, The Space Shop Meteorites, broad eBay/Etsy marketplace search, Facebook Meteorite Groups, and IMCA Member List remain policy-blocked or reference-only disabled sources.
+- Seven disabled eBay Browse API parser-start entries are present: `whitehouse_meteorites`, `topherspin`, `fobos13ali`, `yoda_meteorites`, `the.interstellar.collection`, `meteoritetreasure`, and `topmeteorite`.
+- eBay entries are official Browse API only, seller-allowlist only, fixed-price only, and must remain disabled until API secrets are configured and rows are manually reviewed.
+- Galactic Stone eCrater Mirror has disabled parser start `galactic_stone_ecrater`; keep it disabled because bounded review found display kits, pendants/vials, collections, and other non-individual or weightless rows rather than useful non-duplicate specimens.
+- Disabled backlog entries are present for Etsy SpaceTreasuresUS, Etsy SPACEMANGIFT, and Etsy saharagems. They use the no-op `disabled_backlog` parser until a real parser is built.
+- Etsy SpaceTreasuresUS, SPACEMANGIFT, and saharagems were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe/reliable public-HTML parser was added; future Etsy work should use official Etsy Open API credentials plus manual row-quality review before enablement.
 - Disabled sources are visible in the UI source panel but are excluded from scraper runs and listing results.
+
+## Current In-Progress Work
+
+- Image resilience is implemented with optional remote `image_urls` fallback candidates while preserving `image_url` as the primary/backward-compatible field.
+- Frontend image rendering tries fallback image URLs before showing `No image`.
+- Validator structurally validates optional `image_urls` arrays.
+- Scraper politeness is centralized through a per-host throttled request wrapper with jitter, transient-status retries, and `Retry-After` support.
+- Normal inventory scrapes do not query the Meteoritical Bulletin live per row. MetBull support is cache-backed/local through `data/metbull_names.json` and `scraper/update_metbull_cache.py`.
+- A conservative MetBull-assisted canonical-name layer adds `canonical_name`, `canonical_name_display`, `canonical_name_status`, and `canonical_name_source` fields, plus optional MetBull metadata where available.
+- PolandMET and KD Meteorites parser work has passed targeted local scrape review and validation.
+- eBay Browse API connector work is present but disabled/config-gated until API secrets and manual row review exist.
+- Galactic Stone eCrater Mirror parser work is present but disabled; do not enable unless a future review finds individual sellable meteorite/tektite/impactite specimens with exact price and weight that add non-duplicate coverage beyond the direct Galactic Stone source.
+- The user's long dealer list should be treated as candidate backlog/input, not as permission to scrape every site or broad marketplace results.
+
+## Active Todo List
+
+- Commit and push only when explicitly user-requested; this remains pending only until that commit is done.
 
 ## Recent Decisions
 
 - README was expanded to be the canonical guide for setup, scraping, validation, workflow behavior, data files, parser policy, and no local media copying.
 - A session memory file was added under `docs/` for future agents.
-- Current active source registry was reconciled to 16 enabled sources; Meteorite Exchange and Galactic Stone now have refreshed listings in `data/listings.json`.
+- Current active source registry now has 20 enabled sources after adding PolandMET, KD Meteorites, Meteorite Recon, and WWMeteorites.
 - Saffordite is treated as an impactite marker so Meteorite Exchange impactite rows classify without suspicious-row noise.
 - Scraper output now normalizes priced rows to USD using daily no-key FX rates when available, falling back to saved exchange-rate metadata or USD-only metadata if offline.
 - `.gitignore` now covers common Python, Node/static tooling, local environment, editor, OS, build, temp, and cache artifacts without ignoring source/data docs.
 - `scraper/__pycache__/` was removed as a generated artifact.
 - `.venv/` was intentionally left in place because it may be useful locally and is ignored.
 - Parser normalization now preserves high-confidence subtype variants such as `C2-UNG`, `EH3/EH4`, `L/LL6`, Eucrite qualifiers, `Achondrite-ung`, and `IIIE-AN`; targeted source fixes cover FossilEra lunar Type labels, Arizona Skies Campocito/Campo del Cielo rows, justMETEORITES Vaca Muerta and Monturaqui, and Meteorite Exchange NWA 4799 EH-melt rock.
+- GitHub Actions scrape failures from push runs were diagnosed as stale long-running scrape commits being rejected after `main` advanced; workflow was fixed to cancel stale runs and skip stale inventory commits.
+- The next `Scrape meteorite inventory` workflow run after that fix succeeded and produced bot inventory commit `7b7e630`.
+- For new source discovery, prioritize direct dealer sites with individual priced/weighted listings; add candidates one at a time with source-specific parsers and targeted validation.
+- For eBay, use official Browse API only, seller allowlists only, fixed-price only for v1, and no broad marketplace search/category scraping.
+- Be conservative with site traffic: per-host throttling, jitter, `Retry-After` handling, bounded source caps, and no high-volume live MetBull lookups during normal scraping.
 
 ## Parser Policy
 
@@ -55,8 +87,10 @@ Last updated: 2026-06-16
 - Add or verify a site-specific parser before setting `enabled: true`.
 - Emit individual sellable specimens only; reject category pages, books, articles, contact pages, broad collections, souvenir-only items, jewelry-only products, fossils, minerals, and sold-only/archive pages.
 - Keep disabled parser starts disabled until row-quality verification passes across pagination and sold/out-of-stock behavior.
-- Marketplace candidates need strict storefront vetting; avoid broad eBay/Etsy/category scraping.
+- Marketplace candidates need strict storefront vetting; avoid broad eBay/Etsy/category scraping. Etsy storefronts should be official Open API only if public storefront HTML is gated or anti-bot-protected.
 - Respect source terms, robots expectations, login walls, CAPTCHAs, and anti-bot systems. Disable a source if scraping is not allowed.
+- Do not hit sites hard during parser development. Use narrow `--site` runs, conservative page/product caps, and source-specific parsers that avoid unbounded crawling.
+- If a site returns `429`, `403`, CAPTCHAs, login walls, or anti-bot responses, back off and disable or keep the source disabled rather than escalating scraping.
 
 ## Workflow And Rotation
 
@@ -66,6 +100,8 @@ Last updated: 2026-06-16
 - Rotation refreshes one enabled source per run and preserves existing rows for enabled sources not scraped in that run.
 - The workflow validates generated data, commits `data/listings.json` changes, and pushes them.
 - `data/listings.json` is ignored by workflow path triggers to prevent immediate scraper commit loops.
+- Workflow concurrency now cancels stale in-progress scrape runs, and the commit step verifies that `HEAD` still matches `origin/main` before attempting to push an inventory commit.
+- Optional eBay Browse API workflow env vars are `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET`; the connector must remain disabled unless those are configured and row quality is reviewed.
 
 ## UI Decisions
 
@@ -82,6 +118,7 @@ Last updated: 2026-06-16
 - Listings weighing at least 1000 g show USD price/kg alongside USD price/g in the price/g cell.
 - Source panel exposes enabled, disabled parser start, and disabled backlog states.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
+- Image fallback keeps `image_url` primary and lets optional `image_urls` provide retry candidates before `No image` is shown.
 
 ## Validation Commands
 
@@ -90,7 +127,7 @@ Run from the repo root:
 ```sh
 node --check app.js
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
-PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py scraper/update_metbull_cache.py
 git diff --check
 ```
 
@@ -101,6 +138,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --rotate --preserve-existing --rotation-key 1
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --site "FossilEra" --preserve-existing
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/scrape.py --normalize-existing
+PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py
 ```
 
 ## Next Tasks

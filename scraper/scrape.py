@@ -4,11 +4,14 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
+import random
 import re
 import time
+import unicodedata
 from collections import Counter
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
@@ -21,9 +24,16 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 SITES = ROOT / "data" / "sites.json"
 OUT = ROOT / "data" / "listings.json"
+METBULL_NAMES = ROOT / "data" / "metbull_names.json"
 UA = "MeteoriteMetaSearchBot/0.3 (+https://github.com/rayborg/meteorite-meta-search)"
 BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
 DELAY = 2.0
+REQUEST_MIN_INTERVAL = 1.5
+REQUEST_JITTER = (0.2, 0.8)
+REQUEST_RETRY_STATUSES = {429, 500, 502, 503, 504}
+REQUEST_MAX_ATTEMPTS = 3
+REQUEST_MAX_BACKOFF = 90.0
+HOST_NEXT_REQUEST_AT: dict[str, float] = {}
 MAX_INDEX_PAGES_PER_SITE = 80
 MAX_DETAIL_PAGES_PER_SITE = 300
 MAX_SHOPIFY_PAGES_PER_SITE = 4
@@ -191,37 +201,106 @@ GALACTIC_STONE_TITLE_METEORITE_RE = re.compile(
     r"IAB|IIAB|IIIAB|IVA|IVB|IIE|IRUNGR|HED|EUC)\b",
     re.I,
 )
+GALACTIC_STONE_ECRATER_PRODUCT_RE = re.compile(r"^/p/\d+/[a-z0-9-]+/?$", re.I)
+POLANDMET_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:collection|collections?|sets?|lots?|display\s*(?:case|box|stand)?|gembox|coin|coins|cast|casts|"
+    r"wiresaw|cutting\s+service|mineral|teschenite|box|case|stand|coupon|gift|souvenir)\b",
+    re.I,
+)
+KD_NON_SPECIMEN_URL_RE = re.compile(
+    r"MeteoriteKnives|MeteoriteJewelry|MeteoriteGift|GiftCertificates|MeteoriteCare|MeteorWrongs|"
+    r"Identifying|Identification|MeteoriteAdventures|MeteorAdventures|About|CheckOut|otherlinks|index|"
+    r"WeBuy|KDMeteoriteCollection|AdmireGemstones|SpearPoints|Firelight|LakeSuperior|OtherCoolFinds|"
+    r"coveretchediron|stone\.htm|Newspaper|Newspapers|Certificate|Gift",
+    re.I,
+)
+KD_NON_SPECIMEN_TEXT_RE = re.compile(
+    r"\b(?:knife|knives|jewelry|jewellery|pendants?|rings?|bracelets?|earrings?|beads?|"
+    r"gemstones?|spear\s*points?|gift\s*certificates?|newspapers?|display\s*stands?|"
+    r"chain\s+not\s+included|meteorwrongs?|meteorite\s+care|firelight)\b",
+    re.I,
+)
+KD_BAD_LABEL_RE = re.compile(
+    r"^(?:home|about\s+us|links?|check\s+out|stone\s+meteorites?|iron\s+meteorites?|stony\s+iron\s+meteorites?|"
+    r"pallasite\s+meteorite\s+nuggets?|meteorite\s+(?:knives|jewelry|care|identification|adventures|gift\s+ideas)|"
+    r"finding\s+meteorites\s+since\s+1990!?|kd\s+meteorites?)$",
+    re.I,
+)
+KD_HUB_PATHS = [
+    "IronMeteoritesForSale.html",
+    "EtchedMeteoriteSlicesForSale.html",
+    "PallasiteMeteoritesForSale.html",
+    "PallasiteMeteoriteNuggetsForSale.html",
+    "ChondriteMeteoritesForSale.html",
+    "WhatsNewAtKDMeteorites.html",
+]
+WWMETEORITES_BAD_PATH_RE = re.compile(
+    r"^(?:$|accueil|my-account|account|fullscreen-page|mammoth|mammothtooth|nuvvuagittuq|nuvvuagittuq-bif|"
+    r"gallium|trinitite|marsbluff|putorano)$",
+    re.I,
+)
+WWMETEORITES_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:mammoths?|tusks?|ivory|fossils?|terrestrial\s+(?:native\s+)?iron|oldest\s+terrestrial|"
+    r"nuvvuagittuq|gallium|trinitite|atomic\s+bomb|nuclear\s+weapon|mars\s+bluff|"
+    r"banded\s+iron\s+formation|\bBIF\b)\b",
+    re.I,
+)
+WWMETEORITES_AMBIGUOUS_ROW_RE = re.compile(
+    r"\b(?:lots?|sets?|groups?|matched[-_\s]+pairs?|choose|choice|several|many|multiple|assort(?:ed|ment)|"
+    r"various|per\s*(?:gram|g)|/\s*(?:gram|g)|from\s+\$|starting\s+at|price\s+on\s+request|contact\s+for\s+price)\b|"
+    r"\b\d+\s+(?:pieces?|fragments?|slices?|individuals?|specimens?)\b",
+    re.I,
+)
+WWMETEORITES_PRICE_RE = re.compile(
+    rf"(?:(?P<symbol_before>US\$|\$|USD|€|EUR)\s*(?P<amount_before>{WEIGHT_NUMBER_RE})|"
+    rf"(?P<amount_after>{WEIGHT_NUMBER_RE})\s*(?P<symbol_after>US\$|\$|USD|€|EUR))",
+    re.I,
+)
+WWMETEORITES_BAD_IMAGE_RE = re.compile(
+    r"favicon|facebook|instagram|logo|a8e1f3e15ccb41b88df85a10bb90531a|e0678ef25486466ba65ef6ad47b559e1|"
+    r"vesta[-_\s]*aster|spacecraft|cambridge|binary-alt",
+    re.I,
+)
 ECOMMERCE_CLEAN_TITLE_PARSERS = {
     "aerolite",
     "fossil_realm",
     "fossilera",
     "galactic_stone",
+    "galactic_stone_ecrater",
     "impactika",
     "justmeteorites",
+    "kd_meteorites",
+    "polandmet",
     "meteolovers",
     "meteorite_exchange",
     "mini_museum",
     "skyfall_meteorites",
     "top_meteorite",
+    "wwmeteorites",
 }
 CATALOG_NAME_RE = re.compile(r"\b(NWA|North\s*west\s+Africa|Northwest\s+Africa)\s*(\d{2,6})(?:\s*([A-Z]))?\b", re.I)
 NUMBERED_OFFICIAL_NAME_RE = re.compile(
-    r"\b(?:Abadla|Adrar|Al\s+Haggounia|Bechar|DaG|Dar\s+al\s+Gani|Dhofar|Erg\s+Chech|JAH|Jiddat\s+al\s+Harasis|"
-    r"Jikharra|Ksar\s+Ghilane|Laayoune|NEA|Northeast\s+Africa|Oued\s+el\s+Hamim|Taoudenni|Tirhert)\s+\d{2,6}[A-Za-z]?\b",
+    r"\b(?:Abadla|Adrar|Al\s+Haggounia|Al\s+Khuwaymat|Bechar|DaG|Dar\s+al\s+Gani|Denader|Dhofar|Erg\s+Chech|JAH|Jiddat\s+al\s+Harasis|"
+    r"Jikharra|Ksar\s+Ghilane|Laayoune|NEA|Northeast\s+Africa|Oued\s+el\s+Hamim|RaS|Ramlat\s+as\s+Sahmah|"
+    r"SaU|Sayh\s+al\s+Uhaymir|Taoudenni|Tibertatine|Tirhert)\s+\d{2,6}[A-Za-z]?\b",
     re.I,
 )
 KNOWN_DISPLAY_NAME_RE = re.compile(
-    r"\b(?:Agoudal|Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|Campo\s+del\s+Cielo|Chelyabinsk|Dronino|El\s+Menia|"
-    r"Gebel\s+Kamil|Gibeon|Holbrook|Mundrabilla|Murchison|Seymchan|Sikhote[-\s]+Alin)\b",
+    r"\b(?:Aba\s+Panu|Abadla\s+002|Agoudal|Aguas\s+Zarcas|Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|"
+    r"Campo\s+del\s+Cielo|Chergach|Chelyabinsk|Dronino|El\s+Menia|Gebel\s+Kamil|Gibeon|Holbrook|"
+    r"Mundrabilla|Murchison|Seymchan|Sikhote[-\s]+Alin)\b",
     re.I,
 )
+CANONICAL_ALIAS_PATTERNS = [
+    (re.compile(r"\b(?:baby\s+campocito|campocito)\b", re.I), "Campo del Cielo"),
+]
 TEKTITE_DISPLAY_NAME_RE = re.compile(
     r"\b(?:Moldavite|Libyan\s+Desert\s+Glass|Irghizite|Australite|Indochinite|Saffordite|Wabar\s+Pearl|Atacamaite)\b",
     re.I,
 )
 DISPLAY_CLASS_START_RE = re.compile(
     r"\b(?:ordinary\s+chondrite|carbonaceous\s+chondrite|chondrite|achondrite|lunar|martian|"
-    r"aubrite|eucrite|diogenite|howardite|ureilite|angrite|brachinite|acapulcoite|lodranite|winonaite|meteorite|"
+    r"aubrite|eucrite|diogenite|howardite|ureilite|angrite|brachinite|acapulcoite|lodranite|winonaite|meteorites?|"
     r"shergottite|nakhlite|chassignite|pallasite|mesosiderite|iron\s+meteorite|octahedrite|ataxite|hexahedrite|"
     r"tektite|impactite|impact\s+glass|"
     r"HED|EUC|OC|(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI)\s*-?\s*\d(?:\.\d)?|"
@@ -230,17 +309,20 @@ DISPLAY_CLASS_START_RE = re.compile(
 )
 DISPLAY_PRODUCT_TRAILING_RE = re.compile(
     r"(?:[,;:]?\s*\b(?:polished|complete|full|part|partial|thin|thick|end\s*cut|endcut|slice|section|fragment|fragement|"
-    r"individual|specimen|hammer\s+stone|stone|piece|window|cut)\b)+$",
+    r"endpiece|individual|specimen|hammer\s+stone|stone|piece|main\s+mass|window|cut|oriented|crusted|fresh\s+crust|fusion\s+crust|"
+    r"flight\s+lines?|flow\s+lines?|full\s+of\s+clasts?)\b)+$",
     re.I,
 )
-DISPLAY_PRODUCT_LEADING_RE = re.compile(r"^(?:polished|complete|full|part|partial|thin|thick|beautiful|rare)\s+", re.I)
+DISPLAY_PRODUCT_LEADING_RE = re.compile(r"^(?:polished|complete|full|part|partial|thin|thick|beautiful|rare|superb|gorgeous|fresh|oriented|crusted)\s+", re.I)
 DISPLAY_GENERIC_SUFFIX_RE = re.compile(
     r"^(?:new\s+find|fresh\s+(?:19|20)\d{2}\s+fall|(?:19|20)\d{2}\s+witnessed\s+fall|witnessed\s+fall|from\b|for\s+sale|"
     r"main\s+mass|museum\s+quality|rare|beautiful|complete|full|part|partial|thin|thick|"
-    r"slice|section|fragment|fragement|end\s*cut|endcut|specimen|piece|hammer\s+stone|stone)\b",
+    r"slice|section|fragment|fragement|end\s*cut|endcut|endpiece|specimen|piece|main\s+mass|hammer\s+stone|stone|oriented|crusted|fresh\s+crust|"
+    r"fusion\s+crust|flight\s+lines?|flow\s+lines?)\b",
     re.I,
 )
-DISPLAY_GENERIC_PREFIX_RE = re.compile(r"^(?:ungrouped|primitive|polymict|brecciated|aqueous\s+altered|beautiful|rare)$", re.I)
+DISPLAY_GENERIC_PREFIX_RE = re.compile(r"^(?:ungrouped|primitive|polymict|brecciated|aqueous\s+altered|beautiful|rare|superb|gorgeous|oriented|crusted)$", re.I)
+GENERIC_DISPLAY_ADJECTIVE_RE = re.compile(r"^(?:fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
 DISPLAY_SUFFIX_ONLY_RE = re.compile(
     r"^(?:Algeria|Argentina|Australia|Austria|Brazil|Canada|Chile|China|Czech\s+Republic|France|Indonesia|Italy|Kenya|Libya|Mexico|Morocco|"
     r"Nigeria|Oman|Pakistan|Peru|Poland|Romania|Russia|Spain|Tunisia|Turkey|Ukraine|Uruguay|USA|Zimbabwe|"
@@ -251,7 +333,8 @@ DISPLAY_SUFFIX_ONLY_RE = re.compile(
     re.I,
 )
 CLASSIFICATION_PRODUCT_TEXT_RE = re.compile(
-    r"\b(?:hammer\s+stone|end\s+slice|slice|section|fragment|fragement|end\s*cut|endcut|specimen|individual|piece|polished)\b",
+    r"\b(?:hammer\s+stone|end\s+slice|slice|section|fragment|fragement|end\s*cut|endcut|endpiece|main\s+mass|specimen|individual|piece|polished|"
+    r"oriented|crusted|fresh\s+crust|fusion\s+crust|flight\s+lines?|flow\s+lines?)\b",
     re.I,
 )
 DISPLAY_CLASSIFICATION_ONLY_RE = re.compile(
@@ -408,7 +491,11 @@ def display_case_name(name: str) -> str:
     if name.isupper() and len(name) > 3:
         name = name.title()
     name = re.sub(r"\bCampo\s+Del\s+Cielo\b", "Campo del Cielo", name)
-    return re.sub(r"\b(?:Nwa|Nea|Jah|Dag)\b", lambda m: {"Nwa": "NWA", "Nea": "NEA", "Jah": "JAH", "Dag": "DaG"}[m.group(0)], name)
+    return re.sub(
+        r"\b(?:Nwa|Nea|Jah|Dag|Sau|Ras)\b",
+        lambda m: {"Nwa": "NWA", "Nea": "NEA", "Jah": "JAH", "Dag": "DaG", "Sau": "SaU", "Ras": "RaS"}[m.group(0)],
+        name,
+    )
 
 
 def first_numbered_official_name(text: str) -> str | None:
@@ -545,6 +632,175 @@ def product_identity_from_url(url: str | None) -> str | None:
     return product_identity_from_title(slug_title)
 
 
+METBULL_CACHE: dict | None = None
+
+
+def normalize_name_key(value: str | None) -> str:
+    text = unicodedata.normalize("NFKD", clean(str(value or "")))
+    text = "".join(char for char in text if not unicodedata.combining(char)).lower()
+    text = re.sub(r"[\u2018\u2019'`]", "", text)
+    text = re.sub(r"[-_]+", " ", text)
+    text = re.sub(r"\bmeteorites?\b", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def load_metbull_cache() -> dict:
+    global METBULL_CACHE
+    if METBULL_CACHE is not None:
+        return METBULL_CACHE
+    if not METBULL_NAMES.exists():
+        METBULL_CACHE = {"names": {}, "aliases": {}}
+        return METBULL_CACHE
+    try:
+        data = json.loads(METBULL_NAMES.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        METBULL_CACHE = {"names": {}, "aliases": {}}
+        return METBULL_CACHE
+    names = data.get("names") if isinstance(data.get("names"), dict) else {}
+    aliases = data.get("aliases") if isinstance(data.get("aliases"), dict) else {}
+    METBULL_CACHE = {
+        "names": {normalize_name_key(key): value for key, value in names.items() if isinstance(value, dict)},
+        "aliases": {normalize_name_key(key): normalize_name_key(value) for key, value in aliases.items()},
+    }
+    return METBULL_CACHE
+
+
+def metbull_lookup(candidate: str | None) -> dict | None:
+    key = normalize_name_key(candidate)
+    if not key:
+        return None
+    cache = load_metbull_cache()
+    key = cache.get("aliases", {}).get(key, key)
+    return cache.get("names", {}).get(key)
+
+
+def metbull_canonical_info(candidate: str, source: str) -> dict | None:
+    entry = metbull_lookup(candidate)
+    if not entry:
+        return None
+    name = clean(str(entry.get("name") or candidate))
+    display_name = clean(str(entry.get("display_name") or entry.get("abbrev") or name))
+    info = {
+        "canonical_name": name,
+        "canonical_name_display": display_name,
+        "canonical_name_status": "metbull_verified",
+        "canonical_name_source": source,
+    }
+    if entry.get("code") is not None:
+        info["metbull_code"] = str(entry.get("code"))
+    if entry.get("status"):
+        info["metbull_status"] = clean(str(entry.get("status")))
+    if entry.get("type"):
+        info["metbull_type"] = clean(str(entry.get("type")))
+    return info
+
+
+def parsed_canonical_info(candidate: str, source: str) -> dict:
+    display_name = display_case_name(candidate)
+    return {
+        "canonical_name": display_name,
+        "canonical_name_display": display_name,
+        "canonical_name_status": "parsed_high",
+        "canonical_name_source": source,
+    }
+
+
+def catalog_name_candidates(text: str | None) -> list[str]:
+    candidates = []
+    text = text or ""
+    for match in CATALOG_NAME_RE.finditer(text):
+        tail = text[match.end():match.end() + 16]
+        if re.match(r"\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b", tail, re.I):
+            continue
+        candidates.append(normalized_catalog_name(match))
+    return candidates
+
+
+def numbered_name_candidates(text: str | None) -> list[str]:
+    candidates = []
+    for match in NUMBERED_OFFICIAL_NAME_RE.finditer(text or ""):
+        candidate = display_case_name(match.group(0))
+        if candidate not in candidates:
+            candidates.append(candidate)
+    return candidates
+
+
+def known_name_candidates(text: str | None) -> list[str]:
+    candidates = []
+    for pattern, canonical in CANONICAL_ALIAS_PATTERNS:
+        if pattern.search(text or "") and canonical not in candidates:
+            candidates.append(canonical)
+    for match in KNOWN_DISPLAY_NAME_RE.finditer(text or ""):
+        candidate = display_case_name(match.group(0))
+        if candidate not in candidates:
+            candidates.append(candidate)
+    return candidates
+
+
+def url_name_text(url: str | None) -> str:
+    if not url:
+        return ""
+    slug = unquote(urlparse(url).path.rstrip("/").rsplit("/", 1)[-1])
+    return clean(re.sub(r"[-_]+", " ", slug))
+
+
+def classification_display_from_context(text: str | None) -> str | None:
+    text = clean(text or "")
+    if re.search(r"\bordinary\b.*\bchondrite\b|\bchondrite\b.*\bordinary\b", text, re.I):
+        return "Ordinary chondrite"
+    if re.search(r"\bcarbonaceous\b.*\bchondrite\b|\bchondrite\b.*\bcarbonaceous\b", text, re.I):
+        return "Carbonaceous chondrite"
+    for label in [
+        "eucrite",
+        "diogenite",
+        "howardite",
+        "aubrite",
+        "ureilite",
+        "angrite",
+        "pallasite",
+        "mesosiderite",
+        "chondrite",
+        "iron meteorite",
+        "lunar meteorite",
+        "martian meteorite",
+    ]:
+        if re.search(rf"\b{re.escape(label)}\b", text, re.I):
+            return label.capitalize()
+    return None
+
+
+def canonical_name_info(raw_title: str, display_name: str, detail_text: str, url: str) -> dict:
+    sources = [
+        (display_name, "title"),
+        (raw_title, "raw_title"),
+        (url_name_text(url), "url"),
+    ]
+    for text, source in sources:
+        for candidate in [*known_name_candidates(text), *catalog_name_candidates(text), *numbered_name_candidates(text)]:
+            verified = metbull_canonical_info(candidate, source)
+            if verified:
+                return verified
+            if source in {"title", "raw_title", "url"} and (catalog_name_candidates(candidate) or numbered_name_candidates(candidate)):
+                return parsed_canonical_info(candidate, source)
+
+    for candidate in [*known_name_candidates(detail_text[:1600]), *catalog_name_candidates(detail_text[:1600]), *numbered_name_candidates(detail_text[:1600])]:
+        verified = metbull_canonical_info(candidate, "detail_text")
+        if verified:
+            return verified
+
+    fallback = product_identity_from_title(display_name)
+    verified = metbull_canonical_info(fallback, "title_identity") if fallback else None
+    if verified:
+        return verified
+    return {
+        "canonical_name": None,
+        "canonical_name_display": None,
+        "canonical_name_status": "unknown",
+        "canonical_name_source": None,
+    }
+
+
 def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None) -> str:
     title = clean(raw_title)
     if parser == "impactika":
@@ -572,6 +828,10 @@ def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None)
     candidate = tidy_display_candidate(parts[0] if parts else title)
     if candidate and not DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate):
         return candidate
+    if GENERIC_DISPLAY_ADJECTIVE_RE.fullmatch(title):
+        classification_title = classification_display_from_context(f"{title} {urlparse(url or '').path}")
+        if classification_title:
+            return classification_title
     return title
 
 
@@ -644,6 +904,81 @@ def price_num(text: str | None, *, european: bool = False) -> float | None:
         return None
 
 
+def host_key(url: str) -> str:
+    return urlparse(url).netloc.lower()
+
+
+def throttle_host(url: str, base_delay: float = REQUEST_MIN_INTERVAL) -> None:
+    host = host_key(url)
+    if not host:
+        return
+    now = time.monotonic()
+    next_at = HOST_NEXT_REQUEST_AT.get(host, 0.0)
+    if next_at > now:
+        time.sleep(next_at - now)
+    HOST_NEXT_REQUEST_AT[host] = time.monotonic() + base_delay + random.uniform(*REQUEST_JITTER)
+
+
+def retry_after_seconds(response: requests.Response) -> float | None:
+    value = response.headers.get("Retry-After")
+    if not value:
+        return None
+    value = value.strip()
+    if value.isdigit():
+        return min(float(value), REQUEST_MAX_BACKOFF)
+    try:
+        retry_at = parsedate_to_datetime(value)
+    except (TypeError, ValueError):
+        return None
+    return min(max(0.0, retry_at.timestamp() - time.time()), REQUEST_MAX_BACKOFF)
+
+
+def polite_request(
+    method: str,
+    url: str,
+    *,
+    log: SourceLog | None = None,
+    kind: str = "request",
+    session: requests.Session | None = None,
+    headers: dict | None = None,
+    timeout: int = 30,
+    max_attempts: int = REQUEST_MAX_ATTEMPTS,
+    **kwargs,
+) -> requests.Response | None:
+    client = session or requests
+    for attempt in range(1, max_attempts + 1):
+        try:
+            throttle_host(url)
+            response = client.request(method, url, headers=headers, timeout=timeout, **kwargs)
+            if log:
+                log.fetched(response.status_code)
+            if response.status_code not in REQUEST_RETRY_STATUSES or attempt >= max_attempts:
+                return response
+            wait = retry_after_seconds(response)
+            if wait is None:
+                wait = min(REQUEST_MAX_BACKOFF, (2 ** (attempt - 1)) * DELAY) + random.uniform(0.5, 2.0)
+            print(f"WARN transient HTTP {response.status_code}: {url}; retrying in {wait:.1f}s")
+            time.sleep(wait)
+        except requests.RequestException as exc:
+            if attempt >= max_attempts:
+                print(f"WARN {kind} failed {url}: {exc}")
+                if log:
+                    log.failed(url, str(exc))
+                return None
+            wait = min(REQUEST_MAX_BACKOFF, (2 ** (attempt - 1)) * DELAY) + random.uniform(0.5, 2.0)
+            print(f"WARN {kind} attempt {attempt} failed {url}: {exc}; retrying in {wait:.1f}s")
+            time.sleep(wait)
+    return None
+
+
+def site_int(site: dict, key: str, default: int, hard_max: int) -> int:
+    try:
+        value = int(site.get(key, default))
+    except (TypeError, ValueError):
+        value = default
+    return min(max(value, 0), hard_max)
+
+
 def fetch(
     url: str,
     log: SourceLog | None = None,
@@ -652,25 +987,18 @@ def fetch(
     headers: dict | None = None,
     timeout: int = 30,
 ) -> str | None:
-    try:
-        client = session or requests
-        request_headers = {"User-Agent": UA, "Accept": "text/html"}
-        if headers:
-            request_headers.update(headers)
-        r = client.get(url, headers=request_headers, timeout=timeout)
-        if log:
-            log.fetched(r.status_code)
-        if r.status_code >= 400:
-            print(f"WARN {r.status_code}: {url}")
-            if log:
-                log.failed(url, f"{kind} HTTP {r.status_code}")
-            return None
-        return r.text
-    except requests.RequestException as exc:
-        print(f"WARN fetch failed {url}: {exc}")
-        if log:
-            log.failed(url, str(exc))
+    request_headers = {"User-Agent": UA, "Accept": "text/html"}
+    if headers:
+        request_headers.update(headers)
+    r = polite_request("GET", url, log=log, kind=kind, session=session, headers=request_headers, timeout=timeout)
+    if r is None:
         return None
+    if r.status_code >= 400:
+        print(f"WARN {r.status_code}: {url}")
+        if log:
+            log.failed(url, f"{kind} HTTP {r.status_code}")
+        return None
+    return r.text
 
 
 def fetch_json(
@@ -748,7 +1076,9 @@ def fetch_current_fx_metadata() -> dict | None:
     ]
     for url, parser in endpoints:
         try:
-            response = requests.get(url, headers={"User-Agent": UA, "Accept": "application/json"}, timeout=FX_TIMEOUT)
+            response = polite_request("GET", url, kind="fx", headers={"User-Agent": UA, "Accept": "application/json"}, timeout=FX_TIMEOUT)
+            if response is None:
+                continue
             if response.status_code >= 400:
                 print(f"WARN FX fetch HTTP {response.status_code}: {url}")
                 continue
@@ -836,23 +1166,23 @@ def post_webform(session: requests.Session, url: str, soup: BeautifulSoup, targe
     data = {inp.get("name"): inp.get("value", "") for inp in soup.find_all("input") if inp.get("name")}
     data["__EVENTTARGET"] = target
     data["__EVENTARGUMENT"] = argument
-    try:
-        r = session.post(
-            url,
-            data=data,
-            headers={"User-Agent": UA, "Accept": "text/html", "Referer": url},
-            timeout=30,
-        )
-        log.fetched(r.status_code)
-        if r.status_code >= 400:
-            print(f"WARN {r.status_code}: {url} POST {target}")
-            log.failed(url, f"postback {target} HTTP {r.status_code}")
-            return None
-        return r.text
-    except requests.RequestException as exc:
-        print(f"WARN postback failed {url} {target}: {exc}")
-        log.failed(url, f"postback {target}: {exc}")
+    r = polite_request(
+        "POST",
+        url,
+        log=log,
+        kind=f"postback {target}",
+        session=session,
+        headers={"User-Agent": UA, "Accept": "text/html", "Referer": url},
+        timeout=30,
+        data=data,
+    )
+    if r is None:
         return None
+    if r.status_code >= 400:
+        print(f"WARN {r.status_code}: {url} POST {target}")
+        log.failed(url, f"postback {target} HTTP {r.status_code}")
+        return None
+    return r.text
 
 
 def same_domain(base: str, url: str) -> bool:
@@ -877,6 +1207,18 @@ def safe_http_url(base: str, value: str | None) -> str | None:
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
         return None
     return joined
+
+
+def image_url_candidates(base: str, values) -> list[str]:
+    urls = []
+    seen = set()
+    for value in values or []:
+        image_url = safe_http_url(base, value)
+        if not image_url or BAD_IMAGE_RE.search(image_url) or image_url in seen:
+            continue
+        urls.append(image_url)
+        seen.add(image_url)
+    return urls
 
 
 def title_for(soup: BeautifulSoup) -> str:
@@ -1210,6 +1552,30 @@ def classification_title_variants(title: str, url: str | None, mtype: str, subty
     return normalized_classification(mtype, subtype, ctext)
 
 
+def numbered_identity_key(text: str | None) -> str | None:
+    for candidate in [*catalog_name_candidates(text), *numbered_name_candidates(text)]:
+        return normalize_name_key(candidate)
+    return None
+
+
+def wwmeteorites_without_conflicting_url_catalog(title: str, url: str | None, ctext: str | None) -> str | None:
+    trusted_key = numbered_identity_key(title)
+    url_key = numbered_identity_key(url_name_text(url))
+    if not ctext or not trusted_key or not url_key or trusted_key == url_key:
+        return ctext
+
+    kept = []
+    for bit in ctext.split(","):
+        cleaned = clean_classification_bit(bit)
+        if not cleaned:
+            continue
+        if numbered_identity_key(cleaned) == url_key:
+            continue
+        if cleaned.lower() not in {value.lower() for value in kept}:
+            kept.append(cleaned)
+    return ", ".join(kept[:8]) or None
+
+
 def source_specific_classification(
     parser: str,
     title: str,
@@ -1243,7 +1609,7 @@ def source_specific_classification(
         mtype = "chondrite"
         subtype = "EH-MELT ROCK"
         ctext = merge_classification_text("NWA 4799", "EH melt rock")
-    if parser == "galactic_stone" and re.search(r"\bkapustin[-\s]+yar\b", haystack, re.I):
+    if parser in {"galactic_stone", "galactic_stone_ecrater"} and re.search(r"\bkapustin[-\s]+yar\b", haystack, re.I):
         mtype = "ordinary chondrite"
         subtype = "L/LL6"
         ctext = merge_classification_text("Kapustin Yar", "L/LL6")
@@ -1251,6 +1617,21 @@ def source_specific_classification(
         mtype = "iron"
         subtype = "IIIE-AN"
         ctext = merge_classification_text("Aletai", "Medium Octahedrite", "IIIE-AN")
+    if parser == "wwmeteorites" and re.search(r"\bpica\s+glass\b|\bmeteorite\s+impact\s+glass\b|\bimpact\s+glass\b", haystack, re.I):
+        mtype = "tektite/impactite"
+        ctext = merge_classification_text(ctext, "Meteorite impact glass")
+    if parser == "wwmeteorites" and re.search(r"\bOC\s*4\b|\bOC4\b", haystack, re.I):
+        mtype = "ordinary chondrite"
+        ctext = merge_classification_text(ctext, "OC4")
+    if parser == "wwmeteorites" and re.search(r"\bNEA\s*108\b|\bC\s*3\b", haystack, re.I):
+        mtype = "carbonaceous chondrite"
+        subtype = subtype or "C3"
+        ctext = merge_classification_text(ctext, "C3")
+    if parser == "wwmeteorites" and re.search(r"\bNWA\s*11086\b|\bCM[-\s]*Anomalous\b|\bCT\s*3\b", haystack, re.I):
+        mtype = "carbonaceous chondrite"
+        ctext = merge_classification_text(ctext, "CM-Anomalous", "proposed CT3")
+    if parser == "wwmeteorites":
+        ctext = wwmeteorites_without_conflicting_url_catalog(title, url, ctext)
     return normalized_classification(mtype, subtype, ctext)
 
 
@@ -1323,18 +1704,16 @@ def product_title_has_meteorite_marker(title: str) -> bool:
     return bool(METEORITE_RE.search(title) or SUBTYPE_RE.search(title) or GALACTIC_STONE_TITLE_METEORITE_RE.search(title))
 
 
+def image_urls_for(soup: BeautifulSoup, page_url: str) -> list[str]:
+    values = []
+    values.extend(og.get("content") for og in soup.find_all("meta", property="og:image"))
+    values.extend(img.get("src") for img in soup.find_all("img"))
+    return image_url_candidates(page_url, values)
+
+
 def image_for(soup: BeautifulSoup, page_url: str) -> str | None:
-    for og in soup.find_all("meta", property="og:image"):
-        content = og.get("content")
-        image_url = safe_http_url(page_url, content)
-        if image_url and not BAD_IMAGE_RE.search(image_url):
-            return image_url
-    for img in soup.find_all("img"):
-        src = img.get("src")
-        image_url = safe_http_url(page_url, src)
-        if image_url and not BAD_IMAGE_RE.search(image_url):
-            return image_url
-    return None
+    urls = image_urls_for(soup, page_url)
+    return urls[0] if urls else None
 
 
 def confidence(price: float | None, weight: float | None, detail_url: bool, explicit_type: str | None) -> str:
@@ -1359,6 +1738,7 @@ def make_listing(
     detail_text: str = "",
     explicit_type: str | None = None,
     image_url: str | None = None,
+    image_urls: list[str] | None = None,
     item_key: str | None = None,
     available: bool = True,
     parser: str | None = None,
@@ -1370,17 +1750,30 @@ def make_listing(
         return None
     parser_name = parser or site.get("parser") or "generic"
     title = display_title(raw_title, parser_name, url)
+    canonical = canonical_name_info(raw_title, title, detail_text, url)
+    if canonical.get("canonical_name_display") and canonical.get("canonical_name_status") in {"metbull_verified", "parsed_high"}:
+        title = canonical["canonical_name_display"]
     mtype, subtype, ctext = classify(title, detail_text, explicit_type)
     mtype, subtype, ctext = classification_title_variants(title, url, mtype, subtype, ctext)
     mtype, subtype, ctext = source_specific_classification(parser_name, title, url, detail_text, mtype, subtype, ctext)
     ppg = round(price / weight_g, 4) if price and weight_g and weight_g > 0 else None
+    image_candidates = []
+    for candidate in [image_url, *(image_urls or [])]:
+        candidate_url = safe_http_url(url, candidate)
+        if candidate_url and not BAD_IMAGE_RE.search(candidate_url) and candidate_url not in image_candidates:
+            image_candidates.append(candidate_url)
+    primary_image_url = image_candidates[0] if image_candidates else None
     raw_id = f"{site['name']}|{url}|{item_key or raw_title}|{weight_g}|{price}".encode("utf-8", "ignore")
-    return {
+    item = {
         "id": hashlib.sha1(raw_id).hexdigest()[:16],
         "source": site["name"],
         "source_url": site["base_url"],
         "url": url,
         "title": title,
+        "canonical_name": canonical.get("canonical_name"),
+        "canonical_name_display": canonical.get("canonical_name_display"),
+        "canonical_name_status": canonical.get("canonical_name_status"),
+        "canonical_name_source": canonical.get("canonical_name_source"),
         "price": price,
         "currency": currency,
         "weight_g": round(weight_g, 4) if weight_g is not None else None,
@@ -1388,12 +1781,18 @@ def make_listing(
         "meteorite_type": mtype,
         "subtype": subtype,
         "classification_text": ctext,
-        "image_url": image_url,
+        "image_url": primary_image_url,
         "confidence": confidence(price, weight_g, bool(re.search(r"[?&]id=\d+", url)), explicit_type),
         "available": available,
         "parser": parser_name,
         "scraped_at": datetime.now(timezone.utc).isoformat(),
     }
+    if len(image_candidates) > 1:
+        item["image_urls"] = image_candidates
+    for key in ["metbull_code", "metbull_status", "metbull_type"]:
+        if canonical.get(key):
+            item[key] = canonical[key]
+    return item
 
 
 def discover_details(site: dict, detail_re: re.Pattern, index_re: re.Pattern | None = None, log: SourceLog | None = None) -> list[str]:
@@ -2146,19 +2545,27 @@ def first_schema_offer(product: dict | None) -> dict:
     return offers if isinstance(offers, dict) else {}
 
 
-def schema_image_url(product: dict | None, page_url: str) -> str | None:
+def schema_image_urls(product: dict | None, page_url: str) -> list[str]:
     if not product:
-        return None
+        return []
     image = product.get("image")
+    values = []
     if isinstance(image, list):
-        image = next((x for x in image if x), None)
-    if isinstance(image, dict):
-        image = image.get("url") or image.get("contentUrl")
-    if isinstance(image, str):
-        image_url = safe_http_url(page_url, image)
-        if image_url and not BAD_IMAGE_RE.search(image_url):
-            return image_url
-    return None
+        for item in image:
+            if isinstance(item, dict):
+                values.append(item.get("url") or item.get("contentUrl"))
+            else:
+                values.append(item)
+    elif isinstance(image, dict):
+        values.append(image.get("url") or image.get("contentUrl"))
+    else:
+        values.append(image)
+    return image_url_candidates(page_url, values)
+
+
+def schema_image_url(product: dict | None, page_url: str) -> str | None:
+    urls = schema_image_urls(product, page_url)
+    return urls[0] if urls else None
 
 
 def product_detail_listing(
@@ -2257,11 +2664,11 @@ def product_detail_listing(
         log.reject("product_missing_weight")
         return None
 
-    image_url = schema_image_url(product, url) or meta_content(soup, "og:image", "twitter:image")
-    if image_url:
-        image_url = safe_http_url(url, image_url)
-        if image_url and BAD_IMAGE_RE.search(image_url):
-            image_url = None
+    image_urls = []
+    image_urls.extend(schema_image_urls(product, url))
+    image_urls.extend(image_url_candidates(url, [meta_content(soup, "og:image", "twitter:image")]))
+    if allow_image_fallback:
+        image_urls.extend(image_urls_for(scope, url))
     item = make_listing(
         site,
         url,
@@ -2271,7 +2678,8 @@ def product_detail_listing(
         weight_g=weight,
         detail_text=text,
         explicit_type=source_type or fallback_type,
-        image_url=image_url or (image_for(scope, url) if allow_image_fallback else None),
+        image_url=image_urls[0] if image_urls else None,
+        image_urls=image_urls,
         item_key=clean(str((product or {}).get("sku") or offer.get("sku") or title)),
         parser=parser,
     )
@@ -2292,11 +2700,13 @@ def discover_product_cards(
     card_reject_re: re.Pattern | None = None,
     card_filter=None,
     link_reject_re: re.Pattern | None = None,
+    max_detail_pages: int | None = None,
 ) -> list[str]:
     details: dict[str, None] = {}
+    detail_cap = max_detail_pages if max_detail_pages is not None else MAX_DETAIL_PAGES_PER_SITE
     queue = [urljoin(site["base_url"], url) for url in site.get("inventory_urls", [])]
     seen_indexes: set[str] = set()
-    while queue and len(seen_indexes) < MAX_INDEX_PAGES_PER_SITE and len(details) < MAX_DETAIL_PAGES_PER_SITE:
+    while queue and len(seen_indexes) < MAX_INDEX_PAGES_PER_SITE and len(details) < detail_cap:
         page_url = queue.pop(0).split("#", 1)[0]
         if page_url in seen_indexes:
             continue
@@ -2312,7 +2722,7 @@ def discover_product_cards(
         for selector in card_selectors:
             cards.extend(soup.select(selector))
         for card in cards:
-            if len(details) >= MAX_DETAIL_PAGES_PER_SITE:
+            if len(details) >= detail_cap:
                 break
             card_text = clean(card.get_text(" ", strip=True))
             card_classes = " ".join(card.get("class") or [])
@@ -2339,7 +2749,7 @@ def discover_product_cards(
                     details[href] = None
                     log.detail(href)
                     break
-        if len(details) >= MAX_DETAIL_PAGES_PER_SITE:
+        if len(details) >= detail_cap:
             break
         for rel_next in soup.find_all(["a", "link"], rel=re.compile("next", re.I)):
             href = rel_next.get("href")
@@ -2380,6 +2790,7 @@ def scrape_product_card_details(
     card_filter=None,
     link_reject_re: re.Pattern | None = None,
     detail_proof=None,
+    max_detail_pages: int | None = None,
 ) -> list[dict]:
     listings = []
     for url in discover_product_cards(
@@ -2391,6 +2802,7 @@ def scrape_product_card_details(
         card_reject_re=card_reject_re,
         card_filter=card_filter,
         link_reject_re=link_reject_re,
+        max_detail_pages=max_detail_pages,
     ):
         html = fetch(url, log, "detail", headers=headers)
         time.sleep(DELAY)
@@ -2518,13 +2930,14 @@ def shopify_available_variant(product: dict) -> dict | None:
     return next((variant for variant in variants if variant.get("available") is True), variants[0] if variants else None)
 
 
-def shopify_image(product: dict) -> str | None:
+def shopify_images(product: dict, base_url: str) -> list[str]:
     images = product.get("images") or []
-    for image in images:
-        src = image.get("src") if isinstance(image, dict) else None
-        if src and not BAD_IMAGE_RE.search(src):
-            return src
-    return None
+    return image_url_candidates(base_url, [image.get("src") for image in images if isinstance(image, dict)])
+
+
+def shopify_image(product: dict) -> str | None:
+    images = shopify_images(product, "https://example.invalid/")
+    return images[0] if images else None
 
 
 def shopify_listing(
@@ -2553,6 +2966,7 @@ def shopify_listing(
         return None
 
     url = urljoin(site["base_url"], f"/products/{product.get('handle')}")
+    images = shopify_images(product, url)
     item = make_listing(
         site,
         url,
@@ -2562,7 +2976,8 @@ def shopify_listing(
         weight_g=weight,
         detail_text=detail_text,
         explicit_type=shopify_explicit_type(product, include_keyword_tags=parser != "top_meteorite"),
-        image_url=shopify_image(product),
+        image_url=images[0] if images else None,
+        image_urls=images,
         item_key=clean(str(variant.get("id") or product.get("id") or title)),
         parser=parser,
     )
@@ -2717,6 +3132,74 @@ def galactic_stone_detail_proof(soup: BeautifulSoup, product: dict | None, offer
     return None
 
 
+def galactic_stone_ecrater_card_title(card) -> str:
+    link = card.select_one('a[href*="/p/"]')
+    image = card.find("img")
+    values = [
+        link.get("title") if link else None,
+        image.get("title") if image else None,
+        image.get("alt") if image else None,
+        link.get_text(" ", strip=True) if link else None,
+    ]
+    return next((clean(str(value)) for value in values if clean(str(value or ""))), "")
+
+
+def galactic_stone_ecrater_card_filter(card, page_url: str) -> str | None:
+    link = card.select_one('a[href*="/p/"]')
+    if not link:
+        return "galactic_ecrater_card_missing_product_link"
+    href = urljoin(page_url, link.get("href")).split("#", 1)[0]
+    if not same_domain("https://galacticstone.ecrater.com/", href):
+        return "galactic_ecrater_card_external_link"
+    if not GALACTIC_STONE_ECRATER_PRODUCT_RE.fullmatch(urlparse(href).path):
+        return "galactic_ecrater_card_non_product_link"
+
+    title = galactic_stone_ecrater_card_title(card)
+    if not title:
+        return "galactic_ecrater_card_missing_title"
+    text = clean(card.get_text(" ", strip=True))
+    haystack = clean(f"{title} {text}")
+    price, _ = first_price(text)
+    if price is None or price <= 0:
+        return "galactic_ecrater_card_missing_price"
+    if GALACTIC_STONE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "galactic_ecrater_non_specimen"
+    if not product_title_has_meteorite_marker(title):
+        return "galactic_ecrater_missing_title_meteorite_marker"
+    return None
+
+
+def galactic_stone_ecrater_detail_proof(soup: BeautifulSoup, product: dict | None, offer: dict, url: str) -> str | None:
+    if not GALACTIC_STONE_ECRATER_PRODUCT_RE.fullmatch(urlparse(url).path):
+        return "galactic_ecrater_not_product_path"
+    if clean(meta_content(soup, "og:type") or "").lower() != "ecrater:item":
+        return "galactic_ecrater_missing_item_meta"
+    store = clean(meta_content(soup, "ecrater:store") or "").lower()
+    if "galacticstone.ecrater.com" not in store:
+        return "galactic_ecrater_wrong_store"
+    if not soup.select_one('a[href^="/addtocart.php?pid="], a[href*="/addtocart.php?pid="]'):
+        return "galactic_ecrater_missing_add_to_cart"
+
+    price = num(meta_content(soup, "ecrater:price_value"))
+    if price is None or price <= 0:
+        return "galactic_ecrater_missing_price_meta"
+    title = clean(meta_content(soup, "og:title", "twitter:title") or title_for(soup))
+    category_text = clean(" ".join(a.get_text(" ", strip=True) for a in soup.select('a[href*="/c/135113977/meteorites"]')))
+    if not category_text:
+        return "galactic_ecrater_not_meteorites_category"
+    visible_text = clean(soup.get_text(" ", strip=True)[:3000])
+    haystack = clean(f"{title} {category_text} {visible_text[:1600]}")
+    if GALACTIC_STONE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "galactic_ecrater_non_specimen_detail"
+    if WEIGHT_RANGE_RE.search(title):
+        return "galactic_ecrater_weight_range_title"
+    if not product_title_has_meteorite_marker(title):
+        return "galactic_ecrater_missing_title_meteorite_marker_detail"
+    if first_individual_weight_g(title, visible_text[:1600]) is None:
+        return "galactic_ecrater_missing_exact_weight"
+    return None
+
+
 def scrape_meteorite_exchange(site: dict, log: SourceLog) -> list[dict]:
     detail_re = re.compile(r"/[^/#?]+\.html$", re.I)
     link_reject_re = re.compile(r"(?:[?&](?:add-to-cart|filter|orderby|min_price|max_price|rating_filter|s)=|/(?:cart|checkout|my-account)(?:/|$)|/product-category/|/feed/?$|/wp-json/)", re.I)
@@ -2799,6 +3282,24 @@ def scrape_galactic_stone(site: dict, log: SourceLog) -> list[dict]:
         require_title_meteorite=True,
         card_filter=galactic_stone_card_filter,
         detail_proof=galactic_stone_detail_proof,
+    )
+
+
+def scrape_galactic_stone_ecrater(site: dict, log: SourceLog) -> list[dict]:
+    return scrape_product_card_details(
+        site,
+        log,
+        "galactic_stone_ecrater",
+        GALACTIC_STONE_ECRATER_PRODUCT_RE,
+        [".galleryBorder_g"],
+        fallback_type="meteorite",
+        card_reject_re=GALACTIC_STONE_NON_SPECIMEN_RE,
+        reject_title_re=GALACTIC_STONE_NON_SPECIMEN_RE,
+        reject_detail_re=GALACTIC_STONE_NON_SPECIMEN_RE,
+        require_title_meteorite=True,
+        card_filter=galactic_stone_ecrater_card_filter,
+        detail_proof=galactic_stone_ecrater_detail_proof,
+        max_detail_pages=site_int(site, "max_detail_pages", 30, 80),
     )
 
 
@@ -3207,12 +3708,13 @@ def impactika_exact_row_values(line: str, log: SourceLog) -> tuple[float, str | 
     return price, currency, weight
 
 
+def impactika_image_urls(product: dict, base_url: str) -> list[str]:
+    return image_url_candidates(base_url, [image.get("src") for image in product.get("images") or [] if isinstance(image, dict)])
+
+
 def impactika_image_url(product: dict, base_url: str) -> str | None:
-    for image in product.get("images") or []:
-        image_url = safe_http_url(base_url, image.get("src"))
-        if image_url and not BAD_IMAGE_RE.search(image_url):
-            return image_url
-    return None
+    urls = impactika_image_urls(product, base_url)
+    return urls[0] if urls else None
 
 
 def impactika_taxonomy_names(product: dict, key: str) -> list[str]:
@@ -3328,6 +3830,7 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                     log.reject("impactika_duplicate_row")
                     continue
                 seen_keys.add(key)
+                image_urls = impactika_image_urls(product, permalink)
                 item = make_listing(
                     site,
                     permalink,
@@ -3337,7 +3840,8 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                     weight_g=weight,
                     detail_text=clean(f"{classification_context} {text[:1200]}"),
                     explicit_type=classification_context or categories or "meteorite",
-                    image_url=impactika_image_url(product, permalink),
+                    image_url=image_urls[0] if image_urls else None,
+                    image_urls=image_urls,
                     item_key=f"{product.get('id')}:{idx}:{line}",
                     parser="impactika",
                 )
@@ -3444,6 +3948,1067 @@ def scrape_justmeteorites(site: dict, log: SourceLog) -> list[dict]:
     )
 
 
+def polandmet_headers(site: dict) -> dict:
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "application/json,text/plain,*/*;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": urljoin(site["base_url"], "/meteorite-shop/"),
+    }
+
+
+def polandmet_price(product: dict) -> tuple[float | None, str | None]:
+    prices = product.get("prices") if isinstance(product.get("prices"), dict) else {}
+    price = price_num(str(prices.get("price") or ""))
+    if price is None:
+        return None, None
+    try:
+        minor_unit = int(prices.get("currency_minor_unit") or 0)
+    except (TypeError, ValueError):
+        minor_unit = 0
+    if minor_unit > 0:
+        price = price / (10 ** minor_unit)
+    return price, currency_code(str(prices.get("currency_code") or "USD")) or "USD"
+
+
+def polandmet_image_urls(product: dict, base_url: str) -> list[str]:
+    values = []
+    for image in product.get("images") or []:
+        if not isinstance(image, dict):
+            continue
+        values.extend([image.get("src"), image.get("thumbnail")])
+    return image_url_candidates(base_url, values)
+
+
+def polandmet_taxonomy_names(product: dict, key: str) -> list[str]:
+    return [html_to_text(item.get("name")) for item in product.get(key) or [] if isinstance(item, dict) and html_to_text(item.get("name"))]
+
+
+def polandmet_available(product: dict) -> bool:
+    stock = product.get("stock_availability") if isinstance(product.get("stock_availability"), dict) else {}
+    cart = product.get("add_to_cart") if isinstance(product.get("add_to_cart"), dict) else {}
+    status_text = clean(
+        " ".join(
+            str(x or "")
+            for x in [
+                stock.get("text"),
+                stock.get("class"),
+                cart.get("text"),
+                cart.get("description"),
+            ]
+        )
+    )
+    if product.get("is_in_stock") is not True or product.get("is_purchasable") is not True:
+        return False
+    if product.get("is_on_backorder") is True:
+        return False
+    if not re.search(r"add\s+to\s+cart", str(cart.get("text") or ""), re.I):
+        return False
+    return not re.search(r"\b(?:out\s+of\s+stock|outofstock|sold|unavailable|backorder|read\s+more)\b", status_text, re.I)
+
+
+def polandmet_listing(site: dict, product: dict, log: SourceLog) -> dict | None:
+    title = html_to_text(product.get("name"))
+    permalink = safe_http_url(site["base_url"], product.get("permalink")) or site["base_url"]
+    category_names = polandmet_taxonomy_names(product, "categories")
+    tag_names = polandmet_taxonomy_names(product, "tags")
+    category_text = clean(", ".join(category_names))
+    taxonomy_text = clean(" ".join([category_text, ", ".join(tag_names)]))
+    if POLANDMET_NON_SPECIMEN_RE.search(f"{title} {taxonomy_text}") or NON_SPECIMEN_PRODUCT_RE.search(f"{title} {taxonomy_text}"):
+        log.reject("polandmet_non_specimen")
+        return None
+    if not polandmet_available(product):
+        log.reject("polandmet_unavailable")
+        return None
+    description = html_to_text(product.get("description"))
+    short_description = html_to_text(product.get("short_description"))
+    detail_text = clean(" ".join([taxonomy_text, short_description, description[:1800]]))
+    if not (METEORITE_RE.search(f"{title} {detail_text}") or SUBTYPE_RE.search(f"{title} {detail_text}")):
+        log.reject("polandmet_missing_meteorite_marker")
+        return None
+    if WEIGHT_RANGE_RE.search(title) or re.search(r"\b(?:collection|set|lot|specimens)\b", title, re.I):
+        log.reject("polandmet_non_individual_title")
+        return None
+    weight = first_individual_weight_g(title, title_only=True)
+    if weight is None or weight <= 0:
+        log.reject("polandmet_missing_title_weight")
+        return None
+    price, currency = polandmet_price(product)
+    if price is None or price <= 0:
+        log.reject("polandmet_missing_price")
+        return None
+    images = polandmet_image_urls(product, permalink)
+    item = make_listing(
+        site,
+        permalink,
+        title,
+        price=price,
+        currency=currency or "USD",
+        weight_g=weight,
+        detail_text=detail_text,
+        explicit_type=taxonomy_text or "meteorite",
+        image_url=images[0] if images else None,
+        image_urls=images,
+        item_key=clean(str(product.get("id") or product.get("slug") or title)),
+        parser="polandmet",
+    )
+    if not item:
+        log.reject("make_listing_filtered")
+        return None
+    log.parsed_listing()
+    return item
+
+
+def scrape_polandmet(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_products = set()
+    session = requests.Session()
+    headers = polandmet_headers(site)
+    api_base = urljoin(site["base_url"], "/wp-json/wc/store/v1/products")
+    per_page = 100
+    max_api_pages = site_int(site, "max_api_pages", 5, 30)
+    max_products = site_int(site, "max_products", 350, 2000)
+    cap_reached = False
+    for page in range(1, max_api_pages + 1):
+        if len(listings) >= max_products:
+            if not cap_reached:
+                log.reject_page("polandmet_product_cap_reached")
+                cap_reached = True
+            break
+        api_url = f"{api_base}?per_page={per_page}&page={page}&stock_status=instock"
+        log.index(api_url)
+        products = fetch_json(api_url, log, "api", headers=headers, session=session, timeout=45)
+        time.sleep(DELAY)
+        if products is None:
+            log.reject_page("polandmet_api_fetch_failed")
+            break
+        if not isinstance(products, list):
+            log.reject_page("polandmet_api_not_list")
+            break
+        if not products:
+            break
+        for product in products:
+            if not isinstance(product, dict):
+                log.reject("polandmet_bad_product")
+                continue
+            key = str(product.get("id") or product.get("permalink") or "")
+            if not key or key in seen_products:
+                continue
+            seen_products.add(key)
+            item = polandmet_listing(site, product, log)
+            if item:
+                listings.append(item)
+                if len(listings) >= max_products:
+                    if not cap_reached:
+                        log.reject_page("polandmet_product_cap_reached")
+                        cap_reached = True
+                    break
+        if len(products) < per_page:
+            break
+    return listings
+
+
+def kd_headers(site: dict) -> dict:
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": urljoin(site["base_url"], "/"),
+    }
+
+
+def kd_path(url: str) -> str:
+    return unquote(urlparse(url).path.rsplit("/", 1)[-1])
+
+
+def kd_spaced_title(value: str | None) -> str:
+    text = clean(unquote(str(value or "")))
+    text = re.sub(r"\.html?$", "", text, flags=re.I)
+    text = re.sub(r"([a-z])([A-Z])", r"\1 \2", text)
+    text = re.sub(r"([A-Za-z])([0-9])", r"\1 \2", text)
+    text = re.sub(r"([0-9])([A-Za-z])", r"\1 \2", text)
+    text = re.sub(r"\bK\s+D\b", "KD", text)
+    return clean(text)
+
+
+def kd_display_name(value: str | None) -> str | None:
+    text = kd_spaced_title(value)
+    if not text or KD_BAD_LABEL_RE.fullmatch(text):
+        return None
+    text = clean(re.sub(r"\b(?:CD|DH)\b$", "", text, flags=re.I))
+    candidate = product_identity_from_title(text)
+    if candidate and not KD_BAD_LABEL_RE.fullmatch(candidate):
+        return candidate
+    candidate = tidy_display_candidate(text)
+    if candidate and not KD_BAD_LABEL_RE.fullmatch(candidate) and not DISPLAY_SUFFIX_ONLY_RE.fullmatch(candidate):
+        return candidate
+    return None
+
+
+def kd_candidate_url(site: dict, page_url: str, href: str) -> str | None:
+    url = urljoin(page_url, href).split("#", 1)[0]
+    parsed = urlparse(url)
+    if parsed.scheme not in {"http", "https"} or not same_domain(site["base_url"], url):
+        return None
+    path = kd_path(url)
+    if not re.search(r"\.html?$", path, re.I):
+        return None
+    if path in KD_HUB_PATHS or KD_NON_SPECIMEN_URL_RE.search(path):
+        return None
+    return url
+
+
+def kd_detail_urls(site: dict, log: SourceLog) -> list[str]:
+    urls = {}
+    headers = kd_headers(site)
+    max_details = site_int(site, "max_detail_pages", 120, MAX_DETAIL_PAGES_PER_SITE)
+    for inventory_url in site.get("inventory_urls", []):
+        hub_url = urljoin(site["base_url"], inventory_url)
+        log.index(hub_url)
+        html = fetch(hub_url, log, "index", headers=headers)
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("kd_hub_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        for a in soup.find_all("a", href=True):
+            url = kd_candidate_url(site, hub_url, a.get("href") or "")
+            if url:
+                urls[url] = None
+                log.detail(url)
+                if len(urls) >= max_details:
+                    break
+        if len(urls) >= max_details:
+            break
+    return list(urls.keys())[:max_details]
+
+
+def kd_page_heading(soup: BeautifulSoup, url: str) -> str:
+    for value in [kd_path(url), title_for(soup)]:
+        name = kd_display_name(value)
+        if name:
+            return name
+    return kd_spaced_title(kd_path(url))
+
+
+def kd_classification_context(page_text: str, source_url: str) -> str:
+    snippets = []
+    for pattern in [
+        r"Meteorite\s+Type\s*:\s*([^\n]+)",
+        r"Structural\s+Class\s*:?ification\s*:\s*([^\n]+)",
+        r"Classification\s*:\s*([^\n]+)",
+        r"Class\s*:\s*([^\n]+)",
+    ]:
+        match = re.search(pattern, page_text, re.I)
+        if match:
+            snippets.append(clean(match.group(1)))
+    path = kd_path(source_url)
+    if re.search(r"Pallasite", path, re.I):
+        snippets.append("pallasite")
+    elif re.search(r"Iron|Agoudal|Campo|Mundrabilla|Odessa|Sikhote|Whitecourt|Huoyanshan|Glorieta", path, re.I):
+        snippets.append("iron meteorite")
+    elif re.search(r"Chondrite|AbaPanu|Bondoc|Franconia|GoldBasin|NWA|Tsarev|Wiluna|Winner", path, re.I):
+        snippets.append("chondrite")
+    return clean(", ".join(dict.fromkeys(snippets))) or "meteorite"
+
+
+def kd_cell_images(cell, page_url: str) -> list[str]:
+    return image_url_candidates(page_url, [img.get("src") for img in cell.find_all("img")])
+
+
+def kd_cell_label(cell) -> str:
+    bits = []
+    for node in cell.find_all(["img", "a"]):
+        for attr in ["alt", "title"]:
+            value = clean(str(node.get(attr) or ""))
+            if value and not KD_BAD_LABEL_RE.fullmatch(value):
+                bits.append(value)
+        if node.name == "a":
+            text = clean(node.get_text(" ", strip=True))
+            if text and not KD_BAD_LABEL_RE.fullmatch(text):
+                bits.append(text)
+    return clean(" ".join(bits))
+
+
+def kd_exact_values(text: str, log: SourceLog) -> tuple[float, str | None, float] | None:
+    prices = prices_in(text)
+    if len(prices) != 1:
+        log.reject("kd_missing_or_multiple_price")
+        return None
+    price_pos, price, currency = prices[0]
+    if WEIGHT_RANGE_RE.search(text[:price_pos]):
+        log.reject("kd_weight_range")
+        return None
+    weights = list(WEIGHT_RE.finditer(text[:price_pos]))
+    if not weights:
+        log.reject("kd_missing_weight")
+        return None
+    weight_match = weights[-1]
+    weight_value = num(weight_match.group(1))
+    if weight_value is None:
+        log.reject("kd_missing_weight")
+        return None
+    weight = weight_to_g(weight_value, weight_match.group(2))
+    if price <= 0 or weight <= 0:
+        log.reject("kd_nonpositive_price_weight")
+        return None
+    return price, currency, weight
+
+
+def kd_item_title(page_heading: str, label: str, text: str) -> str:
+    for value in [page_heading, label]:
+        candidate = kd_display_name(value)
+        if candidate:
+            return candidate
+    before_price = PRICE_RE.split(text, maxsplit=1)[0]
+    before_price = WEIGHT_RE.sub(" ", before_price)
+    before_price = DIMENSION_RE.sub(" ", before_price)
+    descriptor = clean(before_price.strip(" -,:;"))
+    for value in [descriptor, f"{page_heading} {descriptor}"]:
+        candidate = kd_display_name(value)
+        if candidate:
+            return candidate
+    return page_heading
+
+
+def kd_sale_scopes(soup: BeautifulSoup) -> list:
+    scopes = []
+    for table in soup.find_all("table"):
+        if not PRICE_RE.search(clean(table.get_text(" ", strip=True))):
+            continue
+        if any(PRICE_RE.search(clean(nested.get_text(" ", strip=True))) for nested in table.find_all("table")):
+            continue
+        scopes.append(table)
+    return scopes or [soup]
+
+
+def kd_item_url(cell, page_url: str) -> str:
+    for a in cell.find_all("a", href=True):
+        href = urljoin(page_url, a.get("href") or "").split("#", 1)[0]
+        if re.search(r"\.html?$", urlparse(href).path, re.I) and not KD_NON_SPECIMEN_URL_RE.search(kd_path(href)):
+            return href
+    return page_url
+
+
+def kd_page_listings(site: dict, url: str, html: str, log: SourceLog) -> list[dict]:
+    soup = BeautifulSoup(html, "lxml")
+    for bad in soup(["script", "style", "noscript", "svg", "nav", "footer", "header"]):
+        bad.decompose()
+    lines = lines_from(soup)
+    page_text = "\n".join(lines)
+    if KD_NON_SPECIMEN_URL_RE.search(kd_path(url)):
+        log.reject_page("kd_non_specimen_url")
+        return []
+    page_heading = kd_page_heading(soup, url)
+    classification_context = kd_classification_context(page_text, url)
+    listings = []
+    seen_keys = set()
+    previous_images_by_col: dict[int, list[str]] = {}
+    previous_labels_by_col: dict[int, str] = {}
+    tables = kd_sale_scopes(soup)
+    for table in tables:
+        rows = table.find_all("tr") if table.name == "table" else []
+        if not rows:
+            rows = [table]
+        for row_index, row in enumerate(rows):
+            cells = row.find_all(["td", "th"], recursive=False) or [row]
+            for col_index, cell in enumerate(cells):
+                images = kd_cell_images(cell, url)
+                label = kd_cell_label(cell)
+                if images:
+                    previous_images_by_col[col_index] = images
+                if label:
+                    previous_labels_by_col[col_index] = label
+                text = clean(cell.get_text(" ", strip=True))
+                if not text or not PRICE_RE.search(text):
+                    continue
+                combined_text = clean(" ".join([label, text]))
+                if SOLD_STATUS_RE.search(combined_text):
+                    log.reject("kd_sold_row")
+                    continue
+                if KD_NON_SPECIMEN_TEXT_RE.search(combined_text) or NON_SPECIMEN_PRODUCT_RE.search(combined_text):
+                    log.reject("kd_non_specimen_row")
+                    continue
+                values = kd_exact_values(combined_text, log)
+                if not values:
+                    continue
+                price, currency, weight = values
+                item_url = kd_item_url(cell, url)
+                item_images = images or previous_images_by_col.get(col_index)
+                if not item_images:
+                    log.reject("kd_missing_image")
+                    continue
+                item_label = label or previous_labels_by_col.get(col_index, "")
+                title = kd_item_title(page_heading, item_label, combined_text)
+                key = (item_url, price, weight)
+                if key in seen_keys:
+                    log.reject("kd_duplicate_row")
+                    continue
+                seen_keys.add(key)
+                item = make_listing(
+                    site,
+                    item_url,
+                    title,
+                    price=price,
+                    currency=currency or "USD",
+                    weight_g=weight,
+                    detail_text=clean(f"{classification_context} {page_text[:1400]}"),
+                    explicit_type=classification_context,
+                    image_url=item_images[0],
+                    image_urls=item_images,
+                    item_key=f"{kd_path(item_url)}:{row_index}:{col_index}:{weight}:{price}",
+                    parser="kd_meteorites",
+                )
+                if item:
+                    listings.append(item)
+                else:
+                    log.reject("make_listing_filtered")
+    return listings
+
+
+def scrape_kd_meteorites(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_ids = set()
+    headers = kd_headers(site)
+    for url in kd_detail_urls(site, log):
+        html = fetch(url, log, "detail", headers=headers)
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("kd_detail_fetch_failed")
+            continue
+        for item in kd_page_listings(site, url, html, log):
+            if item["id"] in seen_ids:
+                log.reject("kd_duplicate_item")
+                continue
+            seen_ids.add(item["id"])
+            listings.append(item)
+            log.parsed_listing()
+    return listings
+
+
+def wwmeteorites_slug(url: str) -> str:
+    return unquote(urlparse(url).path.strip("/")).strip()
+
+
+def wwmeteorites_candidate_url(site: dict, page_url: str, href: str) -> str | None:
+    url = urljoin(page_url, href).split("#", 1)[0]
+    parsed = urlparse(url)
+    if parsed.scheme not in {"http", "https"} or not same_domain(site["base_url"], url):
+        return None
+    if parsed.query:
+        return None
+    slug = wwmeteorites_slug(url)
+    if "/" in slug or WWMETEORITES_BAD_PATH_RE.fullmatch(slug):
+        return None
+    return urlunparse((parsed.scheme, parsed.netloc, f"/{slug}", "", "", ""))
+
+
+def wwmeteorites_detail_urls(site: dict, log: SourceLog) -> list[str]:
+    urls: dict[str, None] = {}
+    max_details = site_int(site, "max_detail_pages", 100, 120)
+    for inventory_url in site.get("inventory_urls", []):
+        index_url = urljoin(site["base_url"], inventory_url)
+        log.index(index_url)
+        html = fetch(index_url, log, "index")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("wwmeteorites_index_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        candidates = []
+        for a in soup.find_all("a", href=True):
+            candidates.append(a.get("href") or "")
+        candidates.extend(f"/{m.group(1)}" for m in re.finditer(r'"pageUriSEO"\s*:\s*"([^"\\]+)"', html))
+        for href in candidates:
+            detail_url = wwmeteorites_candidate_url(site, index_url, href)
+            if not detail_url or detail_url in urls:
+                continue
+            urls[detail_url] = None
+            log.detail(detail_url)
+            if len(urls) >= max_details:
+                log.reject_page("wwmeteorites_detail_cap_reached")
+                return list(urls.keys())
+    return list(urls.keys())
+
+
+def wwmeteorites_prices_in(text: str) -> list[tuple[int, int, float, str]]:
+    prices = []
+    for match in WWMETEORITES_PRICE_RE.finditer(text):
+        symbol = match.group("symbol_before") or match.group("symbol_after") or "$"
+        amount = match.group("amount_before") or match.group("amount_after")
+        value = price_num(amount)
+        if value is None:
+            continue
+        currency = "EUR" if symbol.upper() == "EUR" or symbol == "€" else "USD"
+        prices.append((match.start(), match.end(), value, currency))
+    return prices
+
+
+def wwmeteorites_row_values(line: str) -> tuple[float, str, float, int] | None:
+    prices = wwmeteorites_prices_in(line)
+    if len(prices) != 1:
+        return None
+    price_start, _, price, currency = prices[0]
+    before_price = line[:price_start]
+    if WEIGHT_RANGE_RE.search(before_price):
+        return None
+    weights = list(WEIGHT_RE.finditer(before_price))
+    if len(weights) != 1:
+        return None
+    weight_match = weights[0]
+    weight_value = num(weight_match.group(1))
+    if weight_value is None:
+        return None
+    weight = weight_to_g(weight_value, weight_match.group(2))
+    if price <= 0 or weight <= 0:
+        return None
+    return price, currency, weight, price_start
+
+
+def wwmeteorites_exact_row_values(line: str, log: SourceLog) -> tuple[float, str, float, int] | None:
+    if SOLD_STATUS_RE.search(line):
+        log.reject("wwmeteorites_sold_row")
+        return None
+    if EMAIL_PRICE_RE.search(line) or WWMETEORITES_AMBIGUOUS_ROW_RE.search(line):
+        log.reject("wwmeteorites_ambiguous_row")
+        return None
+    values = wwmeteorites_row_values(line)
+    if values is None:
+        if len(wwmeteorites_prices_in(line)) != 1:
+            log.reject("wwmeteorites_missing_or_multiple_price")
+        elif WEIGHT_RANGE_RE.search(line):
+            log.reject("wwmeteorites_weight_range")
+        else:
+            log.reject("wwmeteorites_missing_or_multiple_weight")
+        return None
+    price, currency, weight, price_start = values
+    return price, currency, weight, price_start
+
+
+def wwmeteorites_row_descriptor(line: str, price_start: int) -> str:
+    descriptor = line[:price_start]
+    descriptor = WEIGHT_RE.sub(" ", descriptor)
+    descriptor = DIMENSION_RE.sub(" ", descriptor)
+    descriptor = re.sub(r"\s*(?:-|\u2013|\u2014|:|;|,)+\s*", " ", descriptor)
+    return clean(descriptor)
+
+
+def wwmeteorites_row_signature(line: str) -> tuple[str, float, float, str] | None:
+    values = wwmeteorites_row_values(line)
+    if values is None:
+        return None
+    price, currency, weight, price_start = values
+    descriptor = wwmeteorites_row_descriptor(line, price_start).lower()
+    return descriptor, round(weight, 4), round(price, 2), currency
+
+
+def wwmeteorites_spaced_name(value: str | None) -> str:
+    text = clean(re.sub(r"[-_]+", " ", unquote(str(value or ""))))
+    text = re.sub(r"\s*\|\s*WWMeteorites.*$", "", text, flags=re.I)
+
+    def repl(match: re.Match) -> str:
+        prefix = match.group(1).lower()
+        label = {"nwa": "NWA", "nea": "NEA", "sau": "SaU", "ras": "RaS"}.get(prefix, match.group(1))
+        return f"{label} {match.group(2)}"
+
+    text = re.sub(r"\b(NWA|NEA|SaU|RaS)\s*(\d{2,6}[A-Za-z]?)\b", repl, text, flags=re.I)
+    return clean(text)
+
+
+def wwmeteorites_title_identity(soup: BeautifulSoup, url: str) -> str | None:
+    title_node = soup.find("title")
+    title_text = title_node.get_text(" ", strip=True) if title_node else ""
+    for value in [title_text, wwmeteorites_slug(url)]:
+        candidate = wwmeteorites_spaced_name(value)
+        if not candidate or candidate.lower() in {"home", "for sale", "wwmeteorites specimen"}:
+            continue
+        identity = product_identity_from_title(candidate)
+        if identity:
+            return identity
+        if re.search(r"\b(?:SaU|RaS|NEA)\s*\d{2,6}[A-Za-z]?\b", candidate, re.I):
+            return display_case_name(candidate)
+    return None
+
+
+def wwmeteorites_page_identity(lines: list[str], soup: BeautifulSoup, url: str) -> tuple[str, str | None]:
+    label_re = re.compile(r"^(?:weathering\s+grade|type\s+spec\s+mass|main\s+mass|classification\s+status|tkw)\b", re.I)
+    title_identity = wwmeteorites_title_identity(soup, url)
+    for line in lines:
+        if ":" not in line or label_re.search(line):
+            continue
+        before, after = line.split(":", 1)
+        before = clean(before.strip(" -"))
+        after = clean(after.strip(" -"))
+        if not before or not after:
+            continue
+        if re.search(r"\bmeteorite\s+impact\s+glass\b", before, re.I):
+            return after, before
+        if wwmeteorites_has_meteorite_context(f"{before} {after}"):
+            if title_identity and normalize_name_key(title_identity) != normalize_name_key(before):
+                return title_identity, labeled_value(lines, "Class") or after
+            return before, after
+    fallback = clean(re.sub(r"\s*\|\s*WWMeteorites.*$", "", title_for(soup), flags=re.I))
+    return title_identity or fallback or "WWMeteorites specimen", labeled_value(lines, "Class")
+
+
+def wwmeteorites_has_meteorite_context(text: str) -> bool:
+    return bool(
+        METEORITE_RE.search(text)
+        or SUBTYPE_RE.search(text)
+        or CATALOG_NAME_RE.search(text)
+        or NUMBERED_OFFICIAL_NAME_RE.search(text)
+        or KNOWN_DISPLAY_NAME_RE.search(text)
+        or re.search(r"\b(?:impact\s+glass|pica\s+glass)\b", text, re.I)
+    )
+
+
+def wwmeteorites_image_urls(soup: BeautifulSoup, page_url: str) -> list[str]:
+    values = []
+    values.extend(meta.get("content") for meta in soup.find_all("meta", property="og:image"))
+    for img in soup.find_all("img"):
+        src = img.get("src")
+        alt = clean(str(img.get("alt") or ""))
+        if WWMETEORITES_BAD_IMAGE_RE.search(f"{src or ''} {alt}"):
+            continue
+        values.append(src)
+    return [url for url in image_url_candidates(page_url, values) if not WWMETEORITES_BAD_IMAGE_RE.search(url)]
+
+
+def wwmeteorites_page_listings(site: dict, url: str, html: str, log: SourceLog) -> list[dict]:
+    soup = BeautifulSoup(html, "lxml")
+    for bad in soup(["script", "style", "noscript", "svg", "nav", "footer", "header"]):
+        bad.decompose()
+    lines = lines_from(soup)
+    page_text = "\n".join(lines)
+    page_name, explicit_type = wwmeteorites_page_identity(lines, soup, url)
+    context = clean(f"{page_name} {explicit_type or ''} {page_text[:1600]}")
+    if WWMETEORITES_NON_SPECIMEN_RE.search(f"{wwmeteorites_slug(url)} {context}"):
+        log.reject_page("wwmeteorites_non_specimen_page")
+        return []
+    if not wwmeteorites_has_meteorite_context(context):
+        log.reject_page("wwmeteorites_no_meteorite_context")
+        return []
+    images = wwmeteorites_image_urls(soup, url)
+    listings = []
+    unavailable_signatures = {signature for line in lines if SOLD_STATUS_RE.search(line) for signature in [wwmeteorites_row_signature(line)] if signature}
+    seen_keys = set()
+    for line_index, line in enumerate(lines):
+        if not WWMETEORITES_PRICE_RE.search(line) and "$" not in line and "€" not in line:
+            continue
+        values = wwmeteorites_exact_row_values(line, log)
+        if not values:
+            continue
+        price, currency, weight, price_start = values
+        descriptor = wwmeteorites_row_descriptor(line, price_start)
+        row_context = clean(f"{page_name} {explicit_type or ''} {descriptor} {line}")
+        if WWMETEORITES_NON_SPECIMEN_RE.search(row_context) or NON_SPECIMEN_PRODUCT_RE.search(row_context):
+            log.reject("wwmeteorites_non_specimen_row")
+            continue
+        title = page_name if not descriptor else f"{page_name} - {descriptor}"
+        signature = (descriptor.lower(), round(weight, 4), round(price, 2), currency)
+        if signature in unavailable_signatures:
+            log.reject("wwmeteorites_unavailable_duplicate_row")
+            continue
+        key = (url, signature)
+        if key in seen_keys:
+            log.reject("wwmeteorites_duplicate_row")
+            continue
+        seen_keys.add(key)
+        item = make_listing(
+            site,
+            url,
+            title,
+            price=price,
+            currency=currency,
+            weight_g=weight,
+            detail_text=context,
+            explicit_type=explicit_type or page_name,
+            image_url=images[0] if images else None,
+            image_urls=images,
+            item_key=f"{wwmeteorites_slug(url)}:{descriptor}:{weight}:{price}",
+            parser="wwmeteorites",
+        )
+        if item:
+            listings.append(item)
+        else:
+            log.reject("make_listing_filtered")
+    return listings
+
+
+def scrape_wwmeteorites(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_ids = set()
+    for url in wwmeteorites_detail_urls(site, log):
+        html = fetch(url, log, "detail")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("wwmeteorites_detail_fetch_failed")
+            continue
+        for item in wwmeteorites_page_listings(site, url, html, log):
+            if item["id"] in seen_ids:
+                log.reject("wwmeteorites_duplicate_item")
+                continue
+            seen_ids.add(item["id"])
+            listings.append(item)
+            log.parsed_listing()
+    return listings
+
+
+METEORITE_RECON_PRICE_RE = re.compile(r"(?<![A-Za-z])(USD|EUR|US\$|\$|€)\s*([0-9][0-9.,]*)", re.I)
+METEORITE_RECON_OFFER_PRICE_RE = re.compile(r"\b(?:make|maker|offer|request|contact|inquire|please)\b", re.I)
+METEORITE_RECON_SPECIMEN_WEIGHT_RE = re.compile(
+    r"\b(?:individual|fragment|end\s*cut|endcut|half\s+(?:slice|individual|slab)|slice|slab|specimen)\b",
+    re.I,
+)
+METEORITE_RECON_SKIP_TITLE_RE = re.compile(r"^(?:meteorites?\s+for\s+sale|stones?|irons?|books?)$", re.I)
+
+
+def meteorite_recon_headers(site: dict) -> dict:
+    return {
+        "User-Agent": UA,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Referer": urljoin(site["base_url"], "/"),
+    }
+
+
+def meteorite_recon_parse_price_amount(raw: str) -> float | None:
+    value = clean(raw).replace(" ", "").replace("\xa0", "").strip(".,")
+    if not value:
+        return None
+    if "," in value and "." in value:
+        if value.rfind(",") > value.rfind("."):
+            value = value.replace(".", "").replace(",", ".")
+        else:
+            value = value.replace(",", "")
+    elif "," in value:
+        parts = value.split(",")
+        if len(parts[-1]) == 3 and all(part.isdigit() for part in parts):
+            value = "".join(parts)
+        else:
+            value = value.replace(",", ".")
+    elif "." in value:
+        parts = value.split(".")
+        if len(parts[-1]) == 3 and all(part.isdigit() for part in parts):
+            value = "".join(parts)
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def meteorite_recon_exact_price(lines: list[str], log: SourceLog) -> tuple[float, str] | None:
+    price_label_indexes = [idx for idx, line in enumerate(lines) if re.fullmatch(r"Price\s*/\s*Trade\s+value", line, re.I)]
+    if not price_label_indexes:
+        log.reject("meteorite_recon_missing_price_label")
+        return None
+    price_lines = lines[price_label_indexes[-1] + 1:price_label_indexes[-1] + 4]
+    for line in price_lines:
+        matches = list(METEORITE_RECON_PRICE_RE.finditer(line))
+        if len(matches) > 1:
+            log.reject("meteorite_recon_multiple_prices")
+            return None
+        if not matches:
+            if METEORITE_RECON_OFFER_PRICE_RE.search(line):
+                log.reject("meteorite_recon_offer_price")
+                return None
+            continue
+        match = matches[0]
+        price = meteorite_recon_parse_price_amount(match.group(2))
+        currency = currency_code(match.group(1)) or "USD"
+        if price is None or price <= 0:
+            log.reject("meteorite_recon_nonpositive_price")
+            return None
+        return price, currency
+    log.reject("meteorite_recon_missing_exact_price")
+    return None
+
+
+def meteorite_recon_specimen_weight(lines: list[str], log: SourceLog) -> float | None:
+    for line in lines:
+        if not METEORITE_RECON_SPECIMEN_WEIGHT_RE.search(line) or NON_INDIVIDUAL_WEIGHT_CONTEXT_RE.search(line):
+            continue
+        weight = first_weight_g(line)
+        if weight is not None and weight > 0:
+            return weight
+    weight = first_individual_weight_g("", "\n".join(lines))
+    if weight is None or weight <= 0:
+        log.reject("meteorite_recon_missing_specimen_weight")
+        return None
+    return weight
+
+
+def meteorite_recon_image_urls(row, page_url: str) -> list[str]:
+    values = []
+    for a in row.find_all("a", href=True):
+        href = a.get("href")
+        if href and re.search(r"\.(?:jpe?g|png|webp)(?:[?#].*)?$", href, re.I):
+            values.append(href)
+    for img in row.find_all("img"):
+        values.extend(img.get(attr) for attr in ["data-src", "data-lazy-src", "src"])
+    return image_url_candidates(page_url, values)
+
+
+def meteorite_recon_lines(row) -> list[str]:
+    return [clean(line) for line in row.get_text("\n", strip=True).splitlines() if clean(line)]
+
+
+def meteorite_recon_listing(site: dict, page_url: str, row, title: str, row_index: int, log: SourceLog) -> dict | None:
+    lines = meteorite_recon_lines(row)
+    detail_text = clean(" ".join(lines))
+    if SOLD_STATUS_RE.search(detail_text):
+        log.reject("meteorite_recon_sold_row")
+        return None
+    if NON_SPECIMEN_PRODUCT_RE.search(title):
+        log.reject("meteorite_recon_non_specimen_title")
+        return None
+    price_values = meteorite_recon_exact_price(lines, log)
+    if not price_values:
+        return None
+    price, currency = price_values
+    weight = meteorite_recon_specimen_weight(lines, log)
+    if weight is None:
+        return None
+    images = meteorite_recon_image_urls(row, page_url)
+    if not images:
+        log.reject("meteorite_recon_missing_image")
+        return None
+    explicit_type = clean(
+        " ".join(
+            line
+            for line in lines[1:6]
+            if re.search(r"\b(?:stone|iron|chondrite|achondrite|octahedrite|pallasite|diogenite|eucrite|IAB|IIIAB|HED|H5|L4)\b", line, re.I)
+        )
+    )
+    item = make_listing(
+        site,
+        page_url,
+        title,
+        price=price,
+        currency=currency,
+        weight_g=weight,
+        detail_text=detail_text[:2200],
+        explicit_type=explicit_type or "meteorite",
+        image_url=images[0],
+        image_urls=images,
+        item_key=f"{row_index}:{title}:{weight}:{price}",
+        parser="meteorite_recon",
+    )
+    if not item:
+        log.reject("make_listing_filtered")
+        return None
+    log.parsed_listing()
+    log.detail(page_url)
+    return item
+
+
+def scrape_meteorite_recon(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_keys = set()
+    headers = meteorite_recon_headers(site)
+    for url in site.get("inventory_urls", []):
+        page_url = urljoin(site["base_url"], url)
+        log.index(page_url)
+        html = fetch(page_url, log, "index", headers=headers)
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("meteorite_recon_page_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        root = soup.select_one(".wpb-content-wrapper") or soup.select_one(".full_width_inner") or soup
+        page_items = []
+        for row_index, heading in enumerate(root.find_all("h3")):
+            title = clean(heading.get_text(" ", strip=True))
+            if not title or METEORITE_RECON_SKIP_TITLE_RE.fullmatch(title):
+                continue
+            row = heading.find_parent(class_=lambda classes: classes and "vc_row" in classes.split())
+            if row is None:
+                log.reject("meteorite_recon_missing_row_scope")
+                continue
+            item = meteorite_recon_listing(site, page_url, row, title, row_index, log)
+            if not item:
+                continue
+            key = (item.get("url"), item.get("title"), item.get("weight_g"), item.get("price"))
+            if key in seen_keys:
+                log.reject("meteorite_recon_duplicate_row")
+                continue
+            seen_keys.add(key)
+            page_items.append(item)
+        if not page_items:
+            log.reject_page("meteorite_recon_no_exact_rows")
+        listings.extend(page_items)
+    return listings
+
+
+def ebay_credentials() -> tuple[str | None, str | None]:
+    return clean(os.environ.get("EBAY_CLIENT_ID")), clean(os.environ.get("EBAY_CLIENT_SECRET"))
+
+
+def ebay_access_token(log: SourceLog) -> str | None:
+    client_id, client_secret = ebay_credentials()
+    if not client_id or not client_secret:
+        log.reject_page("ebay_credentials_missing")
+        return None
+    auth = base64.b64encode(f"{client_id}:{client_secret}".encode("utf-8")).decode("ascii")
+    token_url = "https://api.ebay.com/identity/v1/oauth2/token"
+    try:
+        response = polite_request(
+            "POST",
+            token_url,
+            log=log,
+            kind="ebay_oauth",
+            headers={
+                "Authorization": f"Basic {auth}",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "User-Agent": UA,
+            },
+            data={
+                "grant_type": "client_credentials",
+                "scope": "https://api.ebay.com/oauth/api_scope",
+            },
+            timeout=30,
+        )
+        if response is None:
+            return None
+        if response.status_code >= 400:
+            log.failed(token_url, f"oauth HTTP {response.status_code}")
+            return None
+        data = response.json()
+    except (requests.RequestException, ValueError) as exc:
+        log.failed(token_url, f"oauth failed: {exc}")
+        return None
+    token = clean(str(data.get("access_token") or "")) if isinstance(data, dict) else ""
+    if not token:
+        log.reject_page("ebay_token_missing")
+        return None
+    return token
+
+
+def ebay_search_url(query: str, seller: str, marketplace_id: str, limit: int, offset: int) -> str:
+    params = {
+        "q": query,
+        "fieldgroups": "EXTENDED",
+        "limit": str(limit),
+        "offset": str(offset),
+        "filter": f"buyingOptions:{{FIXED_PRICE}},sellers:{{{seller}}}",
+        "sort": "newlyListed",
+    }
+    return f"https://api.ebay.com/buy/browse/v1/item_summary/search?{urlencode(params)}"
+
+
+def ebay_item_listing(site: dict, item: dict, seller: str, log: SourceLog) -> dict | None:
+    title = clean(str(item.get("title") or ""))
+    buying_options = [str(option or "").upper() for option in item.get("buyingOptions") or []]
+    seller_data = item.get("seller") if isinstance(item.get("seller"), dict) else {}
+    seller_name = clean(str(seller_data.get("username") or ""))
+    if seller_name.lower() != seller.lower():
+        log.reject("ebay_wrong_seller")
+        return None
+    if "FIXED_PRICE" not in buying_options or "AUCTION" in buying_options or "CLASSIFIED_AD" in buying_options:
+        log.reject("ebay_non_fixed_price")
+        return None
+    price_data = item.get("price") if isinstance(item.get("price"), dict) else {}
+    currency = currency_code(str(price_data.get("currency") or ""))
+    price = price_num(str(price_data.get("value") or ""))
+    if currency != "USD" or price is None or price <= 0:
+        log.reject("ebay_missing_usd_price")
+        return None
+    short_description = clean(str(item.get("shortDescription") or ""))
+    category_names = " ".join(clean(str(cat.get("categoryName") or "")) for cat in item.get("categories") or [] if isinstance(cat, dict))
+    detail_text = clean(" ".join([title, short_description, category_names, seller_name]))
+    if not METEORITE_RE.search(detail_text):
+        log.reject("ebay_missing_meteorite_marker")
+        return None
+    if NON_SPECIMEN_PRODUCT_RE.search(detail_text) or re.search(r"\b(?:choose|lot|set|bulk|wholesale|assorted|random|replica|fake)\b", detail_text, re.I):
+        log.reject("ebay_non_specimen")
+        return None
+    weight = first_individual_weight_g(title, short_description)
+    if weight is None or weight <= 0:
+        log.reject("ebay_missing_weight")
+        return None
+    url = safe_http_url(site["base_url"], item.get("itemWebUrl") or item.get("itemAffiliateWebUrl"))
+    if not url:
+        log.reject("ebay_missing_url")
+        return None
+    image_data = item.get("image") if isinstance(item.get("image"), dict) else {}
+    image_urls = image_url_candidates(url, [image_data.get("imageUrl")])
+    listing = make_listing(
+        site,
+        url,
+        title,
+        price=price,
+        currency=currency,
+        weight_g=weight,
+        detail_text=detail_text,
+        explicit_type="meteorite",
+        image_url=image_urls[0] if image_urls else None,
+        image_urls=image_urls,
+        item_key=clean(str(item.get("itemId") or item.get("legacyItemId") or title)),
+        parser="ebay_browse",
+    )
+    if not listing:
+        log.reject("make_listing_filtered")
+        return None
+    listing["seller"] = seller_name
+    listing["buying_options"] = buying_options
+    if item.get("itemEndDate"):
+        listing["item_end_date"] = item.get("itemEndDate")
+    log.parsed_listing()
+    return listing
+
+
+def scrape_ebay_browse(site: dict, log: SourceLog) -> list[dict]:
+    seller = clean(str(site.get("ebay_seller_username") or ""))
+    if not seller:
+        log.reject_page("ebay_seller_missing")
+        return []
+    token = ebay_access_token(log)
+    if not token:
+        return []
+    marketplace_id = clean(str(site.get("marketplace_id") or "EBAY_US")) or "EBAY_US"
+    queries = [clean(str(query)) for query in site.get("search_queries") or ["meteorite"] if clean(str(query))]
+    try:
+        limit = min(max(int(site.get("limit") or 100), 1), 200)
+    except (TypeError, ValueError):
+        limit = 100
+    try:
+        max_pages = min(max(int(site.get("max_pages") or 2), 1), 20)
+    except (TypeError, ValueError):
+        max_pages = 2
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/json",
+        "User-Agent": UA,
+        "X-EBAY-C-MARKETPLACE-ID": marketplace_id,
+        "Accept-Language": "en-US",
+    }
+    listings = []
+    seen_items = set()
+    session = requests.Session()
+    for query in queries:
+        for page in range(max_pages):
+            api_url = ebay_search_url(query, seller, marketplace_id, limit, page * limit)
+            log.index(api_url)
+            data = fetch_json(api_url, log, "api", headers=headers, session=session, timeout=45)
+            time.sleep(DELAY)
+            if not isinstance(data, dict):
+                log.reject_page("ebay_api_fetch_failed")
+                break
+            summaries = data.get("itemSummaries") if isinstance(data.get("itemSummaries"), list) else []
+            if not summaries:
+                break
+            for item in summaries:
+                item_id = clean(str(item.get("itemId") or item.get("legacyItemId") or ""))
+                if not item_id or item_id in seen_items:
+                    continue
+                seen_items.add(item_id)
+                listing = ebay_item_listing(site, item, seller, log)
+                if listing:
+                    listings.append(listing)
+            if len(summaries) < limit:
+                break
+    return listings
+
+
 def scrape_collector_secret(site: dict, log: SourceLog) -> list[dict]:
     log.reject_page("ebay_affiliate_aggregator_not_scraped")
     return []
@@ -3451,6 +5016,11 @@ def scrape_collector_secret(site: dict, log: SourceLog) -> list[dict]:
 
 def scrape_the_space_shop(site: dict, log: SourceLog) -> list[dict]:
     log.reject_page("generic_souvenir_lot_source_not_scraped")
+    return []
+
+
+def scrape_disabled_backlog(site: dict, log: SourceLog) -> list[dict]:
+    log.reject_page("disabled_backlog_not_scraped")
     return []
 
 
@@ -3496,6 +5066,8 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_meteolovers(site, log)
     if parser == "galactic_stone":
         return scrape_galactic_stone(site, log)
+    if parser == "galactic_stone_ecrater":
+        return scrape_galactic_stone_ecrater(site, log)
     if parser == "fossil_realm":
         return scrape_fossil_realm(site, log)
     if parser == "top_meteorite":
@@ -3512,11 +5084,26 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_skyfall_meteorites(site, log)
     if parser == "justmeteorites":
         return scrape_justmeteorites(site, log)
+    if parser == "polandmet":
+        return scrape_polandmet(site, log)
+    if parser == "kd_meteorites":
+        return scrape_kd_meteorites(site, log)
+    if parser == "wwmeteorites":
+        return scrape_wwmeteorites(site, log)
+    if parser == "meteorite_recon":
+        return scrape_meteorite_recon(site, log)
+    if parser == "ebay_browse":
+        return scrape_ebay_browse(site, log)
     if parser == "collector_secret":
         return scrape_collector_secret(site, log)
     if parser == "the_space_shop":
         return scrape_the_space_shop(site, log)
-    return scrape_generic(site, log)
+    if parser == "disabled_backlog":
+        return scrape_disabled_backlog(site, log)
+    if parser == "generic":
+        return scrape_generic(site, log)
+    log.reject_page("unknown_parser_not_scraped")
+    return []
 
 
 def parse_args() -> argparse.Namespace:
@@ -3695,7 +5282,37 @@ def apply_usd_conversion(item: dict, fx_metadata: dict) -> None:
 def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
     normalized = dict(item)
     parser = str(normalized.get("parser") or "generic")
-    normalized["title"] = display_title(str(normalized.get("title") or ""), parser, str(normalized.get("url") or ""))
+    title = display_title(str(normalized.get("title") or ""), parser, str(normalized.get("url") or ""))
+    canonical = None
+    if (
+        normalized.get("canonical_name_status") in {"metbull_verified", "parsed_high"}
+        and clean(str(normalized.get("canonical_name") or ""))
+        and clean(str(normalized.get("canonical_name_display") or ""))
+        and clean(str(normalized.get("canonical_name_source") or ""))
+    ):
+        canonical = {key: normalized.get(key) for key in ["canonical_name", "canonical_name_display", "canonical_name_status", "canonical_name_source"]}
+        for key in ["metbull_code", "metbull_status", "metbull_type"]:
+            if normalized.get(key):
+                canonical[key] = normalized[key]
+    if canonical is None:
+        canonical = canonical_name_info(
+            str(normalized.get("title") or ""),
+            title,
+            " ".join(str(normalized.get(key) or "") for key in ["classification_text", "subtype", "meteorite_type", "url"]),
+            str(normalized.get("url") or ""),
+        )
+    if canonical.get("canonical_name_display") and canonical.get("canonical_name_status") in {"metbull_verified", "parsed_high"}:
+        title = canonical["canonical_name_display"]
+    normalized["title"] = title
+    normalized["canonical_name"] = canonical.get("canonical_name")
+    normalized["canonical_name_display"] = canonical.get("canonical_name_display")
+    normalized["canonical_name_status"] = canonical.get("canonical_name_status")
+    normalized["canonical_name_source"] = canonical.get("canonical_name_source")
+    for key in ["metbull_code", "metbull_status", "metbull_type"]:
+        if canonical.get(key):
+            normalized[key] = canonical[key]
+        else:
+            normalized.pop(key, None)
     mtype, subtype, ctext = normalized_classification(
         str(normalized.get("meteorite_type") or "unknown"),
         normalized.get("subtype"),

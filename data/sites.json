@@ -222,6 +222,280 @@
     "notes": "Enabled after independent validation. Shopify products.json parser uses browser-like retrying fetches, requires product_type Specimen, available variants, positive prices, title weights, and meteorite keywords."
   },
   {
+    "name": "PolandMET",
+    "parser": "polandmet",
+    "stage": "active_verified",
+    "base_url": "https://www.polandmet.com/",
+    "inventory_urls": [
+      "https://www.polandmet.com/meteorite-shop/"
+    ],
+    "max_api_pages": 5,
+    "max_products": 500,
+    "enabled": true,
+    "description": "Specialist WooCommerce meteorite shop with individual product pages, Store API inventory, prices, weights, classifications, and images.",
+    "notes": "Parser uses the Woo Store API with in-stock/add-to-cart checks, title-derived individual weights, non-specimen exclusions, image fallbacks, and conservative API/product caps to avoid heavy crawling."
+  },
+  {
+    "name": "KD Meteorites",
+    "parser": "kd_meteorites",
+    "stage": "active_verified",
+    "base_url": "https://kdmeteorites.com/",
+    "inventory_urls": [
+      "https://kdmeteorites.com/IronMeteoritesForSale.html",
+      "https://kdmeteorites.com/EtchedMeteoriteSlicesForSale.html",
+      "https://kdmeteorites.com/PallasiteMeteoritesForSale.html",
+      "https://kdmeteorites.com/PallasiteMeteoriteNuggetsForSale.html",
+      "https://kdmeteorites.com/ChondriteMeteoritesForSale.html",
+      "https://kdmeteorites.com/WhatsNewAtKDMeteorites.html"
+    ],
+    "max_detail_pages": 90,
+    "enabled": true,
+    "description": "Long-running static meteorite dealer site with categorized specimen pages, exact weights, prices, and images.",
+    "notes": "Parser is bounded to specimen sale hubs, rejects jewelry/knives/gifts/info pages, requires exact row price and weight, and requires row/column-associated product images."
+  },
+  {
+    "name": "eBay - whitehouse_meteorites",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/usr/whitehouse_meteorites",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "whitehouse_meteorites",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Disabled official eBay Browse API connector for one vetted meteorite seller allowlist entry.",
+    "notes": "Keep disabled until EBAY_CLIENT_ID/EBAY_CLIENT_SECRET are configured and rows are manually reviewed. Fixed-price, seller-allowlist only; no broad eBay scraping."
+  },
+  {
+    "name": "eBay - topherspin",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/usr/topherspin",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "topherspin",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Disabled official eBay Browse API connector for one vetted meteorite seller allowlist entry.",
+    "notes": "Keep disabled until API secrets are configured and rows are manually reviewed. Fixed-price seller allowlist only; strict lot/gift/jewelry filtering applies."
+  },
+  {
+    "name": "eBay - fobos13ali",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/usr/fobos13ali",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "fobos13ali",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Disabled official eBay Browse API connector for one seller from the user-provided candidate list.",
+    "notes": "Candidate only. Enable only after API credential setup and manual storefront quality review."
+  },
+  {
+    "name": "eBay - yoda_meteorites",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/usr/yoda_meteorites",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "yoda_meteorites",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Disabled official eBay Browse API connector for one seller from the user-provided candidate list.",
+    "notes": "Candidate only. Enable only after API credential setup and manual storefront quality review."
+  },
+  {
+    "name": "eBay - the.interstellar.collection",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/usr/the.interstellar.collection",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "the.interstellar.collection",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Disabled official eBay Browse API connector for one vetted marketplace candidate.",
+    "notes": "Candidate only; prior snippets suggest possible dust/vial noise. Enable only after manual review confirms enough individual specimens."
+  },
+  {
+    "name": "Galactic Stone eCrater Mirror",
+    "parser": "galactic_stone_ecrater",
+    "stage": "disabled_parser_start",
+    "base_url": "https://galacticstone.ecrater.com/",
+    "inventory_urls": [
+      "https://galacticstone.ecrater.com/c/135113977/meteorites"
+    ],
+    "max_detail_pages": 30,
+    "enabled": false,
+    "description": "Disabled eCrater mirror storefront for Galactic Stone & Ironworks with a narrow Meteorites category parser.",
+    "notes": "Parser exists but remains disabled after bounded review on 2026-06-17. Current visible inventory is display kits, pendants/vials, collections, and other non-individual or weightless rows, with no safe non-duplicate useful inventory beyond the active direct Galactic Stone source."
+  },
+  {
+    "name": "Meteorite Recon",
+    "parser": "meteorite_recon",
+    "stage": "active_verified",
+    "base_url": "https://www.meteorite-recon.com/",
+    "inventory_urls": [
+      "https://www.meteorite-recon.com/home/meteorites-for-sale-stones",
+      "https://www.meteorite-recon.com/home/meteorites-for-sale-irons"
+    ],
+    "enabled": true,
+    "description": "Static Meteorite Recon sale pages with individual stone and iron specimens.",
+    "notes": "Enabled after bounded public-page review. Parser fetches only the Stones and Irons sale pages, scopes rows to WordPress sale sections, requires exact price and individual specimen weight, keeps remote image URLs, and rejects offer-price, sold, category, and non-specimen rows."
+  },
+  {
+    "name": "WWMeteorites",
+    "parser": "wwmeteorites",
+    "stage": "active_verified",
+    "base_url": "https://www.wwmeteorites.com/",
+    "inventory_urls": [
+      "https://www.wwmeteorites.com/"
+    ],
+    "max_detail_pages": 100,
+    "enabled": true,
+    "description": "Wix-rendered direct meteorite dealer sale pages with row-level specimen prices and weights.",
+    "notes": "Enabled after bounded public-page review. Parser fetches only the configured SSR index and discovered same-domain detail pages up to max_detail_pages, requires exact row price and weight, rejects sold, category, ambiguous lot/range, and non-specimen rows, and keeps only remote image URLs."
+  },
+  {
+    "name": "eBay - meteoritetreasure",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/str/meteoritetreasure",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "meteoritetreasure",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Disabled official eBay Browse API connector for one marketplace storefront candidate.",
+    "notes": "Provisional seller allowlist from the /str/meteoritetreasure slug. Keep disabled until EBAY_CLIENT_ID/EBAY_CLIENT_SECRET are configured, seller identity is verified via the API, and rows are manually reviewed. Fixed-price, seller-allowlist only; no broad eBay scraping."
+  },
+  {
+    "name": "eBay - Top Meteorite Store",
+    "parser": "ebay_browse",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.ebay.com/str/topmeteorite",
+    "inventory_urls": [
+      "https://api.ebay.com/buy/browse/v1/item_summary/search"
+    ],
+    "marketplace_id": "EBAY_US",
+    "ebay_seller_username": "topmeteorite",
+    "search_queries": ["meteorite", "chondrite", "lunar meteorite", "martian meteorite", "pallasite", "tektite"],
+    "limit": 100,
+    "max_pages": 2,
+    "enabled": false,
+    "description": "Marketplace storefront candidate for TOP Meteorite on eBay.",
+    "notes": "Provisional seller allowlist from the /str/topmeteorite slug. Keep disabled until EBAY_CLIENT_ID/EBAY_CLIENT_SECRET are configured, seller identity is verified via the API, and rows are manually reviewed. Fixed-price, seller-allowlist only; no broad eBay scraping."
+  },
+  {
+    "name": "Etsy - SpaceTreasuresUS",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.etsy.com/shop/SpaceTreasuresUS",
+    "inventory_urls": [
+      "https://www.etsy.com/shop/SpaceTreasuresUS"
+    ],
+    "enabled": false,
+    "description": "Etsy marketplace storefront candidate from the provided source list.",
+    "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
+  },
+  {
+    "name": "Etsy - SPACEMANGIFT",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.etsy.com/shop/SPACEMANGIFT",
+    "inventory_urls": [
+      "https://www.etsy.com/shop/SPACEMANGIFT"
+    ],
+    "enabled": false,
+    "description": "Etsy marketplace storefront candidate from the provided source list.",
+    "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
+  },
+  {
+    "name": "Etsy - saharagems",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.etsy.com/shop/saharagems",
+    "inventory_urls": [
+      "https://www.etsy.com/shop/saharagems"
+    ],
+    "enabled": false,
+    "description": "Etsy marketplace storefront candidate from the provided source list.",
+    "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
+  },
+  {
+    "name": "eBay Marketplace Search",
+    "parser": "disabled_backlog",
+    "stage": "disabled_policy_blocked",
+    "base_url": "https://www.ebay.com/",
+    "inventory_urls": [
+      "https://www.ebay.com/"
+    ],
+    "enabled": false,
+    "description": "Broad eBay marketplace search/category source.",
+    "notes": "Policy-blocked for normal scraping. Use official Browse API seller allowlists only; do not scrape broad eBay search/category pages."
+  },
+  {
+    "name": "Etsy Marketplace Search",
+    "parser": "disabled_backlog",
+    "stage": "disabled_policy_blocked",
+    "base_url": "https://www.etsy.com/",
+    "inventory_urls": [
+      "https://www.etsy.com/"
+    ],
+    "enabled": false,
+    "description": "Broad Etsy marketplace search/category source.",
+    "notes": "Policy-blocked for normal scraping. Do not scrape broad Etsy search/category pages. Etsy storefronts should use official Etsy Open API credentials plus vetted storefront allowlists and strict souvenir/gift filtering before any enablement."
+  },
+  {
+    "name": "Facebook Meteorite Groups",
+    "parser": "disabled_backlog",
+    "stage": "disabled_policy_blocked",
+    "base_url": "https://www.facebook.com/",
+    "inventory_urls": [
+      "https://www.facebook.com/"
+    ],
+    "enabled": false,
+    "description": "Community sales/research source that is not practical for public scheduled scraping.",
+    "notes": "Reference/backlog visibility only. Do not scrape login-gated Facebook groups in this project."
+  },
+  {
+    "name": "IMCA Member List",
+    "parser": "disabled_backlog",
+    "stage": "disabled_policy_blocked",
+    "base_url": "https://imcax.com/",
+    "inventory_urls": [
+      "https://imcax.com/"
+    ],
+    "enabled": false,
+    "description": "Reference list useful for seller vetting, not an inventory source.",
+    "notes": "Reference/backlog visibility only. IMCA itself does not sell meteorites and should not be scraped as inventory."
+  },
+  {
     "name": "The Space Shop Meteorites",
     "parser": "the_space_shop",
     "stage": "disabled_policy_blocked",

@@ -29,6 +29,9 @@ jobs:
       - name: Install scraper dependencies
         run: pip install -r scraper/requirements.txt
       - name: Run scraper
+        env:
+          EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+          EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
             python scraper/scrape.py --rotate --preserve-existing --rotation-key "${{ github.run_number }}"

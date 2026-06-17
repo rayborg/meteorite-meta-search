@@ -8,7 +8,7 @@ Default public URL after GitHub Pages is enabled: `https://rayborg.github.io/met
 
 ## Project Purpose
 
-The project tracks short, factual listing metadata from meteorite dealer inventory pages so collectors can compare specimens across sources without copying seller pages or media into this repo. It focuses on individual sellable meteorite, tektite, and impactite specimens with useful fields such as title, source URL, price, currency, weight, estimated price/g, classification, availability, parser, scrape time, and remote image URL.
+The project tracks short, factual listing metadata from meteorite dealer inventory pages so collectors can compare specimens across sources without copying seller pages or media into this repo. It focuses on individual sellable meteorite, tektite, and impactite specimens with useful fields such as clean display title, canonical name metadata, source URL, price, currency, USD-normalized price, weight, estimated price/g, classification, availability, parser, scrape time, and remote image URLs.
 
 ## Static Dashboard
 
@@ -28,7 +28,7 @@ Frontend behavior:
 - Table headers and the sort select share the same sort state.
 - Average and lowest price/g summaries are shown only after narrowing by search, type, source, or a single repeated title.
 - The source panel lists every configured source and labels it as enabled, disabled parser start, or disabled backlog.
-- Listing images remain remote `http` or `https` URLs; the app does not load local copies.
+- Listing images remain remote `http` or `https` URLs; `image_url` is primary and optional `image_urls` values are tried as fallbacks before showing `No image`.
 
 ## Scraper
 
@@ -38,7 +38,7 @@ It extracts or derives:
 
 - Meteorite type, including pallasite, chondrite, carbonaceous chondrite, ordinary chondrite, iron, achondrite, lunar, Martian, mesosiderite, and tektite/impactite.
 - Subtypes and classification clues such as H/L/LL, carbonaceous groups, HED terms, iron groups, NWA numbers, and related class text.
-- Price, currency, weight, estimated price/g, remote image URL, availability, parser confidence, and scrape timestamps when present.
+- Price, currency, weight, estimated price/g, USD-normalized price fields, remote image URLs, canonical-name fields, availability, parser confidence, and scrape timestamps when present.
 
 ## Active Sources
 
@@ -62,15 +62,46 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | Mini Museum Meteorites | `mini_museum` | Parses a narrow Shopify meteorite subset with product-type, gift/jewelry/card/collection, positive-price, and title-weight checks. |
 | Fossil Realm Meteorite Collection | `fossil_realm` | Parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | `top_meteorite` | Parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords. |
+| PolandMET | `polandmet` | Parses bounded Woo Store API product pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted clean names. |
+| KD Meteorites | `kd_meteorites` | Parses bounded static specimen sale hubs, rejects non-specimen/info pages, requires exact price/weight/image evidence, and cleans old-table titles through page/URL identity. |
+| Meteorite Recon | `meteorite_recon` | Parses only the static Stones and Irons sale pages, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |
+| WWMeteorites | `wwmeteorites` | Parses bounded same-domain sale/detail pages with exact row price/weight requirements, sold/category/lot/range/non-specimen rejection, and remote image URLs only. |
 
 ## Disabled And Backlog Sources
 
-Disabled sources remain in `data/sites.json` for visibility but are excluded from scraping, rotation, and results until explicitly enabled. There are currently no ordinary disabled parser starts in the source registry.
+Disabled sources remain in `data/sites.json` for visibility but are excluded from scraping, rotation, and results until explicitly enabled.
+
+Disabled parser starts:
+
+- `Galactic Stone eCrater Mirror`
+- `eBay - whitehouse_meteorites`
+- `eBay - topherspin`
+- `eBay - fobos13ali`
+- `eBay - yoda_meteorites`
+- `eBay - the.interstellar.collection`
+- `eBay - meteoritetreasure`
+- `eBay - Top Meteorite Store`
+
+The eBay connector is official Browse API only, seller-allowlist only, fixed-price only, and disabled/config-gated until `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` are configured and rows are manually reviewed. Do not scrape broad eBay search/category pages.
+
+Galactic Stone eCrater Mirror has a source-specific parser but remains disabled after bounded review because the visible eCrater inventory is display kits, pendants/vials, collections, and other non-individual or weightless rows rather than useful non-duplicate individual specimens.
+
+Disabled backlog entries visible in the source panel:
+
+- Etsy - SpaceTreasuresUS
+- Etsy - SPACEMANGIFT
+- Etsy - saharagems
+
+The Etsy storefront candidates were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe public-HTML parser is enabled; any future Etsy work should use official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before enablement.
 
 Policy-blocked disabled sources:
 
 - Collector Secret Meteorites: broad eBay affiliate/aggregator feed rather than direct verified inventory.
 - The Space Shop Meteorites: generic souvenir/gift products rather than named individual specimen inventory.
+- eBay Marketplace Search: broad marketplace search/category scraping is blocked; use seller allowlists only.
+- Etsy Marketplace Search: broad marketplace search/category scraping is blocked; use official Etsy Open API credentials with vetted storefront allowlists only.
+- Facebook Meteorite Groups: login/community source; keep manual/research only.
+- IMCA Member List: reference/vetting source, not inventory.
 
 Additional marketplace candidates and detailed parser notes are tracked in `docs/parser-backlog.md`.
 
@@ -118,6 +149,7 @@ Run these before committing scraper, data, or frontend behavior changes:
 ```sh
 node --check app.js
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py scraper/update_metbull_cache.py
 git diff --check
 ```
 
@@ -132,6 +164,8 @@ git diff --check
 - Push and manual runs currently execute a full scrape of all enabled sources.
 - The workflow validates `data/listings.json`, commits inventory changes, and pushes them back to the repository.
 - `data/listings.json` is ignored by the workflow trigger path filter so automated inventory commits do not immediately retrigger the workflow.
+- The workflow passes optional `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` environment values, but eBay sources remain disabled until explicitly reviewed and enabled.
+- Workflow concurrency cancels stale scrape runs, and the commit step skips inventory commits if `main` advanced while the scrape was running.
 
 GitHub Pages can serve the static files directly from the repository. No separate frontend build step is required.
 
@@ -139,6 +173,7 @@ GitHub Pages can serve the static files directly from the repository. No separat
 
 - `data/sites.json` is the source registry. `enabled: true` means the source is eligible for scraping and rotation. `enabled: false` means backlog or disabled parser start.
 - `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array.
+- `data/metbull_names.json` is the local Meteoritical Bulletin name cache used for canonical-name lookup. Refresh it with `PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py`; normal scrapes should not query MetBull live per listing.
 - `docs/parser-backlog.md` tracks candidate sources, parser starts, marketplace rules, and parser-build checklists.
 - `docs/session-memory.md` summarizes current project context for future editing sessions.
 
@@ -161,4 +196,4 @@ If a site blocks scraping or disallows it in its terms, remove or disable it in 
 
 ## No Local Media Copying
 
-Do not download, copy, optimize, commit, or mirror seller images or product media into this repository. Keep only remote `image_url` values in generated listing data, and let the static UI load those remote images directly. This keeps the repo small and avoids republishing seller media.
+Do not download, copy, optimize, commit, or mirror seller images or product media into this repository. Keep only remote `image_url` and optional remote `image_urls` fallback values in generated listing data, and let the static UI load those remote images directly. This keeps the repo small and avoids republishing seller media.

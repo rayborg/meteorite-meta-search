@@ -1,6 +1,6 @@
 # Parser Backlog
 
-Generated: 2026-06-15
+Generated: 2026-06-16
 
 This is the working queue of meteorite dealer sites to inspect and add with custom parsers. Do not enable a site with the generic parser first. For each site, crawl a small sample manually, identify index/detail/page patterns, then add a parser and only then enable it in `data/sites.json`.
 
@@ -24,18 +24,43 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | Mini Museum Meteorites | Active | Shopify products parser emits only a narrow meteorite subset after product-type, gift/jewelry/card/collection, positive-price, and title-weight checks. |
 | Fossil Realm Meteorite Collection | Active | Shopify products parser requires product_type Meteorites, available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | Active | Shopify products parser requires product_type Specimen, available variants, positive prices, title weights, and meteorite keywords. |
+| PolandMET | Active | Woo Store API parser uses five bounded product pages, in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted display names. |
+| KD Meteorites | Active | Static sale-hub parser follows bounded same-domain specimen pages, rejects non-specimen/info pages, requires exact row price/weight/image evidence, and cleans old table titles from page/URL identity. |
+| Meteorite Recon | Active | Static WordPress sale-page parser fetches only Stones and Irons pages, scopes rows to specimen sale sections, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |
+| WWMeteorites | Active | Static/Wix sale-page parser discovers bounded same-domain detail pages, requires exact row price and weight, rejects sold/category/lot/range/non-specimen rows, and keeps remote image URLs only. |
 
-Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Policy-blocked disabled sources below are excluded from rotation; there are currently no ordinary disabled parser starts in `data/sites.json`.
+Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Disabled parser starts and policy-blocked disabled sources below are excluded from rotation.
 
 ## Inspected / Parser Started But Disabled
 
-No ordinary parser-start sources are currently disabled in `data/sites.json`.
+These sources are present in `data/sites.json` with `enabled: false` and `stage: disabled_parser_start`. They are not scraped unless explicitly enabled after credential setup and manual row review.
+
+| Site | Parser | Blocker / next step |
+| --- | --- | --- |
+| eBay - whitehouse_meteorites | `ebay_browse` | Official Browse API only. Needs `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` and manual row review before enabling. |
+| eBay - topherspin | `ebay_browse` | Official Browse API only. Needs API credentials and manual filtering review for combo/gift-style rows. |
+| eBay - fobos13ali | `ebay_browse` | Candidate from user-provided list. Needs storefront quality review before any enablement. |
+| eBay - yoda_meteorites | `ebay_browse` | Candidate from user-provided list. Needs storefront quality review before any enablement. |
+| eBay - the.interstellar.collection | `ebay_browse` | Candidate with possible dust/vial noise. Needs manual review confirming enough individual specimens. |
+| Galactic Stone eCrater Mirror | `galactic_stone_ecrater` | Parser is implemented for the narrow eCrater Meteorites category, but keep disabled. Bounded review on 2026-06-17 found current rows are display kits, pendants/vials, collections, and other non-individual or weightless products, adding no safe useful inventory beyond active Galactic Stone direct. |
+| eBay - meteoritetreasure | `ebay_browse` | Provisional seller allowlist from `/str/meteoritetreasure`. Needs API credential setup, seller verification, and manual row review before enabling. |
+| eBay - Top Meteorite Store | `ebay_browse` | Provisional seller allowlist from `/str/topmeteorite`. Needs API credential setup, seller verification, and manual row review before enabling. |
+
+## Disabled Backlog Entries In Registry
+
+These are present in `data/sites.json` with `enabled: false`, `stage: disabled_backlog`, and parser `disabled_backlog`. They are visible in the source panel but are explicit no-ops until a real source-specific parser is built.
+
+| Site | URL | Next step |
+| --- | --- | --- |
+| Etsy - SpaceTreasuresUS | https://www.etsy.com/shop/SpaceTreasuresUS | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
+| Etsy - SPACEMANGIFT | https://www.etsy.com/shop/SPACEMANGIFT | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
+| Etsy - saharagems | https://www.etsy.com/shop/saharagems | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
 
 ## High-Priority Candidates
 
 | Priority | Site | URL | Why add | Likely parser style | First inspection notes |
 | --- | --- | --- | --- | --- | --- |
-| 10 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Older/mirror storefront for Galactic Stone; may expose cleaner product pages. | eCrater product-grid parser. | Use only if main site is hard to parse or incomplete. |
+| 10 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Older/mirror storefront for Galactic Stone. | eCrater product-grid parser exists but is disabled. | Current inventory does not pass quality gate; revisit only if the mirror later has individual exact price/weight specimens not covered by the direct source. |
 
 ## Medium-Priority Candidates
 
@@ -51,6 +76,10 @@ These are present in `data/sites.json` with `enabled: false` and `stage: disable
 | --- | --- | --- |
 | Collector Secret Meteorites | https://www.collector-secret.com/minerals/meteorites | Broad eBay affiliate/aggregator feed rather than direct verified inventory. |
 | The Space Shop Meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Generic souvenir/gift products rather than named individual specimen inventory. |
+| eBay Marketplace Search | https://www.ebay.com/ | Broad marketplace search/category scraping is blocked; use official Browse API seller allowlists only. |
+| Etsy Marketplace Search | https://www.etsy.com/ | Broad marketplace search/category scraping is blocked; use official Etsy Open API credentials with vetted storefront allowlists only. |
+| Facebook Meteorite Groups | https://www.facebook.com/ | Login/community source; keep manual/research only. |
+| IMCA Member List | https://imcax.com/ | Reference/vetting source, not inventory. |
 
 ## Marketplace Storefront Rules
 
@@ -79,21 +108,23 @@ These are not enabled. They are candidates to inspect manually and score against
 
 | Priority | Storefront | Platform | URL | Why consider | Caution |
 | --- | --- | --- | --- | --- | --- |
-| M1 | whitehouse_meteorites | eBay | https://www.ebay.com/usr/whitehouse_meteorites | Search results show varied listings: aubrite, eucrite, lunar, Martian shergottite, CV3, irons, ordinary chondrites, Sikhote-Alin, impactite. | Needs seller-page parser and active/sold filtering. |
-| M2 | topherspin | eBay | https://www.ebay.com/usr/topherspin | Search results show pallasite, iron, eucrite, achondrite, Chelyabinsk, unclassified NWA, and IMCA references. | Some combo/gift-style listings; filter to individual specimens. |
-| M3 | meteoritetreasure | eBay Store | https://www.ebay.com/str/meteoritetreasure | Store categories include iron, stone, stony-iron, lunar, Martian; snippets show CV3, lunar, pallasite, Martian, Aletai. | Verify authenticity detail depth and avoid jewelry-heavy rows. |
-| M4 | Top Meteorite eBay store | eBay | https://www.ebay.com/str/topmeteorite | Search snippets show lunar/Martian/Vestan sets, winonaite, pallasite, impact glass. | Watch for sets; include only individual named specimens where possible. |
-| M5 | SpaceTreasuresUS | Etsy | https://www.etsy.com/shop/SpaceTreasuresUS | Shop description claims iron, stony-iron, stone meteorites, impactites, and tektites by an official dealer. | Etsy pages need strong anti-souvenir filters. |
-| M6 | SPACEMANGIFT | Etsy | https://www.etsy.com/shop/SPACEMANGIFT | Categories show stone, iron, stony-iron, HED, lunar, Martian, tektites, impact craters. | Also has souvenirs and jewelry; parser must filter categories/listing titles. |
-| M7 | The Interstellar Collection | eBay | https://www.ebay.com/usr/the.interstellar.collection | Search shows IMCA/GMA identity, lunar/Martian material, and pallasite/museum-grade specimen mentions. | Appears dust-vial heavy in snippets; add only if full inventory has enough individual specimens. |
-| M8 | saharagems | Etsy | https://www.etsy.com/shop/saharagems | Search shows pallasite and Martian meteorite listings with substantial weights/prices. | May be narrow or gem/mineral-heavy; include only if meteorite variety is broad enough. |
+| M1 | whitehouse_meteorites | eBay | https://www.ebay.com/usr/whitehouse_meteorites | Search results show varied listings: aubrite, eucrite, lunar, Martian shergottite, CV3, irons, ordinary chondrites, Sikhote-Alin, impactite. | Now present as disabled official Browse API connector. Enable only after credentials and row review. |
+| M2 | topherspin | eBay | https://www.ebay.com/usr/topherspin | Search results show pallasite, iron, eucrite, achondrite, Chelyabinsk, unclassified NWA, and IMCA references. | Now present as disabled official Browse API connector. Some combo/gift-style listings need filtering review. |
+| M3 | meteoritetreasure | eBay Store | https://www.ebay.com/str/meteoritetreasure | Store categories include iron, stone, stony-iron, lunar, Martian; snippets show CV3, lunar, pallasite, Martian, Aletai. | Now present as disabled official Browse API connector with provisional seller `meteoritetreasure`; verify seller and row quality before enabling. |
+| M4 | Top Meteorite eBay store | eBay | https://www.ebay.com/str/topmeteorite | Search snippets show lunar/Martian/Vestan sets, winonaite, pallasite, impact glass. | Now present as disabled official Browse API connector with provisional seller `topmeteorite`; watch for sets and verify rows before enabling. |
+| M5 | SpaceTreasuresUS | Etsy | https://www.etsy.com/shop/SpaceTreasuresUS | Shop description claims iron, stony-iron, stone meteorites, impactites, and tektites by an official dealer. | Public storefront fetch returned HTTP 403 on 2026-06-17. Do not scrape HTML; use official Etsy Open API credentials and strong anti-souvenir filters only if promoted. |
+| M6 | SPACEMANGIFT | Etsy | https://www.etsy.com/shop/SPACEMANGIFT | Categories show stone, iron, stony-iron, HED, lunar, Martian, tektites, impact craters. | Public storefront fetch returned HTTP 403 on 2026-06-17. Do not scrape HTML; use official Etsy Open API credentials and strict category/title filters only if promoted. |
+| M7 | The Interstellar Collection | eBay | https://www.ebay.com/usr/the.interstellar.collection | Search shows IMCA/GMA identity, lunar/Martian material, and pallasite/museum-grade specimen mentions. | Now present as disabled official Browse API connector. Appears dust-vial heavy; enable only if review finds enough individual specimens. |
+| M8 | saharagems | Etsy | https://www.etsy.com/shop/saharagems | Search shows pallasite and Martian meteorite listings with substantial weights/prices. | Public storefront fetch returned HTTP 403 on 2026-06-17. Do not scrape HTML; use official Etsy Open API credentials and gem/mineral noise filters only if promoted. |
+| M9 | fobos13ali | eBay | https://www.ebay.com/usr/fobos13ali | Candidate seller from provided list. | Present as disabled official Browse API connector; needs manual storefront quality review. |
+| M10 | yoda_meteorites | eBay | https://www.ebay.com/usr/yoda_meteorites | Candidate seller from provided list. | Present as disabled official Browse API connector; needs manual storefront quality review. |
 
 ## Later / Special Handling
 
 | Site | URL | Notes |
 | --- | --- | --- |
-| eBay marketplace search/category pages | https://www.ebay.com/ | Do not scrape broad eBay search/category pages first. Prefer vetted storefront allowlists. Needs seller filters, active/sold separation, duplicate handling, and stronger authenticity checks. |
-| Etsy marketplace search/category pages | https://www.etsy.com/ | Do not scrape broad Etsy search/category pages first. Prefer vetted storefront allowlists and exclude gift/souvenir-heavy shops. |
+| eBay marketplace search/category pages | https://www.ebay.com/ | Do not scrape broad eBay search/category pages. Use official Browse API only, seller allowlists only, fixed-price only, credentials via secrets, active/sold separation, duplicate handling, and manual row review before enabling. |
+| Etsy marketplace search/category pages | https://www.etsy.com/ | Do not scrape broad Etsy search/category pages. Public storefront HTML fetches returned HTTP 403 for current candidates, so Etsy access should be official Open API only with vetted storefront allowlists, credentials, and gift/souvenir filtering. |
 | Facebook meteorite groups | https://www.facebook.com/ | Useful community sales source, but not practical for public scheduled scraping. Keep manual/research only. |
 | IMCA member list | https://imcax.com/ | Useful for vetting sellers and finding dealer names, but IMCA itself does not sell meteorites. Treat as reference data, not inventory. |
 

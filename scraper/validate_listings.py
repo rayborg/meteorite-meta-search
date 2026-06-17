@@ -89,6 +89,7 @@ IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
 )
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_CURRENCIES = {"USD", "EUR"}
+VALID_CANONICAL_NAME_STATUS = {"metbull_verified", "parsed_high", "parsed_unverified", "unknown"}
 FX_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 REQUIRED_KEYS = {
     "id",
@@ -126,16 +127,32 @@ CLEAN_TITLE_PARSERS = {
     "galactic_stone",
     "impactika",
     "justmeteorites",
+    "kd_meteorites",
     "meteolovers",
     "meteorite_exchange",
     "mini_museum",
+    "polandmet",
     "skyfall_meteorites",
     "top_meteorite",
+    "wwmeteorites",
 }
-PRODUCT_TITLE_PHRASE_RE = re.compile(r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|slice|fragment|fragement|specimen)\b", re.I)
+PRODUCT_TITLE_PHRASE_RE = re.compile(r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|endpiece|main\s+mass|slice|fragment|fragement|specimen)\b", re.I)
+CANONICAL_NAME_BAD_PHRASE_RE = re.compile(
+    r"\b(?:for\s+sale|beautiful|gorgeous|superb|rare|hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|"
+    r"endpiece|main\s+mass|slice|fragment|fragement|specimen|individual|piece|oriented|crusted|fresh\s+crust|fusion\s+crust|"
+    r"flight\s+lines?|flow\s+lines?)\b|[$€]",
+    re.I,
+)
+GENERIC_ADJECTIVE_TITLE_RE = re.compile(r"^(?:fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
 SUFFIX_ONLY_TITLE_RE = re.compile(
     r"^(?:Algeria|Arizona|Australia|Czech\s+Republic|Besednice\s*,\s*Czech\s+Republic|Fresh\s+(?:19|20)\d{2}\s+Fall|"
     r"(?:19|20)\d{2}\s+Witnessed\s+Fall|Witnessed\s+Fall|New\s+Find)\s*!?$",
+    re.I,
+)
+WWMETEORITES_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:mammoths?|tusks?|ivory|fossils?|terrestrial\s+(?:native\s+)?iron|oldest\s+terrestrial|"
+    r"nuvvuagittuq|gallium|trinitite|atomic\s+bomb|nuclear\s+weapon|mars\s+bluff|"
+    r"banded\s+iron\s+formation|\bBIF\b)\b",
     re.I,
 )
 
@@ -147,11 +164,12 @@ def suspicious_reasons(item: dict) -> list[str]:
     parser = str(item.get("parser") or "")
     url = str(item.get("url") or "")
     image_url = str(item.get("image_url") or "")
+    image_urls = item.get("image_urls") if isinstance(item.get("image_urls"), list) else []
     parsed = urlparse(url)
 
     if CATEGORY_TITLE_RE.search(title):
         reasons.append("category title")
-    if BAD_IMAGE_RE.search(image_url):
+    if BAD_IMAGE_RE.search(image_url) or any(BAD_IMAGE_RE.search(str(url or "")) for url in image_urls):
         reasons.append("favicon/logo image")
     ppg_usd = item.get("price_per_g_usd") if item.get("price_per_g_usd") is not None else item.get("price_per_g")
     if item.get("weight_g") and ppg_usd is not None:
@@ -175,6 +193,8 @@ def suspicious_reasons(item: dict) -> list[str]:
         reasons.append("classification_text contains weight/dimension")
     if parser in CLEAN_TITLE_PARSERS and PRODUCT_TITLE_PHRASE_RE.search(title):
         reasons.append("clean-name source title contains product phrase")
+    if parser in CLEAN_TITLE_PARSERS and GENERIC_ADJECTIVE_TITLE_RE.fullmatch(title):
+        reasons.append("clean-name source title is generic adjective")
     if parser in CLEAN_TITLE_PARSERS and SUFFIX_ONLY_TITLE_RE.fullmatch(title):
         reasons.append("clean-name source title is suffix-only location/event")
     if classification_text and PRODUCT_TITLE_PHRASE_RE.search(classification_text):
@@ -191,6 +211,13 @@ def suspicious_reasons(item: dict) -> list[str]:
 
 def is_number(value) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def valid_remote_image_url(value) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
 def number_value(text: str) -> float | None:
@@ -422,9 +449,55 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if parser == "meteorlab" and available is True and price is not None and (weight is None or ppg is None):
         errors.append(f"row {index}: active Meteorlab priced row lacks weight/price_per_g")
 
+    canonical_name = item.get("canonical_name")
+    canonical_display = item.get("canonical_name_display")
+    canonical_status = item.get("canonical_name_status")
+    canonical_source = item.get("canonical_name_source")
+    canonical_present = any(key in item for key in ["canonical_name", "canonical_name_display", "canonical_name_status", "canonical_name_source"])
+    if canonical_present:
+        if canonical_status not in VALID_CANONICAL_NAME_STATUS:
+            errors.append(f"row {index}: invalid canonical_name_status {canonical_status!r}")
+        if canonical_status == "unknown":
+            if canonical_name is not None or canonical_display is not None or canonical_source is not None:
+                errors.append(f"row {index}: unknown canonical name status has canonical values")
+        else:
+            for field, value in [("canonical_name", canonical_name), ("canonical_name_display", canonical_display)]:
+                if not isinstance(value, str) or not value.strip() or value != value.strip():
+                    errors.append(f"row {index}: {field} is not a clean non-empty string")
+                    continue
+                if len(value) > 120:
+                    errors.append(f"row {index}: {field} is too long")
+                if "\n" in value or "\r" in value or re.search(r"https?://", value, re.I):
+                    errors.append(f"row {index}: {field} contains invalid control/URL text")
+                if TITLE_WEIGHT_RE.search(value) or TITLE_WEIGHT_RANGE_RE.search(value) or DIMENSION_RE.search(value) or CANONICAL_NAME_BAD_PHRASE_RE.search(value):
+                    errors.append(f"row {index}: {field} contains product/weight/dimension text")
+                if CATEGORY_TITLE_RE.search(value):
+                    errors.append(f"row {index}: {field} is category-like")
+            if not canonical_source:
+                errors.append(f"row {index}: canonical_name_source missing for known canonical name")
+
     image_url = str(item.get("image_url") or "")
     if image_url and BAD_IMAGE_RE.search(image_url):
         errors.append(f"row {index}: bad decorative image URL")
+    image_urls = item.get("image_urls")
+    if image_urls is not None:
+        if not isinstance(image_urls, list):
+            errors.append(f"row {index}: image_urls is not a list")
+        else:
+            seen_images = set()
+            for pos, value in enumerate(image_urls, 1):
+                if not valid_remote_image_url(value):
+                    errors.append(f"row {index}: image_urls[{pos}] is not a valid remote URL")
+                    continue
+                if BAD_IMAGE_RE.search(value):
+                    errors.append(f"row {index}: image_urls[{pos}] is decorative/bad image URL")
+                if value in seen_images:
+                    errors.append(f"row {index}: image_urls[{pos}] duplicates an earlier image URL")
+                seen_images.add(value)
+            if image_urls and image_url and image_urls[0] != image_url:
+                errors.append(f"row {index}: image_urls first entry does not match image_url")
+            if image_urls and not image_url:
+                errors.append(f"row {index}: image_urls present but image_url is missing")
 
     sold_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "image_url", "classification_text", "subtype"])
     if available is True and SOLD_TEXT_RE.search(sold_haystack):
@@ -453,6 +526,11 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
             errors.append(f"row {index}: active IMPACTIKA title starts with inventory code")
         if IMPACTIKA_AMBIGUOUS_ROW_RE.search(non_individual_haystack):
             errors.append(f"row {index}: active IMPACTIKA ambiguous lot/range/per-gram row")
+    if parser == "wwmeteorites" and available is True:
+        if price is None or weight is None:
+            errors.append(f"row {index}: active WWMeteorites row lacks exact price/weight")
+        if WWMETEORITES_NON_SPECIMEN_RE.search(non_individual_haystack):
+            errors.append(f"row {index}: active WWMeteorites non-specimen row")
 
     subtype_token = compact_classification_token(item.get("subtype"))
     if re.fullmatch(r"(?:H|L|LL)[3-7][3-7]", subtype_token):
