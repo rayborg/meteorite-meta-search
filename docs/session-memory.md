@@ -9,7 +9,7 @@ Last updated: 2026-06-17
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
 - Generated listing data lives in `data/listings.json`; current generated data has 3,183 listings from 20 enabled sources.
 - Source registry has 35 configured sources: 20 enabled and 15 disabled.
-- Current changes are intended for commit; commit/push are pending only until the user-requested commit is performed.
+- User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
@@ -61,7 +61,7 @@ Last updated: 2026-06-17
 
 ## Active Todo List
 
-- Commit and push only when explicitly user-requested; this remains pending only until that commit is done.
+- For future completed changes, run validation, commit, and push by default unless blocked or explicitly told not to.
 
 ## Recent Decisions
 
@@ -150,7 +150,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py
 ## Warnings For Future Agents
 
 - Do not delete source files or `data/listings.json` during cleanup.
-- Do not commit or push unless the user explicitly asks.
+- The user has asked to always commit and push completed validated changes in this repo. Still inspect status/diff/log first, stage only intended files, and stop on failed validation, secrets, destructive changes, or explicit instructions not to publish.
 - Use `PYTHONDONTWRITEBYTECODE=1` for Python checks to avoid recreating `__pycache__/`.
 - Use `apply_patch` for manual file edits.
 - Do not add overbroad ignores such as `data/`, `*.json`, or `docs/`.
