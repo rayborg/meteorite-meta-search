@@ -101,6 +101,7 @@ Last updated: 2026-06-17
 - `data/listings.json` is ignored by workflow path triggers to prevent immediate scraper commit loops.
 - Workflow concurrency now cancels stale in-progress scrape runs, and the commit step verifies that `HEAD` still matches `origin/main` before attempting to push an inventory commit.
 - Optional eBay Browse API workflow env vars are `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET`; the connector must remain disabled unless those are configured and row quality is reviewed.
+- Local optional API credentials should live only in ignored `.env`/`.env.*` files or exported shell variables. `.env.example` is a placeholder-only template; never commit real credentials.
 
 ## UI Decisions
 

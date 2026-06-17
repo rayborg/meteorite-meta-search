@@ -115,6 +115,16 @@ python -m pip install -r scraper/requirements.txt
 
 `.venv/` is ignored and should stay local.
 
+Optional marketplace credentials must stay out of tracked files. For local eBay API testing, copy `.env.example` to `.env`, fill the real values there, and export them before running the scraper:
+
+```sh
+set -a
+source .env
+set +a
+```
+
+`.env` and `.env.*` are ignored by git. Do not put real credentials in `data/sites.json`, workflow files, docs, or committed examples. For scheduled GitHub Actions runs, add credentials as repository secrets instead of local files.
+
 To view the static site locally, serve the repo root so browser `fetch()` calls work:
 
 ```sh
@@ -162,7 +172,7 @@ git diff --check
 - Push and manual runs currently execute a full scrape of all enabled sources.
 - The workflow validates `data/listings.json`, commits inventory changes, and pushes them back to the repository.
 - `data/listings.json` is ignored by the workflow trigger path filter so automated inventory commits do not immediately retrigger the workflow.
-- The workflow passes optional `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` environment values, but eBay sources remain disabled until explicitly reviewed and enabled.
+- The workflow passes optional `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` values from GitHub repository secrets, but eBay sources remain disabled until explicitly reviewed and enabled.
 - Workflow concurrency cancels stale scrape runs, and the commit step skips inventory commits if `main` advanced while the scrape was running.
 
 GitHub Pages can serve the static files directly from the repository. No separate frontend build step is required.
