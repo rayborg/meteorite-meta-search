@@ -11,6 +11,8 @@ const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "image", "ava
 const CONFIDENCE_RANK = { low: 1, medium: 2, high: 3 };
 const UNSPECIFIED_SUBTYPE = "__unspecified__";
 const HEAVY_PRICE_PER_KG_WEIGHT_G = 1000;
+const PRICE_DISTRIBUTION_MAX_GROUPS = 24;
+const PRICE_DISTRIBUTION_BUCKETS = 8;
 const CATEGORY_ALIASES = new Map([
   ["stone", "unknown"]
 ]);
@@ -650,6 +652,177 @@ function updateSummary(items) {
   setPriceSummary("bestDeal", summarizePricePerG(items, "best"));
 }
 
+function meteoriteGroupKey(item) {
+  const canonical = normalize(item.canonical_name).trim();
+  if (canonical) return `canonical:${canonical}`;
+  const display = normalize(item.canonical_name_display).trim();
+  if (display) return `display:${display}`;
+  const title = normalize(item.title).trim();
+  return `title:${title || item.id || item.url || "unknown"}`;
+}
+
+function meteoriteGroupLabel(item) {
+  return item.canonical_name_display || item.canonical_name || item.title || "Unnamed meteorite";
+}
+
+function collectPriceDistributionGroups(items) {
+  const groups = new Map();
+  for (const item of items) {
+    if (isUnavailable(item)) continue;
+    const price = usdPricePerGValue(item);
+    if (!Number.isFinite(price)) continue;
+
+    const key = meteoriteGroupKey(item);
+    if (!groups.has(key)) {
+      groups.set(key, { label: meteoriteGroupLabel(item), values: [], sources: new Set() });
+    }
+    const group = groups.get(key);
+    group.values.push(price);
+    if (item.source) group.sources.add(item.source);
+  }
+
+  return [...groups.values()].sort((a, b) =>
+    b.values.length - a.values.length ||
+    a.label.localeCompare(b.label, undefined, { numeric: true, sensitivity: "base" })
+  );
+}
+
+function median(values) {
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+}
+
+function average(values) {
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function appendPriceStat(parent, label, value) {
+  const stat = document.createElement("div");
+  const statLabel = document.createElement("span");
+  const statValue = document.createElement("strong");
+  stat.className = "price-stat";
+  statLabel.textContent = label;
+  statValue.textContent = pricePerG(value, "USD");
+  stat.append(statLabel, statValue);
+  parent.appendChild(stat);
+}
+
+function priceDistributionBuckets(values) {
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  if (min === max) return [{ min, max, count: values.length }];
+
+  const bucketCount = Math.min(PRICE_DISTRIBUTION_BUCKETS, Math.max(2, values.length));
+  const span = max - min;
+  const buckets = Array.from({ length: bucketCount }, (_, index) => {
+    const start = min + (span * index) / bucketCount;
+    const end = min + (span * (index + 1)) / bucketCount;
+    return { min: start, max: end, count: 0 };
+  });
+
+  for (const value of values) {
+    const index = Math.min(bucketCount - 1, Math.floor(((value - min) / span) * bucketCount));
+    buckets[index].count += 1;
+  }
+
+  return buckets;
+}
+
+function renderPriceChart(group) {
+  const values = group.values;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const avg = average(values);
+  const med = median(values);
+  const sourceCount = group.sources.size;
+  const card = document.createElement("article");
+  const heading = document.createElement("div");
+  const title = document.createElement("h3");
+  const meta = document.createElement("span");
+  const stats = document.createElement("div");
+  const bars = document.createElement("div");
+  const axis = document.createElement("div");
+  const minLabel = document.createElement("span");
+  const maxLabel = document.createElement("span");
+
+  card.className = "price-chart-card";
+  heading.className = "price-chart-heading";
+  title.textContent = group.label;
+  meta.className = "price-chart-meta";
+  meta.textContent = `${values.length} priced ${values.length === 1 ? "listing" : "listings"} · ${sourceCount || 0} ${sourceCount === 1 ? "source" : "sources"}`;
+  heading.append(title, meta);
+
+  stats.className = "price-stat-grid";
+  appendPriceStat(stats, "Min", min);
+  appendPriceStat(stats, "Median", med);
+  appendPriceStat(stats, "Avg", avg);
+  appendPriceStat(stats, "Max", max);
+
+  const buckets = priceDistributionBuckets(values);
+  const maxBucketCount = Math.max(...buckets.map((bucket) => bucket.count), 1);
+  bars.className = "price-bars";
+  bars.setAttribute("role", "img");
+  bars.setAttribute("aria-label", `${group.label} USD price per gram distribution from ${pricePerG(min, "USD")} to ${pricePerG(max, "USD")}`);
+
+  for (const bucket of buckets) {
+    const bar = document.createElement("div");
+    const fill = document.createElement("span");
+    const height = bucket.count ? Math.max(8, Math.round((bucket.count / maxBucketCount) * 100)) : 2;
+    bar.className = "price-bar";
+    bar.title = `${bucket.count} ${bucket.count === 1 ? "listing" : "listings"}: ${pricePerG(bucket.min, "USD")} to ${pricePerG(bucket.max, "USD")}`;
+    bar.setAttribute("aria-hidden", "true");
+    fill.style.height = `${height}%`;
+    bar.appendChild(fill);
+    bars.appendChild(bar);
+  }
+
+  axis.className = "price-axis";
+  minLabel.textContent = pricePerG(min, "USD");
+  maxLabel.textContent = pricePerG(max, "USD");
+  axis.append(minLabel, maxLabel);
+  card.append(heading, stats, bars, axis);
+  return card;
+}
+
+function renderPriceDistribution(items) {
+  const section = $("priceDistribution");
+  const summary = $("priceDistributionSummary");
+  const charts = $("priceDistributionCharts");
+  if (!section || !summary || !charts) return;
+
+  const q = normalize($("search")?.value).trim();
+  charts.innerHTML = "";
+  if (!q) {
+    section.hidden = true;
+    return;
+  }
+
+  section.hidden = false;
+  const groups = collectPriceDistributionGroups(items);
+  const listingCount = groups.reduce((count, group) => count + group.values.length, 0);
+  if (!groups.length) {
+    summary.textContent = "No available matching listings have USD price/g data for a distribution chart.";
+    return;
+  }
+
+  if (groups.length > PRICE_DISTRIBUTION_MAX_GROUPS) {
+    summary.textContent = `Search matches ${groups.length} meteorites with USD price/g data across ${listingCount} available listings. Refine the search to ${PRICE_DISTRIBUTION_MAX_GROUPS} or fewer meteorites to generate one chart for each meteorite.`;
+    const empty = document.createElement("div");
+    empty.className = "price-chart-empty";
+    empty.textContent = "The current search is too broad for one chart per meteorite.";
+    charts.appendChild(empty);
+    return;
+  }
+
+  summary.textContent = `Showing USD price/g distribution for ${groups.length} ${groups.length === 1 ? "meteorite" : "meteorites"} across ${listingCount} available priced ${listingCount === 1 ? "listing" : "listings"}.`;
+  const fragment = document.createDocumentFragment();
+  for (const group of groups) {
+    fragment.appendChild(renderPriceChart(group));
+  }
+  charts.appendChild(fragment);
+}
+
 function setSourcesPanelOpen(open) {
   $("sourcesPanel").hidden = !open;
   $("sourcesSummary").setAttribute("aria-expanded", String(open));
@@ -863,6 +1036,7 @@ function render() {
 
   tbody.innerHTML = "";
   updateSummary(items);
+  renderPriceDistribution(items);
   updateSortHeaders();
   renderChips(chipCountListings(baseItems));
 

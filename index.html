@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meteorite Meta Search</title>
-  <link rel="stylesheet" href="styles.css?v=20260617-source-counts">
+  <link rel="stylesheet" href="styles.css?v=20260617-price-distribution">
 </head>
 <body>
   <header class="site-header">
@@ -51,6 +51,15 @@
       <label class="check-control"><input id="includeUnavailable" type="checkbox"> Include unavailable</label>
     </section>
     <section id="typeChips" class="chips" aria-label="Filter by meteorite category and subtype shortcuts"></section>
+    <section id="priceDistribution" class="price-distribution" hidden>
+      <div class="section-heading">
+        <div>
+          <h2>Price Distribution</h2>
+          <p id="priceDistributionSummary" aria-live="polite">Search a meteorite name to chart USD price/g by meteorite.</p>
+        </div>
+      </div>
+      <div id="priceDistributionCharts" class="price-chart-grid"></div>
+    </section>
     <section class="table-wrap">
       <table>
         <thead><tr>
@@ -76,6 +85,6 @@
       <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="availability"></td><td class="confidence"></td>
     </tr>
   </template>
-  <script src="app.js?v=20260617-source-counts"></script>
+  <script src="app.js?v=20260617-price-distribution"></script>
 </body>
 </html>
