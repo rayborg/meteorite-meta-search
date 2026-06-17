@@ -52,10 +52,12 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | BAITYLIA | `baitylia` | Parses categorized inventory rows and follows them to detail pages while rejecting header/category rows. |
 | Meteorite Exchange | `meteorite_exchange` | Parses bounded WooCommerce product pages with product-detail proof, category/archive/add-to-cart/filter rejection, and non-specimen filtering. |
 | FossilEra | `fossilera` | Parses active-only meteorite cards and detail pages with pagination and sold-card suppression. |
+| Prehistoric Fossils Meteorites | `prehistoric_fossils` | Parses only the NWA meteorites WooCommerce category with stock/product proof, exact weights, prices, images, and frame/jar/display rejection. |
 | Galactic Stone & Ironworks | `galactic_stone` | Parses BigCommerce product grids with add-to-cart/detail proof, title weights, and non-specimen/out-of-stock rejection. |
 | The Meteorite Market | `meteorite_market` | Parses validated static sale pages with duplicate-cell cleanup and sold-price rejection. |
 | Arizona Skies Meteorites | `arizona_skies` | Parses only Lunar/Martian final specimen pages and clean inexpensive rows with exact price, individual weight, valid image, and sold/non-specimen rejection. |
 | Aerolite Meteorites | `aerolite` | Parses narrow WooCommerce shop categories and excludes sold, jewelry, books, stands, equipment, and other non-specimens. |
+| Astro West | `astro_west` | Parses WooCommerce meteorite category pagination and product details with stock/add-to-cart proof while filtering jewelry, pendants, display boxes, gift sets, and other non-specimens. |
 | IMPACTIKA | `impactika` | Parses Woo Store API description rows with smaller retried JSON requests and rejects sold, lot/range, from-to, per-gram, and non-specimen rows. |
 | SkyFall Meteorites | `skyfall_meteorites` | Parses Woo product sitemap entries under meteorites-for-sale paths with positive title weights and prices. |
 | Meteolovers | `meteolovers` | Parses Elementor/Woo product cards under meteorite paths with schema/meta prices and sold/status checks. |
@@ -63,6 +65,7 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | Mini Museum Meteorites | `mini_museum` | Parses a narrow Shopify meteorite subset with product-type, gift/jewelry/card/collection, positive-price, and title-weight checks. |
 | Fossil Realm Meteorite Collection | `fossil_realm` | Parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | `top_meteorite` | Parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords. |
+| Buy Meteorite | `buy_meteorite` | Parses the Shopify meteorites collection with available variants, meteorite type/tag checks, positive prices, title weights, images, and non-specimen rejection. |
 | PolandMET | `polandmet` | Parses bounded Woo Store API product pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted clean names. |
 | KD Meteorites | `kd_meteorites` | Parses bounded static specimen sale hubs, rejects non-specimen/info pages, requires exact price/weight/image evidence, and cleans old-table titles through page/URL identity. |
 | Meteorite Recon | `meteorite_recon` | Parses only the static Stones and Irons sale pages, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |

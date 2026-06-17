@@ -13,10 +13,12 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | BAITYLIA / Meteorite and More | Active | Index pages contain item rows; detail pages are `Meteorite.aspx?id=...`. Header/category pages are not listings. |
 | Meteorite Exchange | Active | WooCommerce category/detail parser follows only root `.html` product pages with product metadata and rejects category/archive/add-to-cart/filter links, jewelry, gifts, books, and non-specimen products. |
 | FossilEra | Active | Active-only `meteorites-for-sale` category parser follows `/meteorites/...` detail pages, suppresses sold cards, and extracts schema/detail metadata. |
+| Prehistoric Fossils Meteorites | Active | Narrow Woo parser follows only the NWA meteorites category to `/product/` details with product/cart or stock proof, exact weights/prices/images, and frame/gem-jar/display rejection. |
 | Galactic Stone & Ironworks | Active | BigCommerce product-grid parser requires product IDs, add-to-cart/detail proof, title weights, and meteorite/class markers; rejects collections, jewelry, displays, memorabilia, micromounts without weights, and out-of-stock cards. |
 | The Meteorite Market | Active | Static allowlist parser reads validated sale tables, dedupes repeated cells/images, and rejects sold prices. |
 | Arizona Skies Meteorites | Active | Narrow static parser follows only Lunar/Martian final specimen pages and clean inexpensive rows; requires exact price, individual weight, valid image, and sold/non-specimen filtering. |
 | Aerolite Meteorites | Active | Narrow WooCommerce shop-category parser excludes sold, jewelry, books, stands, equipment, and other non-specimen products. |
+| Astro West | Active | WooCommerce meteorite category parser follows `/collections/meteorites/` pagination to `/products/` details, requires product/add-to-cart proof and meteorite title markers, and rejects jewelry, pendants, display boxes, gift sets, and other non-specimens. |
 | IMPACTIKA | Active | Woo Store API parser uses smaller retried JSON pages and emits only available exact price/weight rows while rejecting sold, lot/range, from-to, per-gram, and non-specimen rows. |
 | SkyFall Meteorites | Active | Product sitemap parser accepts only `/meteorites-for-sale/` product paths with positive title weights/prices and rejects NFS, zero-gram, read-more, jewelry, books, and category failures. |
 | Meteolovers | Active | Elementor/Woo product-card parser follows meteorite paths, uses schema/meta prices, and checks sold/status/category coverage. |
@@ -24,6 +26,7 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | Mini Museum Meteorites | Active | Shopify products parser emits only a narrow meteorite subset after product-type, gift/jewelry/card/collection, positive-price, and title-weight checks. |
 | Fossil Realm Meteorite Collection | Active | Shopify products parser requires product_type Meteorites, available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | Active | Shopify products parser requires product_type Specimen, available variants, positive prices, title weights, and meteorite keywords. |
+| Buy Meteorite | Active | Shopify meteorites collection parser requires meteorite product type/tag, available variants, positive prices, title weights, images, and non-specimen rejection. |
 | PolandMET | Active | Woo Store API parser uses five bounded product pages, in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted display names. |
 | KD Meteorites | Active | Static sale-hub parser follows bounded same-domain specimen pages, rejects non-specimen/info pages, requires exact row price/weight/image evidence, and cleans old table titles from page/URL identity. |
 | Meteorite Recon | Active | Static WordPress sale-page parser fetches only Stones and Irons pages, scopes rows to specimen sale sections, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |

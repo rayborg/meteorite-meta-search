@@ -122,6 +122,8 @@ CATEGORY_PATH_RE = re.compile(r"/(?:Meteorites|Unclassified|Tektites|Impactites|
 DETAIL_PATH_RE = re.compile(r"/(?:Meteorite|unclassified_meteorite|Tektite)\.aspx$|/[^/]*(?:product|item|specimen)[^/]*", re.I)
 CLEAN_TITLE_PARSERS = {
     "aerolite",
+    "astro_west",
+    "buy_meteorite",
     "fossil_realm",
     "fossilera",
     "galactic_stone",
@@ -132,18 +134,19 @@ CLEAN_TITLE_PARSERS = {
     "meteorite_exchange",
     "mini_museum",
     "polandmet",
+    "prehistoric_fossils",
     "skyfall_meteorites",
     "top_meteorite",
     "wwmeteorites",
 }
-PRODUCT_TITLE_PHRASE_RE = re.compile(r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|endpiece|main\s+mass|slice|fragment|fragement|specimen)\b", re.I)
+PRODUCT_TITLE_PHRASE_RE = re.compile(r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|endpiece|main\s+mass|slice|fragment|fragement|specimen|widmanst[a\u00e4]tten\s+patterns?)\b", re.I)
 CANONICAL_NAME_BAD_PHRASE_RE = re.compile(
     r"\b(?:for\s+sale|beautiful|gorgeous|superb|rare|hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|"
     r"endpiece|main\s+mass|slice|fragment|fragement|specimen|individual|piece|oriented|crusted|fresh\s+crust|fusion\s+crust|"
     r"flight\s+lines?|flow\s+lines?)\b|[$€]",
     re.I,
 )
-GENERIC_ADJECTIVE_TITLE_RE = re.compile(r"^(?:fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
+GENERIC_ADJECTIVE_TITLE_RE = re.compile(r"^(?:authentic|genuine|natural|fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
 SUFFIX_ONLY_TITLE_RE = re.compile(
     r"^(?:Algeria|Arizona|Australia|Czech\s+Republic|Besednice\s*,\s*Czech\s+Republic|Fresh\s+(?:19|20)\d{2}\s+Fall|"
     r"(?:19|20)\d{2}\s+Witnessed\s+Fall|Witnessed\s+Fall|New\s+Find)\s*!?$",

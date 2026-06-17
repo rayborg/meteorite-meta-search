@@ -66,6 +66,19 @@
     "notes": "Enabled after independent validation. Source-specific parser uses active-only /meteorites/ detail pages, schema/meta/detail text, pagination, and sold-card suppression."
   },
   {
+    "name": "Prehistoric Fossils Meteorites",
+    "parser": "prehistoric_fossils",
+    "stage": "active_verified",
+    "base_url": "https://prehistoricfossils.com/",
+    "inventory_urls": [
+      "https://prehistoricfossils.com/nwa-meteorites-for-sale/"
+    ],
+    "max_detail_pages": 140,
+    "enabled": true,
+    "description": "Narrow WooCommerce NWA meteorites category with product details, prices, stock status, images, and specimen weights.",
+    "notes": "Enabled after bounded validation. Parser follows only the NWA meteorites category pagination to /product/ details, requires product/cart or stock proof, exact individual weights, prices, images, and rejects frames, gem jars, displays, and other non-specimen products."
+  },
+  {
     "name": "Galactic Stone & Ironworks",
     "parser": "galactic_stone",
     "stage": "active_verified",
@@ -123,6 +136,19 @@
     "enabled": true,
     "description": "Specialist WooCommerce meteorite dealer with narrow shop categories and individual product pages.",
     "notes": "Enabled after independent validation. Parser uses browser-like headers, narrow shop categories, schema/meta prices, and excludes sold, jewelry, books, stands, equipment, and other non-specimens."
+  },
+  {
+    "name": "Astro West",
+    "parser": "astro_west",
+    "stage": "active_verified",
+    "base_url": "https://astrowest.com/",
+    "inventory_urls": [
+      "https://astrowest.com/collections/meteorites/"
+    ],
+    "max_detail_pages": 80,
+    "enabled": true,
+    "description": "WooCommerce meteorite category with individual product detail pages, prices, weights, stock status, and images.",
+    "notes": "Enabled after bounded validation. Parser follows /collections/meteorites/ pagination to /products/ details, requires Woo product/add-to-cart proof and title meteorite markers, and excludes jewelry, pendants, display boxes, gift sets, and other non-specimen products while not rejecting the broad gifts category alone."
   },
   {
     "name": "IMPACTIKA",
@@ -220,6 +246,18 @@
     "enabled": true,
     "description": "Shopify-style rare meteorite dealer with active specimen products and some non-specimen merchandise risk.",
     "notes": "Enabled after independent validation. Shopify products.json parser uses browser-like retrying fetches, requires product_type Specimen, available variants, positive prices, title weights, and meteorite keywords."
+  },
+  {
+    "name": "Buy Meteorite",
+    "parser": "buy_meteorite",
+    "stage": "active_verified",
+    "base_url": "https://buymeteorite.com/",
+    "inventory_urls": [
+      "https://buymeteorite.com/collections/meteorites/products.json?limit=250"
+    ],
+    "enabled": true,
+    "description": "Shopify meteorite collection with available variants, exact title weights, prices, and product images.",
+    "notes": "Enabled after bounded validation. Parser uses the meteorites collection products.json only, requires meteorite product type and tag, available variants, positive prices, title-derived weights, images, and strict non-specimen rejection."
   },
   {
     "name": "PolandMET",

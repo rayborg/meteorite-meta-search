@@ -181,6 +181,22 @@ METEOLOVERS_NON_INDIVIDUAL_RE = re.compile(
     r"(?:slices?|endcuts?)\s*(?:and|,)\s*(?:slices?|endcuts?))\b",
     re.I,
 )
+ASTRO_WEST_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|dog\s*tags?|wearable|"
+    r"collector(?:'s)?\s+display\s+box(?:es)?|collector\s+box(?:es)?|display\s+box(?:es)?|box\s+sets?|space\s+crystals?|"
+    r"souvenirs?|stands?|display\s+(?:cases?|stands?|frames?)|cubes?|pyramids?|carvings?|shapes?|sets?|lots?)\b",
+    re.I,
+)
+ASTRO_WEST_CATEGORY_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:jewelry|jewellery|meteorite\s+jewelry|pendants?|necklaces?|box\s+sets?|display\s+boxes?)\b",
+    re.I,
+)
+PREHISTORIC_FOSSILS_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:gem\s*jars?|jars?|frames?|riker|display|boxes?|shadow\s*boxes?|bundles?|sets?|lots?|bulk|"
+    r"jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|"
+    r"replicas?|casts?|currently\s+sold\s+out)\b",
+    re.I,
+)
 JUSTMETEORITES_NON_SPECIMEN_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|books?|"
     r"knives?|posters?|prints?|display\s+(?:cases?|boxes?|stands?|frames?)|(?:in|with)\s+(?:a\s+)?(?:floating\s+)?frames?|spheres?|riker|gift|souvenirs?|vials?|dust|sets?|lots?)\b",
@@ -263,6 +279,8 @@ WWMETEORITES_BAD_IMAGE_RE = re.compile(
 )
 ECOMMERCE_CLEAN_TITLE_PARSERS = {
     "aerolite",
+    "astro_west",
+    "buy_meteorite",
     "fossil_realm",
     "fossilera",
     "galactic_stone",
@@ -271,6 +289,7 @@ ECOMMERCE_CLEAN_TITLE_PARSERS = {
     "justmeteorites",
     "kd_meteorites",
     "polandmet",
+    "prehistoric_fossils",
     "meteolovers",
     "meteorite_exchange",
     "mini_museum",
@@ -287,7 +306,7 @@ NUMBERED_OFFICIAL_NAME_RE = re.compile(
 )
 KNOWN_DISPLAY_NAME_RE = re.compile(
     r"\b(?:Aba\s+Panu|Abadla\s+002|Agoudal|Aguas\s+Zarcas|Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|"
-    r"Campo\s+del\s+Cielo|Chergach|Chelyabinsk|Dronino|El\s+Menia|Gebel\s+Kamil|Gibeon|Holbrook|"
+    r"Campo\s+del\s+Cielo|Chergach|Chelyabinsk|Dronino|El\s+Menia|Gebel\s+Kamil|Gibeon|Holbrook|Brenham|"
     r"Mundrabilla|Murchison|Seymchan|Sikhote[-\s]+Alin)\b",
     re.I,
 )
@@ -313,7 +332,7 @@ DISPLAY_PRODUCT_TRAILING_RE = re.compile(
     r"flight\s+lines?|flow\s+lines?|full\s+of\s+clasts?)\b)+$",
     re.I,
 )
-DISPLAY_PRODUCT_LEADING_RE = re.compile(r"^(?:polished|complete|full|part|partial|thin|thick|beautiful|rare|superb|gorgeous|fresh|oriented|crusted)\s+", re.I)
+DISPLAY_PRODUCT_LEADING_RE = re.compile(r"^(?:polished|complete|full|part|partial|thin|thick|authentic|genuine|natural|beautiful|rare|superb|gorgeous|fresh|oriented|crusted)\s+", re.I)
 DISPLAY_GENERIC_SUFFIX_RE = re.compile(
     r"^(?:new\s+find|fresh\s+(?:19|20)\d{2}\s+fall|(?:19|20)\d{2}\s+witnessed\s+fall|witnessed\s+fall|from\b|for\s+sale|"
     r"main\s+mass|museum\s+quality|rare|beautiful|complete|full|part|partial|thin|thick|"
@@ -321,8 +340,8 @@ DISPLAY_GENERIC_SUFFIX_RE = re.compile(
     r"fusion\s+crust|flight\s+lines?|flow\s+lines?)\b",
     re.I,
 )
-DISPLAY_GENERIC_PREFIX_RE = re.compile(r"^(?:ungrouped|primitive|polymict|brecciated|aqueous\s+altered|beautiful|rare|superb|gorgeous|oriented|crusted)$", re.I)
-GENERIC_DISPLAY_ADJECTIVE_RE = re.compile(r"^(?:fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
+DISPLAY_GENERIC_PREFIX_RE = re.compile(r"^(?:ungrouped|primitive|polymict|brecciated|aqueous\s+altered|authentic|genuine|natural|beautiful|rare|superb|gorgeous|oriented|crusted)$", re.I)
+GENERIC_DISPLAY_ADJECTIVE_RE = re.compile(r"^(?:authentic|genuine|natural|fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
 DISPLAY_SUFFIX_ONLY_RE = re.compile(
     r"^(?:Algeria|Argentina|Australia|Austria|Brazil|Canada|Chile|China|Czech\s+Republic|France|Indonesia|Italy|Kenya|Libya|Mexico|Morocco|"
     r"Nigeria|Oman|Pakistan|Peru|Poland|Romania|Russia|Spain|Tunisia|Turkey|Ukraine|Uruguay|USA|Zimbabwe|"
@@ -334,7 +353,7 @@ DISPLAY_SUFFIX_ONLY_RE = re.compile(
 )
 CLASSIFICATION_PRODUCT_TEXT_RE = re.compile(
     r"\b(?:hammer\s+stone|end\s+slice|slice|section|fragment|fragement|end\s*cut|endcut|endpiece|main\s+mass|specimen|individual|piece|polished|"
-    r"oriented|crusted|fresh\s+crust|fusion\s+crust|flight\s+lines?|flow\s+lines?)\b",
+    r"oriented|crusted|fresh\s+crust|fusion\s+crust|flight\s+lines?|flow\s+lines?|widmanst[a\u00e4]tten\s+patterns?)\b",
     re.I,
 )
 DISPLAY_CLASSIFICATION_ONLY_RE = re.compile(
@@ -533,6 +552,7 @@ def strip_product_measurements(text: str) -> str:
 def tidy_display_candidate(text: str) -> str:
     candidate = strip_product_measurements(text)
     candidate = re.sub(r"\b(?:For\s+Sale|New\s+Find|Witnessed\s+Fall)\b.*$", "", candidate, flags=re.I)
+    candidate = re.sub(r"\s*(?:-|\u2013|\u2014)\s*widmanst[a\u00e4]tten\s+patterns?\b.*$", " ", candidate, flags=re.I)
     candidate = re.sub(
         r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|thick\s+slice|full\s+slice|part\s+slice|partial\s+slice|"
         r"slice|section|fragment|fragement|end\s*cut|endcut|specimen|individual|piece)\b",
@@ -575,7 +595,7 @@ def clean_suffix_name(segment: str) -> str | None:
         return None
     if CLASSIFICATION_PRODUCT_TEXT_RE.search(candidate):
         return None
-    if re.search(r"\b(?:meteorite|chondrite|achondrite|shergottite|eucrite|diogenite|howardite|aubrite|ureilite|pallasite)\b", candidate, re.I):
+    if re.search(r"\b(?:meteorite|chondrite|achondrite|shergottite|eucrite|diogenite|howardite|aubrite|ureilite|pallasite|tektite|impactite)\b", candidate, re.I):
         return None
     return candidate
 
@@ -1290,6 +1310,14 @@ def first_weight_g(text: str) -> float | None:
         if value is not None:
             return weight_to_g(value, m.group(2))
     return None
+
+
+def first_weighing_weight_g(text: str) -> float | None:
+    match = re.search(rf"\bweigh(?:s|ing)?\s+({WEIGHT_NUMBER_RE})\s*(kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b", text or "", re.I)
+    if not match:
+        return None
+    value = num(match.group(1))
+    return weight_to_g(value, match.group(2)) if value is not None else None
 
 
 def first_individual_weight_g(title: str, detail_text: str = "", *, title_only: bool = False) -> float | None:
@@ -2606,7 +2634,7 @@ def product_detail_listing(
     title = title or meta_content(soup, "og:title", "twitter:title") or title_for(soup)
     title = clean(
         re.sub(
-            r"\s*(?:(?:For\s+Sale\s*)?-\s+|\|\s*)(?:FossilEra\.com|Aerolite Meteorites.*|Meteorite Exchange.*|justMETEORITES|Impactika|SkyFall Meteorites.*|Meteolovers).*$",
+            r"\s*(?:(?:For\s+Sale\s*)?-\s+|\|\s*)(?:FossilEra\.com|Aerolite Meteorites.*|Astro West.*|Meteorite Exchange.*|justMETEORITES|Impactika|SkyFall Meteorites.*|Meteolovers).*$",
             "",
             title,
             flags=re.I,
@@ -2660,6 +2688,8 @@ def product_detail_listing(
         weight = first_individual_weight_g(title, text[:2000]) or labeled_weight(lines)
     if weight is None and not title_weight_only:
         weight = first_individual_weight_g("", text[:2000])
+    if weight is None and parser == "prehistoric_fossils":
+        weight = first_weighing_weight_g(text[:2000])
     if weight is None and not allow_missing_weight:
         log.reject("product_missing_weight")
         return None
@@ -2940,6 +2970,14 @@ def shopify_image(product: dict) -> str | None:
     return images[0] if images else None
 
 
+def shopify_parser_title(parser: str, title: str) -> str:
+    title = clean(title)
+    if parser == "buy_meteorite":
+        title = re.sub(r"\b(end\s*cut|endcut|slice|fragment|individual|specimen)(?=\d)", r"\1 ", title, flags=re.I)
+        title = re.sub(rf"({WEIGHT_NUMBER_RE})\s*\.\s*(g|gm|gms|gr|grs|grams?)\b", r"\1 \2", title, flags=re.I)
+    return title
+
+
 def shopify_listing(
     site: dict,
     parser: str,
@@ -2956,6 +2994,7 @@ def shopify_listing(
     variant_title = clean(str(variant.get("title") or ""))
     if variant_title and not re.fullmatch(r"default\s+title", variant_title, re.I):
         title = clean(f"{title} - {variant_title}")
+    title = shopify_parser_title(parser, title)
     tag_text = "" if parser == "top_meteorite" else " ".join(shopify_tags(product))
     detail_text = clean(" ".join([html_to_text(product.get("body_html")), shopify_product_type(product), tag_text]))
     price = price_num(str(variant.get("price") or ""))
@@ -3083,6 +3122,88 @@ def meteorite_exchange_detail_proof(soup: BeautifulSoup, product: dict | None, o
     category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
     if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(clean(f"{title} {category_text}")):
         return "meteorite_exchange_non_specimen_detail"
+    return None
+
+
+def astro_west_card_filter(card, page_url: str) -> str | None:
+    classes = " ".join(card.get("class") or [])
+    if not re.search(r"\btype-product\b", classes, re.I):
+        return "astro_west_card_missing_type_product"
+    if re.search(r"\bproduct_cat-(?:jewelry|meteorite-jewelry|box-sets?|display-box(?:es)?|collector-box(?:es)?)\b", classes, re.I):
+        return "astro_west_non_specimen_category"
+    title_node = card.select_one(".woocommerce-loop-product__title, h2, h3")
+    title = clean(title_node.get_text(" ", strip=True) if title_node else "")
+    haystack = clean(" ".join([title, card.get_text(" ", strip=True)]))
+    if WEIGHT_RANGE_RE.search(title):
+        return "astro_west_weight_range_title"
+    if ASTRO_WEST_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "astro_west_non_specimen"
+    if title and not product_title_has_meteorite_marker(title):
+        return "astro_west_missing_title_meteorite_marker"
+    return None
+
+
+def astro_west_detail_proof(soup: BeautifulSoup, product: dict | None, offer: dict, url: str) -> str | None:
+    if not re.fullmatch(r"/products/[^/?#]+/?", urlparse(url).path, re.I):
+        return "astro_west_not_product_path"
+    body_classes = " ".join(soup.body.get("class") or []) if soup.body else ""
+    if not re.search(r"\bsingle-product\b", body_classes, re.I):
+        return "astro_west_missing_single_product_body"
+    product_node = soup.select_one("div[id^='product-'].product.type-product, div.product.type-product")
+    if not product_node:
+        return "astro_west_missing_type_product_detail"
+    if clean(meta_content(soup, "og:type") or "").lower() != "product":
+        return "astro_west_missing_product_meta"
+    title = clean(meta_content(soup, "og:title", "twitter:title") or title_for(soup))
+    category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
+    if ASTRO_WEST_CATEGORY_NON_SPECIMEN_RE.search(category_text):
+        return "astro_west_non_specimen_category_detail"
+    if ASTRO_WEST_NON_SPECIMEN_RE.search(title) or NON_SPECIMEN_PRODUCT_RE.search(title):
+        return "astro_west_non_specimen_detail"
+    if WEIGHT_RANGE_RE.search(title):
+        return "astro_west_weight_range_title_detail"
+    if not product_title_has_meteorite_marker(title):
+        return "astro_west_missing_title_meteorite_marker_detail"
+    if not (product_node.select_one(".single_add_to_cart_button") or product_node.select_one("form.cart")):
+        return "astro_west_missing_add_to_cart"
+    return None
+
+
+def prehistoric_fossils_card_filter(card, page_url: str) -> str | None:
+    classes = " ".join(card.get("class") or [])
+    if not re.search(r"\btype-product\b", classes, re.I):
+        return "prehistoric_card_missing_type_product"
+    title_node = card.select_one(".woocommerce-loop-product__title, h2, h3")
+    title = clean(title_node.get_text(" ", strip=True) if title_node else "")
+    haystack = clean(" ".join([title, card.get_text(" ", strip=True), classes]))
+    if PREHISTORIC_FOSSILS_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        return "prehistoric_non_specimen"
+    if WEIGHT_RANGE_RE.search(title):
+        return "prehistoric_weight_range_title"
+    if title and not product_title_has_meteorite_marker(title):
+        return "prehistoric_missing_title_meteorite_marker"
+    return None
+
+
+def prehistoric_fossils_detail_proof(soup: BeautifulSoup, product: dict | None, offer: dict, url: str) -> str | None:
+    if not re.fullmatch(r"/product/[^/?#]+/?", urlparse(url).path, re.I):
+        return "prehistoric_not_product_path"
+    body_classes = " ".join(soup.body.get("class") or []) if soup.body else ""
+    if not re.search(r"\bsingle-product\b", body_classes, re.I):
+        return "prehistoric_missing_single_product_body"
+    product_node = soup.select_one("div[id^='product-'].product.type-product, div.product.type-product")
+    if not product_node:
+        return "prehistoric_missing_type_product_detail"
+    title = clean(meta_content(soup, "og:title", "twitter:title") or title_for(soup))
+    category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
+    if PREHISTORIC_FOSSILS_NON_SPECIMEN_RE.search(f"{title} {category_text}") or NON_SPECIMEN_PRODUCT_RE.search(f"{title} {category_text}"):
+        return "prehistoric_non_specimen_detail"
+    if WEIGHT_RANGE_RE.search(title):
+        return "prehistoric_weight_range_title_detail"
+    if not product_title_has_meteorite_marker(title):
+        return "prehistoric_missing_title_meteorite_marker_detail"
+    if not (product_node.select_one(".single_add_to_cart_button") or product_node.select_one("form.cart") or re.search(r"\bin\s+stock\b", product_node.get_text(" ", strip=True), re.I)):
+        return "prehistoric_missing_stock_or_cart"
     return None
 
 
@@ -3251,6 +3372,59 @@ def scrape_aerolite(site: dict, log: SourceLog) -> list[dict]:
     )
 
 
+def scrape_astro_west(site: dict, log: SourceLog) -> list[dict]:
+    detail_re = re.compile(r"^/products/[^/?#]+/?$", re.I)
+    headers = {"User-Agent": BROWSER_UA, "Accept": "text/html,application/xhtml+xml"}
+    link_reject_re = re.compile(
+        r"(?:[?&](?:add-to-cart|orderby|s)=|/(?:cart|checkout|my-account|wishlist)(?:/|$)|/wp-json/|/feed/?$)",
+        re.I,
+    )
+    return scrape_product_card_details(
+        site,
+        log,
+        "astro_west",
+        detail_re,
+        ["li.product", ".wc-block-grid__product"],
+        fallback_type="meteorite",
+        headers=headers,
+        card_reject_re=ASTRO_WEST_NON_SPECIMEN_RE,
+        reject_title_re=ASTRO_WEST_NON_SPECIMEN_RE,
+        reject_detail_re=ASTRO_WEST_NON_SPECIMEN_RE,
+        require_title_meteorite=True,
+        reject_weight_range_title=True,
+        card_filter=astro_west_card_filter,
+        link_reject_re=link_reject_re,
+        detail_proof=astro_west_detail_proof,
+        max_detail_pages=site_int(site, "max_detail_pages", 80, 150),
+    )
+
+
+def scrape_prehistoric_fossils(site: dict, log: SourceLog) -> list[dict]:
+    detail_re = re.compile(r"^/product/[^/?#]+/?$", re.I)
+    headers = {"User-Agent": BROWSER_UA, "Accept": "text/html,application/xhtml+xml"}
+    link_reject_re = re.compile(
+        r"(?:[?&](?:add-to-cart|orderby|s)=|/(?:cart|checkout|my-account|wishlist)(?:/|$)|/wp-json/|/feed/?$)",
+        re.I,
+    )
+    return scrape_product_card_details(
+        site,
+        log,
+        "prehistoric_fossils",
+        detail_re,
+        ["li.product", ".wc-block-grid__product"],
+        fallback_type="meteorite",
+        headers=headers,
+        card_reject_re=PREHISTORIC_FOSSILS_NON_SPECIMEN_RE,
+        reject_title_re=PREHISTORIC_FOSSILS_NON_SPECIMEN_RE,
+        require_title_meteorite=True,
+        reject_weight_range_title=True,
+        card_filter=prehistoric_fossils_card_filter,
+        link_reject_re=link_reject_re,
+        detail_proof=prehistoric_fossils_detail_proof,
+        max_detail_pages=site_int(site, "max_detail_pages", 140, 180),
+    )
+
+
 def scrape_meteolovers(site: dict, log: SourceLog) -> list[dict]:
     detail_re = re.compile(r"^/product/meteorites/[^?#]+/?$", re.I)
     return scrape_product_card_details(
@@ -3335,6 +3509,28 @@ def top_meteorite_filter(product: dict, title: str, detail_text: str, price: flo
 
 def scrape_top_meteorite(site: dict, log: SourceLog) -> list[dict]:
     return scrape_shopify_products_json(site, log, "top_meteorite", top_meteorite_filter)
+
+
+def buy_meteorite_filter(product: dict, title: str, detail_text: str, price: float | None, weight: float | None, variant: dict) -> str | None:
+    ptype = shopify_product_type(product).lower()
+    tags = {tag.lower() for tag in shopify_tags(product)}
+    if "meteorite" not in ptype or "meteorite" not in tags:
+        return "buy_meteorite_non_meteorite_type"
+    if not (METEORITE_RE.search(title) or METEORITE_RE.search(detail_text) or SUBTYPE_RE.search(title) or SUBTYPE_RE.search(detail_text)):
+        return "buy_meteorite_missing_meteorite_marker"
+    if NON_SPECIMEN_PRODUCT_RE.search(title) or SOLD_STATUS_RE.search(title):
+        return "buy_meteorite_non_specimen_title"
+    if SHOPIFY_PLACEHOLDER_PRICE_RE.search(detail_text) or price is None or price <= 0 or price >= 1_000_000:
+        return "buy_meteorite_missing_price"
+    if first_weight_g(title) is None or weight is None:
+        return "buy_meteorite_missing_title_weight"
+    if not shopify_image(product):
+        return "buy_meteorite_missing_image"
+    return None
+
+
+def scrape_buy_meteorite(site: dict, log: SourceLog) -> list[dict]:
+    return scrape_shopify_products_json(site, log, "buy_meteorite", buy_meteorite_filter)
 
 
 def mini_museum_filter(product: dict, title: str, detail_text: str, price: float | None, weight: float | None, variant: dict) -> str | None:
@@ -5062,6 +5258,10 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_fossilera(site, log)
     if parser == "aerolite":
         return scrape_aerolite(site, log)
+    if parser == "astro_west":
+        return scrape_astro_west(site, log)
+    if parser == "prehistoric_fossils":
+        return scrape_prehistoric_fossils(site, log)
     if parser == "meteolovers":
         return scrape_meteolovers(site, log)
     if parser == "galactic_stone":
@@ -5072,6 +5272,8 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_fossil_realm(site, log)
     if parser == "top_meteorite":
         return scrape_top_meteorite(site, log)
+    if parser == "buy_meteorite":
+        return scrape_buy_meteorite(site, log)
     if parser == "mini_museum":
         return scrape_mini_museum(site, log)
     if parser == "meteorite_market":

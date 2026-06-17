@@ -7,8 +7,8 @@ Last updated: 2026-06-17
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current generated data has 3,183 listings from 20 enabled sources.
-- Source registry has 35 configured sources: 20 enabled and 15 disabled.
+- Generated listing data lives in `data/listings.json`; current generated data has 3,623 listings from 23 enabled sources.
+- Source registry has 38 configured sources: 23 enabled and 15 disabled.
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
@@ -21,10 +21,12 @@ Last updated: 2026-06-17
 - BAITYLIA uses `baitylia` and parses categorized inventory rows and follows them to detail pages while rejecting header/category rows.
 - Meteorite Exchange uses `meteorite_exchange` and parses bounded WooCommerce product pages with product-detail proof, category/archive/add-to-cart/filter rejection, and non-specimen filtering.
 - FossilEra uses `fossilera` and parses active-only meteorite cards and detail pages with pagination and sold-card suppression.
+- Prehistoric Fossils Meteorites uses `prehistoric_fossils` and parses only the NWA meteorites WooCommerce category with product/cart or stock proof, exact weights/prices/images, and frame/gem-jar/display rejection.
 - Galactic Stone & Ironworks uses `galactic_stone` and parses BigCommerce product grids with add-to-cart/detail proof, title weights, and non-specimen/out-of-stock rejection.
 - The Meteorite Market uses `meteorite_market` and parses validated static sale pages with duplicate-cell cleanup and sold-price rejection.
 - Arizona Skies Meteorites uses `arizona_skies` and parses only Lunar/Martian final specimen pages plus clean inexpensive rows with exact price, individual weight, valid image, and sold/non-specimen rejection.
 - Aerolite Meteorites uses `aerolite` and parses narrow WooCommerce shop categories while excluding sold and non-specimen products; branded schema suffixes such as `| Aerolite Meteorites Incorporated` are stripped during normalization.
+- Astro West uses `astro_west` and parses WooCommerce meteorite category pagination to `/products/` details with product/add-to-cart proof, meteorite title markers, and jewelry/display/gift-set rejection without rejecting the broad gifts category alone.
 - IMPACTIKA uses `impactika` and parses Woo Store API description rows with smaller retried JSON requests, exact price/weight row validation, stock checks, lot/range/per-gram rejection, and product/URL-derived display names instead of AB inventory row codes.
 - SkyFall Meteorites uses `skyfall_meteorites` and parses product sitemap entries under meteorites-for-sale paths with positive title weights/prices and path/title rejection rules.
 - Meteolovers uses `meteolovers` and parses Elementor/Woo product cards under meteorite paths with schema/meta prices and sold/status checks.
@@ -32,6 +34,7 @@ Last updated: 2026-06-17
 - Mini Museum Meteorites uses `mini_museum` and parses a narrow Shopify meteorite subset with product-type, gift/jewelry/card/collection, positive-price, and title-weight checks.
 - Fossil Realm Meteorite Collection uses `fossil_realm` and parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights.
 - TOP Meteorite uses `top_meteorite` and parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords.
+- Buy Meteorite uses `buy_meteorite` and parses only the Shopify meteorites collection with meteorite product type/tag checks, available variants, positive prices, title weights, images, and non-specimen rejection.
 - PolandMET uses `polandmet` and parses five bounded Woo Store API pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallback candidates, and local MetBull-assisted display names.
 - KD Meteorites uses `kd_meteorites` and parses bounded static sale hubs/detail pages with non-specimen/info-page rejection, exact price/weight/image requirements, and page/URL-derived clean titles.
 - Meteorite Recon uses `meteorite_recon` and parses only the static Stones and Irons sale pages with row-scoped images, exact price/individual-weight requirements, and offer-price/category/non-specimen rejection.
@@ -67,7 +70,7 @@ Last updated: 2026-06-17
 
 - README was expanded to be the canonical guide for setup, scraping, validation, workflow behavior, data files, parser policy, and no local media copying.
 - A session memory file was added under `docs/` for future agents.
-- Current active source registry now has 20 enabled sources after adding PolandMET, KD Meteorites, Meteorite Recon, and WWMeteorites.
+- Current active source registry now has 23 enabled sources after adding Astro West, Buy Meteorite, and Prehistoric Fossils Meteorites.
 - Saffordite is treated as an impactite marker so Meteorite Exchange impactite rows classify without suspicious-row noise.
 - Scraper output now normalizes priced rows to USD using daily no-key FX rates when available, falling back to saved exchange-rate metadata or USD-only metadata if offline.
 - `.gitignore` now covers common Python, Node/static tooling, local environment, editor, OS, build, temp, and cache artifacts without ignoring source/data docs.
