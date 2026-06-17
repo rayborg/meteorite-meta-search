@@ -746,8 +746,11 @@ function renderSourceStatusCounts(counts) {
 function updateSourceSummary() {
   const counts = sourceStatusCounts();
   $("totalSources").textContent = counts.enabled;
-  $("sourceSummaryMeta").textContent = `${counts.total} configured total`;
-  $("sourcesSummary").setAttribute("aria-label", `${counts.enabled} connected or enabled sources; ${counts.total} total configured. Show source status counts and details.`);
+  $("sourceSummaryMeta").textContent = `${counts.total} configured total: ${counts.parserStart} parser starts, ${counts.backlog} backlog, ${counts.policyBlocked} policy/ref`;
+  $("sourcesSummary").setAttribute(
+    "aria-label",
+    `${counts.enabled} connected or enabled sources; ${counts.total} total configured: ${counts.parserStart} disabled parser starts, ${counts.backlog} disabled backlog sources, ${counts.policyBlocked} policy-blocked or reference sources. Show source status counts and details.`
+  );
   renderSourceStatusCounts(counts);
 }
 
