@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-17T11:30:17.765051+00:00",
+  "generated_at": "2026-06-17T21:49:44.873884+00:00",
   "source_count": 20,
   "listing_count": 3183,
-  "scrape_mode": "selected",
+  "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "WWMeteorites"
+    "Meteorite Exchange"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -26,7 +26,8 @@
     "TOP Meteorite",
     "PolandMET",
     "KD Meteorites",
-    "Meteorite Recon"
+    "Meteorite Recon",
+    "WWMeteorites"
   ],
   "exchange_rates": {
     "base": "USD",
@@ -38,6 +39,12 @@
     "date": "2026-06-17",
     "source": "open.er-api.com"
   },
+  "rotation_index": 3,
+  "rotation_total": 20,
+  "rotation_key": "44",
+  "empty_refresh_preserved_sources": [
+    "Meteorite Exchange"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
