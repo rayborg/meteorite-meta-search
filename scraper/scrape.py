@@ -2108,6 +2108,7 @@ def scrape_baitylia(site: dict, log: SourceLog) -> list[dict]:
     detail_re = re.compile(r"/(?:Meteorite|unclassified_meteorite|Tektite)\.aspx\?[^#]*\bid=\d+", re.I)
     listings = []
     seen_urls: set[str] = set()
+    related_queue: list[str] = []
     for page_url, html in discover_webform_index_pages(site, detail_re, log):
         soup = BeautifulSoup(html, "lxml")
         fallback_type = None
@@ -2122,6 +2123,40 @@ def scrape_baitylia(site: dict, log: SourceLog) -> list[dict]:
             if item and item["url"] not in seen_urls:
                 listings.append(item)
                 seen_urls.add(item["url"])
+                related_queue.append(item["url"])
+
+    processed_related_pages = set()
+    while related_queue and len(processed_related_pages) < MAX_DETAIL_PAGES_PER_SITE:
+        detail_url = related_queue.pop(0)
+        if detail_url in processed_related_pages:
+            continue
+        processed_related_pages.add(detail_url)
+        html = fetch(detail_url, log, "detail")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("baitylia_related_detail_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        if not re.search(r"\bmore\s+specimens?\s+of\b", soup.get_text(" ", strip=True), re.I):
+            continue
+        for card in soup.select(".card"):
+            if not card_has_detail(card, detail_url, detail_re):
+                continue
+            related_url = None
+            for a in card.find_all("a", href=True):
+                href = urljoin(detail_url, a.get("href")).split("#", 1)[0]
+                if same_domain(site["base_url"], href) and detail_re.search(url_path_query(href)):
+                    related_url = href
+                    break
+            if not related_url or related_url in seen_urls:
+                continue
+            log.detail(related_url)
+            item = inventory_card_listing(site, detail_url, card, detail_re, parser="baitylia", log=log)
+            if not item or item["url"] in seen_urls:
+                continue
+            listings.append(item)
+            seen_urls.add(item["url"])
+            related_queue.append(item["url"])
     return listings
 
 
