@@ -5605,11 +5605,16 @@ def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
     parser = str(normalized.get("parser") or "generic")
     title = display_title(str(normalized.get("title") or ""), parser, str(normalized.get("url") or ""))
     canonical = None
+    stale_detail_text_canonical = (
+        normalized.get("canonical_name_source") == "detail_text"
+        and not re.search(r"\d", clean(str(normalized.get("canonical_name_display") or "")))
+    )
     if (
         normalized.get("canonical_name_status") in {"metbull_verified", "parsed_high"}
         and clean(str(normalized.get("canonical_name") or ""))
         and clean(str(normalized.get("canonical_name_display") or ""))
         and clean(str(normalized.get("canonical_name_source") or ""))
+        and not stale_detail_text_canonical
     ):
         canonical = {key: normalized.get(key) for key in ["canonical_name", "canonical_name_display", "canonical_name_status", "canonical_name_source"]}
         for key in ["metbull_code", "metbull_status", "metbull_type"]:
