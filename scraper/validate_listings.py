@@ -91,6 +91,35 @@ VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_CURRENCIES = {"USD", "EUR"}
 VALID_CANONICAL_NAME_STATUS = {"metbull_verified", "parsed_high", "parsed_unverified", "unknown"}
 FX_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+LUNAR_METBULL_TYPE_RE = re.compile(r"^Lunar(?:\s*\(([^)]*)\))?$", re.I)
+LUNAR_SUBTYPE_CANONICAL = {
+    value.lower(): value
+    for value in [
+        "anorth",
+        "bas/anor",
+        "bas. breccia",
+        "bas/gab brec",
+        "basalt",
+        "feldsp. breccia",
+        "feldsp. melt breccia",
+        "feldsp. melt rock",
+        "frag. breccia",
+        "gabbro",
+        "melt breccia",
+        "norite",
+        "olivine gabbro",
+        "olivine gabbronorite",
+        "troct",
+        "troct. anorth.",
+        "troct. anorth. melt breccia",
+        "troct. melt breccia",
+        "troct. melt rock",
+    ]
+}
+LUNAR_NON_SUBTYPE_RE = re.compile(
+    r"\b(?:achondrite(?:-ung)?|aubrite|howardite|eucrite|diogenite|hed|euc|ureilite|angrite|brachinite|acapulcoite|lodranite|winonaite)\b",
+    re.I,
+)
 REQUIRED_KEYS = {
     "id",
     "source",
@@ -262,7 +291,21 @@ def compact_classification_token(value: str | None) -> str:
     return re.sub(r"\s+", "", str(value or "").strip().upper())
 
 
+def canonical_lunar_subtype(value: str | None) -> str | None:
+    text = str(value or "").strip()
+    match = LUNAR_METBULL_TYPE_RE.fullmatch(text)
+    if match:
+        text = (match.group(1) or "").strip()
+    if not text:
+        return None
+    return LUNAR_SUBTYPE_CANONICAL.get(re.sub(r"\s+", " ", text).strip().lower())
+
+
 def subtype_family(subtype: str | None) -> str | None:
+    if re.fullmatch(r"Lunar(?:\s+Meteorite)?", str(subtype or "").strip(), re.I):
+        return "lunar"
+    if canonical_lunar_subtype(subtype):
+        return "lunar"
     token = compact_classification_token(subtype)
     if not token:
         return None
@@ -279,7 +322,7 @@ def subtype_family(subtype: str | None) -> str | None:
     if token == "MESOSIDERITE":
         return "mesosiderite"
     if token in {"SHERGOTTITE", "NAKHLITE", "CHASSIGNITE"}:
-        return "achondrite"
+        return "martian"
     if token in {
         "HED",
         "EUC",
@@ -303,9 +346,9 @@ def subtype_family(subtype: str | None) -> str | None:
 
 
 def type_family(mtype: str | None) -> str | None:
-    if mtype in {"ordinary chondrite", "carbonaceous chondrite", "iron", "pallasite", "mesosiderite"}:
+    if mtype in {"ordinary chondrite", "carbonaceous chondrite", "iron", "pallasite", "mesosiderite", "lunar", "martian"}:
         return mtype
-    if mtype in {"achondrite", "lunar", "martian"}:
+    if mtype == "achondrite":
         return "achondrite"
     if mtype == "chondrite":
         return "chondrite"
@@ -317,7 +360,7 @@ CLASSIFICATION_TOKEN_RE = re.compile(
     r"(?:H/L|L/LL|H/LL)\s?-?\s?[3-7](?:\.\d)?|L\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|LL\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
     r"OC|C\s?-?\s?[123]\s*-\s*ung|C\s?-?\s?2|CI\s?-?\s?\d|CM\s?-?\s?\d|CO\s?-?\s?\d|CV\s?-?\s?\d|CR\s?-?\s?\d|CK\s?-?\s?\d|CH\s?-?\s?\d|CBa|CBb|"
     r"EH\s?-?\s?[3-7](?:\s*[/\-]\s*(?:EH\s*)?[3-7])?|EL\s?-?\s?[3-7](?:\s*[/\-]\s*(?:EL\s*)?[3-7])?|EH\s*-\s*melt\s+rock|"
-    r"IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|EUC|HED|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
+    r"IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|lunar(?:\s+meteorite)?|EUC|HED|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
     r"shergottite|nakhlite|chassignite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|iron)\b",
     re.I,
 )
@@ -352,6 +395,10 @@ def families_compatible(row_family: str, text_family: str) -> bool:
     if text_family == "chondrite" and row_family in {"ordinary chondrite", "carbonaceous chondrite"}:
         return True
     return False
+
+
+def lunar_subtype_from_metbull_type(value: str | None) -> str | None:
+    return canonical_lunar_subtype(value)
 
 
 def validation_errors(item: dict, index: int, valid_sources: set[str], valid_parsers: set[str]) -> list[str]:
@@ -456,6 +503,7 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     canonical_display = item.get("canonical_name_display")
     canonical_status = item.get("canonical_name_status")
     canonical_source = item.get("canonical_name_source")
+    metbull_type = str(item.get("metbull_type") or "").strip()
     canonical_present = any(key in item for key in ["canonical_name", "canonical_name_display", "canonical_name_status", "canonical_name_source"])
     if canonical_present:
         if canonical_status not in VALID_CANONICAL_NAME_STATUS:
@@ -478,6 +526,26 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
                     errors.append(f"row {index}: {field} is category-like")
             if not canonical_source:
                 errors.append(f"row {index}: canonical_name_source missing for known canonical name")
+            if canonical_source == "detail_text" and not re.search(r"\d", str(canonical_display or "")):
+                errors.append(f"row {index}: detail_text canonical name is not catalog/numbered")
+
+    if re.search(r"\bImilac\s+2\b", " ".join(str(item.get(key) or "") for key in ["title", "canonical_name", "canonical_name_display"]), re.I):
+        errors.append(f"row {index}: Imilac duplicate slug suffix exposed as meteorite name")
+
+    if item.get("meteorite_type") == "lunar":
+        lunar_haystack = " ".join(str(item.get(key) or "") for key in ["subtype", "classification_text"])
+        if LUNAR_NON_SUBTYPE_RE.search(lunar_haystack):
+            errors.append(f"row {index}: lunar row contains non-lunar subtype/classification text")
+        if metbull_type and not LUNAR_METBULL_TYPE_RE.fullmatch(metbull_type):
+            errors.append(f"row {index}: lunar row conflicts with MetBull type {metbull_type!r}")
+    if metbull_type and LUNAR_METBULL_TYPE_RE.fullmatch(metbull_type):
+        expected_lunar_subtype = lunar_subtype_from_metbull_type(metbull_type)
+        if item.get("meteorite_type") != "lunar":
+            errors.append(f"row {index}: MetBull lunar type is not classified as lunar")
+        elif expected_lunar_subtype and item.get("subtype") != expected_lunar_subtype:
+            errors.append(f"row {index}: lunar subtype {item.get('subtype')!r} does not match MetBull type {metbull_type!r}")
+        elif expected_lunar_subtype is None and item.get("subtype"):
+            errors.append(f"row {index}: generic MetBull lunar type should not have subtype {item.get('subtype')!r}")
 
     image_url = str(item.get("image_url") or "")
     if image_url and BAD_IMAGE_RE.search(image_url):
@@ -554,6 +622,8 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
             "iron": {"iron"},
             "pallasite": {"pallasite"},
             "mesosiderite": {"mesosiderite"},
+            "lunar": {"lunar"},
+            "martian": {"martian"},
         }[row_family]
         if item.get("meteorite_type") not in allowed:
             errors.append(

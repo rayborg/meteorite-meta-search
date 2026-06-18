@@ -90,6 +90,31 @@ TYPE_RULES = [
     ("stone", r"\bmeteorite\s+type\s*:\s*stone\b"),
     ("tektite/impactite", r"\b(tektite|moldavite|libyan desert glass|impactite|impact melt|saffordite)\b"),
 ]
+LUNAR_METBULL_TYPE_RE = re.compile(r"^Lunar(?:\s*\(([^)]*)\))?$", re.I)
+LUNAR_SUBTYPE_CANONICAL = {
+    value.lower(): value
+    for value in [
+        "anorth",
+        "bas/anor",
+        "bas. breccia",
+        "bas/gab brec",
+        "basalt",
+        "feldsp. breccia",
+        "feldsp. melt breccia",
+        "feldsp. melt rock",
+        "frag. breccia",
+        "gabbro",
+        "melt breccia",
+        "norite",
+        "olivine gabbro",
+        "olivine gabbronorite",
+        "troct",
+        "troct. anorth.",
+        "troct. anorth. melt breccia",
+        "troct. melt breccia",
+        "troct. melt rock",
+    ]
+}
 SUBTYPE_RE = re.compile(
     r"\b(?:H/L|L/LL|H/LL)\s*-?\s*[3-7](?:\.\d)?\b|"
     r"\b(H|L|LL)\s*-?\s*([3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?)\b|"
@@ -306,8 +331,8 @@ NUMBERED_OFFICIAL_NAME_RE = re.compile(
 )
 KNOWN_DISPLAY_NAME_RE = re.compile(
     r"\b(?:Aba\s+Panu|Abadla\s+002|Agoudal|Aguas\s+Zarcas|Ait\s+Saoun|Allende|Borzya|Canyon\s+Diablo|"
-    r"Campo\s+del\s+Cielo|Chergach|Chelyabinsk|Dronino|El\s+Menia|Gebel\s+Kamil|Gibeon|Holbrook|Brenham|"
-    r"Mundrabilla|Murchison|Seymchan|Sikhote[-\s]+Alin)\b",
+    r"Campo\s+del\s+Cielo|Chergach|Chelyabinsk|Dronino|El\s+Menia|Gebel\s+Kamil|Gibeon|Holbrook|Brenham|Imilac|"
+    r"Kapustin\s+Yar|Mundrabilla|Murchison|Salaices|Seymchan|Sikhote[-\s]+Alin)\b",
     re.I,
 )
 CANONICAL_ALIAS_PATTERNS = [
@@ -340,7 +365,11 @@ DISPLAY_GENERIC_SUFFIX_RE = re.compile(
     r"fusion\s+crust|flight\s+lines?|flow\s+lines?)\b",
     re.I,
 )
-DISPLAY_GENERIC_PREFIX_RE = re.compile(r"^(?:ungrouped|primitive|polymict|brecciated|aqueous\s+altered|authentic|genuine|natural|beautiful|rare|superb|gorgeous|oriented|crusted)$", re.I)
+DISPLAY_GENERIC_PREFIX_RE = re.compile(
+    r"^(?:unclassified(?:\s+(?:NWA|north\s*west\s+africa|northwest\s+africa))?|ungrouped|primitive|polymict|brecciated|"
+    r"aqueous\s+altered|authentic|genuine|natural|beautiful|rare|superb|gorgeous|oriented|crusted)$",
+    re.I,
+)
 GENERIC_DISPLAY_ADJECTIVE_RE = re.compile(r"^(?:authentic|genuine|natural|fresh|beautiful|gorgeous|superb|rare|oriented|crusted)$", re.I)
 DISPLAY_SUFFIX_ONLY_RE = re.compile(
     r"^(?:Algeria|Argentina|Australia|Austria|Brazil|Canada|Chile|China|Czech\s+Republic|France|Indonesia|Italy|Kenya|Libya|Mexico|Morocco|"
@@ -614,6 +643,7 @@ def name_before_classification(candidate: str) -> str | None:
 
 def product_identity_from_title(raw_title: str) -> str | None:
     candidate = tidy_display_candidate(raw_title)
+    candidate = clean(re.sub(r"\s+-\s+(?:AB|AC|CM|OC)\s*-?\d+[A-Za-z]?\b.*$", "", candidate, flags=re.I))
     if not candidate or not re.search(r"[A-Za-z]", candidate):
         return None
     catalog = first_catalog_name(candidate)
@@ -804,15 +834,19 @@ def canonical_name_info(raw_title: str, display_name: str, detail_text: str, url
             if source in {"title", "raw_title", "url"} and (catalog_name_candidates(candidate) or numbered_name_candidates(candidate)):
                 return parsed_canonical_info(candidate, source)
 
-    for candidate in [*known_name_candidates(detail_text[:1600]), *catalog_name_candidates(detail_text[:1600]), *numbered_name_candidates(detail_text[:1600])]:
-        verified = metbull_canonical_info(candidate, "detail_text")
-        if verified:
-            return verified
-
     fallback = product_identity_from_title(display_name)
     verified = metbull_canonical_info(fallback, "title_identity") if fallback else None
     if verified:
         return verified
+
+    # Detail descriptions often contain history, Wikipedia excerpts, or recommendations.
+    # Only allow official numbered/catalog names from this wider text, not broad names
+    # such as Holbrook or Allende that commonly appear as unrelated examples.
+    for candidate in [*catalog_name_candidates(detail_text[:1600]), *numbered_name_candidates(detail_text[:1600])]:
+        verified = metbull_canonical_info(candidate, "detail_text")
+        if verified:
+            return verified
+
     return {
         "canonical_name": None,
         "canonical_name_display": None,
@@ -824,6 +858,8 @@ def canonical_name_info(raw_title: str, display_name: str, detail_text: str, url
 def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None) -> str:
     title = clean(raw_title)
     if parser == "impactika":
+        if re.search(r"\s+-\s+(?:AB|AC|CM|OC)\s*-?\d+[A-Za-z]?\b", title, re.I):
+            return title
         impactika_name = impactika_name_from_url(url)
         if impactika_name:
             return impactika_name
@@ -1340,10 +1376,33 @@ def compact_classification_token(value: str | None) -> str:
     return re.sub(r"\s+", "", clean(value or "").upper())
 
 
+def canonical_lunar_subtype(value: str | None) -> str | None:
+    text = clean(value or "")
+    if not text:
+        return None
+    metbull_match = LUNAR_METBULL_TYPE_RE.fullmatch(text)
+    if metbull_match:
+        text = clean(metbull_match.group(1) or "")
+    if not text:
+        return None
+    key = clean(text).lower()
+    return LUNAR_SUBTYPE_CANONICAL.get(key)
+
+
+def lunar_subtype_from_metbull_type(value: str | None) -> str | None:
+    match = LUNAR_METBULL_TYPE_RE.fullmatch(clean(value or ""))
+    if not match:
+        return None
+    return canonical_lunar_subtype(match.group(1))
+
+
 def canonical_subtype(value: str | None) -> str | None:
     subtype = clean(value or "")
     if not subtype:
         return None
+    lunar_subtype = canonical_lunar_subtype(subtype)
+    if lunar_subtype:
+        return lunar_subtype
     subtype = re.sub(r"\s*/\s*", "/", subtype)
     subtype = re.sub(r"\s*-\s*", "-", subtype)
     compact = compact_classification_token(subtype)
@@ -1440,6 +1499,10 @@ def clean_classification_bit(value: str | None) -> str | None:
 
 
 def meteorite_type_for_subtype(subtype: str | None) -> str | None:
+    if re.fullmatch(r"Lunar(?:\s+Meteorite)?", clean(subtype or ""), re.I):
+        return "lunar"
+    if canonical_lunar_subtype(subtype):
+        return "lunar"
     token = clean(subtype or "").upper()
     compact = compact_classification_token(token)
     if not compact:
@@ -1481,6 +1544,8 @@ def meteorite_type_for_subtype(subtype: str | None) -> str | None:
 
 
 def subtype_priority(subtype: str | None) -> int:
+    if canonical_lunar_subtype(subtype):
+        return 80
     compact = compact_classification_token(subtype)
     if not compact:
         return 0
@@ -1511,7 +1576,7 @@ def meteorite_family_key(mtype: str | None) -> str | None:
     if mtype in {"ordinary chondrite", "carbonaceous chondrite", "achondrite", "iron", "pallasite", "mesosiderite"}:
         return mtype
     if mtype in {"lunar", "martian"}:
-        return "achondrite"
+        return mtype
     if mtype == "chondrite":
         return "chondrite"
     return None
@@ -1536,7 +1601,10 @@ def filtered_classification_text(ctext: str | None, mtype: str, subtype: str | N
 def normalized_classification(mtype: str, subtype: str | None, ctext: str | None) -> tuple[str, str | None, str | None]:
     subtype = canonical_subtype(subtype)
     subtype_type = meteorite_type_for_subtype(subtype)
-    if subtype_type and not (mtype in {"lunar", "martian"} and subtype_type == "achondrite"):
+    if mtype in {"lunar", "martian"} and subtype_type == "achondrite" and compact_classification_token(subtype) == "ACHONDRITE":
+        subtype = None
+        subtype_type = None
+    if subtype_type:
         mtype = subtype_type
     return mtype, subtype, filtered_classification_text(ctext, mtype, subtype)
 
@@ -1614,7 +1682,8 @@ def source_specific_classification(
     ctext: str | None,
 ) -> tuple[str, str | None, str | None]:
     haystack = clean(f"{title} {url or ''} {detail_text[:1200]}")
-    if parser == "fossilera" and re.search(r"\blunar(?:[-\s]+meteorite)?\b", haystack, re.I):
+    title_url_haystack = clean(f"{title} {url or ''}")
+    if parser == "fossilera" and re.search(r"\blunar(?:[-\s]+meteorite)?\b", title_url_haystack, re.I):
         mtype = "lunar"
         ctext = merge_classification_text(ctext, "Lunar Meteorite")
     if re.search(r"\btarda\b", haystack, re.I):
@@ -1715,6 +1784,30 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
     return normalized_classification(mtype, subtype, ", ".join(bits[:6]) or None)
 
 
+def classification_from_metbull_type(metbull_type: str | None) -> tuple[str, str | None, str | None]:
+    metbull_type = clean(metbull_type or "")
+    if not metbull_type:
+        return "unknown", None, None
+    lunar_match = LUNAR_METBULL_TYPE_RE.fullmatch(metbull_type)
+    if lunar_match:
+        return "lunar", lunar_subtype_from_metbull_type(metbull_type), metbull_type
+    return classify_from_text(metbull_type)
+
+
+def apply_metbull_classification(
+    canonical: dict,
+    mtype: str,
+    subtype: str | None,
+    ctext: str | None,
+) -> tuple[str, str | None, str | None]:
+    if canonical.get("canonical_name_status") != "metbull_verified":
+        return normalized_classification(mtype, subtype, ctext)
+    official_type, official_subtype, official_text = classification_from_metbull_type(str(canonical.get("metbull_type") or ""))
+    if official_type == "unknown":
+        return normalized_classification(mtype, subtype, ctext)
+    return normalized_classification(official_type, official_subtype, merge_classification_text(ctext, official_text))
+
+
 def classify(title: str, detail_text: str = "", explicit_type: str | None = None) -> tuple[str, str | None, str | None]:
     priority_text = clean(" ".join(x for x in [title, explicit_type] if x))
     result = classify_from_text(priority_text)
@@ -1784,6 +1877,7 @@ def make_listing(
     mtype, subtype, ctext = classify(title, detail_text, explicit_type)
     mtype, subtype, ctext = classification_title_variants(title, url, mtype, subtype, ctext)
     mtype, subtype, ctext = source_specific_classification(parser_name, title, url, detail_text, mtype, subtype, ctext)
+    mtype, subtype, ctext = apply_metbull_classification(canonical, mtype, subtype, ctext)
     ppg = round(price / weight_g, 4) if price and weight_g and weight_g > 0 else None
     image_candidates = []
     for candidate in [image_url, *(image_urls or [])]:
@@ -3913,6 +4007,30 @@ def impactika_image_url(product: dict, base_url: str) -> str | None:
     return urls[0] if urls else None
 
 
+def impactika_inventory_code(text: str | None) -> str | None:
+    match = re.search(r"\b(?:AB|AC|CM|OC)\s*-?\s*\d+[A-Za-z]?\b", text or "", re.I)
+    if not match:
+        return None
+    return re.sub(r"\s+", "", match.group(0).upper())
+
+
+def impactika_row_image_urls(product: dict, base_url: str, line: str) -> list[str]:
+    urls = impactika_image_urls(product, base_url)
+    code = impactika_inventory_code(line)
+    if not code:
+        return urls
+    code_key = re.sub(r"[^a-z0-9]", "", code.lower())
+    matched = []
+    remaining = []
+    for image_url in urls:
+        image_key = re.sub(r"[^a-z0-9]", "", unquote(urlparse(image_url).path.rsplit("/", 1)[-1]).lower())
+        if code_key and code_key in image_key:
+            matched.append(image_url)
+        else:
+            remaining.append(image_url)
+    return [*matched, *remaining]
+
+
 def impactika_taxonomy_names(product: dict, key: str) -> list[str]:
     return [clean(item.get("name")) for item in product.get(key) or [] if clean(item.get("name"))]
 
@@ -3960,6 +4078,8 @@ def impactika_name_from_url(url: str | None) -> str | None:
         idx += 1
     while len(cleaned) > 1 and re.fullmatch(r"\d+", cleaned[0]):
         cleaned.pop(0)
+    if len(cleaned) > 1 and re.fullmatch(r"[2-9]", cleaned[-1]) and cleaned[0].lower() not in {"nwa", "nea", "dag", "dhofar", "sau", "jah", "ras"}:
+        cleaned.pop()
     candidate = clean(" ".join(cleaned))
     return display_case_name(candidate.title()) if candidate else None
 
@@ -3969,12 +4089,11 @@ def impactika_display_name(name: str, url: str | None = None) -> str:
     return re.sub(r"\b(Nwa|Dag|Nakhla|Nininger)\b", lambda m: {"Nwa": "NWA", "Dag": "DaG"}.get(m.group(1), m.group(1)), display)
 
 
-def impactika_row_title(name: str, line: str) -> str:
-    descriptor = re.sub(r"\$\s*[0-9][0-9,]*(?:\.[0-9]{1,2})?.*$", "", line).strip(" ,.;")
-    descriptor = re.sub(r"\bSOLD\b.*$", "", descriptor, flags=re.I).strip(" ,.;")
-    display_name = impactika_display_name(name)
-    if descriptor and not re.search(re.escape(descriptor), name, re.I):
-        return clean(f"{display_name} - {descriptor}")
+def impactika_row_title(name: str, url: str | None, line: str) -> str:
+    code = impactika_inventory_code(line)
+    display_name = impactika_display_name(name, url)
+    if code and not re.search(rf"\b{re.escape(code)}\b", display_name, re.I):
+        return clean(f"{display_name} - {code}")
     return display_name
 
 
@@ -4009,10 +4128,10 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
             classification_context = impactika_classification_context(categories, tag_names, text)
             log.detail(permalink)
             for idx, line in enumerate([clean(x) for x in text.splitlines() if clean(x)]):
-                if not (PRICE_RE.search(line) and WEIGHT_RE.search(line)):
-                    continue
-                if SOLD_STATUS_RE.search(line):
+                if SOLD_STATUS_RE.search(line) and WEIGHT_RE.search(line):
                     log.reject("impactika_sold_row")
+                    continue
+                if not (PRICE_RE.search(line) and WEIGHT_RE.search(line)):
                     continue
                 if NON_SPECIMEN_PRODUCT_RE.search(line):
                     log.reject("impactika_non_specimen_row")
@@ -4026,11 +4145,11 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
                     log.reject("impactika_duplicate_row")
                     continue
                 seen_keys.add(key)
-                image_urls = impactika_image_urls(product, permalink)
+                image_urls = impactika_row_image_urls(product, permalink, line)
                 item = make_listing(
                     site,
                     permalink,
-                    impactika_display_name(name, permalink),
+                    impactika_row_title(name, permalink, line),
                     price=price,
                     currency=currency or "USD",
                     weight_g=weight,
@@ -5536,6 +5655,7 @@ def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
         subtype,
         ctext,
     )
+    mtype, subtype, ctext = apply_metbull_classification(canonical, mtype, subtype, ctext)
     normalized["meteorite_type"] = mtype
     normalized["subtype"] = subtype
     normalized["classification_text"] = ctext
