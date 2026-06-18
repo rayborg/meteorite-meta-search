@@ -119,7 +119,7 @@ Last updated: 2026-06-17
 - Price/g summaries are only shown after narrowing results or when all visible rows share a title.
 - Price and price/g UI display, sorting, and summaries use USD-normalized fields only; non-USD source prices are preserved in listing data and exposed as concise price-cell title/aria metadata.
 - Listings weighing at least 1000 g show USD price/kg alongside USD price/g in the price/g cell.
-- Search-scoped price distribution charts group available priced rows by canonical/display meteorite name and render only when the search is narrow enough to show one chart for every matched meteorite.
+- Search-scoped price distribution charts group available priced rows by canonical/display meteorite name and render only when the search is narrow enough to show one chart for every matched meteorite; chart bars filter the table to that meteorite and USD price/g range until cleared.
 - Source panel exposes enabled, disabled parser start, and disabled backlog states.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
 - Image fallback keeps `image_url` primary and lets optional `image_urls` provide retry candidates before `No image` is shown.

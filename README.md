@@ -27,7 +27,7 @@ Frontend behavior:
 - Non-individual leftovers such as generic category/book/catalog rows and decorative images are filtered client-side as a defensive fallback.
 - Table headers and the sort select share the same sort state.
 - Average and lowest price/g summaries are shown only after narrowing by search, type, source, or a single repeated title.
-- Search results can show one USD price/g distribution chart per meteorite when the search is narrow enough to chart every matched meteorite.
+- Search results can show one USD price/g distribution chart per meteorite when the search is narrow enough to chart every matched meteorite, and chart bars can filter the table to a specific meteorite price/g range.
 - The source panel lists every configured source and labels it as enabled, disabled parser start, or disabled backlog.
 - Listing images remain remote `http` or `https` URLs; `image_url` is primary and optional `image_urls` values are tried as fallbacks before showing `No image`.
 

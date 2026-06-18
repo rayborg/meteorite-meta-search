@@ -5,6 +5,7 @@ let currentSubtype = "";
 let expandedType = "";
 const DEFAULT_SORT = { key: "title", direction: "asc" };
 let sortState = { ...DEFAULT_SORT };
+let priceDistributionFilter = null;
 
 const $ = (id) => document.getElementById(id);
 const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "image", "available", "confidence"]);
@@ -420,6 +421,7 @@ function renderChips(baseItems = chipCountListings()) {
   all.className = allActive ? "active" : "";
   all.setAttribute("aria-pressed", String(allActive));
   all.onclick = () => {
+    clearPriceDistributionFilter();
     currentType = "";
     currentSubtype = "";
     expandedType = "";
@@ -442,6 +444,7 @@ function renderChips(baseItems = chipCountListings()) {
     btn.setAttribute("aria-expanded", String(expanded));
     btn.setAttribute("aria-controls", listId);
     btn.onclick = () => {
+      clearPriceDistributionFilter();
       expandedType = expanded ? "" : type;
       currentType = type;
       currentSubtype = "";
@@ -485,6 +488,7 @@ function renderChips(baseItems = chipCountListings()) {
       allType.className = allTypeActive ? "subtype-chip active" : "subtype-chip";
       allType.setAttribute("aria-pressed", String(allTypeActive));
       allType.onclick = () => {
+        clearPriceDistributionFilter();
         currentType = type;
         currentSubtype = "";
         expandedType = type;
@@ -501,6 +505,7 @@ function renderChips(baseItems = chipCountListings()) {
         subtypeButton.className = subtypeActive ? "subtype-chip active" : "subtype-chip";
         subtypeButton.setAttribute("aria-pressed", String(subtypeActive));
         subtypeButton.onclick = () => {
+          clearPriceDistributionFilter();
           currentType = type;
           currentSubtype = subtype;
           expandedType = type;
@@ -611,6 +616,10 @@ function filteredListings(baseItems = visibleBaseListings()) {
   return items;
 }
 
+function clearPriceDistributionFilter() {
+  priceDistributionFilter = null;
+}
+
 function summarizePricePerG(items, mode) {
   const values = [];
   for (const item of items) {
@@ -674,7 +683,7 @@ function collectPriceDistributionGroups(items) {
 
     const key = meteoriteGroupKey(item);
     if (!groups.has(key)) {
-      groups.set(key, { label: meteoriteGroupLabel(item), values: [], sources: new Set() });
+      groups.set(key, { key, label: meteoriteGroupLabel(item), values: [], sources: new Set() });
     }
     const group = groups.get(key);
     group.values.push(price);
@@ -685,6 +694,24 @@ function collectPriceDistributionGroups(items) {
     b.values.length - a.values.length ||
     a.label.localeCompare(b.label, undefined, { numeric: true, sensitivity: "base" })
   );
+}
+
+function priceDistributionRangeLabel(filter) {
+  return `${pricePerG(filter.min, "USD")} to ${pricePerG(filter.max, "USD")}`;
+}
+
+function matchesPriceDistributionFilter(item, filter = priceDistributionFilter) {
+  if (!filter || isUnavailable(item) || meteoriteGroupKey(item) !== filter.groupKey) return false;
+  const value = usdPricePerGValue(item);
+  if (!Number.isFinite(value)) return false;
+  return value >= filter.min && (filter.isLast ? value <= filter.max : value < filter.max);
+}
+
+function reconcilePriceDistributionFilter(scopeItems) {
+  if (!priceDistributionFilter) return;
+  if (!scopeItems.some((item) => matchesPriceDistributionFilter(item))) {
+    clearPriceDistributionFilter();
+  }
 }
 
 function median(values) {
@@ -711,14 +738,14 @@ function appendPriceStat(parent, label, value) {
 function priceDistributionBuckets(values) {
   const min = Math.min(...values);
   const max = Math.max(...values);
-  if (min === max) return [{ min, max, count: values.length }];
+  if (min === max) return [{ min, max, count: values.length, index: 0, isLast: true }];
 
   const bucketCount = Math.min(PRICE_DISTRIBUTION_BUCKETS, Math.max(2, values.length));
   const span = max - min;
   const buckets = Array.from({ length: bucketCount }, (_, index) => {
     const start = min + (span * index) / bucketCount;
     const end = min + (span * (index + 1)) / bucketCount;
-    return { min: start, max: end, count: 0 };
+    return { min: start, max: end, count: 0, index, isLast: index === bucketCount - 1 };
   });
 
   for (const value of values) {
@@ -727,6 +754,27 @@ function priceDistributionBuckets(values) {
   }
 
   return buckets;
+}
+
+function setPriceDistributionFilter(group, bucket) {
+  const active = priceDistributionFilter &&
+    priceDistributionFilter.groupKey === group.key &&
+    priceDistributionFilter.bucketIndex === bucket.index &&
+    priceDistributionFilter.min === bucket.min &&
+    priceDistributionFilter.max === bucket.max;
+  if (active) {
+    clearPriceDistributionFilter();
+  } else {
+    priceDistributionFilter = {
+      groupKey: group.key,
+      groupLabel: group.label,
+      min: bucket.min,
+      max: bucket.max,
+      bucketIndex: bucket.index,
+      isLast: bucket.isLast
+    };
+  }
+  render();
 }
 
 function renderPriceChart(group) {
@@ -762,16 +810,25 @@ function renderPriceChart(group) {
   const buckets = priceDistributionBuckets(values);
   const maxBucketCount = Math.max(...buckets.map((bucket) => bucket.count), 1);
   bars.className = "price-bars";
-  bars.setAttribute("role", "img");
-  bars.setAttribute("aria-label", `${group.label} USD price per gram distribution from ${pricePerG(min, "USD")} to ${pricePerG(max, "USD")}`);
+  bars.setAttribute("role", "group");
+  bars.setAttribute("aria-label", `${group.label} USD price per gram distribution`);
 
   for (const bucket of buckets) {
-    const bar = document.createElement("div");
+    const bar = document.createElement("button");
     const fill = document.createElement("span");
     const height = bucket.count ? Math.max(8, Math.round((bucket.count / maxBucketCount) * 100)) : 2;
+    const active = priceDistributionFilter &&
+      priceDistributionFilter.groupKey === group.key &&
+      priceDistributionFilter.bucketIndex === bucket.index &&
+      priceDistributionFilter.min === bucket.min &&
+      priceDistributionFilter.max === bucket.max;
     bar.className = "price-bar";
+    bar.type = "button";
+    bar.disabled = bucket.count === 0;
     bar.title = `${bucket.count} ${bucket.count === 1 ? "listing" : "listings"}: ${pricePerG(bucket.min, "USD")} to ${pricePerG(bucket.max, "USD")}`;
-    bar.setAttribute("aria-hidden", "true");
+    bar.setAttribute("aria-pressed", String(Boolean(active)));
+    bar.setAttribute("aria-label", `${active ? "Clear" : "Filter"} ${group.label} listings ${active ? "from" : "to"} ${priceDistributionRangeLabel(bucket)}; ${bucket.count} ${bucket.count === 1 ? "listing" : "listings"}`);
+    bar.onclick = () => setPriceDistributionFilter(group, bucket);
     fill.style.height = `${height}%`;
     bar.appendChild(fill);
     bars.appendChild(bar);
@@ -785,6 +842,29 @@ function renderPriceChart(group) {
   return card;
 }
 
+function renderPriceDistributionFilterControl(tableCount) {
+  const container = $("priceDistributionFilter");
+  if (!container) return;
+
+  container.innerHTML = "";
+  if (!priceDistributionFilter) {
+    container.hidden = true;
+    return;
+  }
+
+  const text = document.createElement("span");
+  const clear = document.createElement("button");
+  text.textContent = `Price range filter active: ${priceDistributionFilter.groupLabel}, ${priceDistributionRangeLabel(priceDistributionFilter)} (${tableCount} ${tableCount === 1 ? "listing" : "listings"} shown).`;
+  clear.type = "button";
+  clear.textContent = "Clear price range filter";
+  clear.onclick = () => {
+    clearPriceDistributionFilter();
+    render();
+  };
+  container.append(text, clear);
+  container.hidden = false;
+}
+
 function renderPriceDistribution(items) {
   const section = $("priceDistribution");
   const summary = $("priceDistributionSummary");
@@ -795,6 +875,7 @@ function renderPriceDistribution(items) {
   charts.innerHTML = "";
   if (!q) {
     section.hidden = true;
+    clearPriceDistributionFilter();
     return;
   }
 
@@ -1030,13 +1111,18 @@ function render() {
   currentType = $("typeFilter").value;
   if (!currentType) currentSubtype = "";
   const baseItems = visibleBaseListings();
-  const items = filteredListings(baseItems);
+  const chartScopeItems = filteredListings(baseItems);
+  reconcilePriceDistributionFilter(chartScopeItems);
+  const items = priceDistributionFilter
+    ? chartScopeItems.filter((item) => matchesPriceDistributionFilter(item))
+    : chartScopeItems;
   const tbody = $("results");
   const tpl = $("rowTemplate");
 
   tbody.innerHTML = "";
   updateSummary(items);
-  renderPriceDistribution(items);
+  renderPriceDistribution(chartScopeItems);
+  renderPriceDistributionFilterControl(items.length);
   updateSortHeaders();
   renderChips(chipCountListings(baseItems));
 
@@ -1101,6 +1187,7 @@ async function init() {
 
   for (const id of ["search", "typeFilter", "sourceFilter"]) {
     $(id).addEventListener("input", () => {
+      clearPriceDistributionFilter();
       if (id === "typeFilter") {
         currentType = $("typeFilter").value;
         currentSubtype = "";
@@ -1116,6 +1203,7 @@ async function init() {
   });
 
   $("includeUnavailable").addEventListener("change", () => {
+    clearPriceDistributionFilter();
     fillFilters();
     render();
   });
