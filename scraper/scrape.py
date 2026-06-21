@@ -140,7 +140,12 @@ PRODUCT_LABEL_BOUNDARY_RE = re.compile(
 )
 POSTBACK_RE = re.compile(r"__doPostBack\('([^']*)','([^']*)'\)")
 METEORLAB_LOOSE_PRICE_RE = re.compile(r"\b(?:g|gm|gms|gr|grs|grams?)\b\s*,?\s+([0-9][0-9,]*(?:\.[0-9]{2}))\b", re.I)
-SOLD_STATUS_RE = re.compile(r"\b(on\s+hold|reserved|unavailable)\b|\bsold\b(?![\s-]+by\b)(?:\s+out\b)?", re.I)
+SOLD_STATUS_RE = re.compile(
+    r"\b(on\s+hold|reserved|unavailable|discontinued)\b|"
+    r"\bsold\b(?![\s-]+by\b)(?:[\s-]+out\b)?|"
+    r"\bout[\s_-]*of[\s_-]*stock\b|\boutofstock\b",
+    re.I,
+)
 EMAIL_PRICE_RE = re.compile(r"\bemail\s+for(?:\s+new)?\s+price\b", re.I)
 NON_SPECIMEN_PRODUCT_RE = re.compile(
     r"\b(?:jewelry|jewellery|pendants?|rings?|necklaces?|bracelets?|earrings?|beads?|cabochons?|"
@@ -498,6 +503,10 @@ def clean(text: str | None) -> str:
     text = re.sub(r"([(\[])\s+", r"\1", text)
     text = re.sub(r"\s+([)\]])", r"\1", text)
     return text
+
+
+def unavailable_status_text(text: str | None) -> bool:
+    return bool(SOLD_STATUS_RE.search(text or ""))
 
 
 def currency_code(value: str | None) -> str | None:
@@ -1878,6 +1887,7 @@ def make_listing(
     mtype, subtype, ctext = classification_title_variants(title, url, mtype, subtype, ctext)
     mtype, subtype, ctext = source_specific_classification(parser_name, title, url, detail_text, mtype, subtype, ctext)
     mtype, subtype, ctext = apply_metbull_classification(canonical, mtype, subtype, ctext)
+    available = bool(available) and not unavailable_status_text(f"{raw_title} {detail_text[:2000]}")
     ppg = round(price / weight_g, 4) if price and weight_g and weight_g > 0 else None
     image_candidates = []
     for candidate in [image_url, *(image_urls or [])]:
@@ -2094,7 +2104,7 @@ def inventory_card_listing(
         explicit_type=explicit_type,
         image_url=image_for(card, page_url),
         item_key=item_id_match.group(1) if item_id_match else None,
-        available=not re.search(r"\b(sold|on hold)\b", text, re.I),
+        available=not unavailable_status_text(text),
         parser=parser,
     )
     if not item:
@@ -2351,7 +2361,7 @@ def meteorlab_has_sold_image(cell) -> bool:
         src = img.get("src") or ""
         path = unquote(urlparse(src).path)
         marker_text = clean(" ".join(str(img.get(attr) or "") for attr in ["alt", "title"]))
-        if re.search(r"(?:^|/)sold\.(?:jpe?g|png|gif)$", path, re.I) or SOLD_STATUS_RE.search(marker_text):
+        if re.search(r"(?:^|/)sold\.(?:jpe?g|png|gif)$", path, re.I) or unavailable_status_text(marker_text):
             return True
     return False
 
@@ -2384,7 +2394,7 @@ def meteorlab_has_product_image(cell) -> bool:
 def meteorlab_status_like(text: str, cell) -> bool:
     return bool(
         meteorlab_has_sold_image(cell)
-        or SOLD_STATUS_RE.search(text)
+        or unavailable_status_text(text)
         or EMAIL_PRICE_RE.search(text)
         or PRICE_RE.search(text)
         or (WEIGHT_RE.search(text) and METEORLAB_LOOSE_PRICE_RE.search(text))
@@ -2410,7 +2420,7 @@ def meteorlab_image_title_fallback(cell) -> str | None:
             continue
         for attr in ["title", "alt"]:
             label = clean(str(img.get(attr) or ""))
-            if not label or SOLD_STATUS_RE.search(label):
+            if not label or unavailable_status_text(label):
                 continue
             if re.search(r"\{\s*short description|meteorite image file", label, re.I):
                 continue
@@ -2498,7 +2508,7 @@ def meteorlab_listing_from_state(
 ) -> dict | None:
     title_text = clean(" ".join(state["texts"]))
     context = clean(f"{title_text} {status_text}")
-    if state["sold"] or sold_now or SOLD_STATUS_RE.search(status_text):
+    if state["sold"] or sold_now or unavailable_status_text(status_text):
         log.reject("meteorlab_sold")
         return None
 
@@ -2564,7 +2574,7 @@ def meteorlab_items_from_table(site: dict, page_url: str, table, logical_cols: l
             state = states[col_index]
             text = meteorlab_cell_text(cell)
             product_images = meteorlab_product_images(cell, page_url)
-            sold_now = bool(meteorlab_has_sold_image(cell) or SOLD_STATUS_RE.search(text))
+            sold_now = bool(meteorlab_has_sold_image(cell) or unavailable_status_text(text))
             status_like = meteorlab_status_like(text, cell)
             has_hr = bool(cell.find("hr"))
 
@@ -2790,8 +2800,8 @@ def product_detail_listing(
         log.reject("product_non_individual_detail")
         return None
     availability = clean(str(offer.get("availability") or meta_content(soup, "product:availability") or ""))
-    sold_text = False if ignore_text_sold else bool(SOLD_STATUS_RE.search(text[:800]))
-    if re.search(r"outofstock|unavailable|discontinued", availability, re.I) or SOLD_STATUS_RE.search(availability) or sold_text or re.search(r"out of stock", text[:800], re.I):
+    sold_text = False if ignore_text_sold else unavailable_status_text(text[:800])
+    if unavailable_status_text(availability) or sold_text:
         log.reject("product_unavailable")
         return None
 
@@ -2885,7 +2895,7 @@ def discover_product_cards(
                 break
             card_text = clean(card.get_text(" ", strip=True))
             card_classes = " ".join(card.get("class") or [])
-            if SOLD_STATUS_RE.search(card_text) or re.search(r"out of stock|\boutofstock\b", f"{card_text} {card_classes}", re.I):
+            if unavailable_status_text(f"{card_text} {card_classes}"):
                 log.reject("card_unavailable")
                 continue
             if card_filter:
@@ -3613,7 +3623,7 @@ def fossil_realm_filter(product: dict, title: str, detail_text: str, price: floa
         return "fossil_realm_placeholder_price"
     if first_weight_g(title) is None:
         return "fossil_realm_missing_title_weight"
-    if NON_SPECIMEN_PRODUCT_RE.search(title) or SOLD_STATUS_RE.search(title):
+    if NON_SPECIMEN_PRODUCT_RE.search(title) or unavailable_status_text(title):
         return "fossil_realm_non_specimen"
     return None
 
@@ -3627,7 +3637,7 @@ def top_meteorite_filter(product: dict, title: str, detail_text: str, price: flo
         return "top_non_specimen_type"
     if not (METEORITE_RE.search(title) or METEORITE_RE.search(detail_text)):
         return "top_missing_meteorite_keyword"
-    if NON_SPECIMEN_PRODUCT_RE.search(title) or SOLD_STATUS_RE.search(title):
+    if NON_SPECIMEN_PRODUCT_RE.search(title) or unavailable_status_text(title):
         return "top_non_specimen_title"
     if SHOPIFY_PLACEHOLDER_PRICE_RE.search(detail_text) or price is None or price <= 0 or price >= 1_000_000:
         return "top_missing_price"
@@ -3647,7 +3657,7 @@ def buy_meteorite_filter(product: dict, title: str, detail_text: str, price: flo
         return "buy_meteorite_non_meteorite_type"
     if not (METEORITE_RE.search(title) or METEORITE_RE.search(detail_text) or SUBTYPE_RE.search(title) or SUBTYPE_RE.search(detail_text)):
         return "buy_meteorite_missing_meteorite_marker"
-    if NON_SPECIMEN_PRODUCT_RE.search(title) or SOLD_STATUS_RE.search(title):
+    if NON_SPECIMEN_PRODUCT_RE.search(title) or unavailable_status_text(title):
         return "buy_meteorite_non_specimen_title"
     if SHOPIFY_PLACEHOLDER_PRICE_RE.search(detail_text) or price is None or price <= 0 or price >= 1_000_000:
         return "buy_meteorite_missing_price"
@@ -3709,7 +3719,7 @@ def scrape_meteorite_market(site: dict, log: SourceLog) -> list[dict]:
                 col_cells = [row[col] for row in rows if col < len(row)]
                 text_cells = [meteorlab_cell_text(cell) for cell in col_cells]
                 price_text = next((text for text in text_cells if re.search(r"\bPrice\s*:", text, re.I)), "")
-                if not price_text or SOLD_STATUS_RE.search(price_text):
+                if not price_text or unavailable_status_text(price_text):
                     continue
                 price, currency = first_price(price_text)
                 weight_text = next((text for text in text_cells if re.search(r"\bWeight\s*:", text, re.I)), "")
@@ -3824,7 +3834,7 @@ def arizona_candidate_links(site: dict, page_url: str, soup: BeautifulSoup, log:
             continue
         path = urlparse(href).path
         haystack = clean(f"{path} {nearby_text}")
-        if arizona_reject_text(haystack) or SOLD_STATUS_RE.search(nearby_text):
+        if arizona_reject_text(haystack) or unavailable_status_text(nearby_text):
             continue
         if re.search(r"/Inexpensive_Meteorites_2/?$", path, re.I):
             links.append(href)
@@ -3857,7 +3867,7 @@ def arizona_listing_from_page(site: dict, url: str, html: str, log: SourceLog) -
     if not title_line:
         log.reject("arizona_not_final_specimen_page")
         return None
-    if SOLD_STATUS_RE.search(text):
+    if unavailable_status_text(text):
         log.reject("arizona_sold")
         return None
     price, currency = arizona_exact_price(text)
@@ -3908,7 +3918,7 @@ def arizona_list_page_rows(site: dict, url: str, soup: BeautifulSoup, log: Sourc
         if line in seen_rows:
             continue
         seen_rows.add(line)
-        if SOLD_STATUS_RE.search(line):
+        if unavailable_status_text(line):
             log.reject("arizona_sold")
             continue
         title = arizona_clean_title(line)
@@ -4004,7 +4014,7 @@ def impactika_product_available(product: dict) -> bool:
     )
     if product.get("is_in_stock") is False:
         return False
-    return not re.search(r"\b(?:out\s+of\s+stock|sold|unavailable|on\s+backorder)\b", status_text, re.I)
+    return not unavailable_status_text(status_text) and not re.search(r"\bon\s+backorder\b", status_text, re.I)
 
 
 def impactika_exact_row_values(line: str, log: SourceLog) -> tuple[float, str | None, float] | None:
@@ -4163,7 +4173,7 @@ def scrape_impactika(site: dict, log: SourceLog) -> list[dict]:
             classification_context = impactika_classification_context(categories, tag_names, text)
             log.detail(permalink)
             for idx, line in enumerate([clean(x) for x in text.splitlines() if clean(x)]):
-                if SOLD_STATUS_RE.search(line) and WEIGHT_RE.search(line):
+                if unavailable_status_text(line) and WEIGHT_RE.search(line):
                     log.reject("impactika_sold_row")
                     continue
                 if not (PRICE_RE.search(line) and WEIGHT_RE.search(line)):
@@ -4280,7 +4290,7 @@ def justmeteorites_url_filter(url: str) -> str | None:
     path = urlparse(url).path.lower()
     if not path.startswith("/p/"):
         return "justmeteorites_not_product_path"
-    if "/c/sold/" in path or SOLD_STATUS_RE.search(path):
+    if "/c/sold/" in path or unavailable_status_text(path):
         return "justmeteorites_sold_path"
     if JUSTMETEORITES_NON_SPECIMEN_RE.search(path):
         return "justmeteorites_non_specimen_path"
@@ -4354,7 +4364,7 @@ def polandmet_available(product: dict) -> bool:
         return False
     if not re.search(r"add\s+to\s+cart", str(cart.get("text") or ""), re.I):
         return False
-    return not re.search(r"\b(?:out\s+of\s+stock|outofstock|sold|unavailable|backorder|read\s+more)\b", status_text, re.I)
+    return not unavailable_status_text(status_text) and not re.search(r"\b(?:backorder|read\s+more)\b", status_text, re.I)
 
 
 def polandmet_listing(site: dict, product: dict, log: SourceLog) -> dict | None:
@@ -4673,7 +4683,7 @@ def kd_page_listings(site: dict, url: str, html: str, log: SourceLog) -> list[di
                 if not text or not PRICE_RE.search(text):
                     continue
                 combined_text = clean(" ".join([label, text]))
-                if SOLD_STATUS_RE.search(combined_text):
+                if unavailable_status_text(combined_text):
                     log.reject("kd_sold_row")
                     continue
                 if KD_NON_SPECIMEN_TEXT_RE.search(combined_text) or NON_SPECIMEN_PRODUCT_RE.search(combined_text):
@@ -4816,7 +4826,7 @@ def wwmeteorites_row_values(line: str) -> tuple[float, str, float, int] | None:
 
 
 def wwmeteorites_exact_row_values(line: str, log: SourceLog) -> tuple[float, str, float, int] | None:
-    if SOLD_STATUS_RE.search(line):
+    if unavailable_status_text(line):
         log.reject("wwmeteorites_sold_row")
         return None
     if EMAIL_PRICE_RE.search(line) or WWMETEORITES_AMBIGUOUS_ROW_RE.search(line):
@@ -4940,7 +4950,7 @@ def wwmeteorites_page_listings(site: dict, url: str, html: str, log: SourceLog) 
         return []
     images = wwmeteorites_image_urls(soup, url)
     listings = []
-    unavailable_signatures = {signature for line in lines if SOLD_STATUS_RE.search(line) for signature in [wwmeteorites_row_signature(line)] if signature}
+    unavailable_signatures = {signature for line in lines if unavailable_status_text(line) for signature in [wwmeteorites_row_signature(line)] if signature}
     seen_keys = set()
     for line_index, line in enumerate(lines):
         if not WWMETEORITES_PRICE_RE.search(line) and "$" not in line and "€" not in line:
@@ -5105,7 +5115,7 @@ def meteorite_recon_lines(row) -> list[str]:
 def meteorite_recon_listing(site: dict, page_url: str, row, title: str, row_index: int, log: SourceLog) -> dict | None:
     lines = meteorite_recon_lines(row)
     detail_text = clean(" ".join(lines))
-    if SOLD_STATUS_RE.search(detail_text):
+    if unavailable_status_text(detail_text):
         log.reject("meteorite_recon_sold_row")
         return None
     if NON_SPECIMEN_PRODUCT_RE.search(title):

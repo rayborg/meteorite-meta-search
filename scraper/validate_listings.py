@@ -24,7 +24,12 @@ METEORITE_RE = re.compile(
     re.I,
 )
 BAD_IMAGE_RE = re.compile(r"favicon|ajax-loader|logo|spinner|counter|placeholder|heart/(?:dis|en)abled|sold\.jpg|red(?:%20|\s)*dot|meteor50|frontis|wid%2012|micro%20enhanced", re.I)
-SOLD_TEXT_RE = re.compile(r"\b(on\s+hold|reserved|unavailable)\b|\bsold\b(?![\s-]+by\b)(?:\s+out\b)?", re.I)
+SOLD_TEXT_RE = re.compile(
+    r"\b(on\s+hold|reserved|unavailable|discontinued)\b|"
+    r"\bsold\b(?![\s-]+by\b)(?:[\s-]+out\b)?|"
+    r"\bout[\s_-]*of[\s_-]*stock\b|\boutofstock\b",
+    re.I,
+)
 SLASH_CLASS_RE = re.compile(r"\b(?:(?:H|L|LL)\s*[3-7](?:\.\d)?\s*/\s*[3-7](?:\.\d)?|(?:H/L|L/LL|H/LL)\s*[3-7](?:\.\d)?)\b", re.I)
 IMPACTIKA_INVENTORY_TITLE_RE = re.compile(r"^(?:AB|Ab)\d+[A-Za-z]?\b")
 TITLE_WEIGHT_NUMBER_RE = r"(?:[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]+)?|[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+)"
@@ -570,9 +575,14 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
             if image_urls and not image_url:
                 errors.append(f"row {index}: image_urls present but image_url is missing")
 
-    sold_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "image_url", "classification_text", "subtype"])
+    sold_haystack = " ".join(
+        str(item.get(key) or "")
+        for key in ["title", "url", "source", "source_url", "image_url", "classification_text", "subtype"]
+    )
+    if isinstance(item.get("image_urls"), list):
+        sold_haystack = f"{sold_haystack} {' '.join(str(value or '') for value in item.get('image_urls') or [])}"
     if available is True and SOLD_TEXT_RE.search(sold_haystack):
-        errors.append(f"row {index}: sold/on-hold/unavailable text marked available")
+        errors.append(f"row {index}: sold/on-hold/unavailable/out-of-stock text marked available")
 
     non_individual_haystack = " ".join(str(item.get(key) or "") for key in ["title", "url", "classification_text", "subtype"])
     if parser == "meteolovers" and available is True and METEOLOVERS_NON_INDIVIDUAL_RE.search(non_individual_haystack):
