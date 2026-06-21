@@ -1,13 +1,13 @@
 # Session Memory
 
-Last updated: 2026-06-17
+Last updated: 2026-06-21
 
 ## Current State
 
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current generated data has 3,623 listings from 23 enabled sources.
+- Generated listing data lives in `data/listings.json`; current generated data has 3,613 listings from 23 enabled sources.
 - Source registry has 38 configured sources: 23 enabled and 15 disabled.
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
@@ -101,10 +101,11 @@ Last updated: 2026-06-17
 - Scheduled runs are hourly and use `--rotate --preserve-existing --rotation-key "${{ github.run_number }}"`.
 - Rotation refreshes one enabled source per run and preserves existing rows for enabled sources not scraped in that run.
 - The workflow validates generated data, commits `data/listings.json` changes, and pushes them.
-- `data/listings.json` is ignored by workflow path triggers to prevent immediate scraper commit loops.
-- Workflow concurrency now cancels stale in-progress scrape runs, and the commit step verifies that `HEAD` still matches `origin/main` before attempting to push an inventory commit.
+- `data/listings.json` and `data/metbull_names.json` are ignored by scrape workflow path triggers to prevent immediate data-only commit loops.
+- Workflow concurrency now cancels stale in-progress scrape runs, and commit steps verify that `HEAD` still matches fetched remote `main` before attempting to push generated data commits.
 - Optional eBay Browse API workflow env vars are `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET`; the connector must remain disabled unless those are configured and row quality is reviewed.
 - Local optional API credentials should live only in ignored `.env`/`.env.*` files or exported shell variables. `.env.example` is a placeholder-only template; never commit real credentials.
+- Weekly MetBull cache workflow is `.github/workflows/update-metbull-cache.yml`; it runs Fridays at 07:17 UTC, refreshes `data/metbull_names.json`, normalizes existing listings against the refreshed cache, validates JSON/listings, and commits only changed generated data.
 
 ## UI Decisions
 

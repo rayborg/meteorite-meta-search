@@ -17,6 +17,7 @@ UA = "MeteoriteMetaSearchBot/0.3 (+https://github.com/rayborg/meteorite-meta-sea
 REQUIRED_HEADERS = {"Name", "Code", "Status", "Type"}
 MIN_NAMES = 80_000
 MIN_ALIASES = 250_000
+CACHE_COMPARE_KEYS = ("schema_version", "source", "source_url", "names", "aliases")
 METBULL_CSV_URL = (
     "https://www.lpi.usra.edu/meteor/metbull.cfm?"
     "sea=%25&sfor=names&stype=contains&map=ll&country=All&srt=name&"
@@ -144,8 +145,21 @@ def build_cache(csv_text: str) -> dict:
     }
 
 
+def unchanged_cache(existing: dict, new_cache: dict) -> bool:
+    return all(existing.get(key) == new_cache.get(key) for key in CACHE_COMPARE_KEYS)
+
+
 def main() -> None:
     cache = build_cache(fetch_csv())
+    if OUT.exists():
+        try:
+            existing = json.loads(OUT.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            existing = None
+        if isinstance(existing, dict) and unchanged_cache(existing, cache):
+            print(f"No MetBull cache content changes: {len(cache['names'])} names and {len(cache['aliases'])} aliases")
+            return
+
     tmp = OUT.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(cache, indent=2, sort_keys=True), encoding="utf-8")
     tmp.replace(OUT)

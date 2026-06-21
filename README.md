@@ -175,17 +175,19 @@ git diff --check
 - Rotation selects one enabled source per run and preserves existing rows for enabled sources that were not scraped in that run.
 - Push and manual runs currently execute a full scrape of all enabled sources.
 - The workflow validates `data/listings.json`, commits inventory changes, and pushes them back to the repository.
-- `data/listings.json` is ignored by the workflow trigger path filter so automated inventory commits do not immediately retrigger the workflow.
+- `data/listings.json` and `data/metbull_names.json` are ignored by the workflow trigger path filter so automated data-only commits do not immediately retrigger the workflow.
 - The workflow passes optional `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` values from GitHub repository secrets, but eBay sources remain disabled until explicitly reviewed and enabled.
 - Workflow concurrency cancels stale scrape runs, and the commit step skips inventory commits if `main` advanced while the scrape was running.
 
 GitHub Pages can serve the static files directly from the repository. No separate frontend build step is required.
 
+`.github/workflows/update-metbull-cache.yml` refreshes the local MetBull cache on Fridays at 07:17 UTC, after the recent Thursday Meteoritical Bulletin RSS batch window. It runs `scraper/update_metbull_cache.py`, normalizes existing listings against the refreshed cache without scraping seller sites, validates the generated JSON, and commits only if `data/metbull_names.json` or `data/listings.json` changed.
+
 ## Data Files
 
 - `data/sites.json` is the source registry. `enabled: true` means the source is eligible for scraping and rotation. `enabled: false` means backlog or disabled parser start.
 - `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array.
-- `data/metbull_names.json` is the local Meteoritical Bulletin name cache used for canonical-name lookup. Refresh it with `PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py`; normal scrapes should not query MetBull live per listing.
+- `data/metbull_names.json` is the local Meteoritical Bulletin name cache used for canonical-name lookup. Refresh it manually with `PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py`, or let the weekly MetBull cache workflow update it. Normal scrapes should not query MetBull live per listing.
 - `docs/parser-backlog.md` tracks candidate sources, parser starts, marketplace rules, and parser-build checklists.
 - `docs/session-memory.md` summarizes current project context for future editing sessions.
 

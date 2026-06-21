@@ -1,0 +1,65 @@
+name: Update MetBull cache
+
+on:
+  schedule:
+    # Recent Meteoritical Bulletin RSS batches have appeared on Thursdays;
+    # run Friday UTC to refresh after that batch window without polling daily.
+    - cron: "17 7 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-metbull-cache
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scraper dependencies
+        run: pip install -r scraper/requirements.txt
+      - name: Refresh MetBull name cache
+        run: python scraper/update_metbull_cache.py
+      - name: Check MetBull cache diff
+        id: metbull-cache
+        run: |
+          if git diff --quiet -- data/metbull_names.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "MetBull cache unchanged"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "MetBull cache changed"
+          fi
+      - name: Normalize listings with refreshed cache
+        if: steps.metbull-cache.outputs.changed == 'true'
+        run: python scraper/scrape.py --normalize-existing
+      - name: Validate generated data
+        run: |
+          python -m json.tool data/metbull_names.json >/dev/null
+          python -m json.tool data/listings.json >/dev/null
+          python scraper/validate_listings.py
+      - name: Commit updated MetBull data
+        run: |
+          git fetch --no-tags origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "Remote main changed during MetBull refresh; skipping stale cache commit"
+            exit 0
+          fi
+
+          git config user.name "meteorite-meta-search-bot"
+          git config user.email "meteorite-meta-search-bot@users.noreply.github.com"
+          git add data/metbull_names.json data/listings.json
+          if git diff --cached --quiet; then
+            echo "No MetBull cache changes"
+          else
+            git commit -m "Update MetBull cache"
+            git push
+          fi

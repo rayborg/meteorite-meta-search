@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths-ignore:
       - "data/listings.json"
+      - "data/metbull_names.json"
   schedule:
     - cron: "0 * * * *"
   workflow_dispatch:
@@ -43,7 +44,7 @@ jobs:
       - name: Commit updated inventory data
         run: |
           git fetch --no-tags origin main
-          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
             echo "Remote main changed during scrape; skipping stale inventory commit"
             exit 0
           fi
