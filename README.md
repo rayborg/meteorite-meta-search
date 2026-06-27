@@ -165,7 +165,7 @@ Run these before committing scraper, data, or frontend behavior changes:
 ```sh
 node --check app.js
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
-PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py scraper/update_metbull_cache.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py scraper/update_metbull_cache.py scraper/discover_sources.py scraper/validate_source_discovery.py
 git diff --check
 ```
 
@@ -187,11 +187,14 @@ GitHub Pages can serve the static files directly from the repository. No separat
 
 `.github/workflows/update-metbull-cache.yml` refreshes the local MetBull cache on Fridays at 07:17 UTC, after the recent Thursday Meteoritical Bulletin RSS batch window. It runs `scraper/update_metbull_cache.py`, normalizes existing listings against the refreshed cache without scraping seller sites, validates the generated JSON, and commits only if `data/metbull_names.json` or `data/listings.json` changed.
 
+`.github/workflows/discover-sources.yml` runs twice daily at 06:37 and 18:37 UTC and by manual dispatch. It is review-only: it runs `scraper/discover_sources.py`, validates the generated JSON with `scraper/validate_source_discovery.py`, and uploads `source-discovery/source-discovery.json` plus `source-discovery/source-discovery.md` as an Actions artifact. It uses optional `BRAVE_SEARCH_API_KEY` or `BING_SEARCH_API_KEY` repository secrets and does not edit, commit, or push `data/sites.json`, `docs/parser-backlog.md`, or inventory data.
+
 ## Data Files
 
 - `data/sites.json` is the source registry. `enabled: true` means the source is eligible for scraping and rotation. `enabled: false` means backlog or disabled parser start.
 - `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array.
 - `data/metbull_names.json` is the local Meteoritical Bulletin name cache used for canonical-name lookup. Refresh it manually with `PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py`, or let the weekly MetBull cache workflow update it. Normal scrapes should not query MetBull live per listing.
+- `source-discovery/` is a workflow artifact path, not committed source data. Treat its JSON and Markdown reports as candidate input for manual review only.
 - `docs/parser-backlog.md` tracks candidate sources, parser starts, marketplace rules, and parser-build checklists.
 - `docs/session-memory.md` summarizes current project context for future editing sessions.
 

@@ -73,6 +73,10 @@ These were reviewed and intentionally removed from the configured source list be
 | --- | --- | --- | --- | --- | --- |
 | - | None currently | - | Previously listed direct-storefront candidates are now active after parser validation. | - | Continue with marketplace storefront vetting below. |
 
+## Source Discovery Artifacts
+
+The twice-daily source discovery workflow uploads review-only candidate artifacts under `source-discovery/`. Treat these as candidate input only. Promote a source to this backlog or `data/sites.json` only after bounded manual review confirms individual priced/weighted meteorite inventory and a safe parser path.
+
 ## Policy-Blocked Disabled Sources
 
 These are present in `data/sites.json` with `enabled: false` and `stage: disabled_policy_blocked`. They should not be treated as ordinary parser candidates unless the source model changes.

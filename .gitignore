@@ -44,3 +44,6 @@ build/
 .cache/
 .tmp/
 tmp/
+
+# Local source discovery review artifacts
+source-discovery/

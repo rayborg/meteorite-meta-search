@@ -1,0 +1,45 @@
+name: Discover candidate sources
+
+on:
+  schedule:
+    - cron: "37 6,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discover-candidate-sources
+  cancel-in-progress: true
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scraper dependencies
+        run: pip install -r scraper/requirements.txt
+      - name: Discover candidate sources
+        env:
+          BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+          BING_SEARCH_API_KEY: ${{ secrets.BING_SEARCH_API_KEY }}
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python scraper/discover_sources.py \
+            --output source-discovery/source-discovery.json \
+            --markdown source-discovery/source-discovery.md
+      - name: Validate source discovery artifact
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python scraper/validate_source_discovery.py source-discovery/source-discovery.json
+      - name: Upload source discovery artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-discovery-${{ github.run_id }}
+          path: source-discovery/
+          retention-days: 14

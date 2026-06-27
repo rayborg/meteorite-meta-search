@@ -13,6 +13,7 @@ Last updated: 2026-06-27
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
+- Source discovery automation is review-only and artifact-only. It must not auto-enable sources, scrape new inventory, or commit registry/backlog changes.
 
 ## Active Sources
 
@@ -52,6 +53,7 @@ Last updated: 2026-06-27
 - Disabled backlog entries are present for Etsy SpaceTreasuresUS, Etsy SPACEMANGIFT, and Etsy saharagems. They use the no-op `disabled_backlog` parser until a real parser is built.
 - Etsy SpaceTreasuresUS, SPACEMANGIFT, and saharagems were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe/reliable public-HTML parser was added; future Etsy work should use official Etsy Open API credentials plus manual row-quality review before enablement.
 - Disabled sources are visible in the UI source panel but are excluded from scraper runs and listing results. Source status counts are clickable and render grouped site cards for connected, parser-start, backlog, and policy/reference categories.
+- Source card headings wrap long source names and status pills so disabled parser-start/backlog cards stay readable on narrow layouts.
 
 ## Current In-Progress Work
 
@@ -65,6 +67,7 @@ Last updated: 2026-06-27
 - eBay Browse API connector work is present but disabled/config-gated until API secrets and manual row review exist.
 - Disqualified storefronts such as The Space Shop Meteorites and Galactic Stone eCrater Mirror are intentionally not configured because bounded review found souvenir/display/non-individual inventory rather than useful individual specimens.
 - The user's long dealer list should be treated as candidate backlog/input, not as permission to scrape every site or broad marketplace results.
+- Twice-daily source discovery work is implemented as a separate review-only workflow that uploads JSON/Markdown artifacts and leaves the hourly inventory scrape workflow unchanged.
 
 ## Active Todo List
 
@@ -110,6 +113,7 @@ Last updated: 2026-06-27
 - Optional eBay Browse API workflow env vars are `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET`; the connector must remain disabled unless those are configured and row quality is reviewed.
 - Local optional API credentials should live only in ignored `.env`/`.env.*` files or exported shell variables. `.env.example` is a placeholder-only template; never commit real credentials.
 - Weekly MetBull cache workflow is `.github/workflows/update-metbull-cache.yml`; it runs Fridays at 07:17 UTC, refreshes `data/metbull_names.json`, normalizes existing listings against the refreshed cache, validates JSON/listings, and commits only changed generated data.
+- Source discovery workflow is `.github/workflows/discover-sources.yml`; it runs twice daily at 06:37 and 18:37 UTC, uses optional Brave/Bing search API secrets, validates its report, uploads artifacts, and does not commit or push changes.
 
 ## UI Decisions
 
@@ -126,6 +130,7 @@ Last updated: 2026-06-27
 - Listings weighing at least 1000 g show USD price/kg alongside USD price/g in the price/g cell.
 - Search-scoped price distribution charts group available priced rows by canonical/display meteorite name and render only when the search is narrow enough to show one chart for every matched meteorite; chart bars filter the table to that meteorite and USD price/g range until cleared.
 - Source panel exposes enabled, disabled parser start, and disabled backlog states.
+- Source status count cards render grouped source cards for connected, parser-start, backlog, and policy/reference categories; long names/status pills must wrap cleanly.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
 - Image fallback keeps `image_url` primary and lets optional `image_urls` provide retry candidates before `No image` is shown.
 
