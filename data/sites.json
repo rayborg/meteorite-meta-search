@@ -528,6 +528,18 @@
     "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
   },
   {
+    "name": "Meteorite Hunter",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.meteoritehunter.com/",
+    "inventory_urls": [
+      "https://www.meteoritehunter.com/"
+    ],
+    "enabled": false,
+    "description": "Reviewed direct-domain candidate that currently resolves to a parked/domain-sale landing page.",
+    "notes": "Assessed 2026-06-27: root redirects via /lander to an Afternic/GoDaddy domain-for-sale page for meteoritehunter.com; no public meteorite inventory found. Keep disabled/no-op unless the domain returns to real seller inventory and a source-specific parser is built."
+  },
+  {
     "name": "eBay Marketplace Search",
     "parser": "disabled_backlog",
     "stage": "disabled_policy_blocked",

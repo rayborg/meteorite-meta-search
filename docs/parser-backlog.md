@@ -57,6 +57,7 @@ These are present in `data/sites.json` with `enabled: false`, `stage: disabled_b
 | Etsy - SpaceTreasuresUS | https://www.etsy.com/shop/SpaceTreasuresUS | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
 | Etsy - SPACEMANGIFT | https://www.etsy.com/shop/SPACEMANGIFT | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
 | Etsy - saharagems | https://www.etsy.com/shop/saharagems | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
+| Meteorite Hunter | https://www.meteoritehunter.com/ | Assessed 2026-06-27: parked/domain-sale page; root redirects via `/lander` to Afternic/GoDaddy sale page. Keep disabled/no-op unless the domain returns to real seller inventory and a source-specific parser is built. |
 
 ## Disqualified / Not Configured
 
@@ -76,6 +77,10 @@ These were reviewed and intentionally removed from the configured source list be
 ## Source Discovery Artifacts
 
 The twice-daily source discovery workflow uploads review-only candidate artifacts under `source-discovery/`. Treat these as candidate input only. Promote a source to this backlog or `data/sites.json` only after bounded manual review confirms individual priced/weighted meteorite inventory and a safe parser path.
+
+## External Candidate-List Inputs
+
+Shared spreadsheet links are review-only candidate input, not inventory sources. The OneDrive candidate list shared on 2026-06-27 resolves to an Excel item, but anonymous XLSX/CSV download and OneDrive API probes were blocked or unauthenticated, and the browser path requires Microsoft sign-in/JavaScript. Do not add the OneDrive URL itself to `data/sites.json`; extract individual dealer URLs only after a direct public CSV/XLSX export is available and each dealer is manually reviewed.
 
 ## Policy-Blocked Disabled Sources
 

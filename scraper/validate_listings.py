@@ -7,6 +7,7 @@ import json
 import re
 import sys
 from collections import Counter
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -147,6 +148,7 @@ REQUIRED_KEYS = {
     "available",
     "parser",
     "scraped_at",
+    "last_verified_at",
 }
 CATEGORY_TITLE_RE = re.compile(
     r"^(meteorites?|unclassified meteorites?|tektites?|impactites?|minerals?|books?|catalog(?:ue)?|collection|home|contact)$",
@@ -255,6 +257,16 @@ def valid_remote_image_url(value) -> bool:
         return False
     parsed = urlparse(value)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def valid_iso_datetime(value) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return parsed.tzinfo is not None
 
 
 def number_value(text: str) -> float | None:
@@ -425,6 +437,8 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     fx_rate = item.get("fx_rate_to_usd")
     fx_date = item.get("fx_rate_date")
     available = item.get("available")
+    scraped_at = item.get("scraped_at")
+    last_verified_at = item.get("last_verified_at")
 
     if source not in valid_sources:
         errors.append(f"row {index}: invalid source {source!r}")
@@ -434,6 +448,10 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
         errors.append(f"row {index}: invalid confidence {confidence!r}")
     if not isinstance(available, bool):
         errors.append(f"row {index}: available is not boolean")
+    if not valid_iso_datetime(scraped_at):
+        errors.append(f"row {index}: scraped_at is not a timezone-aware ISO datetime")
+    if not valid_iso_datetime(last_verified_at):
+        errors.append(f"row {index}: last_verified_at is not a timezone-aware ISO datetime")
     if currency is not None and currency not in VALID_CURRENCIES:
         errors.append(f"row {index}: invalid currency {currency!r}")
     if price is not None and currency not in VALID_CURRENCIES:
@@ -703,6 +721,12 @@ def metadata_errors(data: dict, listings: list[dict], sites: list[dict]) -> list
     if empty_without_rows:
         errors.append(f"metadata empty_refresh_preserved_sources have no rows: {', '.join(empty_without_rows)}")
 
+    freshly_verified_sources = scraped_sources - empty_refresh_sources
+    if data.get("scrape_mode") != "normalize":
+        for item in listings:
+            if item.get("source") in freshly_verified_sources and item.get("last_verified_at") != item.get("scraped_at"):
+                errors.append(f"row {item.get('id')}: freshly scraped row last_verified_at does not match scraped_at")
+
     fx = data.get("exchange_rates")
     priced_currencies = {item.get("currency") for item in listings if item.get("price") is not None}
     if not isinstance(fx, dict):
@@ -737,6 +761,7 @@ def main() -> None:
     listings = data.get("listings", [])
     by_source = Counter(item.get("source") or "unknown" for item in listings)
     by_scraped_at = Counter(item.get("scraped_at") or "missing" for item in listings)
+    by_last_verified_at = Counter(item.get("last_verified_at") or "missing" for item in listings)
     suspicious = []
     errors = metadata_errors(data, listings, sites)
     duplicate_keys = Counter(
@@ -768,6 +793,7 @@ def main() -> None:
     for source, count in sorted(by_source.items()):
         print(f"  {source}: {count}")
     print(f"distinct row scraped_at values: {len(by_scraped_at)}")
+    print(f"distinct row last_verified_at values: {len(by_last_verified_at)}")
     print(f"with price: {sum(item.get('price') is not None for item in listings)}")
     print(f"with price_usd: {sum(item.get('price_usd') is not None for item in listings)}")
     print(f"with weight: {sum(item.get('weight_g') is not None for item in listings)}")

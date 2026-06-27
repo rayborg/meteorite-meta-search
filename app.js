@@ -135,6 +135,13 @@ function pricePerGDisplay(item) {
     : perG;
 }
 
+function verifiedDateLabel(value) {
+  if (!value) return "Not verified";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Verified date unknown";
+  return `Verified ${date.toLocaleDateString()}`;
+}
+
 function originalPriceLabel(item) {
   const currency = currencyCode(item.currency);
   if (currency === "USD" || !Number.isFinite(item.price)) return "";
@@ -1230,8 +1237,16 @@ function render() {
     row.querySelector(".source").textContent = item.source || "—";
     row.querySelector(".confidence").textContent = item.confidence || "—";
     const availability = row.querySelector(".availability");
-    availability.textContent = isUnavailable(item) ? "Unavailable" : "Available";
+    availability.textContent = "";
     availability.classList.add(isUnavailable(item) ? "unavailable" : "available");
+    const statusText = document.createElement("div");
+    const verifiedText = document.createElement("div");
+    const verifiedAt = item.last_verified_at || item.scraped_at;
+    statusText.textContent = isUnavailable(item) ? "Unavailable" : "Available";
+    verifiedText.className = "verified-at";
+    verifiedText.textContent = verifiedDateLabel(verifiedAt);
+    availability.title = verifiedAt ? `Last verified: ${new Date(verifiedAt).toLocaleString()}` : "Last verified timestamp unavailable";
+    availability.append(statusText, verifiedText);
     fragment.appendChild(row);
   }
   tbody.appendChild(fragment);

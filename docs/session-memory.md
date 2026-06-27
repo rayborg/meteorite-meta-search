@@ -8,9 +8,10 @@ Last updated: 2026-06-27
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
 - Generated listing data lives in `data/listings.json`; current generated data has 3,955 listings from 27 enabled sources after normalizing Meteor Center, Collecting Meteorites, BuyMeteorites.com, and JC Meteorite Collection rows.
-- Source registry has 42 configured sources: 27 enabled and 15 disabled.
+- Source registry has 43 configured sources: 27 enabled and 16 disabled.
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
+- Each listing has `last_verified_at`, the last time that exact row was returned by a source scrape; normalize-only runs backfill/preserve it rather than making stale rows look freshly checked.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
 - Source discovery automation is review-only and artifact-only. It must not auto-enable sources, scrape new inventory, or commit registry/backlog changes.
@@ -51,6 +52,8 @@ Last updated: 2026-06-27
 - Seven disabled eBay Browse API parser-start entries are present: `whitehouse_meteorites`, `topherspin`, `fobos13ali`, `yoda_meteorites`, `the.interstellar.collection`, `meteoritetreasure`, and `topmeteorite`.
 - eBay entries are official Browse API only, seller-allowlist only, fixed-price only, and must remain disabled until API secrets are configured and rows are manually reviewed.
 - Disabled backlog entries are present for Etsy SpaceTreasuresUS, Etsy SPACEMANGIFT, and Etsy saharagems. They use the no-op `disabled_backlog` parser until a real parser is built.
+- Meteorite Hunter is tracked as a disabled backlog source after 2026-06-27 review found the domain parked/for sale with no public meteorite inventory.
+- The OneDrive candidate-list link shared on 2026-06-27 is external candidate input only; anonymous direct XLSX/CSV/API access is blocked, so it cannot be ingested until a direct public export is provided.
 - Etsy SpaceTreasuresUS, SPACEMANGIFT, and saharagems were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe/reliable public-HTML parser was added; future Etsy work should use official Etsy Open API credentials plus manual row-quality review before enablement.
 - Disabled sources are visible in the UI source panel but are excluded from scraper runs and listing results. Source status counts are clickable and render grouped site cards for connected, parser-start, backlog, and policy/reference categories.
 - Source card headings wrap long source names and status pills so disabled parser-start/backlog cards stay readable on narrow layouts.

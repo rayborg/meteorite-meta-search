@@ -102,4 +102,5 @@ a { color:var(--text); }
 .price-bar[aria-pressed="true"] span { outline:2px solid var(--text); outline-offset:2px; }
 .price-bar span { display:block; width:100%; min-height:2px; border-radius:999px 999px 3px 3px; background:linear-gradient(180deg,#efc465,var(--accent)); box-shadow:0 0 14px rgba(217,164,65,.18); }
 .price-axis { display:flex; justify-content:space-between; gap:.75rem; margin-top:.35rem; color:var(--muted); font-size:.74rem; }
+.verified-at { margin-top:.18rem; color:var(--muted); font-size:.72rem; line-height:1.25; }
 @media (max-width:900px) { .site-header { flex-direction:column; padding:1.2rem; } .source-group-heading, .price-chart-heading { flex-direction:column; align-items:flex-start; } main { padding:1rem; } .controls, .summary-grid { grid-template-columns:1fr; } .category-group, .subtype-list { width:100%; } .price-chart-meta { white-space:normal; } .price-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }

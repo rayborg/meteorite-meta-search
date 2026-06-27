@@ -96,6 +96,7 @@ Disabled backlog entries visible in the source panel:
 - Etsy - SpaceTreasuresUS
 - Etsy - SPACEMANGIFT
 - Etsy - saharagems
+- Meteorite Hunter
 
 The Etsy storefront candidates were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe public-HTML parser is enabled; any future Etsy work should use official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before enablement.
 
@@ -192,9 +193,10 @@ GitHub Pages can serve the static files directly from the repository. No separat
 ## Data Files
 
 - `data/sites.json` is the source registry. `enabled: true` means the source is eligible for scraping and rotation. `enabled: false` means backlog or disabled parser start.
-- `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array.
+- `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array. Each listing includes `last_verified_at`, the last time that exact row was returned by a source scrape.
 - `data/metbull_names.json` is the local Meteoritical Bulletin name cache used for canonical-name lookup. Refresh it manually with `PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py`, or let the weekly MetBull cache workflow update it. Normal scrapes should not query MetBull live per listing.
 - `source-discovery/` is a workflow artifact path, not committed source data. Treat its JSON and Markdown reports as candidate input for manual review only.
+- External shared candidate-list links such as OneDrive documents are candidate input only, not inventory sources; do not add the shared-document URL itself to `data/sites.json`.
 - `docs/parser-backlog.md` tracks candidate sources, parser starts, marketplace rules, and parser-build checklists.
 - `docs/session-memory.md` summarizes current project context for future editing sessions.
 

@@ -2008,6 +2008,7 @@ def make_listing(
     mtype, subtype, ctext = apply_metbull_classification(canonical, mtype, subtype, ctext)
     available = bool(available) and not unavailable_status_text(f"{raw_title} {detail_text[:2000]}")
     ppg = round(price / weight_g, 4) if price and weight_g and weight_g > 0 else None
+    verified_at = datetime.now(timezone.utc).isoformat()
     image_candidates = []
     for candidate in [image_url, *(image_urls or [])]:
         candidate_url = safe_http_url(url, candidate)
@@ -2036,7 +2037,8 @@ def make_listing(
         "confidence": confidence(price, weight_g, bool(re.search(r"[?&]id=\d+", url)), explicit_type),
         "available": available,
         "parser": parser_name,
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": verified_at,
+        "last_verified_at": verified_at,
     }
     if len(image_candidates) > 1:
         item["image_urls"] = image_candidates
@@ -6452,6 +6454,7 @@ def apply_usd_conversion(item: dict, fx_metadata: dict) -> None:
 
 def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
     normalized = dict(item)
+    normalized["last_verified_at"] = clean(str(normalized.get("last_verified_at") or normalized.get("scraped_at") or "")) or None
     parser = str(normalized.get("parser") or "generic")
     title = display_title(str(normalized.get("title") or ""), parser, str(normalized.get("url") or ""))
     canonical = None
