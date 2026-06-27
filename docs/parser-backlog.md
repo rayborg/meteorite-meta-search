@@ -27,10 +27,14 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | Fossil Realm Meteorite Collection | Active | Shopify products parser requires product_type Meteorites, available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | Active | Shopify products parser requires product_type Specimen, available variants, positive prices, title weights, and meteorite keywords. |
 | Buy Meteorite | Active | Shopify meteorites collection parser requires meteorite product type/tag, available variants, positive prices, title weights, images, and non-specimen rejection. |
+| BuyMeteorites.com | Active | Woo Store API parser follows the Thompson Meteorite Collection redirect, requires in-stock/add-to-cart proof, API-currency positive prices, exact title weights, remote images, and service/discovery-set/non-specimen rejection. |
+| JC Meteorite Collection | Active | Custom public catalogue API parser uses paginated product rows plus batched detail records with exact unit-bearing weights, positive USD prices, meteorite/classification evidence, remote images, and sold/fulgurite/thin-section/set/lot/range rejection. |
 | PolandMET | Active | Woo Store API parser uses five bounded product pages, in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted display names. |
 | KD Meteorites | Active | Static sale-hub parser follows bounded same-domain specimen pages, rejects non-specimen/info pages, requires exact row price/weight/image evidence, and cleans old table titles from page/URL identity. |
 | Meteorite Recon | Active | Static WordPress sale-page parser fetches only Stones and Irons pages, scopes rows to specimen sale sections, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |
 | WWMeteorites | Active | Static/Wix sale-page parser discovers bounded same-domain detail pages, requires exact row price and weight, rejects sold/category/lot/range/non-specimen rows, and keeps remote image URLs only. |
+| Meteor Center | Active | WooCommerce product-card parser follows shop pagination including `/page/2/`, requires in-stock/add-to-cart proof, EUR prices, title weights, and non-specimen/range rejection without fetching every product detail page. |
+| Collecting Meteorites | Active | WordPress sale-card parser reads meteorites-for-sale cards plus bounded detail pages, requires exact title weights, EUR prices, category text, remote images, and rejects per-gram/non-specimen/unavailable/ambiguous multi-specimen rows. |
 
 Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Disabled parser starts and policy-blocked disabled sources below are excluded from rotation.
 
@@ -47,17 +51,16 @@ These sources are present in `data/sites.json` with `enabled: false` and `stage:
 | eBay - the.interstellar.collection | `ebay_browse` | Candidate with possible dust/vial noise. Needs manual review confirming enough individual specimens. |
 | eBay - meteoritetreasure | `ebay_browse` | Provisional seller allowlist from `/str/meteoritetreasure`. Needs API credential setup, seller verification, and manual row review before enabling. |
 | eBay - Top Meteorite Store | `ebay_browse` | Provisional seller allowlist from `/str/topmeteorite`. Needs API credential setup, seller verification, and manual row review before enabling. |
+| m3t3orites | `m3t3orites` | Static catalogue has exact individual rows and parser support, but the public homepage appears last updated in 2011 and availability needs manual confirmation before enabling. |
+| Michael Farmer Meteorites | `meteoriteguy` | Static sale catalog has exact individual rows and parser support, but public pages appear last updated in 2012 and availability needs manual confirmation before enabling. |
 
 ## Disabled Backlog Entries In Registry
 
-These are present in `data/sites.json` with `enabled: false`, `stage: disabled_backlog`, and parser `disabled_backlog`. They are visible in the source panel but are explicit no-ops until a real source-specific parser is built.
+No direct dealer/storefront entries currently remain in `data/sites.json` as ordinary `disabled_backlog` sources; 403, parked, or no-inventory candidates were discarded from the registry and documented below instead. Policy/reference sentinels still use disabled no-op parsers.
 
 | Site | URL | Next step |
 | --- | --- | --- |
-| Etsy - SpaceTreasuresUS | https://www.etsy.com/shop/SpaceTreasuresUS | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
-| Etsy - SPACEMANGIFT | https://www.etsy.com/shop/SPACEMANGIFT | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
-| Etsy - saharagems | https://www.etsy.com/shop/saharagems | Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403. Keep disabled; use official Etsy Open API credentials and manual row-quality review before any parser work. |
-| Meteorite Hunter | https://www.meteoritehunter.com/ | Assessed 2026-06-27: parked/domain-sale page; root redirects via `/lander` to Afternic/GoDaddy sale page. Keep disabled/no-op unless the domain returns to real seller inventory and a source-specific parser is built. |
+| - | None currently | - |
 
 ## Disqualified / Not Configured
 
@@ -67,6 +70,10 @@ These were reviewed and intentionally removed from the configured source list be
 | --- | --- | --- |
 | Galactic Stone eCrater mirror | https://galacticstone.ecrater.com/ | Bounded review on 2026-06-17 found display kits, pendants/vials, collections, and other non-individual or weightless products, adding no safe useful inventory beyond active Galactic Stone direct. |
 | The Space Shop Meteorites | https://thespaceshop.com/genuine-meteorite-3-grams/ | Generic souvenir/gift gram products rather than named individual specimen inventory. |
+| Etsy - SpaceTreasuresUS | https://www.etsy.com/shop/SpaceTreasuresUS | Public storefront returned HTTP 403 on repeated checks; discard from registry until an official Etsy API path and manual review exist. |
+| Etsy - SPACEMANGIFT | https://www.etsy.com/shop/SPACEMANGIFT | Public storefront returned HTTP 403 on repeated checks; discard from registry until an official Etsy API path and manual review exist. |
+| Etsy - saharagems | https://www.etsy.com/shop/saharagems | Public storefront returned HTTP 403 on repeated checks; discard from registry until an official Etsy API path and manual review exist. |
+| Meteorite Hunter | https://www.meteoritehunter.com/ | Parked/domain-sale page; root redirects via `/lander` to Afternic/GoDaddy sale page with no public meteorite inventory. |
 
 ## Medium-Priority Candidates
 

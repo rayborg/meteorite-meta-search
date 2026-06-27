@@ -88,17 +88,14 @@ Disabled parser starts:
 - `eBay - the.interstellar.collection`
 - `eBay - meteoritetreasure`
 - `eBay - Top Meteorite Store`
+- `m3t3orites`
+- `Michael Farmer Meteorites`
 
 The eBay connector is official Browse API only, seller-allowlist only, fixed-price only, and disabled/config-gated until `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` are configured and rows are manually reviewed. Do not scrape broad eBay search/category pages.
 
-Disabled backlog entries visible in the source panel:
+m3t3orites and Michael Farmer Meteorites have parser starts but remain disabled until manual review confirms their stale static catalogs are still orderable.
 
-- Etsy - SpaceTreasuresUS
-- Etsy - SPACEMANGIFT
-- Etsy - saharagems
-- Meteorite Hunter
-
-The Etsy storefront candidates were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe public-HTML parser is enabled; any future Etsy work should use official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before enablement.
+Direct storefront candidates that returned HTTP 403, were parked, or had no public inventory are discarded from the source registry rather than kept as ordinary backlog. Etsy storefront candidates still require official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before any future enablement.
 
 Policy-blocked disabled sources:
 
@@ -108,7 +105,7 @@ Policy-blocked disabled sources:
 - Facebook Meteorite Groups: login/community source; keep manual/research only.
 - IMCA Member List: reference/vetting source, not inventory.
 
-Disqualified storefronts such as The Space Shop Meteorites and the Galactic Stone eCrater mirror are intentionally not counted as configured sources because bounded review found souvenir/display/non-individual inventory rather than useful individual specimens.
+Disqualified storefronts such as The Space Shop Meteorites, the Galactic Stone eCrater mirror, the HTTP 403 Etsy storefronts, and parked Meteorite Hunter are intentionally not counted as configured sources because bounded review found no safe useful individual-specimen inventory.
 
 Additional marketplace candidates and detailed parser notes are tracked in `docs/parser-backlog.md`.
 

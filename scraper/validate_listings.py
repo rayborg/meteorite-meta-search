@@ -168,6 +168,8 @@ CLEAN_TITLE_PARSERS = {
     "kd_meteorites",
     "meteolovers",
     "meteorite_exchange",
+    "m3t3orites",
+    "meteoriteguy",
     "mini_museum",
     "polandmet",
     "prehistoric_fossils",
@@ -194,6 +196,8 @@ WWMETEORITES_NON_SPECIMEN_RE = re.compile(
     r"banded\s+iron\s+formation|\bBIF\b)\b",
     re.I,
 )
+M3T3ORITES_BAD_IMAGE_RE = re.compile(r"spacer|banner|pfeil_|contentbg_|nav_|0818b|imca|google|urchin", re.I)
+METEORITEGUY_BAD_IMAGE_RE = re.compile(r"(?:^|/)site-art/|mf-banner|banner|passports|kenyalarge|spacer|button|logo|\.(?:gif)(?:[?#].*)?$", re.I)
 
 
 def suspicious_reasons(item: dict) -> list[str]:
@@ -334,7 +338,7 @@ def subtype_family(subtype: str | None) -> str | None:
         return "chondrite"
     if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", token):
         return "iron"
-    if token == "PALLASITE":
+    if token in {"PALLASITE", "PAL-MG", "PALMG", "PMG"}:
         return "pallasite"
     if token == "MESOSIDERITE":
         return "mesosiderite"
@@ -377,7 +381,7 @@ CLASSIFICATION_TOKEN_RE = re.compile(
     r"(?:H/L|L/LL|H/LL)\s?-?\s?[3-7](?:\.\d)?|L\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|LL\s?-?\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|"
     r"OC|C\s?-?\s?[123]\s*-\s*ung|C\s?-?\s?2|CI\s?-?\s?\d|CM\s?-?\s?\d|CO\s?-?\s?\d|CV\s?-?\s?\d|CR\s?-?\s?\d|CK\s?-?\s?\d|CH\s?-?\s?\d|CBa|CBb|"
     r"EH\s?-?\s?[3-7](?:\s*[/\-]\s*(?:EH\s*)?[3-7])?|EL\s?-?\s?[3-7](?:\s*[/\-]\s*(?:EL\s*)?[3-7])?|EH\s*-\s*melt\s+rock|"
-    r"IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|lunar(?:\s+meteorite)?|EUC|HED|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
+    r"IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|PAL\s*-?\s*MG|PMG|lunar(?:\s+meteorite)?|EUC|HED|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|"
     r"shergottite|nakhlite|chassignite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|iron)\b",
     re.I,
 )
@@ -427,6 +431,7 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     source = item.get("source")
     parser = item.get("parser")
     title = str(item.get("title") or "").strip()
+    url = str(item.get("url") or "")
     currency = item.get("currency")
     confidence = item.get("confidence")
     price = item.get("price")
@@ -632,6 +637,20 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
             errors.append(f"row {index}: active WWMeteorites row lacks exact price/weight")
         if WWMETEORITES_NON_SPECIMEN_RE.search(non_individual_haystack):
             errors.append(f"row {index}: active WWMeteorites non-specimen row")
+    if parser == "m3t3orites" and available is True:
+        if price is None or weight is None:
+            errors.append(f"row {index}: active m3t3orites row lacks exact price/weight")
+        if not image_url or M3T3ORITES_BAD_IMAGE_RE.search(image_url):
+            errors.append(f"row {index}: active m3t3orites row lacks valid specimen image")
+        if not re.search(r"/meteorites/[^/]+\.php$", url, re.I):
+            errors.append(f"row {index}: active m3t3orites row is not on a meteorites detail page")
+    if parser == "meteoriteguy" and available is True:
+        if price is None or weight is None:
+            errors.append(f"row {index}: active MeteoriteGuy row lacks exact price/weight")
+        if not image_url or METEORITEGUY_BAD_IMAGE_RE.search(image_url):
+            errors.append(f"row {index}: active MeteoriteGuy row lacks valid specimen image")
+        if ACTIVE_NON_INDIVIDUAL_RE.search(non_individual_haystack):
+            errors.append(f"row {index}: active MeteoriteGuy ambiguous non-individual row")
 
     subtype_token = compact_classification_token(item.get("subtype"))
     if re.fullmatch(r"(?:H|L|LL)[3-7][3-7]", subtype_token):

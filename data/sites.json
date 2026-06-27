@@ -458,6 +458,37 @@
     "notes": "Enabled after bounded public-page review. Parser reads only the meteorites-for-sale post cards plus bounded detail pages, requires exact title weight, meteorite/classification markers, and positive total EUR prices, keeps remote image URLs, and rejects sold, per-gram, non-specimen, range, ambiguous multi-specimen, and ask-for-price rows."
   },
   {
+    "name": "m3t3orites",
+    "parser": "m3t3orites",
+    "stage": "disabled_parser_start",
+    "base_url": "https://www.m3t3orites.com/",
+    "inventory_urls": [
+      "https://www.m3t3orites.com/achondrites.php",
+      "https://www.m3t3orites.com/lunar.php",
+      "https://www.m3t3orites.com/martian.php",
+      "https://www.m3t3orites.com/chondrites.php",
+      "https://www.m3t3orites.com/stonyirons.php",
+      "https://www.m3t3orites.com/irons.php"
+    ],
+    "max_detail_pages": 90,
+    "enabled": false,
+    "description": "Static mo's meteorites catalogue with specimen blocks, US-$ prices, gram weights, and lightbox images.",
+    "notes": "Parser discovers only category-linked /meteorites/*.php pages, requires exact specimen ID, USD price, individual weight, and image, and skips sold, eBay, coin, and non-specimen rows. Keep disabled until manual availability review because the public homepage appears last updated in 2011."
+  },
+  {
+    "name": "Michael Farmer Meteorites",
+    "parser": "meteoriteguy",
+    "stage": "disabled_parser_start",
+    "base_url": "https://meteoriteguy.com/",
+    "inventory_urls": [
+      "https://meteoriteguy.com/catalog.htm"
+    ],
+    "max_detail_pages": 160,
+    "enabled": false,
+    "description": "Static Michael Farmer meteorite sale catalog with old FrontPage pages containing individual specimen rows, prices, weights, and images.",
+    "notes": "Parser follows only catalog.htm sale links plus same-domain continuation pages, requires exact row price/weight/image evidence, and rejects sold, category, collection, adventure, non-specimen, lot/range, and ambiguous rows. Keep disabled until manual availability review because the site appears last updated in 2012."
+  },
+  {
     "name": "eBay - meteoritetreasure",
     "parser": "ebay_browse",
     "stage": "disabled_parser_start",
@@ -490,54 +521,6 @@
     "enabled": false,
     "description": "Marketplace storefront candidate for TOP Meteorite on eBay.",
     "notes": "Provisional seller allowlist from the /str/topmeteorite slug. Keep disabled until EBAY_CLIENT_ID/EBAY_CLIENT_SECRET are configured, seller identity is verified via the API, and rows are manually reviewed. Fixed-price, seller-allowlist only; no broad eBay scraping."
-  },
-  {
-    "name": "Etsy - SpaceTreasuresUS",
-    "parser": "disabled_backlog",
-    "stage": "disabled_backlog",
-    "base_url": "https://www.etsy.com/shop/SpaceTreasuresUS",
-    "inventory_urls": [
-      "https://www.etsy.com/shop/SpaceTreasuresUS"
-    ],
-    "enabled": false,
-    "description": "Etsy marketplace storefront candidate from the provided source list.",
-    "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
-  },
-  {
-    "name": "Etsy - SPACEMANGIFT",
-    "parser": "disabled_backlog",
-    "stage": "disabled_backlog",
-    "base_url": "https://www.etsy.com/shop/SPACEMANGIFT",
-    "inventory_urls": [
-      "https://www.etsy.com/shop/SPACEMANGIFT"
-    ],
-    "enabled": false,
-    "description": "Etsy marketplace storefront candidate from the provided source list.",
-    "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
-  },
-  {
-    "name": "Etsy - saharagems",
-    "parser": "disabled_backlog",
-    "stage": "disabled_backlog",
-    "base_url": "https://www.etsy.com/shop/saharagems",
-    "inventory_urls": [
-      "https://www.etsy.com/shop/saharagems"
-    ],
-    "enabled": false,
-    "description": "Etsy marketplace storefront candidate from the provided source list.",
-    "notes": "Assessed 2026-06-17: narrow public storefront fetch returned HTTP 403, so a safe/reliable HTML parser is not feasible. Keep disabled; use official Etsy Open API credentials plus manual row-quality review before any parser work. Do not scrape broad Etsy search/category pages."
-  },
-  {
-    "name": "Meteorite Hunter",
-    "parser": "disabled_backlog",
-    "stage": "disabled_backlog",
-    "base_url": "https://www.meteoritehunter.com/",
-    "inventory_urls": [
-      "https://www.meteoritehunter.com/"
-    ],
-    "enabled": false,
-    "description": "Reviewed direct-domain candidate that currently resolves to a parked/domain-sale landing page.",
-    "notes": "Assessed 2026-06-27: root redirects via /lander to an Afternic/GoDaddy domain-for-sale page for meteoritehunter.com; no public meteorite inventory found. Keep disabled/no-op unless the domain returns to real seller inventory and a source-specific parser is built."
   },
   {
     "name": "eBay Marketplace Search",

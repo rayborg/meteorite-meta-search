@@ -80,7 +80,7 @@ PRICE_RE = re.compile(
 TYPE_RULES = [
     ("lunar", r"\b(lunar|moon|feldspathic breccia|lunar breccia)\b"),
     ("martian", r"\b(martian|mars|shergottite|nakhlite|chassignite)\b"),
-    ("pallasite", r"\b(pallasite|olivine pallasite|esquel|im-?ilac|sericho|brahin|admire)\b"),
+    ("pallasite", r"\b(pallasite|olivine pallasite|PAL\s*-?\s*MG|PMG|esquel|im-?ilac|sericho|brahin|admire)\b"),
     ("mesosiderite", r"\bmesosiderite\b"),
     ("iron", r"\b(iron\s+meteorites?|octahedrite|ataxite|hexahedrite|sikhote|campo del cielo|canyon diablo|gibeon|gebel\s+kamil|dronino|muonionalusta|seymchan|IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|I\s*C)\b"),
     ("carbonaceous chondrite", r"\b(carbonaceous|c\s?2|cv\s?3|cvred\s?3|cvox[a-z]?\s?3|cm\s?2|ci\s?1|co\s?3|cr\s?2|ck\s?\d?|ch\s?\d?|cb\s?[ab]?|c3-?ung|c2-?ung|c1-?ung)\b"),
@@ -129,6 +129,7 @@ SUBTYPE_RE = re.compile(
     r"\b(EH|EL)\s*-?\s*([3-7](?:\s*[/\-]\s*(?:(?:EH|EL)\s*)?[3-7])?)\b|"
     r"\bEH\s*-\s*melt\s+rock\b|"
     r"\b(IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|I\s*C)\b|"
+    r"\b(PAL\s*-?\s*MG|PMG)\b|"
     r"\b(HED|EUC|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|shergottite|nakhlite|chassignite|octahedrite|ataxite|hexahedrite|acapulcoite|lodranite|winonaite|mesosiderite|achondrite(?:-ung)?)\b",
     re.I,
 )
@@ -731,7 +732,7 @@ METBULL_TRAILING_DESCRIPTOR_RE = re.compile(
 METBULL_TRAILING_CLASS_PARENS_RE = re.compile(
     r"\s*\([^)]*\b(?:ordinary|carbonaceous|enstatite|rumuruti|chondrite|achondrite|pallasite|mesosiderite|"
     r"aubrite|eucrite|diogenite|howardite|ureilite|angrite|winonaite|acapulcoite|lodranite|brachinite|"
-    r"shergottite|nakhlite|chassignite|iron|ungrouped|IAB|IIAB|IIIAB|IVA|IVB|IIE|IIF|IRUNGR|"
+    r"shergottite|nakhlite|chassignite|iron|ungrouped|AUB|EUC|HED|ASHE|IAB|IIAB|IIIAB|IVA|IVB|IIE|IIF|IRUNGR|"
     r"(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI|CH|CB|C)\s*-?\s*\d)[^)]*\)\s*$",
     re.I,
 )
@@ -1559,6 +1560,8 @@ def canonical_subtype(value: str | None) -> str | None:
         return f"Eucrite-{qualifier}"
     if compact == "ACHONDRITE-UNG":
         return "Achondrite-ung"
+    if compact == "PALMG":
+        return "PAL-MG"
     if compact in {
         "OC",
         "H/L",
@@ -1587,6 +1590,8 @@ def canonical_subtype(value: str | None) -> str | None:
         "WINONAITE",
         "MESOSIDERITE",
         "PALLASITE",
+        "PAL-MG",
+        "PMG",
         "ACHONDRITE",
         "IIA",
         "IAB",
@@ -1637,7 +1642,7 @@ def meteorite_type_for_subtype(subtype: str | None) -> str | None:
         return "chondrite"
     if re.fullmatch(r"(?:IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|IC|OCTAHEDRITE|ATAXITE|HEXAHEDRITE)", compact):
         return "iron"
-    if compact in {"PALLASITE"}:
+    if compact in {"PALLASITE", "PAL-MG", "PALMG", "PMG"}:
         return "pallasite"
     if compact in {"MESOSIDERITE"}:
         return "mesosiderite"
@@ -1900,7 +1905,7 @@ def classify_from_text(text: str) -> tuple[str, str | None, str | None]:
     subtype = best_subtype_from_text(text)
     bits = []
     for m in re.finditer(
-        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|(?:H/L|L/LL|H/LL)\s?[3-7](?:\.\d)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?[123]\s*-\s*ung|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|EH\s?[3-7](?:\s*[/\-]\s*(?:EH\s*)?[3-7])?|EL\s?[3-7](?:\s*[/\-]\s*(?:EL\s*)?[3-7])?|EH\s*-\s*melt\s+rock|IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|EUC|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|campo\s+del\s+cielo)\b",
+        r"\b(?:NWA\s*\d+|Northwest Africa\s*\d+|H\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|(?:H/L|L/LL|H/LL)\s?[3-7](?:\.\d)?|H/L\s?3?|L\s?[3-6](?:\.\d)?(?:\s*[/\-]\s*[3-6](?:\.\d)?)?|LL\s?[3-7](?:\.\d)?(?:\s*[/\-]\s*[3-7](?:\.\d)?)?|L\s?\(\s?LL\s?\)\s?3|OC|C\s?[123]\s*-\s*ung|C\s?2|CM\s?2|CV\s?3|CVred\s?3|CVoxA\s?3|CO\s?3|CR\s?2|CI\s?1|CK\s?\d|CH\s?\d|CBa|CBb|R\s?[3-6](?:\s*-\s*[3-6])?|EH\s?[3-7](?:\s*[/\-]\s*(?:EH\s*)?[3-7])?|EL\s?[3-7](?:\s*[/\-]\s*(?:EL\s*)?[3-7])?|EH\s*-\s*melt\s+rock|IIA|IAB|IIAB|IIIAB|IIIE-AN|IVA|IVB|IIE|IRUNGR|PAL\s*-?\s*MG|PMG|EUC|eucrite(?:\s*-\s*(?:mmict|unbr|pmict|br|melt\s+breccia))?|diogenite|howardite|ureilite|aubrite|angrite|brachinite|achondrite(?:-ung)?|shergottite|nakhlite|pallasite|mesosiderite|octahedrite|ataxite|hexahedrite|campo\s+del\s+cielo)\b",
         text,
         re.I,
     ):
@@ -5820,6 +5825,26 @@ METEORITE_RECON_SPECIMEN_WEIGHT_RE = re.compile(
     re.I,
 )
 METEORITE_RECON_SKIP_TITLE_RE = re.compile(r"^(?:meteorites?\s+for\s+sale|stones?|irons?|books?)$", re.I)
+M3T3ORITES_DETAIL_PATH_RE = re.compile(r"^/meteorites/[A-Za-z0-9_-]+\.php$", re.I)
+M3T3ORITES_PRICE_RE = re.compile(
+    rf"(?:Price\s*:\s*)?(?:US\s*[-\u2010-\u2015]\s*\$|US\$|USD|\$)\s*(?P<amount>{WEIGHT_NUMBER_RE})(?:\s*(?:[.,]--|--))?",
+    re.I,
+)
+M3T3ORITES_FIELD_RE = re.compile(r"^(Specimen ID|Description|Weight|Size|Price)\s*:\s*(.*)$", re.I)
+M3T3ORITES_BAD_IMAGE_RE = re.compile(r"spacer|banner|pfeil_|contentbg_|nav_|0818b|imca|google|urchin", re.I)
+M3T3ORITES_NON_SPECIMEN_RE = re.compile(r"\b(?:coins?|books?|ebay|payment|shipping)\b", re.I)
+METEORITEGUY_BAD_IMAGE_RE = re.compile(r"(?:^|/)site-art/|mf-banner|banner|passports|kenyalarge|spacer|button|logo|\.(?:gif)(?:[?#].*)?$", re.I)
+METEORITEGUY_CONTINUATION_RE = re.compile(r"\b(?:more specimens?|more pieces?|next|page\s*\d+|click here to see more specimens)\b", re.I)
+METEORITEGUY_AMBIGUOUS_ROW_RE = re.compile(
+    r"\b(?:lots?|sets?|groups?|collection|choose|choice|several|many|multiple|per\s*(?:gram|g)|/\s*(?:gram|g)|"
+    r"from\s+\$|starting\s+at|email\s+for\s+price|contact\s+for\s+price|price\s+on\s+request)\b",
+    re.I,
+)
+METEORITEGUY_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:books?|pdf|article|adventures?|collection\s+page|jewelry|jewellery|pendants?|rings?|beads?|"
+    r"display\s+(?:box|case|stand|frame)|photo\s+[abc]|close[-\s]*up|reverse\s+side|backlit)\b",
+    re.I,
+)
 
 
 def meteorite_recon_headers(site: dict) -> dict:
@@ -5994,6 +6019,320 @@ def scrape_meteorite_recon(site: dict, log: SourceLog) -> list[dict]:
             page_items.append(item)
         if not page_items:
             log.reject_page("meteorite_recon_no_exact_rows")
+        listings.extend(page_items)
+    return listings
+
+
+def m3t3orites_detail_urls(site: dict, log: SourceLog) -> list[str]:
+    urls = {}
+    max_details = site_int(site, "max_detail_pages", 90, 140)
+    for inventory_url in site.get("inventory_urls", []):
+        page_url = urljoin(site["base_url"], inventory_url)
+        log.index(page_url)
+        html = fetch(page_url, log, "index")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("m3t3orites_index_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        for a in soup.find_all("a", href=True):
+            if unavailable_status_text(a.get_text(" ", strip=True)):
+                continue
+            href = urljoin(page_url, a.get("href")).split("#", 1)[0]
+            if same_domain(site["base_url"], href) and M3T3ORITES_DETAIL_PATH_RE.fullmatch(urlparse(href).path):
+                urls[href] = None
+                log.detail(href)
+                if len(urls) >= max_details:
+                    log.reject_page("m3t3orites_detail_cap_reached")
+                    return list(urls.keys())
+    return list(urls.keys())
+
+
+def m3t3orites_specimen_cells(soup: BeautifulSoup):
+    for cell in soup.find_all("td"):
+        if cell.find("td"):
+            continue
+        text = cell.get_text("\n", strip=True)
+        if re.search(r"(?mi)^Specimen ID\s*:", text) and re.search(r"(?mi)^Price\s*:", text):
+            yield cell
+
+
+def m3t3orites_fields(lines: list[str]) -> dict[str, str]:
+    fields = {}
+    for line in lines:
+        match = M3T3ORITES_FIELD_RE.match(line)
+        if match:
+            fields[match.group(1).lower()] = clean(match.group(2))
+    return fields
+
+
+def m3t3orites_price(text: str, log: SourceLog) -> tuple[float, str] | None:
+    match = M3T3ORITES_PRICE_RE.search(text or "")
+    if not match:
+        log.reject("m3t3orites_missing_price")
+        return None
+    price = price_num(match.group("amount"))
+    if price is None or price <= 0:
+        log.reject("m3t3orites_nonpositive_price")
+        return None
+    return price, "USD"
+
+
+def m3t3orites_image_urls(cell, page_url: str) -> list[str]:
+    values = []
+    for a in cell.find_all("a", href=True):
+        href = a.get("href")
+        if href and re.search(r"\.(?:jpe?g|png|webp)(?:[?#].*)?$", href, re.I):
+            values.append(href)
+    if not values:
+        for img in cell.find_all("img"):
+            values.extend(img.get(attr) for attr in ["data-src", "src"])
+    return [url for url in image_url_candidates(page_url, values) if not M3T3ORITES_BAD_IMAGE_RE.search(url)]
+
+
+def m3t3orites_page_name(soup: BeautifulSoup, url: str) -> str:
+    title = clean(re.sub(r"\s+Meteorites?\s+For\s+Sale\s*$", "", title_for(soup), flags=re.I))
+    return product_identity_from_title(title) or product_identity_from_url(url) or title
+
+
+def m3t3orites_listing(site: dict, url: str, cell, page_name: str, explicit_type: str, page_context: str, row_index: int, log: SourceLog) -> dict | None:
+    lines = [clean(line) for line in cell.get_text("\n", strip=True).splitlines() if clean(line)]
+    block_text = clean(" ".join(lines))
+    fields = m3t3orites_fields(lines)
+    if unavailable_status_text(block_text):
+        log.reject("m3t3orites_sold_row")
+        return None
+    if M3T3ORITES_NON_SPECIMEN_RE.search(block_text) or NON_SPECIMEN_PRODUCT_RE.search(block_text):
+        log.reject("m3t3orites_non_specimen_row")
+        return None
+    specimen_id = fields.get("specimen id")
+    if not specimen_id:
+        log.reject("m3t3orites_missing_specimen_id")
+        return None
+    price_values = m3t3orites_price(fields.get("price") or block_text, log)
+    if not price_values:
+        return None
+    price, currency = price_values
+    weight = first_weight_g(fields.get("weight") or block_text)
+    if weight is None or weight <= 0:
+        log.reject("m3t3orites_missing_weight")
+        return None
+    images = m3t3orites_image_urls(cell, url)
+    if not images:
+        log.reject("m3t3orites_missing_image")
+        return None
+    description = fields.get("description")
+    raw_title = page_name
+    item = make_listing(
+        site,
+        url,
+        raw_title,
+        price=price,
+        currency=currency,
+        weight_g=weight,
+        detail_text=clean(f"{page_name} {explicit_type or ''} {block_text}"),
+        explicit_type=explicit_type or page_name or "meteorite",
+        image_url=images[0],
+        image_urls=images,
+        item_key=f"{specimen_id}:{row_index}:{weight}:{price}",
+        parser="m3t3orites",
+    )
+    if not item:
+        log.reject("make_listing_filtered")
+        return None
+    log.parsed_listing()
+    return item
+
+
+def scrape_m3t3orites(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_keys = set()
+    for url in m3t3orites_detail_urls(site, log):
+        html = fetch(url, log, "detail")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("m3t3orites_detail_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        lines = lines_from(soup)
+        page_context = "\n".join(lines)
+        page_name = m3t3orites_page_name(soup, url)
+        explicit_type = labeled_value(lines, "Type") or page_name
+        page_items = []
+        for row_index, cell in enumerate(m3t3orites_specimen_cells(soup), 1):
+            item = m3t3orites_listing(site, url, cell, page_name, explicit_type, page_context, row_index, log)
+            if not item:
+                continue
+            key = (item.get("url"), item.get("title"), item.get("weight_g"), item.get("price"))
+            if key in seen_keys:
+                log.reject("m3t3orites_duplicate_row")
+                continue
+            seen_keys.add(key)
+            page_items.append(item)
+        if not page_items:
+            log.reject_page("m3t3orites_no_exact_rows")
+        listings.extend(page_items)
+    return listings
+
+
+def meteoriteguy_image_urls(node, page_url: str) -> list[str]:
+    values = []
+    for img in node.find_all("img"):
+        src = img.get("src")
+        alt = clean(img.get("alt") or "")
+        if METEORITEGUY_BAD_IMAGE_RE.search(f"{src or ''} {alt}"):
+            continue
+        values.append(src)
+    return image_url_candidates(page_url, values)
+
+
+def meteoriteguy_detail_urls(site: dict, log: SourceLog) -> list[str]:
+    urls = {}
+    queue = [urljoin(site["base_url"], url) for url in site.get("inventory_urls", [])]
+    seen_pages = set()
+    max_details = site_int(site, "max_detail_pages", 160, 220)
+    while queue and len(urls) < max_details:
+        page_url = queue.pop(0).split("#", 1)[0]
+        if page_url in seen_pages:
+            continue
+        seen_pages.add(page_url)
+        log.index(page_url)
+        html = fetch(page_url, log, "index")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("meteoriteguy_index_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        for a in soup.find_all("a", href=True):
+            href = urljoin(page_url, a.get("href")).split("#", 1)[0]
+            parsed = urlparse(href)
+            path = parsed.path.lower()
+            if not same_domain(site["base_url"], href) or not path.endswith(".htm"):
+                continue
+            if any(part in path for part in ["/collection", "/adventures", "contact", "shipping", "links", "order", "privacy"]):
+                continue
+            is_catalog_detail = path.startswith("/catalog/") or re.fullmatch(r"/[a-z0-9_-]+\.htm", path)
+            if not is_catalog_detail:
+                continue
+            if METEORITEGUY_CONTINUATION_RE.search(a.get_text(" ", strip=True)) and href not in seen_pages:
+                queue.append(href)
+            urls[href] = None
+            log.detail(href)
+            if len(urls) >= max_details:
+                log.reject_page("meteoriteguy_detail_cap_reached")
+                return list(urls.keys())
+    return list(urls.keys())
+
+
+def meteoriteguy_page_name(soup: BeautifulSoup, url: str) -> str:
+    title = clean(re.sub(r"\s*-\s*Sale\s+Catalog\s*$", "", title_for(soup), flags=re.I))
+    title = clean(re.sub(r"\s+2\s*$", "", title))
+    return product_identity_from_title(title) or product_identity_from_url(url) or title
+
+
+def meteoriteguy_row_values(text: str, log: SourceLog) -> tuple[float, str, float, int] | None:
+    if unavailable_status_text(text):
+        log.reject("meteoriteguy_sold_row")
+        return None
+    if METEORITEGUY_AMBIGUOUS_ROW_RE.search(text) or WEIGHT_RANGE_RE.search(text):
+        log.reject("meteoriteguy_ambiguous_row")
+        return None
+    prices = prices_in(text)
+    if len(prices) != 1:
+        log.reject("meteoriteguy_missing_or_multiple_price")
+        return None
+    price_start, price, currency = prices[0]
+    before_price = text[:price_start]
+    ranges = weight_range_spans(before_price)
+    weights = [match for match in WEIGHT_RE.finditer(before_price) if not span_inside((match.start(), match.end()), ranges)]
+    if len(weights) != 1:
+        log.reject("meteoriteguy_missing_or_multiple_weight")
+        return None
+    match = weights[0]
+    context = before_price[max(0, match.start() - 80):match.end() + 80]
+    if NON_INDIVIDUAL_WEIGHT_CONTEXT_RE.search(context):
+        log.reject("meteoriteguy_non_individual_weight")
+        return None
+    weight_value = num(match.group(1))
+    if weight_value is None:
+        log.reject("meteoriteguy_bad_weight")
+        return None
+    weight = weight_to_g(weight_value, match.group(2))
+    if price <= 0 or weight <= 0:
+        log.reject("meteoriteguy_nonpositive_price_weight")
+        return None
+    return price, currency or "USD", weight, price_start
+
+
+def meteoriteguy_listing(site: dict, url: str, cell, page_name: str, explicit_type: str, page_context: str, row_index: int, log: SourceLog) -> dict | None:
+    row_text = clean(cell.get_text(" ", strip=True))
+    if not row_text or METEORITEGUY_NON_SPECIMEN_RE.search(row_text):
+        log.reject("meteoriteguy_non_specimen_row")
+        return None
+    images = meteoriteguy_image_urls(cell, url)
+    if not images:
+        log.reject("meteoriteguy_missing_image")
+        return None
+    values = meteoriteguy_row_values(row_text, log)
+    if not values:
+        return None
+    price, currency, weight, price_start = values
+    specimen_code = clean(row_text[:price_start].split(":", 1)[0])
+    specimen_code = clean(DIMENSION_RE.sub("", WEIGHT_RE.sub("", specimen_code)))
+    raw_title = page_name
+    item = make_listing(
+        site,
+        url,
+        raw_title,
+        price=price,
+        currency=currency,
+        weight_g=weight,
+        detail_text=clean(f"{page_name} {explicit_type or ''} {row_text}"),
+        explicit_type=explicit_type or page_name or "meteorite",
+        image_url=images[0],
+        image_urls=images[:2],
+        item_key=f"{row_index}:{specimen_code}:{weight}:{price}:{images[0]}",
+        parser="meteoriteguy",
+    )
+    if not item:
+        log.reject("meteoriteguy_make_listing_filtered")
+        return None
+    log.parsed_listing()
+    return item
+
+
+def scrape_meteoriteguy(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_keys = set()
+    for url in meteoriteguy_detail_urls(site, log):
+        html = fetch(url, log, "detail")
+        time.sleep(DELAY)
+        if not html:
+            log.reject_page("meteoriteguy_detail_fetch_failed")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        lines = lines_from(soup)
+        page_context = "\n".join(lines)
+        page_name = meteoriteguy_page_name(soup, url)
+        explicit_type = clean(" ".join(line for line in lines[:12] if re.search(r"\b(?:chondrite|achondrite|aubrite|diogenite|eucrite|howardite|lunar|martian|iron|octahedrite|pallasite|mesosiderite|tektite|impact\s+glass|CV3|H5|L6|IIAB|IVA|IAB)\b", line, re.I)))
+        page_items = []
+        for row_index, cell in enumerate(soup.find_all(["td", "th"]), 1):
+            if cell.find(["td", "th"]):
+                continue
+            text = cell.get_text(" ", strip=True)
+            if not text or not meteoriteguy_image_urls(cell, url) or not (PRICE_RE.search(text) or unavailable_status_text(text)):
+                continue
+            item = meteoriteguy_listing(site, url, cell, page_name, explicit_type, page_context, row_index, log)
+            if not item:
+                continue
+            key = (item.get("url"), item.get("title"), item.get("weight_g"), item.get("price"), item.get("image_url"))
+            if key in seen_keys:
+                log.reject("meteoriteguy_duplicate_row")
+                continue
+            seen_keys.add(key)
+            page_items.append(item)
+        if not page_items:
+            log.reject_page("meteoriteguy_no_exact_rows")
         listings.extend(page_items)
     return listings
 
@@ -6265,6 +6604,10 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_meteor_center(site, log)
     if parser == "meteorite_recon":
         return scrape_meteorite_recon(site, log)
+    if parser == "m3t3orites":
+        return scrape_m3t3orites(site, log)
+    if parser == "meteoriteguy":
+        return scrape_meteoriteguy(site, log)
     if parser == "ebay_browse":
         return scrape_ebay_browse(site, log)
     if parser == "collector_secret":
