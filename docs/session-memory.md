@@ -62,7 +62,7 @@ Last updated: 2026-06-27
 - Validator structurally validates optional `image_urls` arrays.
 - Scraper politeness is centralized through a per-host throttled request wrapper with jitter, transient-status retries, and `Retry-After` support.
 - Normal inventory scrapes do not query the Meteoritical Bulletin live per row. MetBull support is cache-backed/local through `data/metbull_names.json` and `scraper/update_metbull_cache.py`.
-- A conservative MetBull-assisted canonical-name layer adds `canonical_name`, `canonical_name_display`, `canonical_name_status`, and `canonical_name_source` fields, plus optional MetBull metadata where available.
+- A conservative MetBull-assisted canonical-name layer adds `canonical_name`, `canonical_name_display`, `canonical_name_status`, and `canonical_name_source` fields only for Official MetBull matches; unresolved names remain `unknown` and group as `Other meteorite` in price charts.
 - PolandMET and KD Meteorites parser work has passed targeted local scrape review and validation.
 - eBay Browse API connector work is present but disabled/config-gated until API secrets and manual row review exist.
 - Disqualified storefronts such as The Space Shop Meteorites and Galactic Stone eCrater Mirror are intentionally not configured because bounded review found souvenir/display/non-individual inventory rather than useful individual specimens.
@@ -128,7 +128,7 @@ Last updated: 2026-06-27
 - Price/g summaries are only shown after narrowing results or when all visible rows share a title.
 - Price and price/g UI display, sorting, and summaries use USD-normalized fields only; non-USD source prices are preserved in listing data and exposed as concise price-cell title/aria metadata.
 - Listings weighing at least 1000 g show USD price/kg alongside USD price/g in the price/g cell.
-- Search-scoped price distribution charts group available priced rows by canonical/display meteorite name and render only when the search is narrow enough to show one chart for every matched meteorite; chart bars filter the table to that meteorite and USD price/g range until cleared.
+- Search-scoped price distribution charts group available priced rows by Official MetBull meteorite name only; rows that cannot be confidently reconciled to Official MetBull names group as `Other meteorite`.
 - Source panel exposes enabled, disabled parser start, and disabled backlog states.
 - Source status count cards render grouped source cards for connected, parser-start, backlog, and policy/reference categories; long names/status pills must wrap cleanly.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.

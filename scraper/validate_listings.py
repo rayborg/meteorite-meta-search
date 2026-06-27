@@ -94,7 +94,7 @@ IMPACTIKA_AMBIGUOUS_ROW_RE = re.compile(
 )
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_CURRENCIES = {"USD", "EUR"}
-VALID_CANONICAL_NAME_STATUS = {"metbull_verified", "parsed_high", "parsed_unverified", "unknown"}
+VALID_CANONICAL_NAME_STATUS = {"metbull_verified", "unknown"}
 FX_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 LUNAR_METBULL_TYPE_RE = re.compile(r"^Lunar(?:\s*\(([^)]*)\))?$", re.I)
 LUNAR_SUBTYPE_CANONICAL = {
@@ -513,6 +513,8 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if canonical_present:
         if canonical_status not in VALID_CANONICAL_NAME_STATUS:
             errors.append(f"row {index}: invalid canonical_name_status {canonical_status!r}")
+        if canonical_status == "metbull_verified" and item.get("metbull_status") != "Official":
+            errors.append(f"row {index}: metbull_verified canonical name requires Official metbull_status")
         if canonical_status == "unknown":
             if canonical_name is not None or canonical_display is not None or canonical_source is not None:
                 errors.append(f"row {index}: unknown canonical name status has canonical values")

@@ -15,6 +15,7 @@ const UNSPECIFIED_SUBTYPE = "__unspecified__";
 const HEAVY_PRICE_PER_KG_WEIGHT_G = 1000;
 const PRICE_DISTRIBUTION_MAX_GROUPS = 24;
 const PRICE_DISTRIBUTION_BUCKETS = 8;
+const OTHER_METEORITE_LABEL = "Other meteorite";
 const SOURCE_STATUS_GROUPS = [
   { key: "enabled", label: "Connected", detailLabel: "Connected Sources", ariaLabel: "Connected or enabled sources" },
   { key: "parserStart", label: "Parser starts", detailLabel: "Disabled Parser Starts", ariaLabel: "Disabled parser starts" },
@@ -670,15 +671,15 @@ function updateSummary(items) {
 
 function meteoriteGroupKey(item) {
   const canonical = normalize(item.canonical_name).trim();
-  if (canonical) return `canonical:${canonical}`;
-  const display = normalize(item.canonical_name_display).trim();
-  if (display) return `display:${display}`;
-  const title = normalize(item.title).trim();
-  return `title:${title || item.id || item.url || "unknown"}`;
+  if (item.canonical_name_status === "metbull_verified" && canonical) return `canonical:${canonical}`;
+  return "other-meteorite";
 }
 
 function meteoriteGroupLabel(item) {
-  return item.canonical_name_display || item.canonical_name || item.title || "Unnamed meteorite";
+  if (item.canonical_name_status === "metbull_verified") {
+    return item.canonical_name_display || item.canonical_name || OTHER_METEORITE_LABEL;
+  }
+  return OTHER_METEORITE_LABEL;
 }
 
 function collectPriceDistributionGroups(items) {
@@ -895,15 +896,15 @@ function renderPriceDistribution(items) {
   }
 
   if (groups.length > PRICE_DISTRIBUTION_MAX_GROUPS) {
-    summary.textContent = `Search matches ${groups.length} meteorites with USD price/g data across ${listingCount} available listings. Refine the search to ${PRICE_DISTRIBUTION_MAX_GROUPS} or fewer meteorites to generate one chart for each meteorite.`;
+    summary.textContent = `Search matches ${groups.length} MetBull meteorite groups with USD price/g data across ${listingCount} available listings. Refine the search to ${PRICE_DISTRIBUTION_MAX_GROUPS} or fewer groups to generate one chart for each group.`;
     const empty = document.createElement("div");
     empty.className = "price-chart-empty";
-    empty.textContent = "The current search is too broad for one chart per meteorite.";
+    empty.textContent = "The current search is too broad for one chart per MetBull meteorite group.";
     charts.appendChild(empty);
     return;
   }
 
-  summary.textContent = `Showing USD price/g distribution for ${groups.length} ${groups.length === 1 ? "meteorite" : "meteorites"} across ${listingCount} available priced ${listingCount === 1 ? "listing" : "listings"}.`;
+  summary.textContent = `Showing USD price/g distribution for ${groups.length} MetBull ${groups.length === 1 ? "meteorite group" : "meteorite groups"} across ${listingCount} available priced ${listingCount === 1 ? "listing" : "listings"}.`;
   const fragment = document.createDocumentFragment();
   for (const group of groups) {
     fragment.appendChild(renderPriceChart(group));

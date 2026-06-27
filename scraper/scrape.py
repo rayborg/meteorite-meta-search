@@ -341,7 +341,8 @@ KNOWN_DISPLAY_NAME_RE = re.compile(
     re.I,
 )
 CANONICAL_ALIAS_PATTERNS = [
-    (re.compile(r"\b(?:baby\s+campocito|campocito)\b", re.I), "Campo del Cielo"),
+    (re.compile(r"\b(?:baby\s+)?campocitos?\b", re.I), "Campo del Cielo"),
+    (re.compile(r"\bcampodel\s+cielo\b", re.I), "Campo del Cielo"),
 ]
 TEKTITE_DISPLAY_NAME_RE = re.compile(
     r"\b(?:Moldavite|Libyan\s+Desert\s+Glass|Irghizite|Australite|Indochinite|Saffordite|Wabar\s+Pearl|Atacamaite)\b",
@@ -708,6 +709,109 @@ def normalize_name_key(value: str | None) -> str:
     return text
 
 
+METBULL_LEADING_CLASS_RE = re.compile(
+    r"^(?:(?:iron|stone|stony[-\s]+iron|lunar|martian)\s+meteorites?|"
+    r"meteorites?|pallasite|chondrite|achondrite|aubrite|eucrite|diogenite|howardite|ureilite|angrite|mesosiderite)"
+    r"\s*[,:\-\u2013\u2014]?\s+",
+    re.I,
+)
+METBULL_DEMONYM_SUFFIX_RE = re.compile(
+    r"^(?:kenyan|russian|chinese|moroccan|argentine|argentinian|estonian|australian|american|mexican|"
+    r"omani|libyan|algerian|tunisian|pakistani|indian|canadian|brazilian|chilean)$",
+    re.I,
+)
+METBULL_YEAR_FALL_SUFFIX_RE = re.compile(
+    r"\s+(?:[IVXLCDM]+\s+)?(?:18|19|20)\d{2}\s+(?:(?:observed|witnessed)\s+)?fall\s*$",
+    re.I,
+)
+METBULL_TRAILING_DESCRIPTOR_RE = re.compile(
+    r"\s+\b(?:historic|ancient|observed\s+fall|witnessed\s+fall|new\s+find)\b\s*$",
+    re.I,
+)
+METBULL_TRAILING_CLASS_PARENS_RE = re.compile(
+    r"\s*\([^)]*\b(?:ordinary|carbonaceous|enstatite|rumuruti|chondrite|achondrite|pallasite|mesosiderite|"
+    r"aubrite|eucrite|diogenite|howardite|ureilite|angrite|winonaite|acapulcoite|lodranite|brachinite|"
+    r"shergottite|nakhlite|chassignite|iron|ungrouped|IAB|IIAB|IIIAB|IVA|IVB|IIE|IIF|IRUNGR|"
+    r"(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI|CH|CB|C)\s*-?\s*\d)[^)]*\)\s*$",
+    re.I,
+)
+METBULL_TRAILING_CLASSIFICATION_RE = re.compile(
+    r"\s+(?:(?:ordinary|carbonaceous|enstatite|rumuruti)\s+chondrite|(?:primitive\s+)?achondrite|chondrite(?:-ung)?|"
+    r"pallasite|mesosiderite|aubrite|eucrite|diogenite|howardite|ureilite|angrite|winonaite|acapulcoite|"
+    r"lodranite|brachinite|shergottite|nakhlite|chassignite|iron(?:\s+meteorite)?(?:\s*,?\s*ungrouped)?|"
+    r"(?:H|L|LL|EH|EL|R|CK|CM|CV|CO|CR|CI|CH|CB|C)\s*-?\s*\d(?:\.\d)?(?:\s*[/\-]\s*\d(?:\.\d)?)?(?:\s*-\s*ung)?|"
+    r"IAB|IIAB|IIIAB|IVA|IVB|IIE|IIF|IRUNGR)(?:\s+meteorite)?\s*$",
+    re.I,
+)
+METBULL_TRAILING_HASH_SPECIMEN_RE = re.compile(r"\s+#\s*\d+[A-Za-z]?\s*$", re.I)
+METBULL_TRAILING_ROMAN_SPECIMEN_RE = re.compile(r"^(.+\b\d{3,6})\s+[IVXLCDM]+\s*$", re.I)
+
+
+def metbull_candidate_keys(candidate: str | None) -> list[str]:
+    raw = clean(str(candidate or ""))
+    keys: list[str] = []
+
+    def add_key(value: str | None) -> None:
+        key = normalize_name_key(value)
+        if key and key not in keys:
+            keys.append(key)
+
+    def strip_trailing_context(value: str) -> str:
+        if "," not in value:
+            return value
+        prefix, suffix = value.rsplit(",", 1)
+        suffix = clean(suffix)
+        if DISPLAY_SUFFIX_ONLY_RE.fullmatch(suffix) or METBULL_DEMONYM_SUFFIX_RE.fullmatch(suffix):
+            return clean(prefix)
+        return value
+
+    def strip_trailing_descriptors(value: str) -> str:
+        value = clean(METBULL_YEAR_FALL_SUFFIX_RE.sub("", value))
+        previous = None
+        while value and value != previous:
+            previous = value
+            value = clean(METBULL_TRAILING_DESCRIPTOR_RE.sub("", value))
+            value = clean(METBULL_TRAILING_CLASS_PARENS_RE.sub("", value))
+            value = clean(METBULL_TRAILING_CLASSIFICATION_RE.sub("", value))
+        return value
+
+    def strip_vendor_specimen_suffix(value: str) -> str:
+        value = clean(METBULL_TRAILING_HASH_SPECIMEN_RE.sub("", value))
+        roman = METBULL_TRAILING_ROMAN_SPECIMEN_RE.fullmatch(value)
+        if roman:
+            return clean(roman.group(1))
+        return value
+
+    def spelling_variants(value: str) -> list[str]:
+        variants = []
+        expanded = re.sub(r"^Mt\.\s+", "Mount ", value, flags=re.I)
+        expanded = re.sub(r"^St\.\s+", "Saint ", expanded, flags=re.I)
+        if expanded != value:
+            variants.append(clean(expanded))
+        if re.search(r"\b[A-Za-z]{4,}s$", value):
+            variants.append(clean(re.sub(r"s$", "", value)))
+        return variants
+
+    queue = [raw]
+    seen_values = set()
+    while queue and len(seen_values) < 16:
+        value = queue.pop(0)
+        if not value or value in seen_values:
+            continue
+        seen_values.add(value)
+        add_key(value)
+        for transformed in [
+            clean(METBULL_LEADING_CLASS_RE.sub("", value)),
+            strip_trailing_context(value),
+            strip_trailing_descriptors(value),
+            strip_vendor_specimen_suffix(value),
+            *spelling_variants(value),
+        ]:
+            if transformed and transformed != value and transformed not in seen_values:
+                queue.append(transformed)
+    return keys
+
+
 def load_metbull_cache() -> dict:
     global METBULL_CACHE
     if METBULL_CACHE is not None:
@@ -730,17 +834,20 @@ def load_metbull_cache() -> dict:
 
 
 def metbull_lookup(candidate: str | None) -> dict | None:
-    key = normalize_name_key(candidate)
-    if not key:
-        return None
     cache = load_metbull_cache()
-    key = cache.get("aliases", {}).get(key, key)
-    return cache.get("names", {}).get(key)
+    for key in metbull_candidate_keys(candidate):
+        key = cache.get("aliases", {}).get(key, key)
+        entry = cache.get("names", {}).get(key)
+        if entry:
+            return entry
+    return None
 
 
 def metbull_canonical_info(candidate: str, source: str) -> dict | None:
     entry = metbull_lookup(candidate)
     if not entry:
+        return None
+    if clean(str(entry.get("status") or "")) != "Official":
         return None
     name = clean(str(entry.get("name") or candidate))
     display_name = clean(str(entry.get("display_name") or entry.get("abbrev") or name))
@@ -757,16 +864,6 @@ def metbull_canonical_info(candidate: str, source: str) -> dict | None:
     if entry.get("type"):
         info["metbull_type"] = clean(str(entry.get("type")))
     return info
-
-
-def parsed_canonical_info(candidate: str, source: str) -> dict:
-    display_name = display_case_name(candidate)
-    return {
-        "canonical_name": display_name,
-        "canonical_name_display": display_name,
-        "canonical_name_status": "parsed_high",
-        "canonical_name_source": source,
-    }
 
 
 def catalog_name_candidates(text: str | None) -> list[str]:
@@ -844,8 +941,6 @@ def canonical_name_info(raw_title: str, display_name: str, detail_text: str, url
             verified = metbull_canonical_info(candidate, source)
             if verified:
                 return verified
-            if source in {"title", "raw_title", "url"} and (catalog_name_candidates(candidate) or numbered_name_candidates(candidate)):
-                return parsed_canonical_info(candidate, source)
 
     fallback = product_identity_from_title(display_name)
     verified = metbull_canonical_info(fallback, "title_identity") if fallback else None
@@ -1905,7 +2000,7 @@ def make_listing(
     parser_name = parser or site.get("parser") or "generic"
     title = display_title(raw_title, parser_name, url)
     canonical = canonical_name_info(raw_title, title, detail_text, url)
-    if canonical.get("canonical_name_display") and canonical.get("canonical_name_status") in {"metbull_verified", "parsed_high"}:
+    if canonical.get("canonical_name_display") and canonical.get("canonical_name_status") == "metbull_verified":
         title = canonical["canonical_name_display"]
     mtype, subtype, ctext = classify(title, detail_text, explicit_type)
     mtype, subtype, ctext = classification_title_variants(title, url, mtype, subtype, ctext)
@@ -6365,7 +6460,8 @@ def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
         and not re.search(r"\d", clean(str(normalized.get("canonical_name_display") or "")))
     )
     if (
-        normalized.get("canonical_name_status") in {"metbull_verified", "parsed_high"}
+        normalized.get("canonical_name_status") == "metbull_verified"
+        and clean(str(normalized.get("metbull_status") or "")) == "Official"
         and clean(str(normalized.get("canonical_name") or ""))
         and clean(str(normalized.get("canonical_name_display") or ""))
         and clean(str(normalized.get("canonical_name_source") or ""))
@@ -6382,7 +6478,7 @@ def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
             " ".join(str(normalized.get(key) or "") for key in ["classification_text", "subtype", "meteorite_type", "url"]),
             str(normalized.get("url") or ""),
         )
-    if canonical.get("canonical_name_display") and canonical.get("canonical_name_status") in {"metbull_verified", "parsed_high"}:
+    if canonical.get("canonical_name_display") and canonical.get("canonical_name_status") == "metbull_verified":
         title = canonical["canonical_name_display"]
     normalized["title"] = title
     normalized["canonical_name"] = canonical.get("canonical_name")
