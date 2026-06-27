@@ -28,7 +28,7 @@ Frontend behavior:
 - Table headers and the sort select share the same sort state.
 - Average and lowest price/g summaries are shown only after narrowing by search, type, source, or a single repeated title.
 - Search results can show one USD price/g distribution chart per meteorite when the search is narrow enough to chart every matched meteorite, and chart bars can filter the table to a specific meteorite price/g range.
-- The source panel lists every configured source and labels it as enabled, disabled parser start, or disabled backlog.
+- The source panel lists every configured source and labels it as enabled, disabled parser start, disabled backlog, or policy/reference. Source status count cards are clickable and list the sources in that category.
 - Listing images remain remote `http` or `https` URLs; `image_url` is primary and optional `image_urls` values are tried as fallbacks before showing `No image`.
 
 ## Scraper
@@ -70,6 +70,8 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | KD Meteorites | `kd_meteorites` | Parses bounded static specimen sale hubs, rejects non-specimen/info pages, requires exact price/weight/image evidence, and cleans old-table titles through page/URL identity. |
 | Meteorite Recon | `meteorite_recon` | Parses only the static Stones and Irons sale pages, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |
 | WWMeteorites | `wwmeteorites` | Parses bounded same-domain sale/detail pages with exact row price/weight requirements, sold/category/lot/range/non-specimen rejection, and remote image URLs only. |
+| Meteor Center | `meteor_center` | Parses WooCommerce product cards across shop pagination, including `/page/2/`, with in-stock/add-to-cart proof, EUR prices, title weights, and non-specimen/range rejection. |
+| Collecting Meteorites | `collecting_meteorites` | Parses public WordPress sale cards plus bounded detail pages for exact title weights, EUR prices, category text, remote images, and per-gram/non-specimen/ambiguous multi-specimen rejection. |
 
 ## Disabled And Backlog Sources
 

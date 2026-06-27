@@ -6,6 +6,7 @@ let expandedType = "";
 const DEFAULT_SORT = { key: "title", direction: "asc" };
 let sortState = { ...DEFAULT_SORT };
 let priceDistributionFilter = null;
+let selectedSourceGroupKey = "";
 
 const $ = (id) => document.getElementById(id);
 const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "image", "available", "confidence"]);
@@ -14,6 +15,12 @@ const UNSPECIFIED_SUBTYPE = "__unspecified__";
 const HEAVY_PRICE_PER_KG_WEIGHT_G = 1000;
 const PRICE_DISTRIBUTION_MAX_GROUPS = 24;
 const PRICE_DISTRIBUTION_BUCKETS = 8;
+const SOURCE_STATUS_GROUPS = [
+  { key: "enabled", label: "Connected", detailLabel: "Connected Sources", ariaLabel: "Connected or enabled sources" },
+  { key: "parserStart", label: "Parser starts", detailLabel: "Disabled Parser Starts", ariaLabel: "Disabled parser starts" },
+  { key: "backlog", label: "Backlog", detailLabel: "Disabled Backlog Sources", ariaLabel: "Disabled backlog sources" },
+  { key: "policyBlocked", label: "Policy/ref", detailLabel: "Policy And Reference Sources", ariaLabel: "Policy-blocked or reference sources" }
+];
 const CATEGORY_ALIASES = new Map([
   ["stone", "unknown"]
 ]);
@@ -966,31 +973,89 @@ function sourceStatusCounts() {
   return counts;
 }
 
+
+function sourceGroupConfig(key) {
+  return SOURCE_STATUS_GROUPS.find((group) => group.key === key) || SOURCE_STATUS_GROUPS[0];
+}
+
+
+function sortedSourceEntries(sites = allSites) {
+  return sites
+    .map((site, index) => ({ site, index }))
+    .sort((a, b) => (a.site.name || "").localeCompare(b.site.name || "", undefined, { numeric: true, sensitivity: "base" }));
+}
+
+
+function sourceGroupEntries(key) {
+  return sortedSourceEntries(allSites).filter(({ site }) => sourceStage(site).key === key);
+}
+
+
+function renderSourceGroup(key) {
+  const detail = $("sourceInfoDetail");
+  const group = sourceGroupConfig(key);
+  const entries = sourceGroupEntries(key);
+
+  detail.hidden = false;
+  const section = document.createElement("section");
+  section.className = "source-group";
+  section.setAttribute("aria-labelledby", `source-group-${key}`);
+
+  const heading = document.createElement("div");
+  heading.className = "source-group-heading";
+  const title = document.createElement("h3");
+  title.id = `source-group-${key}`;
+  title.textContent = group.detailLabel;
+  const summary = document.createElement("p");
+  summary.textContent = `${entries.length} source${entries.length === 1 ? "" : "s"} in this category.`;
+  heading.append(title, summary);
+
+  const grid = document.createElement("div");
+  grid.className = "source-card-grid";
+  for (const { site, index } of entries) {
+    appendSourceCard(grid, site, index);
+  }
+
+  section.append(heading, grid);
+  detail.appendChild(section);
+}
+
+
+function selectSourceGroup(key, restoreFocus = false) {
+  selectedSourceGroupKey = key;
+  const select = $("sourceInfoSelect");
+  if (select) select.value = "";
+  renderSourceStatusCounts(sourceStatusCounts());
+  renderSelectedSource();
+  if (restoreFocus) {
+    const activeButton = Array.from($("sourceStatusCounts")?.querySelectorAll("button[data-source-group]") || [])
+      .find((button) => button.dataset.sourceGroup === key);
+    activeButton?.focus();
+  }
+}
+
 function renderSourceStatusCounts(counts) {
   const container = $("sourceStatusCounts");
   if (!container) return;
 
-  const entries = [
-    { value: counts.enabled, label: "Connected", ariaLabel: "Connected or enabled sources" },
-    { value: counts.parserStart, label: "Parser starts", ariaLabel: "Disabled parser starts" },
-    { value: counts.backlog, label: "Backlog", ariaLabel: "Disabled backlog sources" },
-    { value: counts.policyBlocked, label: "Policy/ref", ariaLabel: "Policy-blocked or reference sources" }
-  ];
-
   container.innerHTML = "";
-  for (const entry of entries) {
-    const item = document.createElement("div");
-    item.className = "source-count";
-    item.setAttribute("role", "listitem");
-    item.setAttribute("aria-label", `${entry.ariaLabel}: ${entry.value}`);
+  for (const group of SOURCE_STATUS_GROUPS) {
+    const valueCount = counts[group.key] || 0;
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = `source-count${selectedSourceGroupKey === group.key ? " active" : ""}`;
+    item.dataset.sourceGroup = group.key;
+    item.setAttribute("aria-label", `${group.ariaLabel}: ${valueCount}. Show these sources.`);
+    item.setAttribute("aria-pressed", String(selectedSourceGroupKey === group.key));
+    item.addEventListener("click", () => selectSourceGroup(group.key, true));
 
     const value = document.createElement("span");
     value.className = "source-count-value";
-    value.textContent = entry.value;
+    value.textContent = valueCount;
 
     const label = document.createElement("span");
     label.className = "source-count-label";
-    label.textContent = entry.label;
+    label.textContent = group.label;
 
     item.append(value, label);
     container.appendChild(item);
@@ -1066,10 +1131,16 @@ function renderSelectedSource() {
 
   detail.innerHTML = "";
   if (!site) {
+    if (selectedSourceGroupKey) {
+      renderSourceGroup(selectedSourceGroupKey);
+      return;
+    }
     detail.hidden = true;
     return;
   }
 
+  selectedSourceGroupKey = "";
+  renderSourceStatusCounts(sourceStatusCounts());
   detail.hidden = false;
   appendSourceCard(detail, site, index);
 }
@@ -1092,9 +1163,7 @@ function renderSources() {
     return;
   }
 
-  const sortedSites = allSites
-    .map((site, index) => ({ site, index }))
-    .sort((a, b) => (a.site.name || "").localeCompare(b.site.name || "", undefined, { numeric: true, sensitivity: "base" }));
+  const sortedSites = sortedSourceEntries();
 
   for (const { site, index } of sortedSites) {
     const option = document.createElement("option");

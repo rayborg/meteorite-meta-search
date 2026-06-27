@@ -403,6 +403,33 @@
     "notes": "Enabled after bounded public-page review. Parser fetches only the configured SSR index and discovered same-domain detail pages up to max_detail_pages, requires exact row price and weight, rejects sold, category, ambiguous lot/range, and non-specimen rows, and keeps only remote image URLs."
   },
   {
+    "name": "Meteor Center",
+    "parser": "meteor_center",
+    "stage": "active_verified",
+    "base_url": "https://meteor-center.com/",
+    "inventory_urls": [
+      "https://meteor-center.com/"
+    ],
+    "max_index_pages": 30,
+    "max_products": 340,
+    "enabled": true,
+    "description": "WooCommerce meteorite shop with paginated product cards, EUR prices, title weights, and remote images.",
+    "notes": "Enabled after bounded public-page review. Parser reads shop product cards only, follows pagination including /page/2/, requires in-stock/add-to-cart proof, exact title weight, positive EUR price, and rejects non-specimen, sold, and range/lot rows without fetching every product detail page."
+  },
+  {
+    "name": "Collecting Meteorites",
+    "parser": "collecting_meteorites",
+    "stage": "active_verified",
+    "base_url": "https://www.collectingmeteorites.com/",
+    "inventory_urls": [
+      "https://www.collectingmeteorites.com/meteorites-for-sale/"
+    ],
+    "max_products": 140,
+    "enabled": true,
+    "description": "WordPress meteorite sale page with individual specimen posts, title weights, categories, and remote images.",
+    "notes": "Enabled after bounded public-page review. Parser reads only the meteorites-for-sale post cards plus bounded detail pages, requires exact title weight, meteorite/classification markers, and positive total EUR prices, keeps remote image URLs, and rejects sold, per-gram, non-specimen, range, ambiguous multi-specimen, and ask-for-price rows."
+  },
+  {
     "name": "eBay - meteoritetreasure",
     "parser": "ebay_browse",
     "stage": "disabled_parser_start",

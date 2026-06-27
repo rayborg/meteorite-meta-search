@@ -54,7 +54,8 @@ a { color:var(--text); }
 .section-heading p { margin-top:.25rem; }
 .section-heading h2:focus { outline:2px solid var(--accent); outline-offset:4px; border-radius:8px; }
 .source-status-counts { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:.6rem; margin-bottom:.9rem; }
-.source-count { display:flex; flex-direction:column; gap:.15rem; background:rgba(15,17,23,.34); border:1px solid var(--line); border-radius:14px; padding:.75rem; }
+.source-count { display:flex; flex-direction:column; align-items:flex-start; gap:.15rem; background:rgba(15,17,23,.34); border:1px solid var(--line); border-radius:14px; padding:.75rem; text-align:left; cursor:pointer; }
+.source-count:hover, .source-count:focus-visible, .source-count.active { border-color:rgba(217,164,65,.7); background:rgba(31,37,48,.78); }
 .source-count-value { color:var(--accent); font-size:1.25rem; font-weight:750; }
 .source-count-label { color:var(--muted); font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; }
 .source-info-control { display:flex; flex-direction:column; gap:.4rem; margin-bottom:.75rem; max-width:520px; }

@@ -1,14 +1,14 @@
 # Session Memory
 
-Last updated: 2026-06-21
+Last updated: 2026-06-27
 
 ## Current State
 
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current generated data has 3,613 listings from 23 enabled sources.
-- Source registry has 38 configured sources: 23 enabled and 15 disabled.
+- Generated listing data lives in `data/listings.json`; current generated data has 3,879 listings from 25 enabled sources after normalizing Meteor Center and Collecting Meteorites rows.
+- Source registry has 40 configured sources: 25 enabled and 15 disabled.
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
@@ -39,6 +39,8 @@ Last updated: 2026-06-21
 - KD Meteorites uses `kd_meteorites` and parses bounded static sale hubs/detail pages with non-specimen/info-page rejection, exact price/weight/image requirements, and page/URL-derived clean titles.
 - Meteorite Recon uses `meteorite_recon` and parses only the static Stones and Irons sale pages with row-scoped images, exact price/individual-weight requirements, and offer-price/category/non-specimen rejection.
 - WWMeteorites uses `wwmeteorites` and parses bounded same-domain sale/detail pages with exact row price/weight requirements, sold/category/lot/range/non-specimen rejection, duplicate row suppression, and remote image URLs only.
+- Meteor Center uses `meteor_center` and parses WooCommerce shop product cards across pagination, including `/page/2/`, with in-stock/add-to-cart proof, EUR prices, title weights, and non-specimen/range rejection without fetching every product detail page.
+- Collecting Meteorites uses `collecting_meteorites` and parses the public meteorites-for-sale WordPress cards plus bounded detail pages for exact title weights, EUR prices, category text, remote images, and rejection for per-gram, non-specimen, unavailable, ambiguous multi-specimen, and non-positive-price rows.
 
 ## Disabled Sources
 
@@ -47,7 +49,7 @@ Last updated: 2026-06-21
 - eBay entries are official Browse API only, seller-allowlist only, fixed-price only, and must remain disabled until API secrets are configured and rows are manually reviewed.
 - Disabled backlog entries are present for Etsy SpaceTreasuresUS, Etsy SPACEMANGIFT, and Etsy saharagems. They use the no-op `disabled_backlog` parser until a real parser is built.
 - Etsy SpaceTreasuresUS, SPACEMANGIFT, and saharagems were reassessed on 2026-06-17. Narrow public storefront fetches returned HTTP 403, so no safe/reliable public-HTML parser was added; future Etsy work should use official Etsy Open API credentials plus manual row-quality review before enablement.
-- Disabled sources are visible in the UI source panel but are excluded from scraper runs and listing results.
+- Disabled sources are visible in the UI source panel but are excluded from scraper runs and listing results. Source status counts are clickable and render grouped site cards for connected, parser-start, backlog, and policy/reference categories.
 
 ## Current In-Progress Work
 
@@ -70,7 +72,7 @@ Last updated: 2026-06-21
 
 - README was expanded to be the canonical guide for setup, scraping, validation, workflow behavior, data files, parser policy, and no local media copying.
 - A session memory file was added under `docs/` for future agents.
-- Current active source registry now has 23 enabled sources after adding Astro West, Buy Meteorite, and Prehistoric Fossils Meteorites.
+- Current active source registry now has 25 enabled sources after adding Meteor Center and Collecting Meteorites.
 - Saffordite is treated as an impactite marker so Meteorite Exchange impactite rows classify without suspicious-row noise.
 - Scraper output now normalizes priced rows to USD using daily no-key FX rates when available, falling back to saved exchange-rate metadata or USD-only metadata if offline.
 - `.gitignore` now covers common Python, Node/static tooling, local environment, editor, OS, build, temp, and cache artifacts without ignoring source/data docs.
