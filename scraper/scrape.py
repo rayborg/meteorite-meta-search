@@ -39,7 +39,7 @@ MAX_DETAIL_PAGES_PER_SITE = 300
 MAX_SHOPIFY_PAGES_PER_SITE = 4
 SHOPIFY_PRODUCTS_PER_SITE_CAP = MAX_SHOPIFY_PAGES_PER_SITE * 250
 SHOPIFY_JSON_RETRIES = 3
-FX_SUPPORTED_CURRENCIES = ("USD", "EUR")
+FX_SUPPORTED_CURRENCIES = ("USD", "EUR", "CAD")
 FX_TIMEOUT = 15
 
 METEORITE_RE = re.compile(
@@ -1126,13 +1126,27 @@ def open_exchange_fx_metadata(data: dict) -> dict | None:
 
 def frankfurter_fx_metadata(data: dict) -> dict | None:
     rates = data.get("rates") if isinstance(data, dict) else None
-    usd_per_eur = numeric_value(rates.get("USD")) if isinstance(rates, dict) else None
-    if not usd_per_eur or usd_per_eur <= 0:
+    if not isinstance(rates, dict):
+        return None
+    base = currency_code(str(data.get("base") or "")) or "USD"
+    rates_to_usd = {"USD": 1.0}
+    if base == "USD":
+        for currency in FX_SUPPORTED_CURRENCIES:
+            if currency == "USD":
+                continue
+            units_per_usd = numeric_value(rates.get(currency))
+            if units_per_usd and units_per_usd > 0:
+                rates_to_usd[currency] = round_rate(1 / units_per_usd)
+    else:
+        usd_per_base = numeric_value(rates.get("USD"))
+        if usd_per_base and usd_per_base > 0:
+            rates_to_usd[base] = round_rate(usd_per_base)
+    if len(rates_to_usd) < len(FX_SUPPORTED_CURRENCIES):
         return None
     return {
         "base": "USD",
         "target": "USD",
-        "rates_to_usd": {"USD": 1.0, "EUR": round_rate(usd_per_eur)},
+        "rates_to_usd": rates_to_usd,
         "date": clean(str(data.get("date") or "")) or datetime.now(timezone.utc).date().isoformat(),
         "source": "frankfurter.app",
     }
@@ -1141,7 +1155,7 @@ def frankfurter_fx_metadata(data: dict) -> dict | None:
 def fetch_current_fx_metadata() -> dict | None:
     endpoints = [
         ("https://open.er-api.com/v6/latest/USD", open_exchange_fx_metadata),
-        ("https://api.frankfurter.app/latest?from=EUR&to=USD", frankfurter_fx_metadata),
+        ("https://api.frankfurter.app/latest?from=USD&to=EUR,CAD", frankfurter_fx_metadata),
     ]
     for url, parser in endpoints:
         try:
@@ -1155,7 +1169,7 @@ def fetch_current_fx_metadata() -> dict | None:
             if metadata:
                 print(f"Using FX rates from {metadata['source']} for {metadata['date']}")
                 return metadata
-            print(f"WARN FX response missing required USD/EUR rates: {url}")
+            print(f"WARN FX response missing required rates: {url}")
         except (requests.RequestException, ValueError) as exc:
             print(f"WARN FX fetch failed {url}: {exc}")
     return None
@@ -4831,6 +4845,331 @@ def scrape_polandmet(site: dict, log: SourceLog) -> list[dict]:
     return listings
 
 
+THOMPSON_NON_SPECIMEN_RE = re.compile(r"\b(?:white\s+glove|services?|polishing|discovery\s+sets?|treasure\s+sets?)\b", re.I)
+
+
+def thompson_headers(site: dict) -> dict:
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "application/json,text/plain,*/*;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": urljoin(site["base_url"], "/shop/"),
+    }
+
+
+def thompson_display_title(title: str, url: str) -> str:
+    title = html_to_text(title)
+    candidates = []
+    if ":" in title:
+        candidates.append(title.split(":", 1)[1])
+    candidates.append(title)
+    candidates.append(url_name_text(url))
+    for candidate in candidates:
+        candidate = clean(candidate)
+        candidate = clean(re.sub(r"^(?:substantial\s+)?(?:raw|etched|mirror\s+polished|polished)\s+", "", candidate, flags=re.I))
+        identity = product_identity_from_title(candidate)
+        if identity and not re.search(r"^(?:the|a)\b", identity, re.I):
+            return identity
+    return tidy_display_candidate(candidates[0] if candidates else title) or title
+
+
+def thompson_listing(site: dict, product: dict, log: SourceLog) -> dict | None:
+    title = html_to_text(product.get("name"))
+    permalink = safe_http_url(site["base_url"], product.get("permalink")) or site["base_url"]
+    category_names = polandmet_taxonomy_names(product, "categories")
+    tag_names = polandmet_taxonomy_names(product, "tags")
+    taxonomy_text = clean(" ".join([", ".join(category_names), ", ".join(tag_names)]))
+    haystack = clean(f"{title} {taxonomy_text}")
+    if THOMPSON_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
+        log.reject("thompson_non_specimen")
+        return None
+    if not polandmet_available(product):
+        log.reject("thompson_unavailable")
+        return None
+    if WEIGHT_RANGE_RE.search(title) or re.search(r"\b(?:sets?|lots?|bulk|assorted|random)\b", title, re.I):
+        log.reject("thompson_non_individual_title")
+        return None
+    description = html_to_text(product.get("description"))
+    short_description = html_to_text(product.get("short_description"))
+    detail_text = clean(" ".join([taxonomy_text, short_description, description[:1800]]))
+    if not product_title_has_meteorite_marker(f"{title} {detail_text}"):
+        log.reject("thompson_missing_meteorite_marker")
+        return None
+    weight = first_individual_weight_g(title, title_only=True)
+    if weight is None or weight <= 0:
+        log.reject("thompson_missing_title_weight")
+        return None
+    price, currency = polandmet_price(product)
+    if price is None or price <= 0:
+        log.reject("thompson_missing_price")
+        return None
+    images = polandmet_image_urls(product, permalink)
+    if not images:
+        log.reject("thompson_missing_image")
+        return None
+    item = make_listing(
+        site,
+        permalink,
+        thompson_display_title(title, permalink),
+        price=price,
+        currency=currency or "CAD",
+        weight_g=weight,
+        detail_text=detail_text,
+        explicit_type=taxonomy_text or "meteorite",
+        image_url=images[0],
+        image_urls=images,
+        item_key=clean(str(product.get("id") or product.get("slug") or title)),
+        parser="thompson_meteorites",
+    )
+    if not item:
+        log.reject("make_listing_filtered")
+        return None
+    log.parsed_listing()
+    return item
+
+
+def scrape_thompson_meteorites(site: dict, log: SourceLog) -> list[dict]:
+    listings = []
+    seen_products = set()
+    session = requests.Session()
+    headers = thompson_headers(site)
+    api_base = urljoin(site["base_url"], "/wp-json/wc/store/v1/products")
+    per_page = 100
+    max_api_pages = site_int(site, "max_api_pages", 2, 10)
+    max_products = site_int(site, "max_products", 80, 200)
+    for page in range(1, max_api_pages + 1):
+        if len(listings) >= max_products:
+            log.reject_page("thompson_product_cap_reached")
+            break
+        api_url = f"{api_base}?per_page={per_page}&page={page}&stock_status=instock"
+        log.index(api_url)
+        products = fetch_json(api_url, log, "api", headers=headers, session=session, timeout=45)
+        time.sleep(DELAY)
+        if products is None:
+            log.reject_page("thompson_api_fetch_failed")
+            break
+        if not isinstance(products, list):
+            log.reject_page("thompson_api_not_list")
+            break
+        if not products:
+            break
+        for product in products:
+            if not isinstance(product, dict):
+                log.reject("thompson_bad_product")
+                continue
+            key = str(product.get("id") or product.get("permalink") or "")
+            if not key or key in seen_products:
+                continue
+            seen_products.add(key)
+            item = thompson_listing(site, product, log)
+            if item:
+                listings.append(item)
+                if len(listings) >= max_products:
+                    break
+        if len(products) < per_page:
+            break
+    return listings
+
+
+JC_NON_SPECIMEN_RE = re.compile(
+    r"\b(?:fulgurites?|thin\s+sections?|sets?|lots?|bulk|assorted|random|service|polishing)\b",
+    re.I,
+)
+
+
+def jc_headers(site: dict) -> dict:
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "application/json,text/plain,*/*;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": urljoin(site["base_url"], "/product/1"),
+    }
+
+
+def jc_api_post(url: str, data: dict, log: SourceLog, session: requests.Session, headers: dict) -> dict | None:
+    response = polite_request("POST", url, log=log, kind="api", session=session, headers=headers, timeout=45, data=data)
+    if response is None:
+        return None
+    if response.status_code >= 400:
+        print(f"WARN {response.status_code}: {url}")
+        log.failed(url, f"api HTTP {response.status_code}")
+        return None
+    try:
+        payload = response.json()
+    except ValueError as exc:
+        print(f"WARN invalid JSON: {url}: {exc}")
+        log.failed(url, "api invalid JSON")
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def jc_product_rows(site: dict, log: SourceLog, session: requests.Session, headers: dict) -> list[dict]:
+    rows = []
+    seen = set()
+    api_url = urljoin(site["base_url"], "/application/index/inner_product.php")
+    max_pages = site_int(site, "max_api_pages", 5, 10)
+    per_page = site_int(site, "per_page", 20, 50)
+    for page in range(1, max_pages + 1):
+        log.index(api_url)
+        payload = jc_api_post(
+            api_url,
+            {"id": "1", "displays": str(per_page), "currentpage": str(page), "local_attr": ""},
+            log,
+            session,
+            headers,
+        )
+        time.sleep(DELAY)
+        data = payload.get("obj", {}) if isinstance(payload, dict) else {}
+        page_rows = data.get("data") if isinstance(data, dict) else None
+        if not isinstance(page_rows, list):
+            log.reject_page("jc_api_bad_page")
+            break
+        if not page_rows:
+            break
+        for row in page_rows:
+            if not isinstance(row, dict):
+                log.reject("jc_bad_product")
+                continue
+            key = str(row.get("id") or row.get("url") or "")
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            rows.append(row)
+        total_pages = numeric_value(data.get("pagesize")) if isinstance(data, dict) else None
+        if total_pages and page >= int(total_pages):
+            break
+    return rows
+
+
+def jc_detail_map(site: dict, rows: list[dict], log: SourceLog, session: requests.Session, headers: dict) -> dict[str, dict]:
+    details = {}
+    api_url = urljoin(site["base_url"], "/application/index/product_details.php")
+    batch_size = 20
+    for idx in range(0, len(rows), batch_size):
+        batch = rows[idx: idx + batch_size]
+        params = [{"id": row.get("id"), "type": 1} for row in batch if row.get("id") is not None]
+        if not params:
+            continue
+        log.index(api_url)
+        payload = jc_api_post(api_url, {"param": json.dumps(params)}, log, session, headers)
+        time.sleep(DELAY)
+        data = payload.get("obj", {}) if isinstance(payload, dict) else {}
+        detail_rows = data.get("data") if isinstance(data, dict) else None
+        if not isinstance(detail_rows, list):
+            log.reject_page("jc_detail_api_bad_page")
+            continue
+        for detail in detail_rows:
+            if isinstance(detail, dict) and detail.get("id") is not None:
+                details[str(detail.get("id"))] = detail
+    return details
+
+
+def jc_images(site: dict, row: dict, detail: dict, page_url: str) -> list[str]:
+    values = [row.get("thumbnail"), detail.get("thumbnail")]
+    for key in ["photo_album", "enclosure"]:
+        for source in [row, detail]:
+            value = source.get(key)
+            if isinstance(value, list):
+                values.extend(value)
+            elif value:
+                values.append(value)
+    return image_url_candidates(site["base_url"], values)
+
+
+def jc_sold_text(row: dict, detail: dict) -> str:
+    field = row.get("field") if isinstance(row.get("field"), dict) else {}
+    detail_field = detail.get("field") if isinstance(detail.get("field"), dict) else {}
+    return clean(" ".join(str(x or "") for x in [field.get("issell"), detail_field.get("issell"), row.get("title"), detail.get("content")]))
+
+
+def jc_listing(site: dict, row: dict, detail: dict, log: SourceLog) -> dict | None:
+    title = html_to_text(row.get("title") or detail.get("title"))
+    product_path = clean(str(row.get("url") or detail.get("url") or f"/prodetail/{row.get('id')}"))
+    product_url = safe_http_url(site["base_url"], product_path)
+    if not title or not product_url:
+        log.reject("jc_missing_title_or_url")
+        return None
+    log.detail(product_url)
+    keywords = html_to_text(row.get("keywords") or detail.get("keywords"))
+    content = html_to_text(detail.get("content"))
+    specs = clean(str(row.get("specifications") or ""))
+    detail_text = clean(" ".join([keywords, specs, content[:1800]]))
+    listing_context = clean(f"{title} {keywords} {specs}")
+    haystack = clean(f"{listing_context} {content[:1800]}")
+    if unavailable_status_text(jc_sold_text(row, detail)):
+        log.reject("jc_sold")
+        return None
+    field = row.get("field") if isinstance(row.get("field"), dict) else {}
+    detail_field = detail.get("field") if isinstance(detail.get("field"), dict) else {}
+    if clean(str(field.get("issell") or detail_field.get("issell") or "")):
+        log.reject("jc_sold_flag")
+        return None
+    if JC_NON_SPECIMEN_RE.search(listing_context) or NON_SPECIMEN_PRODUCT_RE.search(listing_context):
+        log.reject("jc_non_specimen")
+        return None
+    if WEIGHT_RANGE_RE.search(f"{title} {specs}") or re.search(r"\b(?:sets?|lots?|bulk|assorted|random)\b", listing_context, re.I):
+        log.reject("jc_non_individual")
+        return None
+    if not product_title_has_meteorite_marker(haystack):
+        log.reject("jc_missing_meteorite_marker")
+        return None
+    weight = first_individual_weight_g(specs, title_only=True)
+    if weight is None or weight <= 0:
+        log.reject("jc_missing_exact_weight")
+        return None
+    price = price_num(clean(str(row.get("price") or "")))
+    if price is None or price <= 0:
+        log.reject("jc_missing_price")
+        return None
+    images = jc_images(site, row, detail, product_url)
+    if not images:
+        log.reject("jc_missing_image")
+        return None
+    item = make_listing(
+        site,
+        product_url,
+        title,
+        price=price,
+        currency="USD",
+        weight_g=weight,
+        detail_text=detail_text,
+        explicit_type=keywords or "meteorite",
+        image_url=images[0],
+        image_urls=images,
+        item_key=clean(str(row.get("id") or product_path)),
+        parser="jc_meteorite_collection",
+    )
+    if not item:
+        log.reject("make_listing_filtered")
+        return None
+    log.parsed_listing()
+    return item
+
+
+def scrape_jc_meteorite_collection(site: dict, log: SourceLog) -> list[dict]:
+    session = requests.Session()
+    headers = jc_headers(site)
+    rows = jc_product_rows(site, log, session, headers)
+    max_products = site_int(site, "max_products", 120, 200)
+    if len(rows) > max_products:
+        rows = rows[:max_products]
+        log.reject_page("jc_product_cap_reached")
+    details = jc_detail_map(site, rows, log, session, headers)
+    listings = []
+    seen_ids = set()
+    for row in rows:
+        detail = details.get(str(row.get("id"))) or {}
+        item = jc_listing(site, row, detail, log)
+        if not item:
+            continue
+        if item["id"] in seen_ids:
+            log.reject("jc_duplicate_item")
+            continue
+        seen_ids.add(item["id"])
+        listings.append(item)
+    return listings
+
+
 def kd_headers(site: dict) -> dict:
     return {
         "User-Agent": BROWSER_UA,
@@ -5815,6 +6154,10 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_justmeteorites(site, log)
     if parser == "polandmet":
         return scrape_polandmet(site, log)
+    if parser == "thompson_meteorites":
+        return scrape_thompson_meteorites(site, log)
+    if parser == "jc_meteorite_collection":
+        return scrape_jc_meteorite_collection(site, log)
     if parser == "kd_meteorites":
         return scrape_kd_meteorites(site, log)
     if parser == "wwmeteorites":

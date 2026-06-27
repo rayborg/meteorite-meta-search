@@ -66,6 +66,8 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | Fossil Realm Meteorite Collection | `fossil_realm` | Parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | `top_meteorite` | Parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords. |
 | Buy Meteorite | `buy_meteorite` | Parses the Shopify meteorites collection with available variants, meteorite type/tag checks, positive prices, title weights, images, and non-specimen rejection. |
+| BuyMeteorites.com | `thompson_meteorites` | Parses the public Thompson Meteorite Collection Woo Store API with in-stock/add-to-cart proof, API currency prices, exact title weights, images, and service/discovery-set rejection. |
+| JC Meteorite Collection | `jc_meteorite_collection` | Parses the custom public catalogue API with paginated product rows, batched details, USD prices, exact unit-bearing weights, images, and sold/set/thin-section/fulgurite rejection. |
 | PolandMET | `polandmet` | Parses bounded Woo Store API product pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted clean names. |
 | KD Meteorites | `kd_meteorites` | Parses bounded static specimen sale hubs, rejects non-specimen/info pages, requires exact price/weight/image evidence, and cleans old-table titles through page/URL identity. |
 | Meteorite Recon | `meteorite_recon` | Parses only the static Stones and Irons sale pages, requires exact price and individual weight, keeps remote image URLs, and rejects offer-price/category/non-specimen rows. |

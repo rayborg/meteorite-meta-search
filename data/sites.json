@@ -260,6 +260,34 @@
     "notes": "Enabled after bounded validation. Parser uses the meteorites collection products.json only, requires meteorite product type and tag, available variants, positive prices, title-derived weights, images, and strict non-specimen rejection."
   },
   {
+    "name": "BuyMeteorites.com",
+    "parser": "thompson_meteorites",
+    "stage": "active_verified",
+    "base_url": "https://www.thompsonmeteoritecollection.com/",
+    "inventory_urls": [
+      "https://www.thompsonmeteoritecollection.com/shop/"
+    ],
+    "max_api_pages": 2,
+    "max_products": 80,
+    "enabled": true,
+    "description": "BuyMeteorites.com redirects to Thompson Meteorite Collection, a WooCommerce meteorite shop with Store API prices, title weights, and remote images.",
+    "notes": "Enabled after bounded public Store API review. Parser uses only the public Woo Store API, requires in-stock/add-to-cart proof, exact title weight, positive total price in the API currency, image evidence, and rejects services, discovery sets, sold/unavailable, range, lot, and non-specimen rows."
+  },
+  {
+    "name": "JC Meteorite Collection",
+    "parser": "jc_meteorite_collection",
+    "stage": "active_verified",
+    "base_url": "https://www.jcmeteoritecollection.com/",
+    "inventory_urls": [
+      "https://www.jcmeteoritecollection.com/product/1"
+    ],
+    "max_api_pages": 5,
+    "max_products": 120,
+    "enabled": true,
+    "description": "Custom public meteorite catalogue API with individual specimen prices, weights, detail pages, and images.",
+    "notes": "Enabled after bounded public API review. Parser reads paginated catalogue API pages and batched detail records, requires exact unit-bearing weight, positive USD total price, meteorite/classification evidence, image evidence, and rejects sold flags, sold text, fulgurites, thin sections, sets, lots, ranges, and non-specimen rows."
+  },
+  {
     "name": "PolandMET",
     "parser": "polandmet",
     "stage": "active_verified",
