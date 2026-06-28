@@ -460,33 +460,33 @@
   {
     "name": "m3t3orites",
     "parser": "m3t3orites",
-    "stage": "disabled_parser_start",
-    "base_url": "https://www.m3t3orites.com/",
+    "stage": "active_verified",
+    "base_url": "http://www.m3t3orites.com/",
     "inventory_urls": [
-      "https://www.m3t3orites.com/achondrites.php",
-      "https://www.m3t3orites.com/lunar.php",
-      "https://www.m3t3orites.com/martian.php",
-      "https://www.m3t3orites.com/chondrites.php",
-      "https://www.m3t3orites.com/stonyirons.php",
-      "https://www.m3t3orites.com/irons.php"
+      "http://www.m3t3orites.com/achondrites.php",
+      "http://www.m3t3orites.com/lunar.php",
+      "http://www.m3t3orites.com/martian.php",
+      "http://www.m3t3orites.com/chondrites.php",
+      "http://www.m3t3orites.com/stonyirons.php",
+      "http://www.m3t3orites.com/irons.php"
     ],
     "max_detail_pages": 90,
-    "enabled": false,
+    "enabled": true,
     "description": "Static mo's meteorites catalogue with specimen blocks, US-$ prices, gram weights, and lightbox images.",
-    "notes": "Parser discovers only category-linked /meteorites/*.php pages, requires exact specimen ID, USD price, individual weight, and image, and skips sold, eBay, coin, and non-specimen rows. Keep disabled until manual availability review because the public homepage appears last updated in 2011."
+    "notes": "Enabled after user availability confirmation. Parser discovers only category-linked /meteorites/*.php pages, requires exact specimen ID, USD price, individual weight, and image, and skips sold, eBay, coin, and non-specimen rows. Uses HTTP because the site's HTTPS certificate is not valid for Python verification."
   },
   {
     "name": "Michael Farmer Meteorites",
     "parser": "meteoriteguy",
-    "stage": "disabled_parser_start",
+    "stage": "active_verified",
     "base_url": "https://meteoriteguy.com/",
     "inventory_urls": [
       "https://meteoriteguy.com/catalog.htm"
     ],
     "max_detail_pages": 160,
-    "enabled": false,
+    "enabled": true,
     "description": "Static Michael Farmer meteorite sale catalog with old FrontPage pages containing individual specimen rows, prices, weights, and images.",
-    "notes": "Parser follows only catalog.htm sale links plus same-domain continuation pages, requires exact row price/weight/image evidence, and rejects sold, category, collection, adventure, non-specimen, lot/range, and ambiguous rows. Keep disabled until manual availability review because the site appears last updated in 2012."
+    "notes": "Enabled after user availability confirmation. Parser follows only catalog.htm sale links plus same-domain continuation pages, requires exact row price/weight/image evidence, and rejects sold, category, collection, adventure, non-specimen, lot/range, and ambiguous rows."
   },
   {
     "name": "eBay - meteoritetreasure",

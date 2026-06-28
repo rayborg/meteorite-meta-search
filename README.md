@@ -74,6 +74,8 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | WWMeteorites | `wwmeteorites` | Parses bounded same-domain sale/detail pages with exact row price/weight requirements, sold/category/lot/range/non-specimen rejection, and remote image URLs only. |
 | Meteor Center | `meteor_center` | Parses WooCommerce product cards across shop pagination, including `/page/2/`, with in-stock/add-to-cart proof, EUR prices, title weights, and non-specimen/range rejection. |
 | Collecting Meteorites | `collecting_meteorites` | Parses public WordPress sale cards plus bounded detail pages for exact title weights, EUR prices, category text, remote images, and per-gram/non-specimen/ambiguous multi-specimen rejection. |
+| m3t3orites | `m3t3orites` | Parses static category-linked specimen blocks with exact specimen IDs, US-$ prices, gram weights, remote images, and sold-row rejection. |
+| Michael Farmer Meteorites | `meteoriteguy` | Parses static catalog sale pages with row-scoped prices, gram weights, specimen images, and sold/non-specimen/lot rejection. |
 
 ## Disabled And Backlog Sources
 
@@ -88,12 +90,8 @@ Disabled parser starts:
 - `eBay - the.interstellar.collection`
 - `eBay - meteoritetreasure`
 - `eBay - Top Meteorite Store`
-- `m3t3orites`
-- `Michael Farmer Meteorites`
 
 The eBay connector is official Browse API only, seller-allowlist only, fixed-price only, and disabled/config-gated until `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` are configured and rows are manually reviewed. Do not scrape broad eBay search/category pages.
-
-m3t3orites and Michael Farmer Meteorites have parser starts but remain disabled until manual review confirms their stale static catalogs are still orderable.
 
 Direct storefront candidates that returned HTTP 403, were parked, or had no public inventory are discarded from the source registry rather than kept as ordinary backlog. Etsy storefront candidates still require official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before any future enablement.
 

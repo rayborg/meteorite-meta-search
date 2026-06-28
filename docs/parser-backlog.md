@@ -35,6 +35,8 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | WWMeteorites | Active | Static/Wix sale-page parser discovers bounded same-domain detail pages, requires exact row price and weight, rejects sold/category/lot/range/non-specimen rows, and keeps remote image URLs only. |
 | Meteor Center | Active | WooCommerce product-card parser follows shop pagination including `/page/2/`, requires in-stock/add-to-cart proof, EUR prices, title weights, and non-specimen/range rejection without fetching every product detail page. |
 | Collecting Meteorites | Active | WordPress sale-card parser reads meteorites-for-sale cards plus bounded detail pages, requires exact title weights, EUR prices, category text, remote images, and rejects per-gram/non-specimen/unavailable/ambiguous multi-specimen rows. |
+| m3t3orites | Active | Static category-linked parser follows only `/meteorites/*.php` detail pages, requires specimen ID, exact US-$ price, gram weight, row image, and rejects sold, coin, eBay, and non-specimen rows. |
+| Michael Farmer Meteorites | Active | Static sale catalog parser follows only catalog sale links and same-domain continuations, requires exact row price/weight/image evidence, and rejects sold, category, collection, adventure, non-specimen, lot/range, and ambiguous rows. |
 
 Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Disabled parser starts and policy-blocked disabled sources below are excluded from rotation.
 
@@ -51,8 +53,6 @@ These sources are present in `data/sites.json` with `enabled: false` and `stage:
 | eBay - the.interstellar.collection | `ebay_browse` | Candidate with possible dust/vial noise. Needs manual review confirming enough individual specimens. |
 | eBay - meteoritetreasure | `ebay_browse` | Provisional seller allowlist from `/str/meteoritetreasure`. Needs API credential setup, seller verification, and manual row review before enabling. |
 | eBay - Top Meteorite Store | `ebay_browse` | Provisional seller allowlist from `/str/topmeteorite`. Needs API credential setup, seller verification, and manual row review before enabling. |
-| m3t3orites | `m3t3orites` | Static catalogue has exact individual rows and parser support, but the public homepage appears last updated in 2011 and availability needs manual confirmation before enabling. |
-| Michael Farmer Meteorites | `meteoriteguy` | Static sale catalog has exact individual rows and parser support, but public pages appear last updated in 2012 and availability needs manual confirmation before enabling. |
 
 ## Disabled Backlog Entries In Registry
 

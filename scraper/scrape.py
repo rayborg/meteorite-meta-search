@@ -323,6 +323,8 @@ ECOMMERCE_CLEAN_TITLE_PARSERS = {
     "prehistoric_fossils",
     "meteolovers",
     "meteorite_exchange",
+    "m3t3orites",
+    "meteoriteguy",
     "mini_museum",
     "skyfall_meteorites",
     "top_meteorite",
@@ -703,6 +705,7 @@ METBULL_CACHE: dict | None = None
 def normalize_name_key(value: str | None) -> str:
     text = unicodedata.normalize("NFKD", clean(str(value or "")))
     text = "".join(char for char in text if not unicodedata.combining(char)).lower()
+    text = text.translate(str.maketrans({"ł": "l", "Ł": "l"}))
     text = re.sub(r"[\u2018\u2019'`]", "", text)
     text = re.sub(r"[-_]+", " ", text)
     text = re.sub(r"\bmeteorites?\b", " ", text)
@@ -793,6 +796,17 @@ def metbull_candidate_keys(candidate: str | None) -> list[str]:
             variants.append(clean(re.sub(r"s$", "", value)))
         return variants
 
+    def class_paren_variants(value: str) -> list[str]:
+        variants = []
+        for pattern, replacement in [
+            (r"\((?:PAL(?:-MG)?|PMG)\)", "(pallasite)"),
+            (r"\((?:MES(?:-[^)]+)?|MESOSIDERITE)\)", "(mesosiderite)"),
+        ]:
+            variant = clean(re.sub(pattern, replacement, value, flags=re.I))
+            if variant != value:
+                variants.append(variant)
+        return variants
+
     queue = [raw]
     seen_values = set()
     while queue and len(seen_values) < 16:
@@ -807,6 +821,7 @@ def metbull_candidate_keys(candidate: str | None) -> list[str]:
             strip_trailing_descriptors(value),
             strip_vendor_specimen_suffix(value),
             *spelling_variants(value),
+            *class_paren_variants(value),
         ]:
             if transformed and transformed != value and transformed not in seen_values:
                 queue.append(transformed)
@@ -966,6 +981,8 @@ def canonical_name_info(raw_title: str, display_name: str, detail_text: str, url
 
 def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None) -> str:
     title = clean(raw_title)
+    if parser == "meteoriteguy" and re.search(r"\blanc", title, re.I) and "lance" in urlparse(url or "").path.lower():
+        return "Lance"
     if parser == "impactika":
         if re.search(r"\s+-\s+(?:AB|AC|CM|OC)\s*-?\d+[A-Za-z]?\b", title, re.I):
             return title
@@ -5845,6 +5862,15 @@ METEORITEGUY_NON_SPECIMEN_RE = re.compile(
     r"display\s+(?:box|case|stand|frame)|photo\s+[abc]|close[-\s]*up|reverse\s+side|backlit)\b",
     re.I,
 )
+METEORITEGUY_CLASS_LINE_RE = re.compile(
+    r"\b(?:ordinary\s+chondrite|carbonaceous\s+chondrite|chondrite|achondrite|aubrite|diogenite|"
+    r"eucrite|howardite|lunar|martian|shergottite|nakhlite|chassignite|iron|octahedrite|"
+    r"ataxite|hexahedrite|pallasite|mesosiderite|tektite|impact\s+glass|acapulcoite|angrite|"
+    r"lodranite|ureilite|winonaite|CV\s?3|CO\s?3(?:\.\d)?|CM\s?2|CR\s?2|CK\s?\d|"
+    r"CH\s?\d|CB\s?\d?|EH\s?[3-7]|EL\s?[3-7]|R\s?[3-7]|H\s?[3-7]|L\s?[3-7]|"
+    r"LL\s?[3-7]|IIA|IAB|IIAB|IIIAB|IIE|IVA|IVB|IC|PAL|MES)\b",
+    re.I,
+)
 
 
 def meteorite_recon_headers(site: dict) -> dict:
@@ -6227,7 +6253,27 @@ def meteoriteguy_detail_urls(site: dict, log: SourceLog) -> list[str]:
 def meteoriteguy_page_name(soup: BeautifulSoup, url: str) -> str:
     title = clean(re.sub(r"\s*-\s*Sale\s+Catalog\s*$", "", title_for(soup), flags=re.I))
     title = clean(re.sub(r"\s+2\s*$", "", title))
-    return product_identity_from_title(title) or product_identity_from_url(url) or title
+    if re.search(r"\blanc", title, re.I) and "lance" in urlparse(url).path.lower():
+        return "Lance"
+    identity = product_identity_from_title(title)
+    if identity and not re.search(r"\bMichael\s+Farmer\b", identity, re.I):
+        return identity
+    for node in soup.find_all(["h1", "h2", "h3", "strong", "b"]):
+        text = clean(node.get_text(" ", strip=True))
+        if re.search(r"\blanc", text, re.I) and "lance" in urlparse(url).path.lower():
+            return "Lance"
+        if (
+            not text
+            or len(text) > 90
+            or re.search(r"\b(?:Michael\s+Farmer|Meteorites?\s+for\s+Sale|Sale\s+Catalog|Contact|Ordering|Collection|Adventures?)\b", text, re.I)
+            or PRICE_RE.search(text)
+            or WEIGHT_RE.search(text)
+        ):
+            continue
+        identity = product_identity_from_title(text)
+        if identity:
+            return identity
+    return product_identity_from_url(url) or title
 
 
 def meteoriteguy_row_values(text: str, log: SourceLog) -> tuple[float, str, float, int] | None:
@@ -6314,7 +6360,7 @@ def scrape_meteoriteguy(site: dict, log: SourceLog) -> list[dict]:
         lines = lines_from(soup)
         page_context = "\n".join(lines)
         page_name = meteoriteguy_page_name(soup, url)
-        explicit_type = clean(" ".join(line for line in lines[:12] if re.search(r"\b(?:chondrite|achondrite|aubrite|diogenite|eucrite|howardite|lunar|martian|iron|octahedrite|pallasite|mesosiderite|tektite|impact\s+glass|CV3|H5|L6|IIAB|IVA|IAB)\b", line, re.I)))
+        explicit_type = clean(" ".join(line for line in lines[:40] if METEORITEGUY_CLASS_LINE_RE.search(line)))
         page_items = []
         for row_index, cell in enumerate(soup.find_all(["td", "th"]), 1):
             if cell.find(["td", "th"]):
@@ -6325,7 +6371,7 @@ def scrape_meteoriteguy(site: dict, log: SourceLog) -> list[dict]:
             item = meteoriteguy_listing(site, url, cell, page_name, explicit_type, page_context, row_index, log)
             if not item:
                 continue
-            key = (item.get("url"), item.get("title"), item.get("weight_g"), item.get("price"), item.get("image_url"))
+            key = (item.get("url"), item.get("title"), item.get("weight_g"), item.get("price"))
             if key in seen_keys:
                 log.reject("meteoriteguy_duplicate_row")
                 continue
