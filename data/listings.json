@@ -1,17 +1,16 @@
 {
-  "generated_at": "2026-07-03T08:48:51.687615+00:00",
+  "generated_at": "2026-07-03T10:12:30.290542+00:00",
   "source_count": 29,
   "listing_count": 4552,
-  "scrape_mode": "rotation",
+  "scrape_mode": "normalize",
   "preserve_existing": true,
-  "scraped_sources": [
-    "FossilEra"
-  ],
+  "scraped_sources": [],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
     "BAITYLIA",
     "Meteorite Exchange",
+    "FossilEra",
     "Prehistoric Fossils Meteorites",
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
@@ -48,9 +47,6 @@
     "date": "2026-07-03",
     "source": "open.er-api.com"
   },
-  "rotation_index": 4,
-  "rotation_total": 29,
-  "rotation_key": "208",
   "listings": [
     {
       "id": "55422b550f6b5092",
