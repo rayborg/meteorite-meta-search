@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-05T16:59:25.327703+00:00",
+  "generated_at": "2026-07-05T18:01:32.397728+00:00",
   "source_count": 29,
   "listing_count": 4547,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "The Meteorite Market"
+    "Arizona Skies Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -15,7 +15,7 @@
     "FossilEra",
     "Prehistoric Fossils Meteorites",
     "Galactic Stone & Ironworks",
-    "Arizona Skies Meteorites",
+    "The Meteorite Market",
     "Aerolite Meteorites",
     "Astro West",
     "IMPACTIKA",
@@ -48,9 +48,9 @@
     "date": "2026-07-05",
     "source": "open.er-api.com"
   },
-  "rotation_index": 7,
+  "rotation_index": 8,
   "rotation_total": 29,
-  "rotation_key": "240",
+  "rotation_key": "241",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -55476,15 +55476,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:36.722518+00:00",
+      "scraped_at": "2026-07-05T18:00:58.461783+00:00",
+      "last_verified_at": "2026-07-05T18:00:58.461783+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 36.95,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 1.0557,
-      "last_verified_at": "2026-06-26T00:01:36.722518+00:00"
+      "price_per_g_usd": 1.0557
     },
     {
       "id": "a66d5e50cf9bc045",
@@ -55507,15 +55507,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:36.720875+00:00",
+      "scraped_at": "2026-07-05T18:00:58.459999+00:00",
+      "last_verified_at": "2026-07-05T18:00:58.459999+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 39.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 1.0833,
-      "last_verified_at": "2026-06-26T00:01:36.720875+00:00"
+      "price_per_g_usd": 1.0833
     },
     {
       "id": "990d06f9bbcfe1d6",
@@ -55538,15 +55538,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:36.724010+00:00",
+      "scraped_at": "2026-07-05T18:00:58.463446+00:00",
+      "last_verified_at": "2026-07-05T18:00:58.463446+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 34.95,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 1.1274,
-      "last_verified_at": "2026-06-26T00:01:36.724010+00:00"
+      "price_per_g_usd": 1.1274
     },
     {
       "id": "90149b3f44d6aab8",
@@ -57187,15 +57187,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:46.876273+00:00",
+      "scraped_at": "2026-07-05T18:01:08.123165+00:00",
+      "last_verified_at": "2026-07-05T18:01:08.123165+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 132.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 2.0,
-      "last_verified_at": "2026-06-26T00:01:46.876273+00:00"
+      "price_per_g_usd": 2.0
     },
     {
       "id": "42227764e0884a1a",
@@ -57218,15 +57218,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:46.877695+00:00",
+      "scraped_at": "2026-07-05T18:01:08.124653+00:00",
+      "last_verified_at": "2026-07-05T18:01:08.124653+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 170.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 2.0,
-      "last_verified_at": "2026-06-26T00:01:46.877695+00:00"
+      "price_per_g_usd": 2.0
     },
     {
       "id": "22a8d0b648b12f87",
@@ -57249,15 +57249,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:46.879110+00:00",
+      "scraped_at": "2026-07-05T18:01:08.126137+00:00",
+      "last_verified_at": "2026-07-05T18:01:08.126137+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 190.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 2.0,
-      "last_verified_at": "2026-06-26T00:01:46.879110+00:00"
+      "price_per_g_usd": 2.0
     },
     {
       "id": "610f33feb6cbbdeb",
@@ -57280,15 +57280,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:46.880526+00:00",
+      "scraped_at": "2026-07-05T18:01:08.127629+00:00",
+      "last_verified_at": "2026-07-05T18:01:08.127629+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 230.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 2.0,
-      "last_verified_at": "2026-06-26T00:01:46.880526+00:00"
+      "price_per_g_usd": 2.0
     },
     {
       "id": "4adfa8fc492613c6",
@@ -57453,15 +57453,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:46.874777+00:00",
+      "scraped_at": "2026-07-05T18:01:08.121624+00:00",
+      "last_verified_at": "2026-07-05T18:01:08.121624+00:00",
       "metbull_code": "5247",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 125.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 2.0161,
-      "last_verified_at": "2026-06-26T00:01:46.874777+00:00"
+      "price_per_g_usd": 2.0161
     },
     {
       "id": "8cd93a4acb7f832b",
@@ -82146,15 +82146,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:56.973036+00:00",
+      "scraped_at": "2026-07-05T18:01:17.771407+00:00",
+      "last_verified_at": "2026-07-05T18:01:17.771407+00:00",
       "metbull_code": "66064",
       "metbull_status": "Official",
       "metbull_type": "Lunar (feldsp. breccia)",
       "price_usd": 2695.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 289.7849,
-      "last_verified_at": "2026-06-26T00:01:56.973036+00:00"
+      "price_per_g_usd": 289.7849
     },
     {
       "id": "d93e93cc03aff3f9",
@@ -82177,15 +82177,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:02:06.312431+00:00",
+      "scraped_at": "2026-07-05T18:01:27.321241+00:00",
+      "last_verified_at": "2026-07-05T18:01:27.321241+00:00",
       "metbull_code": "66064",
       "metbull_status": "Official",
       "metbull_type": "Lunar (feldsp. breccia)",
       "price_usd": 695.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 290.795,
-      "last_verified_at": "2026-06-26T00:02:06.312431+00:00"
+      "price_per_g_usd": 290.795
     },
     {
       "id": "8fbd9234ad0a1711",
@@ -82208,15 +82208,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:59.285110+00:00",
+      "scraped_at": "2026-07-05T18:01:20.068953+00:00",
+      "last_verified_at": "2026-07-05T18:01:20.068953+00:00",
       "metbull_code": "66064",
       "metbull_status": "Official",
       "metbull_type": "Lunar (feldsp. breccia)",
       "price_usd": 1620.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 294.5455,
-      "last_verified_at": "2026-06-26T00:01:59.285110+00:00"
+      "price_per_g_usd": 294.5455
     },
     {
       "id": "0fe5b5de15502886",
@@ -82239,15 +82239,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:02:01.624658+00:00",
+      "scraped_at": "2026-07-05T18:01:22.484181+00:00",
+      "last_verified_at": "2026-07-05T18:01:22.484181+00:00",
       "metbull_code": "66064",
       "metbull_status": "Official",
       "metbull_type": "Lunar (feldsp. breccia)",
       "price_usd": 925.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 298.3871,
-      "last_verified_at": "2026-06-26T00:02:01.624658+00:00"
+      "price_per_g_usd": 298.3871
     },
     {
       "id": "fb0b80ed83a51d9c",
@@ -82270,15 +82270,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:02:03.953037+00:00",
+      "scraped_at": "2026-07-05T18:01:24.963570+00:00",
+      "last_verified_at": "2026-07-05T18:01:24.963570+00:00",
       "metbull_code": "66064",
       "metbull_status": "Official",
       "metbull_type": "Lunar (feldsp. breccia)",
       "price_usd": 859.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 301.4035,
-      "last_verified_at": "2026-06-26T00:02:03.953037+00:00"
+      "price_per_g_usd": 301.4035
     },
     {
       "id": "4ffe31e6d6ca5d68",
@@ -83607,15 +83607,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:49.438055+00:00",
+      "scraped_at": "2026-07-05T18:01:10.574114+00:00",
+      "last_verified_at": "2026-07-05T18:01:10.574114+00:00",
       "metbull_code": "77195",
       "metbull_status": "Official",
       "metbull_type": "Lunar (frag. breccia)",
       "price_usd": 4695.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 198.1013,
-      "last_verified_at": "2026-06-26T00:01:49.438055+00:00"
+      "price_per_g_usd": 198.1013
     },
     {
       "id": "f1add1f18c07f331",
@@ -83638,15 +83638,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:54.572636+00:00",
+      "scraped_at": "2026-07-05T18:01:15.461192+00:00",
+      "last_verified_at": "2026-07-05T18:01:15.461192+00:00",
       "metbull_code": "77196",
       "metbull_status": "Official",
       "metbull_type": "Lunar (frag. breccia)",
       "price_usd": 11495.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 198.1897,
-      "last_verified_at": "2026-06-26T00:01:54.572636+00:00"
+      "price_per_g_usd": 198.1897
     },
     {
       "id": "663c049dab363937",
@@ -83669,15 +83669,15 @@
       "confidence": "medium",
       "available": true,
       "parser": "arizona_skies",
-      "scraped_at": "2026-06-26T00:01:52.040815+00:00",
+      "scraped_at": "2026-07-05T18:01:12.978382+00:00",
+      "last_verified_at": "2026-07-05T18:01:12.978382+00:00",
       "metbull_code": "77196",
       "metbull_status": "Official",
       "metbull_type": "Lunar (frag. breccia)",
       "price_usd": 21995.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 199.9545,
-      "last_verified_at": "2026-06-26T00:01:52.040815+00:00"
+      "price_per_g_usd": 199.9545
     },
     {
       "id": "a29e0d23b8ebf9c4",
