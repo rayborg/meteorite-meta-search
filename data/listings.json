@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-07-05T12:13:37.525092+00:00",
+  "generated_at": "2026-07-05T14:22:57.121934+00:00",
   "source_count": 29,
   "listing_count": 4547,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "FossilEra"
+    "Prehistoric Fossils Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
     "BAITYLIA",
     "Meteorite Exchange",
-    "Prehistoric Fossils Meteorites",
+    "FossilEra",
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
     "Arizona Skies Meteorites",
@@ -48,9 +48,9 @@
     "date": "2026-07-05",
     "source": "open.er-api.com"
   },
-  "rotation_index": 4,
+  "rotation_index": 5,
   "rotation_total": 29,
-  "rotation_key": "237",
+  "rotation_key": "238",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -75916,8 +75916,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-03T11:22:33.608518+00:00",
-      "last_verified_at": "2026-07-03T11:22:33.608518+00:00",
+      "scraped_at": "2026-07-05T14:22:40.710002+00:00",
+      "last_verified_at": "2026-07-05T14:22:40.710002+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6-600x800.jpg",
@@ -75957,8 +75957,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-03T11:22:37.998382+00:00",
-      "last_verified_at": "2026-07-03T11:22:37.998382+00:00",
+      "scraped_at": "2026-07-05T14:22:45.108728+00:00",
+      "last_verified_at": "2026-07-05T14:22:45.108728+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-7.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-7-600x800.jpg",
@@ -75998,8 +75998,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-03T11:22:31.326908+00:00",
-      "last_verified_at": "2026-07-03T11:22:31.326908+00:00",
+      "scraped_at": "2026-07-05T14:22:38.568302+00:00",
+      "last_verified_at": "2026-07-05T14:22:38.568302+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4-600x800.jpg",
@@ -76039,8 +76039,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-03T11:22:35.888446+00:00",
-      "last_verified_at": "2026-07-03T11:22:35.888446+00:00",
+      "scraped_at": "2026-07-05T14:22:42.915687+00:00",
+      "last_verified_at": "2026-07-05T14:22:42.915687+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-5.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-5-600x800.jpg",
@@ -76080,8 +76080,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-03T11:22:40.181956+00:00",
-      "last_verified_at": "2026-07-03T11:22:40.181956+00:00",
+      "scraped_at": "2026-07-05T14:22:47.303435+00:00",
+      "last_verified_at": "2026-07-05T14:22:47.303435+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-9.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-9-600x800.jpg",
