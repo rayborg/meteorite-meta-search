@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-05T20:17:38.316194+00:00",
+  "generated_at": "2026-07-05T21:46:59.651905+00:00",
   "source_count": 29,
   "listing_count": 4546,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -17,7 +17,7 @@
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
     "Arizona Skies Meteorites",
-    "Astro West",
+    "Aerolite Meteorites",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -48,9 +48,9 @@
     "date": "2026-07-05",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "242",
+  "rotation_key": "243",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -52918,8 +52918,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:08.081871+00:00",
-      "last_verified_at": "2026-07-03T20:08:08.081871+00:00",
+      "scraped_at": "2026-07-05T21:46:05.782831+00:00",
+      "last_verified_at": "2026-07-05T21:46:05.782831+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Gebil-Kamil-Meteorite-AWMET521-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Gebil-Kamil-Meteorite-AWMET521-1-720x720.jpg"
@@ -53857,6 +53857,41 @@
       "price_per_g_usd": 2.6148
     },
     {
+      "id": "fcb5ec2a22cdcb49",
+      "source": "Astro West",
+      "source_url": "https://astrowest.com/",
+      "url": "https://astrowest.com/products/authentic-gebel-kamil-nickel-iron-meteorite-fragment-from-egypt-105g/",
+      "title": "Gebel Kamil",
+      "canonical_name": "Gebel Kamil",
+      "canonical_name_display": "Gebel Kamil",
+      "canonical_name_status": "metbull_verified",
+      "canonical_name_source": "title",
+      "price": 315.0,
+      "currency": "USD",
+      "weight_g": 105.0,
+      "price_per_g": 3.0,
+      "meteorite_type": "iron",
+      "subtype": "ATAXITE",
+      "classification_text": "ataxite",
+      "image_url": "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1.jpg",
+      "confidence": "medium",
+      "available": true,
+      "parser": "astro_west",
+      "scraped_at": "2026-07-05T21:46:15.534697+00:00",
+      "last_verified_at": "2026-07-05T21:46:15.534697+00:00",
+      "image_urls": [
+        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1.jpg",
+        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1-720x720.jpg"
+      ],
+      "metbull_code": "52031",
+      "metbull_status": "Official",
+      "metbull_type": "Iron, ungrouped",
+      "price_usd": 315.0,
+      "fx_rate_to_usd": 1.0,
+      "fx_rate_date": "2026-07-05",
+      "price_per_g_usd": 3.0
+    },
+    {
       "id": "1fae1cadf58acbac",
       "source": "KD Meteorites",
       "source_url": "https://kdmeteorites.com/",
@@ -53908,8 +53943,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:11.626062+00:00",
-      "last_verified_at": "2026-07-03T20:08:11.626062+00:00",
+      "scraped_at": "2026-07-05T21:46:09.029907+00:00",
+      "last_verified_at": "2026-07-05T21:46:09.029907+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET511-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET511-3-720x720.jpg"
@@ -53918,41 +53953,6 @@
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
       "price_usd": 256.0,
-      "fx_rate_to_usd": 1.0,
-      "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 3.2
-    },
-    {
-      "id": "0ba12483ab6a9fe1",
-      "source": "Astro West",
-      "source_url": "https://astrowest.com/",
-      "url": "https://astrowest.com/products/authentic-gebel-kamil-nickel-iron-meteorite-fragment-from-egypt-105g/",
-      "title": "Gebel Kamil",
-      "canonical_name": "Gebel Kamil",
-      "canonical_name_display": "Gebel Kamil",
-      "canonical_name_status": "metbull_verified",
-      "canonical_name_source": "title",
-      "price": 336.0,
-      "currency": "USD",
-      "weight_g": 105.0,
-      "price_per_g": 3.2,
-      "meteorite_type": "iron",
-      "subtype": "ATAXITE",
-      "classification_text": "ataxite",
-      "image_url": "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1.jpg",
-      "confidence": "medium",
-      "available": true,
-      "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:18.475652+00:00",
-      "last_verified_at": "2026-07-03T20:08:18.475652+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1-720x720.jpg"
-      ],
-      "metbull_code": "52031",
-      "metbull_status": "Official",
-      "metbull_type": "Iron, ungrouped",
-      "price_usd": 336.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
       "price_per_g_usd": 3.2
@@ -60390,8 +60390,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:56.367335+00:00",
-      "last_verified_at": "2026-07-03T20:08:56.367335+00:00",
+      "scraped_at": "2026-07-05T21:46:51.097922+00:00",
+      "last_verified_at": "2026-07-05T21:46:51.097922+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled.jpg",
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled-720x580.jpg"
@@ -73574,8 +73574,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:52.981485+00:00",
-      "last_verified_at": "2026-07-03T20:08:52.981485+00:00",
+      "scraped_at": "2026-07-05T21:46:47.871845+00:00",
+      "last_verified_at": "2026-07-05T21:46:47.871845+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807-720x720.jpeg"
@@ -73640,8 +73640,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:49.624214+00:00",
-      "last_verified_at": "2026-07-03T20:08:49.624214+00:00",
+      "scraped_at": "2026-07-05T21:46:44.633904+00:00",
+      "last_verified_at": "2026-07-05T21:46:44.633904+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a-720x720.jpeg"
@@ -102580,8 +102580,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:28.918006+00:00",
-      "last_verified_at": "2026-07-03T20:08:28.918006+00:00",
+      "scraped_at": "2026-07-05T21:46:25.188294+00:00",
+      "last_verified_at": "2026-07-05T21:46:25.188294+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/05/Dhofar-Meteorite-AWMET493-2.jpg",
         "https://astrowest.com/wp-content/uploads/2026/05/Dhofar-Meteorite-AWMET493-2-720x720.jpg"
@@ -149438,8 +149438,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:32.524591+00:00",
-      "last_verified_at": "2026-07-03T20:08:32.524591+00:00",
+      "scraped_at": "2026-07-05T21:46:28.375801+00:00",
+      "last_verified_at": "2026-07-05T21:46:28.375801+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/04/Pallasite-Meteorite-AWMET458-6.jpg",
         "https://astrowest.com/wp-content/uploads/2026/04/Pallasite-Meteorite-AWMET458-6-720x720.jpg"
@@ -160708,7 +160708,7 @@
       "price_per_g_usd": 74.3529
     },
     {
-      "id": "1110629911e5338e",
+      "id": "a7599675825fbce6",
       "source": "Astro West",
       "source_url": "https://astrowest.com/",
       "url": "https://astrowest.com/products/authentic-moldavite-meteorite-3g-natural-tektite-from-the-czech-republic-2/",
@@ -160717,10 +160717,10 @@
       "canonical_name_display": null,
       "canonical_name_status": "unknown",
       "canonical_name_source": null,
-      "price": 240.0,
+      "price": 225.0,
       "currency": "USD",
       "weight_g": 3.0,
-      "price_per_g": 80.0,
+      "price_per_g": 75.0,
       "meteorite_type": "tektite/impactite",
       "subtype": null,
       "classification_text": null,
@@ -160728,16 +160728,16 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-03T20:08:15.119126+00:00",
-      "last_verified_at": "2026-07-03T20:08:15.119126+00:00",
+      "scraped_at": "2026-07-05T21:46:12.254395+00:00",
+      "last_verified_at": "2026-07-05T21:46:12.254395+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3-720x720.jpg"
       ],
-      "price_usd": 240.0,
+      "price_usd": 225.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-05",
-      "price_per_g_usd": 80.0
+      "price_per_g_usd": 75.0
     },
     {
       "id": "e92b39031e76073e",
