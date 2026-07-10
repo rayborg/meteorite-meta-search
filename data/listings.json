@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-10T11:39:40.391869+00:00",
+  "generated_at": "2026-07-10T13:47:29.241207+00:00",
   "source_count": 29,
   "listing_count": 4579,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "m3t3orites"
+    "Michael Farmer Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -35,6 +35,7 @@
     "WWMeteorites",
     "Meteor Center",
     "Collecting Meteorites",
+    "m3t3orites",
     "Michael Farmer Meteorites"
   ],
   "exchange_rates": {
@@ -48,9 +49,12 @@
     "date": "2026-07-10",
     "source": "open.er-api.com"
   },
-  "rotation_index": 27,
+  "rotation_index": 28,
   "rotation_total": 29,
-  "rotation_key": "289",
+  "rotation_key": "290",
+  "empty_refresh_preserved_sources": [
+    "Michael Farmer Meteorites"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
