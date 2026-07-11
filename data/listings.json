@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-11T09:12:34.763040+00:00",
+  "generated_at": "2026-07-11T10:50:40.155719+00:00",
   "source_count": 29,
   "listing_count": 4596,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -18,7 +18,6 @@
     "The Meteorite Market",
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
-    "Astro West",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -49,12 +48,9 @@
     "date": "2026-07-11",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "300",
-  "empty_refresh_preserved_sources": [
-    "Aerolite Meteorites"
-  ],
+  "rotation_key": "301",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -54215,8 +54211,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:23.653872+00:00",
-      "last_verified_at": "2026-07-08T19:00:23.653872+00:00",
+      "scraped_at": "2026-07-11T10:49:49.770525+00:00",
+      "last_verified_at": "2026-07-11T10:49:49.770525+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Gebil-Kamil-Meteorite-AWMET521-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Gebil-Kamil-Meteorite-AWMET521-1-720x720.jpg"
@@ -55371,8 +55367,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:26.991188+00:00",
-      "last_verified_at": "2026-07-08T19:00:26.991188+00:00",
+      "scraped_at": "2026-07-11T10:49:53.096780+00:00",
+      "last_verified_at": "2026-07-11T10:49:53.096780+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET511-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET511-3-720x720.jpg"
@@ -55406,8 +55402,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:33.549104+00:00",
-      "last_verified_at": "2026-07-08T19:00:33.549104+00:00",
+      "scraped_at": "2026-07-11T10:49:59.545734+00:00",
+      "last_verified_at": "2026-07-11T10:49:59.545734+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1-720x720.jpg"
@@ -62050,8 +62046,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:01:05.555812+00:00",
-      "last_verified_at": "2026-07-08T19:01:05.555812+00:00",
+      "scraped_at": "2026-07-11T10:50:32.271627+00:00",
+      "last_verified_at": "2026-07-11T10:50:32.271627+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled.jpg",
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled-720x580.jpg"
@@ -75325,8 +75321,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:01:02.388724+00:00",
-      "last_verified_at": "2026-07-08T19:01:02.388724+00:00",
+      "scraped_at": "2026-07-11T10:50:29.081239+00:00",
+      "last_verified_at": "2026-07-11T10:50:29.081239+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807-720x720.jpeg"
@@ -75422,8 +75418,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:59.177286+00:00",
-      "last_verified_at": "2026-07-08T19:00:59.177286+00:00",
+      "scraped_at": "2026-07-11T10:50:25.818979+00:00",
+      "last_verified_at": "2026-07-11T10:50:25.818979+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a-720x720.jpeg"
@@ -103735,8 +103731,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:43.268597+00:00",
-      "last_verified_at": "2026-07-08T19:00:43.268597+00:00",
+      "scraped_at": "2026-07-11T10:50:09.560648+00:00",
+      "last_verified_at": "2026-07-11T10:50:09.560648+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/05/Dhofar-Meteorite-AWMET493-2.jpg",
         "https://astrowest.com/wp-content/uploads/2026/05/Dhofar-Meteorite-AWMET493-2-720x720.jpg"
@@ -151984,8 +151980,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:46.459654+00:00",
-      "last_verified_at": "2026-07-08T19:00:46.459654+00:00",
+      "scraped_at": "2026-07-11T10:50:12.824980+00:00",
+      "last_verified_at": "2026-07-11T10:50:12.824980+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/04/Pallasite-Meteorite-AWMET458-6.jpg",
         "https://astrowest.com/wp-content/uploads/2026/04/Pallasite-Meteorite-AWMET458-6-720x720.jpg"
@@ -162488,8 +162484,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-08T19:00:30.341561+00:00",
-      "last_verified_at": "2026-07-08T19:00:30.341561+00:00",
+      "scraped_at": "2026-07-11T10:49:56.342739+00:00",
+      "last_verified_at": "2026-07-11T10:49:56.342739+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3-720x720.jpg"
