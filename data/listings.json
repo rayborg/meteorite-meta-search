@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-13T21:41:11.935967+00:00",
+  "generated_at": "2026-07-13T22:41:31.523552+00:00",
   "source_count": 29,
   "listing_count": 4610,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Buy Meteorite"
+    "BuyMeteorites.com"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -26,7 +26,7 @@
     "Mini Museum Meteorites",
     "Fossil Realm Meteorite Collection",
     "TOP Meteorite",
-    "BuyMeteorites.com",
+    "Buy Meteorite",
     "JC Meteorite Collection",
     "PolandMET",
     "KD Meteorites",
@@ -48,9 +48,9 @@
     "date": "2026-07-13",
     "source": "open.er-api.com"
   },
-  "rotation_index": 18,
+  "rotation_index": 19,
   "rotation_total": 29,
-  "rotation_key": "338",
+  "rotation_key": "339",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -79054,8 +79054,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.559138+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.559138+00:00",
+      "scraped_at": "2026-07-13T22:41:26.659218+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.659218+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/img_4883.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/img_4883-300x300.jpeg"
@@ -79259,8 +79259,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.547404+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.547404+00:00",
+      "scraped_at": "2026-07-13T22:41:26.649582+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.649582+00:00",
       "metbull_code": "77606",
       "metbull_status": "Official",
       "metbull_type": "Lunar (feldsp. breccia)",
@@ -79290,8 +79290,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.550417+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.550417+00:00",
+      "scraped_at": "2026-07-13T22:41:26.652096+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.652096+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0501-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0501-300x300.jpeg"
@@ -79325,8 +79325,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.553485+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.553485+00:00",
+      "scraped_at": "2026-07-13T22:41:26.654619+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.654619+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0499-1-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0499-1-300x300.jpeg"
@@ -79360,8 +79360,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.556657+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.556657+00:00",
+      "scraped_at": "2026-07-13T22:41:26.657241+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.657241+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0494-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0494-300x300.jpeg"
@@ -96329,8 +96329,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.583695+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.583695+00:00",
+      "scraped_at": "2026-07-13T22:41:26.680034+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.680034+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1918-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1918-300x300.jpeg",
@@ -96497,8 +96497,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.578774+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.578774+00:00",
+      "scraped_at": "2026-07-13T22:41:26.675870+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.675870+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1920-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1920-300x300.jpeg",
@@ -140917,8 +140917,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.598385+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.598385+00:00",
+      "scraped_at": "2026-07-13T22:41:26.692756+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.692756+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1903-scaled.webp",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1903-300x300.webp",
@@ -140958,8 +140958,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.593164+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.593164+00:00",
+      "scraped_at": "2026-07-13T22:41:26.688314+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.688314+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1909-scaled.webp",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1909-300x300.webp",
@@ -141001,8 +141001,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.563977+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.563977+00:00",
+      "scraped_at": "2026-07-13T22:41:26.663285+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.663285+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1930-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1930-300x300.jpeg",
@@ -141042,8 +141042,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.568687+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.568687+00:00",
+      "scraped_at": "2026-07-13T22:41:26.667263+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.667263+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1927-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1927-300x300.jpeg",
@@ -141083,8 +141083,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.603012+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.603012+00:00",
+      "scraped_at": "2026-07-13T22:41:26.696650+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.696650+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/IMG_1862-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/IMG_1862-300x300.jpeg"
@@ -141451,8 +141451,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.538892+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.538892+00:00",
+      "scraped_at": "2026-07-13T22:41:26.642415+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.642415+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0518.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0520-scaled.jpeg",
@@ -141488,8 +141488,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.542477+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.542477+00:00",
+      "scraped_at": "2026-07-13T22:41:26.645385+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.645385+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0511-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0511-300x300.jpeg",
@@ -141525,8 +141525,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.534981+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.534981+00:00",
+      "scraped_at": "2026-07-13T22:41:26.639141+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.639141+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0528-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0528-300x300.jpeg",
@@ -141610,8 +141610,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.530744+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.530744+00:00",
+      "scraped_at": "2026-07-13T22:41:26.635595+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.635595+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0531-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/06/61b0531-300x300.jpeg",
@@ -153379,8 +153379,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.588311+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.588311+00:00",
+      "scraped_at": "2026-07-13T22:41:26.684133+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.684133+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1913-scaled.webp",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1913-300x300.webp",
@@ -153453,8 +153453,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "thompson_meteorites",
-      "scraped_at": "2026-07-11T20:37:31.574255+00:00",
-      "last_verified_at": "2026-07-11T20:37:31.574255+00:00",
+      "scraped_at": "2026-07-13T22:41:26.672005+00:00",
+      "last_verified_at": "2026-07-13T22:41:26.672005+00:00",
       "image_urls": [
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1923-1-scaled.jpeg",
         "https://www.thompsonmeteoritecollection.com/wp-content/uploads/2026/04/img_1923-1-300x300.jpeg",
