@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-07-14T22:50:05.859718+00:00",
+  "generated_at": "2026-07-14T23:39:26.268932+00:00",
   "source_count": 29,
   "listing_count": 4613,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "FossilEra"
+    "Prehistoric Fossils Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
     "BAITYLIA",
     "Meteorite Exchange",
-    "Prehistoric Fossils Meteorites",
+    "FossilEra",
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
     "Arizona Skies Meteorites",
@@ -48,9 +48,9 @@
     "date": "2026-07-14",
     "source": "open.er-api.com"
   },
-  "rotation_index": 4,
+  "rotation_index": 5,
   "rotation_total": 29,
-  "rotation_key": "353",
+  "rotation_key": "354",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -76570,17 +76570,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-12T19:58:29.704980+00:00",
-      "last_verified_at": "2026-07-12T19:58:29.704980+00:00",
+      "scraped_at": "2026-07-14T23:39:13.019746+00:00",
+      "last_verified_at": "2026-07-14T23:39:13.019746+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6-600x800.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6a-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6b-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/14284-Moon-Maskelyne-LRO-20141012-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-6-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-3-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-8-300x300.jpg"
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-1-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/NWA-778-meteorite-slice-19-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-6-300x300.jpg"
       ],
       "metbull_code": "74316",
       "metbull_status": "Official",
@@ -76611,17 +76611,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-12T19:58:31.983902+00:00",
-      "last_verified_at": "2026-07-12T19:58:31.983902+00:00",
+      "scraped_at": "2026-07-14T23:39:15.615647+00:00",
+      "last_verified_at": "2026-07-14T23:39:15.615647+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-7.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-7-600x800.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-7a-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-7b-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/14284-Moon-Maskelyne-LRO-20141012-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Oman-meteorite-piece-16-300x300.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-1-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-10-300x300.jpg"
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-4-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Oman-meteorite-piece-13-300x300.jpg"
       ],
       "metbull_code": "74316",
       "metbull_status": "Official",
@@ -76652,17 +76652,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-07-12T19:58:27.293268+00:00",
-      "last_verified_at": "2026-07-12T19:58:27.293268+00:00",
+      "scraped_at": "2026-07-14T23:39:10.464071+00:00",
+      "last_verified_at": "2026-07-14T23:39:10.464071+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4-600x800.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4a-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4b-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/14284-Moon-Maskelyne-LRO-20141012-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/NWA-778-meteorite-slice-20-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-5-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Oman-meteorite-piece-13-300x300.jpg"
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-4-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-8-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-1-300x300.jpg"
       ],
       "metbull_code": "74316",
       "metbull_status": "Official",
