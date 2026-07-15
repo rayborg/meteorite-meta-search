@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-15T09:45:31.857474+00:00",
+  "generated_at": "2026-07-15T11:18:47.126852+00:00",
   "source_count": 29,
   "listing_count": 4613,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -18,7 +18,6 @@
     "The Meteorite Market",
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
-    "Astro West",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -49,12 +48,9 @@
     "date": "2026-07-15",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "358",
-  "empty_refresh_preserved_sources": [
-    "Aerolite Meteorites"
-  ],
+  "rotation_key": "359",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -54143,12 +54139,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:17:46.317688+00:00",
-      "last_verified_at": "2026-07-13T01:17:46.317688+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebil-Kamil-Meteorite-AWMET521-1.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebil-Kamil-Meteorite-AWMET521-1-720x720.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:17:55.405099+00:00",
+      "last_verified_at": "2026-07-15T11:17:55.405099+00:00",
       "metbull_code": "52031",
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
@@ -55299,12 +55291,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:17:51.226430+00:00",
-      "last_verified_at": "2026-07-13T01:17:51.226430+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET511-3.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET511-3-720x720.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:17:58.683745+00:00",
+      "last_verified_at": "2026-07-15T11:17:58.683745+00:00",
       "metbull_code": "52031",
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
@@ -55334,12 +55322,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:17:59.137494+00:00",
-      "last_verified_at": "2026-07-13T01:17:59.137494+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/06/Gebel-Kamil-Meteorite-AWMET507-1-720x720.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:18:05.322986+00:00",
+      "last_verified_at": "2026-07-15T11:18:05.322986+00:00",
       "metbull_code": "52031",
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
@@ -61766,12 +61750,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:18:36.680754+00:00",
-      "last_verified_at": "2026-07-13T01:18:36.680754+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled.jpg",
-        "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled-720x580.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:18:38.318827+00:00",
+      "last_verified_at": "2026-07-15T11:18:38.318827+00:00",
       "metbull_code": "23662",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
@@ -74445,12 +74425,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:18:33.139833+00:00",
-      "last_verified_at": "2026-07-13T01:18:33.139833+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807.jpeg",
-        "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807-720x720.jpeg"
-      ],
+      "scraped_at": "2026-07-15T11:18:35.022497+00:00",
+      "last_verified_at": "2026-07-15T11:18:35.022497+00:00",
       "metbull_code": "16873",
       "metbull_status": "Official",
       "metbull_type": "Iron, IVA",
@@ -74542,12 +74518,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:18:29.696451+00:00",
-      "last_verified_at": "2026-07-13T01:18:29.696451+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a.jpeg",
-        "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a-720x720.jpeg"
-      ],
+      "scraped_at": "2026-07-15T11:18:31.764260+00:00",
+      "last_verified_at": "2026-07-15T11:18:31.764260+00:00",
       "metbull_code": "16873",
       "metbull_status": "Official",
       "metbull_type": "Iron, IVA",
@@ -103751,12 +103723,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:18:11.900378+00:00",
-      "last_verified_at": "2026-07-13T01:18:11.900378+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/05/Dhofar-Meteorite-AWMET493-2.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/05/Dhofar-Meteorite-AWMET493-2-720x720.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:18:15.255416+00:00",
+      "last_verified_at": "2026-07-15T11:18:15.255416+00:00",
       "metbull_code": "6719",
       "metbull_status": "Official",
       "metbull_type": "H4/5",
@@ -152421,12 +152389,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:18:15.296671+00:00",
-      "last_verified_at": "2026-07-13T01:18:15.296671+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/04/Pallasite-Meteorite-AWMET458-6.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/04/Pallasite-Meteorite-AWMET458-6-720x720.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:18:18.539846+00:00",
+      "last_verified_at": "2026-07-15T11:18:18.539846+00:00",
       "metbull_code": "5136",
       "metbull_status": "Official",
       "metbull_type": "Pallasite, PMG-an",
@@ -162974,12 +162938,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-13T01:17:54.598813+00:00",
-      "last_verified_at": "2026-07-13T01:17:54.598813+00:00",
-      "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3.jpg",
-        "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3-720x720.jpg"
-      ],
+      "scraped_at": "2026-07-15T11:18:01.962248+00:00",
+      "last_verified_at": "2026-07-15T11:18:01.962248+00:00",
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-15",
