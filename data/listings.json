@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-21T14:51:51.603914+00:00",
+  "generated_at": "2026-07-21T16:12:04.871338+00:00",
   "source_count": 29,
   "listing_count": 4629,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "SkyFall Meteorites"
+    "Meteolovers"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -49,11 +49,11 @@
     "date": "2026-07-21",
     "source": "open.er-api.com"
   },
-  "rotation_index": 12,
+  "rotation_index": 13,
   "rotation_total": 29,
-  "rotation_key": "448",
+  "rotation_key": "449",
   "empty_refresh_preserved_sources": [
-    "SkyFall Meteorites"
+    "Meteolovers"
   ],
   "listings": [
     {
