@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-24T18:11:03.827431+00:00",
+  "generated_at": "2026-07-24T20:07:24.261810+00:00",
   "source_count": 29,
   "listing_count": 4637,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "KD Meteorites"
+    "Meteorite Recon"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -30,7 +30,7 @@
     "BuyMeteorites.com",
     "JC Meteorite Collection",
     "PolandMET",
-    "Meteorite Recon",
+    "KD Meteorites",
     "WWMeteorites",
     "Meteor Center",
     "Collecting Meteorites",
@@ -48,9 +48,9 @@
     "date": "2026-07-24",
     "source": "open.er-api.com"
   },
-  "rotation_index": 22,
+  "rotation_index": 23,
   "rotation_total": 29,
-  "rotation_key": "487",
+  "rotation_key": "488",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -794,8 +794,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.451092+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.451092+00:00",
+      "scraped_at": "2026-07-24T20:07:16.174725+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.174725+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2021/08/tafassasset-1-1024x685.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2015/10/Tafassasset-meteorite-cut-1024x668.jpg",
@@ -14039,8 +14039,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.472382+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.472382+00:00",
+      "scraped_at": "2026-07-24T20:07:16.196314+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.196314+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2018/12/NWA-5597-f-1200-1024x630.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2018/12/NWA-5597g-1200-1024x678.jpg",
@@ -26447,8 +26447,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.477288+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.477288+00:00",
+      "scraped_at": "2026-07-24T20:07:16.201315+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.201315+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2015/11/Eucrite_B415a-1024x654.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2018/12/NWA-5597-A-1200-1024x636.jpg",
@@ -60684,8 +60684,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:33.579738+00:00",
-      "last_verified_at": "2026-07-22T12:18:33.579738+00:00",
+      "scraped_at": "2026-07-24T20:07:18.720516+00:00",
+      "last_verified_at": "2026-07-24T20:07:18.720516+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2024/11/Sazlidere-1200-side-Iron-meteorite-cc-1024x987.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2024/11/Sazlidere-1200-side-Iron-meteorite-A-906x1024.jpg",
@@ -106995,8 +106995,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.467711+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.467711+00:00",
+      "scraped_at": "2026-07-24T20:07:16.191579+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.191579+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2015/11/Bassikounou-Meteorite-Individual.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2015/11/Bassikounou-meteorite-detail2.jpg",
@@ -108692,8 +108692,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.463110+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.463110+00:00",
+      "scraped_at": "2026-07-24T20:07:16.187070+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.187070+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2015/10/Chergach-497-g-meteorite-1024x871.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2018/06/chergach-1200-1-1024x752.jpg",
@@ -110591,8 +110591,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.455775+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.455775+00:00",
+      "scraped_at": "2026-07-24T20:07:16.179733+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.179733+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2018/07/277g-F-1024x752.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2018/07/277g-D-1024x640.jpg",
@@ -111087,8 +111087,8 @@
       "confidence": "medium",
       "available": true,
       "parser": "meteorite_recon",
-      "scraped_at": "2026-07-22T12:18:30.458836+00:00",
-      "last_verified_at": "2026-07-22T12:18:30.458836+00:00",
+      "scraped_at": "2026-07-24T20:07:16.182779+00:00",
+      "last_verified_at": "2026-07-24T20:07:16.182779+00:00",
       "image_urls": [
         "https://www.meteorite-recon.com/wp-content/uploads/2018/07/49g-A-1024x707.jpg",
         "https://www.meteorite-recon.com/wp-content/uploads/2018/07/49g-B-1024x660.jpg",
