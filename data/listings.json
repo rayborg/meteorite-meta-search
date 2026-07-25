@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-25T18:44:47.902491+00:00",
+  "generated_at": "2026-07-25T20:03:15.961447+00:00",
   "source_count": 29,
   "listing_count": 4628,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Astro West"
+    "IMPACTIKA"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -18,7 +18,7 @@
     "The Meteorite Market",
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
-    "IMPACTIKA",
+    "Astro West",
     "SkyFall Meteorites",
     "Meteolovers",
     "justMETEORITES",
@@ -48,9 +48,9 @@
     "date": "2026-07-25",
     "source": "open.er-api.com"
   },
-  "rotation_index": 10,
+  "rotation_index": 11,
   "rotation_total": 29,
-  "rotation_key": "504",
+  "rotation_key": "505",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -7667,17 +7667,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.923465+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.923465+00:00",
+      "scraped_at": "2026-07-25T20:02:32.483875+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.923465+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.483875+00:00",
       "metbull_code": "33357",
       "metbull_status": "Official",
       "metbull_type": "Achondrite-ung",
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 59.0551,
-      "first_seen_at": "2026-07-23T20:04:48.923465+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 59.0551
     },
     {
       "id": "6b2c316353d5dae4",
@@ -14924,13 +14924,15 @@
       "price_per_g": 15.3899,
       "meteorite_type": "achondrite",
       "subtype": "DIOGENITE",
-      "classification_text": "NWA 6293, Diogenite, achondrite",
+      "classification_text": "NWA 6293, diogenite, achondrite",
       "image_url": "https://i0.wp.com/impactika.com/wp-content/uploads/2022/09/NWA-6293f.jpg?fit=1488%2C899&ssl=1",
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.195632+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.195632+00:00",
+      "scraped_at": "2026-07-25T20:02:39.690744+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.195632+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.690744+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/09/NWA-6293f.jpg?fit=1488%2C899&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/09/NWA-6293b.jpg?fit=1414%2C995&ssl=1"
@@ -14941,9 +14943,7 @@
       "price_usd": 225.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 15.3899,
-      "first_seen_at": "2026-07-23T20:04:56.195632+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 15.3899
     },
     {
       "id": "ef9f195cc0e6d9fd",
@@ -16438,8 +16438,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.543587+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.543587+00:00",
+      "scraped_at": "2026-07-25T20:02:29.062310+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.543587+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.062310+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/OC132f.jpg?fit=1512%2C1208&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/OC132b.jpg?fit=1772%2C1200&ssl=1"
@@ -16450,9 +16452,7 @@
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 22.7273,
-      "first_seen_at": "2026-07-23T20:04:46.543587+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 22.7273
     },
     {
       "id": "9cf85221c383d448",
@@ -17148,8 +17148,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.711908+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.711908+00:00",
+      "scraped_at": "2026-07-25T20:03:09.633096+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.711908+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.633096+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac056.jpg?fit=700%2C568&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac056c.jpg?fit=700%2C518&ssl=1",
@@ -17168,9 +17170,7 @@
       "price_usd": 995.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 29.2217,
-      "first_seen_at": "2026-07-23T20:05:19.711908+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 29.2217
     },
     {
       "id": "a54e047328f4f20c",
@@ -17433,8 +17433,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.707709+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.707709+00:00",
+      "scraped_at": "2026-07-25T20:03:09.628877+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.707709+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.628877+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac056.jpg?fit=700%2C568&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac056c.jpg?fit=700%2C518&ssl=1",
@@ -17453,9 +17455,7 @@
       "price_usd": 950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 30.0253,
-      "first_seen_at": "2026-07-23T20:05:19.707709+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 30.0253
     },
     {
       "id": "5673bda924c8492d",
@@ -17728,8 +17728,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.716128+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.716128+00:00",
+      "scraped_at": "2026-07-25T20:03:09.637270+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.716128+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.637270+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac061c.jpg?fit=700%2C531&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac061b.jpg?fit=700%2C576&ssl=1",
@@ -17748,9 +17750,7 @@
       "price_usd": 2200.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 44.6067,
-      "first_seen_at": "2026-07-23T20:05:19.716128+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 44.6067
     },
     {
       "id": "3b7fd71ccc473fd8",
@@ -17938,8 +17938,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.720256+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.720256+00:00",
+      "scraped_at": "2026-07-25T20:03:09.641455+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.720256+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.641455+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac058.jpg?fit=675%2C590&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac058b.jpg?fit=675%2C562&ssl=1",
@@ -17958,9 +17960,7 @@
       "price_usd": 3000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 51.116,
-      "first_seen_at": "2026-07-23T20:05:19.720256+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 51.116
     },
     {
       "id": "3249ea88f229c3ef",
@@ -18082,17 +18082,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.919454+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.919454+00:00",
+      "scraped_at": "2026-07-25T20:02:32.479778+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.919454+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.479778+00:00",
       "metbull_code": "49189",
       "metbull_status": "Official",
       "metbull_type": "Diogenite",
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 82.8729,
-      "first_seen_at": "2026-07-23T20:04:48.919454+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 82.8729
     },
     {
       "id": "1d935d9deeed0de3",
@@ -18148,8 +18148,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.724350+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.724350+00:00",
+      "scraped_at": "2026-07-25T20:03:09.645609+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.724350+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.645609+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac056.jpg?fit=700%2C568&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ac056c.jpg?fit=700%2C518&ssl=1",
@@ -18168,9 +18170,7 @@
       "price_usd": 9000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 92.7261,
-      "first_seen_at": "2026-07-23T20:05:19.724350+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 92.7261
     },
     {
       "id": "1b5846100097fc79",
@@ -18193,17 +18193,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:43.979343+00:00",
-      "last_verified_at": "2026-07-23T20:04:43.979343+00:00",
+      "scraped_at": "2026-07-25T20:02:25.554710+00:00",
+      "first_seen_at": "2026-07-23T20:04:43.979343+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:25.554710+00:00",
       "metbull_code": "12198",
       "metbull_status": "Official",
       "metbull_type": "Diogenite",
       "price_usd": 3000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 199.3355,
-      "first_seen_at": "2026-07-23T20:04:43.979343+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 199.3355
     },
     {
       "id": "540b6185b9ad6c43",
@@ -19196,17 +19196,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.203561+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.203561+00:00",
+      "scraped_at": "2026-07-25T20:02:39.698801+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.203561+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.698801+00:00",
       "metbull_code": "49359",
       "metbull_status": "Official",
       "metbull_type": "Eucrite",
       "price_usd": 250.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 12.639,
-      "first_seen_at": "2026-07-23T20:04:56.203561+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 12.639
     },
     {
       "id": "1be318e5ed253bf3",
@@ -19295,17 +19295,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.057519+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.057519+00:00",
+      "scraped_at": "2026-07-25T20:02:44.760911+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.057519+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.760911+00:00",
       "metbull_code": "17842",
       "metbull_status": "Official",
       "metbull_type": "Eucrite",
       "price_usd": 85.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 15.7407,
-      "first_seen_at": "2026-07-23T20:05:01.057519+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 15.7407
     },
     {
       "id": "f9a0b7813baa76f2",
@@ -19646,8 +19646,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.214537+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.214537+00:00",
+      "scraped_at": "2026-07-25T20:02:39.710295+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.214537+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.710295+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/08/AB2162.jpg?fit=977%2C907&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/08/AB2154.jpg?fit=1210%2C907&ssl=1"
@@ -19658,9 +19660,7 @@
       "price_usd": 375.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 41.6667,
-      "first_seen_at": "2026-07-23T20:04:56.214537+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 41.6667
     },
     {
       "id": "57a027bb46fb67ab",
@@ -25717,8 +25717,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.221787+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.221787+00:00",
+      "scraped_at": "2026-07-25T20:02:39.717711+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.221787+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.717711+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/08/AB1296a.jpg?fit=1210%2C907&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/08/AB1296b.jpg?fit=1210%2C907&ssl=1"
@@ -25729,9 +25731,7 @@
       "price_usd": 500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 29.4118,
-      "first_seen_at": "2026-07-23T20:04:56.221787+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 29.4118
     },
     {
       "id": "93b3f832e5c006ec",
@@ -28076,17 +28076,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.199659+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.199659+00:00",
+      "scraped_at": "2026-07-25T20:02:39.694817+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.199659+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.694817+00:00",
       "metbull_code": "51840",
       "metbull_status": "Official",
       "metbull_type": "Eucrite-pmict",
       "price_usd": 250.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 14.3102,
-      "first_seen_at": "2026-07-23T20:04:56.199659+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 14.3102
     },
     {
       "id": "bbe64fe553970dc3",
@@ -28148,8 +28148,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.401334+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.401334+00:00",
+      "scraped_at": "2026-07-25T20:02:34.832063+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.401334+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.832063+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AB1650.jpg?fit=1210%2C1056&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AB1651.jpg?fit=1210%2C1219&ssl=1"
@@ -28160,9 +28162,7 @@
       "price_usd": 125.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 23.3209,
-      "first_seen_at": "2026-07-23T20:04:51.401334+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 23.3209
     },
     {
       "id": "1efc5b5ca9b6043d",
@@ -28185,8 +28185,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.404692+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.404692+00:00",
+      "scraped_at": "2026-07-25T20:02:34.835551+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.404692+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.835551+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AB1651.jpg?fit=1210%2C1219&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AB1650.jpg?fit=1210%2C1056&ssl=1"
@@ -28197,9 +28199,7 @@
       "price_usd": 95.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 24.5478,
-      "first_seen_at": "2026-07-23T20:04:51.404692+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 24.5478
     },
     {
       "id": "6ceb7db41388599e",
@@ -28255,17 +28255,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.915372+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.915372+00:00",
+      "scraped_at": "2026-07-25T20:02:32.475557+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.915372+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.475557+00:00",
       "metbull_code": "51457",
       "metbull_status": "Official",
       "metbull_type": "Eucrite-pmict",
       "price_usd": 30.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 25.4237,
-      "first_seen_at": "2026-07-23T20:04:48.915372+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 25.4237
     },
     {
       "id": "b6f87c10559e8b23",
@@ -28288,17 +28288,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.046632+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.046632+00:00",
+      "scraped_at": "2026-07-25T20:02:44.749767+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.046632+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.749767+00:00",
       "metbull_code": "52941",
       "metbull_status": "Official",
       "metbull_type": "Eucrite-pmict",
       "price_usd": 275.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 46.8484,
-      "first_seen_at": "2026-07-23T20:05:01.046632+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 46.8484
     },
     {
       "id": "a18f4e68e5d11f7e",
@@ -28321,17 +28321,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.043361+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.043361+00:00",
+      "scraped_at": "2026-07-25T20:02:44.746399+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.043361+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.746399+00:00",
       "metbull_code": "52941",
       "metbull_status": "Official",
       "metbull_type": "Eucrite-pmict",
       "price_usd": 110.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 48.6726,
-      "first_seen_at": "2026-07-23T20:05:01.043361+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 48.6726
     },
     {
       "id": "bb4b5a64e8f0519d",
@@ -29954,17 +29954,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.050691+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.050691+00:00",
+      "scraped_at": "2026-07-25T20:02:44.753725+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.050691+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.753725+00:00",
       "metbull_code": "32477",
       "metbull_status": "Official",
       "metbull_type": "Howardite",
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.0,
-      "first_seen_at": "2026-07-23T20:05:01.050691+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.0
     },
     {
       "id": "d469740c5b31bbcb",
@@ -29987,17 +29987,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.053891+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.053891+00:00",
+      "scraped_at": "2026-07-25T20:02:44.757006+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.053891+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.757006+00:00",
       "metbull_code": "32477",
       "metbull_status": "Official",
       "metbull_type": "Howardite",
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.0,
-      "first_seen_at": "2026-07-23T20:05:01.053891+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.0
     },
     {
       "id": "b627599f0d59ca27",
@@ -33285,8 +33285,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.688361+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.688361+00:00",
+      "scraped_at": "2026-07-25T20:03:09.609825+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.688361+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.609825+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/03/MS-243-280g-4.jpg?fit=1426%2C1200&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/03/MS-326-1105g-3.jpg?fit=1684%2C1028&ssl=1",
@@ -33318,9 +33320,7 @@
       "price_usd": 5300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 442.404,
-      "first_seen_at": "2026-07-23T20:05:19.688361+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 442.404
     },
     {
       "id": "8455cb8b16ef16a5",
@@ -33343,8 +33343,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.694248+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.694248+00:00",
+      "scraped_at": "2026-07-25T20:03:09.615676+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.694248+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.615676+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/03/MS-243-280g-4.jpg?fit=1426%2C1200&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/03/MS-326-1105g-3.jpg?fit=1684%2C1028&ssl=1",
@@ -33376,9 +33378,7 @@
       "price_usd": 3465.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 745.1613,
-      "first_seen_at": "2026-07-23T20:05:19.694248+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 745.1613
     },
     {
       "id": "66b67161412214e0",
@@ -38117,8 +38117,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.221839+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.221839+00:00",
+      "scraped_at": "2026-07-25T20:03:07.186153+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.221839+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.186153+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/SH001.jpg?fit=1117%2C1028&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/SH002.jpg?fit=1134%2C804&ssl=1",
@@ -38127,9 +38129,7 @@
       "price_usd": 600.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.0,
-      "first_seen_at": "2026-07-23T20:05:17.221839+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.0
     },
     {
       "id": "b0196f160653c211",
@@ -38152,8 +38152,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.219207+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.219207+00:00",
+      "scraped_at": "2026-07-25T20:03:07.183460+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.219207+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.183460+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/SH001.jpg?fit=1117%2C1028&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/SH002.jpg?fit=1134%2C804&ssl=1",
@@ -38162,9 +38164,7 @@
       "price_usd": 400.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.3046,
-      "first_seen_at": "2026-07-23T20:05:17.219207+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.3046
     },
     {
       "id": "d487630b7428ed5e",
@@ -38187,8 +38187,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.216529+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.216529+00:00",
+      "scraped_at": "2026-07-25T20:03:07.180734+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.216529+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.180734+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/SH001.jpg?fit=1117%2C1028&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/SH002.jpg?fit=1134%2C804&ssl=1",
@@ -38197,9 +38199,7 @@
       "price_usd": 255.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 27.0414,
-      "first_seen_at": "2026-07-23T20:05:17.216529+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 27.0414
     },
     {
       "id": "a9638bd292a36ae1",
@@ -41737,17 +41737,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:43.982852+00:00",
-      "last_verified_at": "2026-07-23T20:04:43.982852+00:00",
+      "scraped_at": "2026-07-25T20:02:25.558232+00:00",
+      "first_seen_at": "2026-07-23T20:04:43.982852+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:25.558232+00:00",
       "metbull_code": "5397",
       "metbull_status": "Official",
       "metbull_type": "CM2",
       "price_usd": 2775.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 500.0,
-      "first_seen_at": "2026-07-23T20:04:43.982852+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 500.0
     },
     {
       "id": "819063a00121c678",
@@ -41770,8 +41770,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.842387+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.842387+00:00",
+      "scraped_at": "2026-07-25T20:02:37.310788+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.842387+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.310788+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB1807.jpg?fit=771%2C612&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB1807b.jpg?fit=758%2C641&ssl=1",
@@ -41793,9 +41795,7 @@
       "price_usd": 7000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 503.5971,
-      "first_seen_at": "2026-07-23T20:04:53.842387+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 503.5971
     },
     {
       "id": "defca145c548c07a",
@@ -41818,8 +41818,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.838992+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.838992+00:00",
+      "scraped_at": "2026-07-25T20:02:37.307311+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.838992+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.307311+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/MurchisonCut.jpg?fit=1104%2C1122&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB2186a.jpg?fit=1184%2C1194&ssl=1",
@@ -41841,9 +41843,7 @@
       "price_usd": 18000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 566.0377,
-      "first_seen_at": "2026-07-23T20:04:53.838992+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 566.0377
     },
     {
       "id": "d87488643b99aa70",
@@ -41899,8 +41899,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.835344+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.835344+00:00",
+      "scraped_at": "2026-07-25T20:02:37.303842+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.835344+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.303842+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB2186a.jpg?fit=1184%2C1194&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB2186b.jpg?fit=1210%2C1203&ssl=1",
@@ -41922,9 +41924,7 @@
       "price_usd": 30000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 594.1771,
-      "first_seen_at": "2026-07-23T20:04:53.835344+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 594.1771
     },
     {
       "id": "f207ffba60f157dd",
@@ -41947,8 +41947,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.845741+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.845741+00:00",
+      "scraped_at": "2026-07-25T20:02:37.314206+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.845741+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.314206+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/MurchisonCut.jpg?fit=1104%2C1122&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB2186a.jpg?fit=1184%2C1194&ssl=1",
@@ -41970,9 +41972,7 @@
       "price_usd": 2300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 649.7175,
-      "first_seen_at": "2026-07-23T20:04:53.845741+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 649.7175
     },
     {
       "id": "587b037bbe14ed50",
@@ -42649,8 +42649,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.061007+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.061007+00:00",
+      "scraped_at": "2026-07-25T20:02:44.764542+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.061007+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.764542+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB2086.jpg?fit=1168%2C1021&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB2087.jpg?fit=998%2C874&ssl=1"
@@ -42661,9 +42663,7 @@
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 104.4568,
-      "first_seen_at": "2026-07-23T20:05:01.061007+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 104.4568
     },
     {
       "id": "8db6b58514176e40",
@@ -42686,8 +42686,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.063794+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.063794+00:00",
+      "scraped_at": "2026-07-25T20:02:44.767574+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.063794+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.767574+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB2087.jpg?fit=998%2C874&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB2086.jpg?fit=1168%2C1021&ssl=1"
@@ -42698,9 +42700,7 @@
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 139.2758,
-      "first_seen_at": "2026-07-23T20:05:01.063794+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 139.2758
     },
     {
       "id": "d6a0d4b6fb03ec22",
@@ -59240,14 +59240,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.493837+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.493837+00:00",
+      "scraped_at": "2026-07-25T20:02:47.288402+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.493837+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.288402+00:00",
       "price_usd": 950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 7.8982,
-      "first_seen_at": "2026-07-23T20:05:03.493837+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 7.8982
     },
     {
       "id": "0580bdccb4cf7232",
@@ -59270,8 +59270,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.209167+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.209167+00:00",
+      "scraped_at": "2026-07-25T20:03:07.173165+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.209167+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.173165+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twannberg.jpg?fit=600%2C800&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twann-x-1.jpg?fit=150%2C150&ssl=1",
@@ -59280,9 +59282,7 @@
       "price_usd": 450.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 39.1304,
-      "first_seen_at": "2026-07-23T20:05:17.209167+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 39.1304
     },
     {
       "id": "606a1f70265ce611",
@@ -59305,8 +59305,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.198711+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.198711+00:00",
+      "scraped_at": "2026-07-25T20:03:07.162470+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.198711+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.162470+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twannberg.jpg?fit=600%2C800&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twann-x-1.jpg?fit=150%2C150&ssl=1",
@@ -59315,9 +59317,7 @@
       "price_usd": 375.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 40.5844,
-      "first_seen_at": "2026-07-23T20:05:17.198711+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 40.5844
     },
     {
       "id": "6f85365fab4a3949",
@@ -59340,8 +59340,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.202172+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.202172+00:00",
+      "scraped_at": "2026-07-25T20:03:07.166052+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.202172+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.166052+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twannberg.jpg?fit=600%2C800&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twann-x-1.jpg?fit=150%2C150&ssl=1",
@@ -59350,9 +59352,7 @@
       "price_usd": 400.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 40.6091,
-      "first_seen_at": "2026-07-23T20:05:17.202172+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 40.6091
     },
     {
       "id": "f1139f3b6df5300f",
@@ -59375,8 +59375,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.205676+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.205676+00:00",
+      "scraped_at": "2026-07-25T20:03:07.169629+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.205676+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.169629+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twannberg.jpg?fit=600%2C800&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twann-x-1.jpg?fit=150%2C150&ssl=1",
@@ -59385,9 +59387,7 @@
       "price_usd": 425.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 42.5,
-      "first_seen_at": "2026-07-23T20:05:17.205676+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 42.5
     },
     {
       "id": "58da01b17b1b1508",
@@ -59410,8 +59410,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.212653+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.212653+00:00",
+      "scraped_at": "2026-07-25T20:03:07.176707+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.212653+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.176707+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twannberg.jpg?fit=600%2C800&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/twann-x-1.jpg?fit=150%2C150&ssl=1",
@@ -59420,9 +59422,7 @@
       "price_usd": 625.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 43.7063,
-      "first_seen_at": "2026-07-23T20:05:17.212653+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 43.7063
     },
     {
       "id": "b2b84e407033e5cf",
@@ -60424,8 +60424,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.497439+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.497439+00:00",
+      "scraped_at": "2026-07-25T20:02:47.291880+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.497439+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.291880+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/10/AB2076a.jpg?fit=979%2C963&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/10/AB2076b.jpg?fit=979%2C902&ssl=1",
@@ -60437,9 +60439,7 @@
       "price_usd": 1950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 1.4444,
-      "first_seen_at": "2026-07-23T20:05:03.497439+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 1.4444
     },
     {
       "id": "16c0494fd65d82d5",
@@ -61050,8 +61050,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.934699+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.934699+00:00",
+      "scraped_at": "2026-07-25T20:02:50.729723+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.934699+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.729723+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1246a.jpg?fit=1114%2C966&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1246b.jpg?fit=1097%2C682&ssl=1",
@@ -61066,9 +61068,7 @@
       "price_usd": 155.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 1.7755,
-      "first_seen_at": "2026-07-23T20:05:05.934699+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 1.7755
     },
     {
       "id": "3719d2624bc9752b",
@@ -61208,8 +61208,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.931836+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.931836+00:00",
+      "scraped_at": "2026-07-25T20:02:50.726778+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.931836+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.726778+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1249b.jpg?fit=871%2C652&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1249f.jpg?fit=871%2C652&ssl=1",
@@ -61224,9 +61226,7 @@
       "price_usd": 90.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 1.919,
-      "first_seen_at": "2026-07-23T20:05:05.931836+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 1.919
     },
     {
       "id": "d8d72df5248c67f1",
@@ -61999,17 +61999,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.830561+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.830561+00:00",
+      "scraped_at": "2026-07-25T20:02:37.299015+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.830561+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.299015+00:00",
       "metbull_code": "5257",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 425.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 2.1071,
-      "first_seen_at": "2026-07-23T20:04:53.830561+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 2.1071
     },
     {
       "id": "e3852aba1bea8a87",
@@ -62363,8 +62363,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.928923+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.928923+00:00",
+      "scraped_at": "2026-07-25T20:02:50.723809+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.928923+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.723809+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/11/AB2096f-2.jpg?fit=871%2C652&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/11/AB2096b-2.jpg?fit=871%2C652&ssl=1",
@@ -62379,9 +62381,7 @@
       "price_usd": 75.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 2.3006,
-      "first_seen_at": "2026-07-23T20:05:05.928923+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 2.3006
     },
     {
       "id": "222dcbf54e072cd3",
@@ -65208,8 +65208,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.944480+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.944480+00:00",
+      "scraped_at": "2026-07-25T20:02:50.739575+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.944480+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.739575+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/oc311.jpg?fit=763%2C616&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/10/AB2174.jpg?fit=1032%2C964&ssl=1"
@@ -65220,9 +65222,7 @@
       "price_usd": 2500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0563,
-      "first_seen_at": "2026-07-23T20:05:05.944480+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0563
     },
     {
       "id": "c54e4ef77207b7eb",
@@ -65481,8 +65481,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.940211+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.940211+00:00",
+      "scraped_at": "2026-07-25T20:02:50.735027+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.940211+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.735027+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/OC222c.jpg?fit=1260%2C1060&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/OC222b.jpg?fit=1636%2C1512&ssl=1",
@@ -65495,9 +65497,7 @@
       "price_usd": 950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 11.8224,
-      "first_seen_at": "2026-07-23T20:05:05.940211+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 11.8224
     },
     {
       "id": "e1780719ce71f32a",
@@ -65559,8 +65559,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.937934+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.937934+00:00",
+      "scraped_at": "2026-07-25T20:02:50.732733+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.937934+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.732733+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB522.jpg?fit=875%2C600&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/OC222c.jpg?fit=1260%2C1060&ssl=1",
@@ -65573,9 +65575,7 @@
       "price_usd": 995.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 11.9162,
-      "first_seen_at": "2026-07-23T20:05:05.937934+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 11.9162
     },
     {
       "id": "0a4daf06d8eba230",
@@ -70436,8 +70436,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.408701+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.408701+00:00",
+      "scraped_at": "2026-07-25T20:02:34.839636+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.408701+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.839636+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AB2180b.jpg?fit=1492%2C1119&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AB2180a.jpg?fit=1492%2C1119&ssl=1",
@@ -70454,9 +70456,7 @@
       "price_usd": 900.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.2848,
-      "first_seen_at": "2026-07-23T20:04:51.408701+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.2848
     },
     {
       "id": "6b7f9fe3c722ac6b",
@@ -74646,8 +74646,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:05.949141+00:00",
-      "last_verified_at": "2026-07-23T20:05:05.949141+00:00",
+      "scraped_at": "2026-07-25T20:02:50.744323+00:00",
+      "first_seen_at": "2026-07-23T20:05:05.949141+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:50.744323+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB2039b.jpg?fit=759%2C532&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB2039a.jpg?fit=1213%2C781&ssl=1",
@@ -74661,9 +74663,7 @@
       "price_usd": 950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 11.6851,
-      "first_seen_at": "2026-07-23T20:05:05.949141+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 11.6851
     },
     {
       "id": "b282b49bbf289864",
@@ -75016,17 +75016,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.488160+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.488160+00:00",
+      "scraped_at": "2026-07-25T20:02:47.282464+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.488160+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.282464+00:00",
       "metbull_code": "17928",
       "metbull_status": "Official",
       "metbull_type": "Iron, IIIAB",
       "price_usd": 275.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 16.148,
-      "first_seen_at": "2026-07-23T20:05:03.488160+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 16.148
     },
     {
       "id": "a0b531a4bc14b4cc",
@@ -75049,17 +75049,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.491075+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.491075+00:00",
+      "scraped_at": "2026-07-25T20:02:47.285553+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.491075+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.285553+00:00",
       "metbull_code": "17928",
       "metbull_status": "Official",
       "metbull_type": "Iron, IIIAB",
       "price_usd": 295.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 16.3344,
-      "first_seen_at": "2026-07-23T20:05:03.491075+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 16.3344
     },
     {
       "id": "56507abca2d3fec9",
@@ -75181,17 +75181,17 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.480419+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.480419+00:00",
+      "scraped_at": "2026-07-25T20:02:53.280925+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.480419+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.280925+00:00",
       "metbull_code": "18894",
       "metbull_status": "Official",
       "metbull_type": "Iron, IIIAB",
       "price_usd": 1225.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.0491,
-      "first_seen_at": "2026-07-23T20:05:08.480419+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.0491
     },
     {
       "id": "a3a1f278d77575d9",
@@ -75214,14 +75214,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.503029+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.503029+00:00",
+      "scraped_at": "2026-07-25T20:02:47.297830+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.503029+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.297830+00:00",
       "price_usd": 1150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.2109,
-      "first_seen_at": "2026-07-23T20:05:03.503029+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.2109
     },
     {
       "id": "7a06efd8743f8a3b",
@@ -75244,14 +75244,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.500614+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.500614+00:00",
+      "scraped_at": "2026-07-25T20:02:47.295320+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.500614+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.295320+00:00",
       "price_usd": 1400.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.5279,
-      "first_seen_at": "2026-07-23T20:05:03.500614+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.5279
     },
     {
       "id": "24f8caf5cbda3d01",
@@ -77538,8 +77538,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.486046+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.486046+00:00",
+      "scraped_at": "2026-07-25T20:02:53.286699+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.486046+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.286699+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1067.jpg?fit=748%2C614&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/05/AB1067b.jpg?fit=1411%2C1058&ssl=1"
@@ -77550,9 +77552,7 @@
       "price_usd": 400.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 2.7933,
-      "first_seen_at": "2026-07-23T20:05:08.486046+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 2.7933
     },
     {
       "id": "8d1a01ad4a2966d9",
@@ -79769,17 +79769,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.067498+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.067498+00:00",
+      "scraped_at": "2026-07-25T20:02:44.771397+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.067498+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.771397+00:00",
       "metbull_code": "11985",
       "metbull_status": "Official",
       "metbull_type": "Iron, IVA",
       "price_usd": 900.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 25.9366,
-      "first_seen_at": "2026-07-23T20:05:01.067498+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 25.9366
     },
     {
       "id": "e34e7036e9e7ae33",
@@ -79802,8 +79802,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.475717+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.475717+00:00",
+      "scraped_at": "2026-07-25T20:02:53.276540+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.475717+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.276540+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -79821,9 +79823,7 @@
       "price_usd": 995.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 80.1773,
-      "first_seen_at": "2026-07-23T20:05:08.475717+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 80.1773
     },
     {
       "id": "8d8f73cb5627aff0",
@@ -79846,8 +79846,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.467650+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.467650+00:00",
+      "scraped_at": "2026-07-25T20:02:53.268300+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.467650+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.268300+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -79865,9 +79867,7 @@
       "price_usd": 850.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 99.0676,
-      "first_seen_at": "2026-07-23T20:05:08.467650+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 99.0676
     },
     {
       "id": "51e2cbc6b12a3e0f",
@@ -79890,8 +79890,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.463694+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.463694+00:00",
+      "scraped_at": "2026-07-25T20:02:53.264258+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.463694+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.264258+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -79909,9 +79911,7 @@
       "price_usd": 850.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 99.1832,
-      "first_seen_at": "2026-07-23T20:05:08.463694+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 99.1832
     },
     {
       "id": "c18dd399eda9f324",
@@ -79934,8 +79934,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.459737+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.459737+00:00",
+      "scraped_at": "2026-07-25T20:02:53.260213+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.459737+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.260213+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -79953,9 +79955,7 @@
       "price_usd": 750.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 99.734,
-      "first_seen_at": "2026-07-23T20:05:08.459737+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 99.734
     },
     {
       "id": "be750b3ab04e4e25",
@@ -79978,8 +79978,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.471600+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.471600+00:00",
+      "scraped_at": "2026-07-25T20:02:53.272358+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.471600+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.272358+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -79997,9 +79999,7 @@
       "price_usd": 895.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 99.777,
-      "first_seen_at": "2026-07-23T20:05:08.471600+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 99.777
     },
     {
       "id": "30c2a60ac0f3b457",
@@ -80022,8 +80022,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.451634+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.451634+00:00",
+      "scraped_at": "2026-07-25T20:02:53.252067+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.451634+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.252067+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -80041,9 +80043,7 @@
       "price_usd": 700.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 104.6338,
-      "first_seen_at": "2026-07-23T20:05:08.451634+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 104.6338
     },
     {
       "id": "f898ccc766eda6a8",
@@ -80066,8 +80066,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.455752+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.455752+00:00",
+      "scraped_at": "2026-07-25T20:02:53.256145+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.455752+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.256145+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -80085,9 +80087,7 @@
       "price_usd": 720.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 105.2632,
-      "first_seen_at": "2026-07-23T20:05:08.455752+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 105.2632
     },
     {
       "id": "76e7caf44a5f0027",
@@ -80110,8 +80110,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.447586+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.447586+00:00",
+      "scraped_at": "2026-07-25T20:02:53.247925+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.447586+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.247925+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1482.jpg?fit=661%2C449&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/12/AB1478.jpg?fit=669%2C595&ssl=1",
@@ -80129,9 +80131,7 @@
       "price_usd": 540.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 109.5335,
-      "first_seen_at": "2026-07-23T20:05:08.447586+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 109.5335
     },
     {
       "id": "282a4b9b1851262b",
@@ -80583,14 +80583,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.218061+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.218061+00:00",
+      "scraped_at": "2026-07-25T20:02:39.713910+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.218061+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.713910+00:00",
       "price_usd": 1500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 3.1088,
-      "first_seen_at": "2026-07-23T20:04:56.218061+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 3.1088
     },
     {
       "id": "19b523537c8e7837",
@@ -94877,17 +94877,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:43.970498+00:00",
-      "last_verified_at": "2026-07-23T20:04:43.970498+00:00",
+      "scraped_at": "2026-07-25T20:02:25.545713+00:00",
+      "first_seen_at": "2026-07-23T20:04:43.970498+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:25.545713+00:00",
       "metbull_code": "16898",
       "metbull_status": "Official",
       "metbull_type": "Martian (nakhlite)",
       "price_usd": 2000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 3389.8305,
-      "first_seen_at": "2026-07-23T20:04:43.970498+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 3389.8305
     },
     {
       "id": "f5a46516d7cf8723",
@@ -105630,17 +105630,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.428906+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.428906+00:00",
+      "scraped_at": "2026-07-25T20:02:34.860521+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.428906+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.860521+00:00",
       "metbull_code": "5197",
       "metbull_status": "Official",
       "metbull_type": "L-imp melt",
       "price_usd": 95.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 21.5909,
-      "first_seen_at": "2026-07-23T20:04:51.428906+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 21.5909
     },
     {
       "id": "64c128e8b3b26969",
@@ -106412,8 +106412,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.210221+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.210221+00:00",
+      "scraped_at": "2026-07-25T20:02:39.705786+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.210221+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.705786+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/08/AB2143.jpg?fit=1285%2C1058&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/08/AB2143cards.jpg?fit=1210%2C907&ssl=1"
@@ -106421,9 +106423,7 @@
       "price_usd": 1775.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0226,
-      "first_seen_at": "2026-07-23T20:04:56.210221+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0226
     },
     {
       "id": "5b27d188bffa0497",
@@ -107930,17 +107930,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.602085+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.602085+00:00",
+      "scraped_at": "2026-07-25T20:02:42.300646+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.602085+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.300646+00:00",
       "metbull_code": "23105",
       "metbull_status": "Official",
       "metbull_type": "H4",
       "price_usd": 395.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.9488,
-      "first_seen_at": "2026-07-23T20:04:58.602085+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.9488
     },
     {
       "id": "ee1b55dd20965794",
@@ -107963,8 +107963,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.936552+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.936552+00:00",
+      "scraped_at": "2026-07-25T20:03:02.247778+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.936552+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.247778+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB1398.jpg?fit=907%2C823&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1268.jpg?fit=695%2C446&ssl=1"
@@ -107972,9 +107974,7 @@
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 6.0,
-      "first_seen_at": "2026-07-23T20:05:10.936552+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 6.0
     },
     {
       "id": "149a0c8f48ae441e",
@@ -108060,17 +108060,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.035935+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.035935+00:00",
+      "scraped_at": "2026-07-25T20:02:44.738702+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.035935+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.738702+00:00",
       "metbull_code": "57771",
       "metbull_status": "Official",
       "metbull_type": "H4",
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 7.4349,
-      "first_seen_at": "2026-07-23T20:05:01.035935+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 7.4349
     },
     {
       "id": "784917e5f9311472",
@@ -108126,17 +108126,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.609835+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.609835+00:00",
+      "scraped_at": "2026-07-25T20:02:42.308472+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.609835+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.308472+00:00",
       "metbull_code": "5378",
       "metbull_status": "Official",
       "metbull_type": "H4",
       "price_usd": 800.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 9.9875,
-      "first_seen_at": "2026-07-23T20:04:58.609835+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 9.9875
     },
     {
       "id": "3872deeff3ba2e43",
@@ -108933,17 +108933,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.039408+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.039408+00:00",
+      "scraped_at": "2026-07-25T20:02:44.742333+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.039408+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.742333+00:00",
       "metbull_code": "30742",
       "metbull_status": "Official",
       "metbull_type": "H4",
       "price_usd": 450.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 19.9115,
-      "first_seen_at": "2026-07-23T20:05:01.039408+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 19.9115
     },
     {
       "id": "7c0fae9ee04015ee",
@@ -109359,17 +109359,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.206881+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.206881+00:00",
+      "scraped_at": "2026-07-25T20:02:39.702018+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.206881+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.702018+00:00",
       "metbull_code": "44926",
       "metbull_status": "Official",
       "metbull_type": "H4",
       "price_usd": 700.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 24.3056,
-      "first_seen_at": "2026-07-23T20:04:56.206881+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 24.3056
     },
     {
       "id": "b1393314bf860d62",
@@ -113654,14 +113654,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.187413+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.187413+00:00",
+      "scraped_at": "2026-07-25T20:03:07.150953+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.187413+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.150953+00:00",
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 3.9484,
-      "first_seen_at": "2026-07-23T20:05:17.187413+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 3.9484
     },
     {
       "id": "70e77394111da9b4",
@@ -113849,8 +113849,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:13.402157+00:00",
-      "last_verified_at": "2026-07-23T20:05:13.402157+00:00",
+      "scraped_at": "2026-07-25T20:03:04.683499+00:00",
+      "first_seen_at": "2026-07-23T20:05:13.402157+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:04.683499+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB2018.jpg?fit=1525%2C1149&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/OC336.jpg?fit=1459%2C1139&ssl=1"
@@ -113861,9 +113863,7 @@
       "price_usd": 200.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.0323,
-      "first_seen_at": "2026-07-23T20:05:13.402157+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.0323
     },
     {
       "id": "b693e85af5b76273",
@@ -113952,8 +113952,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:13.399849+00:00",
-      "last_verified_at": "2026-07-23T20:05:13.399849+00:00",
+      "scraped_at": "2026-07-25T20:03:04.681159+00:00",
+      "first_seen_at": "2026-07-23T20:05:13.399849+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:04.681159+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/OC336.jpg?fit=1459%2C1139&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB2018.jpg?fit=1525%2C1149&ssl=1"
@@ -113964,9 +113966,7 @@
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.1436,
-      "first_seen_at": "2026-07-23T20:05:13.399849+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.1436
     },
     {
       "id": "35eea80fc84f049f",
@@ -113989,17 +113989,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.866834+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.866834+00:00",
+      "scraped_at": "2026-07-25T20:02:37.335910+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.866834+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.335910+00:00",
       "metbull_code": "12204",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.8497,
-      "first_seen_at": "2026-07-23T20:04:53.866834+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.8497
     },
     {
       "id": "e8c10e375e528c5f",
@@ -114488,8 +114488,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.945126+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.945126+00:00",
+      "scraped_at": "2026-07-25T20:03:02.256616+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.945126+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.256616+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/CM110x.jpg?fit=1411%2C1058&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB567.jpg?fit=1411%2C1058&ssl=1",
@@ -114502,9 +114504,7 @@
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.0226,
-      "first_seen_at": "2026-07-23T20:05:10.945126+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.0226
     },
     {
       "id": "bc5a1ad4d23238fe",
@@ -114694,17 +114694,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.418167+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.418167+00:00",
+      "scraped_at": "2026-07-25T20:02:34.849410+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.418167+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.849410+00:00",
       "metbull_code": "18880",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 650.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.1424,
-      "first_seen_at": "2026-07-23T20:04:51.418167+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.1424
     },
     {
       "id": "6d1fe4b63045a022",
@@ -114727,8 +114727,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.947370+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.947370+00:00",
+      "scraped_at": "2026-07-25T20:03:02.258973+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.947370+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.258973+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/CM110x.jpg?fit=1411%2C1058&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/cm110.jpg?fit=720%2C528&ssl=1",
@@ -114741,9 +114743,7 @@
       "price_usd": 400.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.2632,
-      "first_seen_at": "2026-07-23T20:05:10.947370+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.2632
     },
     {
       "id": "84396e4e37b962a6",
@@ -114991,14 +114991,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:13.404883+00:00",
-      "last_verified_at": "2026-07-23T20:05:13.404883+00:00",
+      "scraped_at": "2026-07-25T20:03:04.686202+00:00",
+      "first_seen_at": "2026-07-23T20:05:13.404883+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:04.686202+00:00",
       "price_usd": 55.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 7.1087,
-      "first_seen_at": "2026-07-23T20:05:13.404883+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 7.1087
     },
     {
       "id": "9c33ffda43a67628",
@@ -115456,17 +115456,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.698216+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.698216+00:00",
+      "scraped_at": "2026-07-25T20:03:09.619513+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.698216+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.619513+00:00",
       "metbull_code": "65369",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 8000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 8.8889,
-      "first_seen_at": "2026-07-23T20:05:19.698216+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 8.8889
     },
     {
       "id": "43ea8c696598d1cc",
@@ -115489,17 +115489,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:19.700713+00:00",
-      "last_verified_at": "2026-07-23T20:05:19.700713+00:00",
+      "scraped_at": "2026-07-25T20:03:09.622009+00:00",
+      "first_seen_at": "2026-07-23T20:05:19.700713+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:09.622009+00:00",
       "metbull_code": "65369",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 5000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 8.9127,
-      "first_seen_at": "2026-07-23T20:05:19.700713+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 8.9127
     },
     {
       "id": "1615522fd13f0e16",
@@ -116437,8 +116437,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.940560+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.940560+00:00",
+      "scraped_at": "2026-07-25T20:03:02.251921+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.940560+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.251921+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1971.jpg?fit=653%2C490&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/Plainviews2.jpg?fit=991%2C826&ssl=1",
@@ -116448,9 +116450,7 @@
       "price_usd": 450.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0897,
-      "first_seen_at": "2026-07-23T20:05:10.940560+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0897
     },
     {
       "id": "479d5ced7ab6d285",
@@ -117134,17 +117134,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.848709+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.848709+00:00",
+      "scraped_at": "2026-07-25T20:02:37.317388+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.848709+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.317388+00:00",
       "metbull_code": "18063",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 15.0075,
-      "first_seen_at": "2026-07-23T20:04:53.848709+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 15.0075
     },
     {
       "id": "4dd613beaeaa55bb",
@@ -117266,17 +117266,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.596003+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.596003+00:00",
+      "scraped_at": "2026-07-25T20:02:42.294202+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.596003+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.294202+00:00",
       "metbull_code": "2310",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 800.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 15.7387,
-      "first_seen_at": "2026-07-23T20:04:58.596003+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 15.7387
     },
     {
       "id": "6a50a30fc8026645",
@@ -119300,17 +119300,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.592922+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.592922+00:00",
+      "scraped_at": "2026-07-25T20:02:42.291339+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.592922+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.291339+00:00",
       "metbull_code": "2310",
       "metbull_status": "Official",
       "metbull_type": "H5",
       "price_usd": 120.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 41.6667,
-      "first_seen_at": "2026-07-23T20:04:58.592922+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 41.6667
     },
     {
       "id": "53b9a4c2a9f58d66",
@@ -124926,17 +124926,17 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.421233+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.421233+00:00",
+      "scraped_at": "2026-07-25T20:02:34.852614+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.421233+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.852614+00:00",
       "metbull_code": "47091",
       "metbull_status": "Official",
       "metbull_type": "L3",
       "price_usd": 595.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 6.1658,
-      "first_seen_at": "2026-07-23T20:04:51.421233+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 6.1658
     },
     {
       "id": "992ada6433a16c1a",
@@ -129906,8 +129906,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.427046+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.427046+00:00",
+      "scraped_at": "2026-07-25T20:02:34.858620+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.427046+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.858620+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/CM037a.jpg?fit=1411%2C1058&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/CM037b.jpg?fit=1443%2C1005&ssl=1"
@@ -129915,9 +129917,7 @@
       "price_usd": 175.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.902,
-      "first_seen_at": "2026-07-23T20:04:51.427046+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.902
     },
     {
       "id": "35f19fe1e5b92d75",
@@ -130026,17 +130026,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.424362+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.424362+00:00",
+      "scraped_at": "2026-07-25T20:02:34.855843+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.424362+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.855843+00:00",
       "metbull_code": "17423",
       "metbull_status": "Official",
       "metbull_type": "L4",
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.99,
-      "first_seen_at": "2026-07-23T20:04:51.424362+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.99
     },
     {
       "id": "e3556561de46ad08",
@@ -132278,8 +132278,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.535564+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.535564+00:00",
+      "scraped_at": "2026-07-25T20:02:29.054090+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.535564+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.054090+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/AB2101f.jpg?fit=1512%2C1208&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/AB2101b.jpg?fit=1512%2C1112&ssl=1"
@@ -132290,9 +132292,7 @@
       "price_usd": 60.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.5697,
-      "first_seen_at": "2026-07-23T20:04:46.535564+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.5697
     },
     {
       "id": "574f2e102caf8713",
@@ -132378,8 +132378,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.953227+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.953227+00:00",
+      "scraped_at": "2026-07-25T20:03:02.265072+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.953227+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.265072+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AC092.jpg?fit=1210%2C907&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AC065b.jpg?fit=718%2C539&ssl=1",
@@ -132392,9 +132394,7 @@
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 6.0048,
-      "first_seen_at": "2026-07-23T20:05:10.953227+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 6.0048
     },
     {
       "id": "e4705fec789d5527",
@@ -132450,8 +132450,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.950691+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.950691+00:00",
+      "scraped_at": "2026-07-25T20:03:02.262480+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.950691+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.262480+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AC091.jpg?fit=1210%2C907&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AC065b.jpg?fit=718%2C539&ssl=1",
@@ -132464,9 +132466,7 @@
       "price_usd": 150.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 6.115,
-      "first_seen_at": "2026-07-23T20:05:10.950691+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 6.115
     },
     {
       "id": "477eb57025f9914e",
@@ -132621,17 +132621,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.859904+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.859904+00:00",
+      "scraped_at": "2026-07-25T20:02:37.328915+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.859904+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.328915+00:00",
       "metbull_code": "23548",
       "metbull_status": "Official",
       "metbull_type": "L5",
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 6.8493,
-      "first_seen_at": "2026-07-23T20:04:53.859904+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 6.8493
     },
     {
       "id": "c1ef0c10131a7811",
@@ -132687,17 +132687,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.857450+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.857450+00:00",
+      "scraped_at": "2026-07-25T20:02:37.326392+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.857450+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.326392+00:00",
       "metbull_code": "23548",
       "metbull_status": "Official",
       "metbull_type": "L5",
       "price_usd": 35.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 7.4468,
-      "first_seen_at": "2026-07-23T20:04:53.857450+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 7.4468
     },
     {
       "id": "5201c94285a3692a",
@@ -133047,17 +133047,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.863975+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.863975+00:00",
+      "scraped_at": "2026-07-25T20:02:37.332985+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.863975+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.332985+00:00",
       "metbull_code": "23785",
       "metbull_status": "Official",
       "metbull_type": "L5",
       "price_usd": 250.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.8225,
-      "first_seen_at": "2026-07-23T20:04:53.863975+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.8225
     },
     {
       "id": "c197428f227eb419",
@@ -133179,8 +133179,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.965703+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.965703+00:00",
+      "scraped_at": "2026-07-25T20:03:02.277635+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.965703+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.277635+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/fo027.jpg?fit=649%2C549&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/fo029.jpg?fit=764%2C637&ssl=1",
@@ -133190,9 +133192,7 @@
       "price_usd": 575.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 14.0931,
-      "first_seen_at": "2026-07-23T20:05:10.965703+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 14.0931
     },
     {
       "id": "6338e378bb004bd4",
@@ -133245,8 +133245,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.958743+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.958743+00:00",
+      "scraped_at": "2026-07-25T20:03:02.270640+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.958743+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.270640+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/fo027.jpg?fit=649%2C549&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/fo029.jpg?fit=764%2C637&ssl=1",
@@ -133256,9 +133258,7 @@
       "price_usd": 425.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 14.6048,
-      "first_seen_at": "2026-07-23T20:05:10.958743+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 14.6048
     },
     {
       "id": "e0a42769de39437d",
@@ -133684,8 +133684,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:10.962251+00:00",
-      "last_verified_at": "2026-07-23T20:05:10.962251+00:00",
+      "scraped_at": "2026-07-25T20:03:02.274161+00:00",
+      "first_seen_at": "2026-07-23T20:05:10.962251+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:02.274161+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/fo027.jpg?fit=649%2C549&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/fo029.jpg?fit=764%2C637&ssl=1",
@@ -133695,9 +133697,7 @@
       "price_usd": 550.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 18.9655,
-      "first_seen_at": "2026-07-23T20:05:10.962251+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 18.9655
     },
     {
       "id": "333457a635c6af0d",
@@ -134855,17 +134855,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.431740+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.431740+00:00",
+      "scraped_at": "2026-07-25T20:02:34.863322+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.431740+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.863322+00:00",
       "metbull_code": "5142",
       "metbull_status": "Official",
       "metbull_type": "L5",
       "price_usd": 75.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 46.875,
-      "first_seen_at": "2026-07-23T20:04:51.431740+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 46.875
     },
     {
       "id": "9be77a5ff2ab0131",
@@ -134987,17 +134987,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.613213+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.613213+00:00",
+      "scraped_at": "2026-07-25T20:02:42.311850+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.613213+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.311850+00:00",
       "metbull_code": "5297",
       "metbull_status": "Official",
       "metbull_type": "L5",
       "price_usd": 700.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 77.2627,
-      "first_seen_at": "2026-07-23T20:04:58.613213+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 77.2627
     },
     {
       "id": "6e75967aaaad14ba",
@@ -136371,17 +136371,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.854349+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.854349+00:00",
+      "scraped_at": "2026-07-25T20:02:37.323115+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.854349+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.323115+00:00",
       "metbull_code": "23293",
       "metbull_status": "Official",
       "metbull_type": "L6",
       "price_usd": 250.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 2.9976,
-      "first_seen_at": "2026-07-23T20:04:53.854349+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 2.9976
     },
     {
       "id": "8d31eb4c202fe7dd",
@@ -136527,17 +136527,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.538930+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.538930+00:00",
+      "scraped_at": "2026-07-25T20:02:29.057576+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.538930+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.057576+00:00",
       "metbull_code": "17766",
       "metbull_status": "Official",
       "metbull_type": "L6",
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 3.0211,
-      "first_seen_at": "2026-07-23T20:04:46.538930+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 3.0211
     },
     {
       "id": "dd07f3eb615fa739",
@@ -136615,8 +136615,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.532604+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.532604+00:00",
+      "scraped_at": "2026-07-25T20:02:29.051077+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.532604+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.051077+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/AB1176.jpg?fit=1613%2C1210&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/OC154.jpg?fit=1613%2C1210&ssl=1"
@@ -136627,9 +136629,7 @@
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.4545,
-      "first_seen_at": "2026-07-23T20:04:46.532604+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.4545
     },
     {
       "id": "1e68d8eaeb1cf22f",
@@ -137030,8 +137030,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.530208+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.530208+00:00",
+      "scraped_at": "2026-07-25T20:02:29.048605+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.530208+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.048605+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/OC154.jpg?fit=1613%2C1210&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/01/AB1176.jpg?fit=1613%2C1210&ssl=1"
@@ -137042,9 +137044,7 @@
       "price_usd": 125.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.8411,
-      "first_seen_at": "2026-07-23T20:04:46.530208+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.8411
     },
     {
       "id": "b3a2d802d7b885f6",
@@ -137229,8 +137229,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:17.193690+00:00",
-      "last_verified_at": "2026-07-23T20:05:17.193690+00:00",
+      "scraped_at": "2026-07-25T20:03:07.157294+00:00",
+      "first_seen_at": "2026-07-23T20:05:17.193690+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:03:07.157294+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/Cliff-metal.jpg?fit=300%2C216&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/cliff-box-1.jpg?fit=800%2C332&ssl=1",
@@ -137247,9 +137249,7 @@
       "price_usd": 215.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 7.1906,
-      "first_seen_at": "2026-07-23T20:05:17.193690+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 7.1906
     },
     {
       "id": "caba55e58f407490",
@@ -137805,8 +137805,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.412604+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.412604+00:00",
+      "scraped_at": "2026-07-25T20:02:34.843431+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.412604+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.843431+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/AE080a.jpg?fit=1036%2C1058&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/ae080b.jpg?fit=1058%2C1204&ssl=1"
@@ -137817,9 +137819,7 @@
       "price_usd": 5750.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 9.9835,
-      "first_seen_at": "2026-07-23T20:04:51.412604+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 9.9835
     },
     {
       "id": "7a626b67cbcff3be",
@@ -138929,17 +138929,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.599106+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.599106+00:00",
+      "scraped_at": "2026-07-25T20:02:42.297606+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.599106+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.297606+00:00",
       "metbull_code": "16953",
       "metbull_status": "Official",
       "metbull_type": "L6",
       "price_usd": 2500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 20.8681,
-      "first_seen_at": "2026-07-23T20:04:58.599106+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 20.8681
     },
     {
       "id": "0eefa292feeedc35",
@@ -139349,8 +139349,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.606741+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.606741+00:00",
+      "scraped_at": "2026-07-25T20:02:42.305361+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.606741+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.305361+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/OC109.jpg?fit=1008%2C756&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/LOOMIS.jpg?fit=544%2C373&ssl=1"
@@ -139361,9 +139363,7 @@
       "price_usd": 1200.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 25.226,
-      "first_seen_at": "2026-07-23T20:04:58.606741+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 25.226
     },
     {
       "id": "58850bf884f75a07",
@@ -142020,8 +142020,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:43.974192+00:00",
-      "last_verified_at": "2026-07-23T20:04:43.974192+00:00",
+      "scraped_at": "2026-07-25T20:02:25.549510+00:00",
+      "first_seen_at": "2026-07-23T20:04:43.974192+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:25.549510+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2024/05/AB1745.jpg?fit=515%2C457&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2024/05/AB1745C.jpg?fit=586%2C466&ssl=1"
@@ -142032,9 +142034,7 @@
       "price_usd": 2000.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 529.1005,
-      "first_seen_at": "2026-07-23T20:04:43.974192+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 529.1005
     },
     {
       "id": "8b75a49ac37d5e63",
@@ -144878,17 +144878,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:56.191453+00:00",
-      "last_verified_at": "2026-07-23T20:04:56.191453+00:00",
+      "scraped_at": "2026-07-25T20:02:39.686443+00:00",
+      "first_seen_at": "2026-07-23T20:04:56.191453+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:39.686443+00:00",
       "metbull_code": "54662",
       "metbull_status": "Official",
       "metbull_type": "LL3.10",
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 35.2941,
-      "first_seen_at": "2026-07-23T20:04:56.191453+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 35.2941
     },
     {
       "id": "fec74a8008f4a05f",
@@ -145235,8 +145235,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.032844+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.032844+00:00",
+      "scraped_at": "2026-07-25T20:02:44.735483+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.032844+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.735483+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH018.jpg?fit=907%2C929&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH016.jpg?fit=1411%2C1058&ssl=1"
@@ -145247,9 +145249,7 @@
       "price_usd": 795.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 44.5878,
-      "first_seen_at": "2026-07-23T20:05:01.032844+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 44.5878
     },
     {
       "id": "2d9335eec4328e31",
@@ -145272,8 +145272,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.025771+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.025771+00:00",
+      "scraped_at": "2026-07-25T20:02:44.728126+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.025771+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.728126+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH018.jpg?fit=907%2C929&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH016.jpg?fit=1411%2C1058&ssl=1"
@@ -145284,9 +145286,7 @@
       "price_usd": 500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 44.6828,
-      "first_seen_at": "2026-07-23T20:05:01.025771+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 44.6828
     },
     {
       "id": "24f111cd09c4de51",
@@ -145309,8 +145309,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.022133+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.022133+00:00",
+      "scraped_at": "2026-07-25T20:02:44.724396+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.022133+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.724396+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH018.jpg?fit=907%2C929&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH016.jpg?fit=1411%2C1058&ssl=1"
@@ -145321,9 +145323,7 @@
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 45.8716,
-      "first_seen_at": "2026-07-23T20:05:01.022133+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 45.8716
     },
     {
       "id": "bad913566bc0ed50",
@@ -145346,8 +145346,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:01.029318+00:00",
-      "last_verified_at": "2026-07-23T20:05:01.029318+00:00",
+      "scraped_at": "2026-07-25T20:02:44.731837+00:00",
+      "first_seen_at": "2026-07-23T20:05:01.029318+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:44.731837+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH018.jpg?fit=907%2C929&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/PH016.jpg?fit=1411%2C1058&ssl=1"
@@ -145358,9 +145360,7 @@
       "price_usd": 600.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 47.0958,
-      "first_seen_at": "2026-07-23T20:05:01.029318+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 47.0958
     },
     {
       "id": "6bac9afede82ab7d",
@@ -145713,17 +145713,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:53.851654+00:00",
-      "last_verified_at": "2026-07-23T20:04:53.851654+00:00",
+      "scraped_at": "2026-07-25T20:02:37.320422+00:00",
+      "first_seen_at": "2026-07-23T20:04:53.851654+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:37.320422+00:00",
       "metbull_code": "22600",
       "metbull_status": "Official",
       "metbull_type": "LL3.7",
       "price_usd": 1700.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0592,
-      "first_seen_at": "2026-07-23T20:04:53.851654+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0592
     },
     {
       "id": "34e4cc298dfb03d5",
@@ -147355,8 +147355,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:43.985686+00:00",
-      "last_verified_at": "2026-07-23T20:04:43.985686+00:00",
+      "scraped_at": "2026-07-25T20:02:25.561268+00:00",
+      "first_seen_at": "2026-07-23T20:04:43.985686+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:25.561268+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2024/02/Paragould1-1.jpg?fit=1357%2C1056&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2024/02/Paragould2-1.jpg?fit=1331%2C1145&ssl=1"
@@ -147367,9 +147369,7 @@
       "price_usd": 350.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 97.493,
-      "first_seen_at": "2026-07-23T20:04:43.985686+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 97.493
     },
     {
       "id": "3879163f60f1dbdf",
@@ -149751,17 +149751,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:58.616627+00:00",
-      "last_verified_at": "2026-07-23T20:04:58.616627+00:00",
+      "scraped_at": "2026-07-25T20:02:42.315135+00:00",
+      "first_seen_at": "2026-07-23T20:04:58.616627+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:42.315135+00:00",
       "metbull_code": "5340",
       "metbull_status": "Official",
       "metbull_type": "LL6",
       "price_usd": 750.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 609.7561,
-      "first_seen_at": "2026-07-23T20:04:58.616627+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 609.7561
     },
     {
       "id": "73a96e81949494f0",
@@ -153455,8 +153455,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.500699+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.500699+00:00",
+      "scraped_at": "2026-07-25T20:02:53.301577+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.500699+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.301577+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1279.jpg?fit=1613%2C1210&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1279b.jpg?fit=1210%2C1280&ssl=1",
@@ -153473,9 +153475,7 @@
       "price_usd": 1900.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.4977,
-      "first_seen_at": "2026-07-23T20:05:08.500699+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.4977
     },
     {
       "id": "1e497fef9920360a",
@@ -153498,8 +153498,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:51.415470+00:00",
-      "last_verified_at": "2026-07-23T20:04:51.415470+00:00",
+      "scraped_at": "2026-07-25T20:02:34.846570+00:00",
+      "first_seen_at": "2026-07-23T20:04:51.415470+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:34.846570+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/RMP1727b.jpg?fit=1613%2C1210&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/11/RMP1727c.jpg?fit=1370%2C1053&ssl=1",
@@ -153511,9 +153513,7 @@
       "price_usd": 3750.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.5762,
-      "first_seen_at": "2026-07-23T20:04:51.415470+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.5762
     },
     {
       "id": "bd2bdab7c0cf0e39",
@@ -153536,8 +153536,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.503895+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.503895+00:00",
+      "scraped_at": "2026-07-25T20:02:53.304679+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.503895+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.304679+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/RPM1725.jpg?fit=807%2C601&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/RPM1724.jpg?fit=1198%2C778&ssl=1"
@@ -153548,9 +153550,7 @@
       "price_usd": 575.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.6295,
-      "first_seen_at": "2026-07-23T20:05:08.503895+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.6295
     },
     {
       "id": "48c1403250104e29",
@@ -153573,8 +153573,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.490353+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.490353+00:00",
+      "scraped_at": "2026-07-25T20:02:53.291056+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.490353+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.291056+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1450.jpg?fit=1136%2C1458&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab2034.jpg?fit=779%2C522&ssl=1",
@@ -153591,9 +153593,7 @@
       "price_usd": 350.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.8626,
-      "first_seen_at": "2026-07-23T20:05:08.490353+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.8626
     },
     {
       "id": "ec656f10592bfece",
@@ -153616,8 +153616,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.497278+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.497278+00:00",
+      "scraped_at": "2026-07-25T20:02:53.298071+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.497278+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.298071+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1840.jpg?fit=823%2C561&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab2034.jpg?fit=779%2C522&ssl=1",
@@ -153634,9 +153636,7 @@
       "price_usd": 1400.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.9651,
-      "first_seen_at": "2026-07-23T20:05:08.497278+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.9651
     },
     {
       "id": "dff6dc21a64f9d82",
@@ -153659,8 +153659,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.506093+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.506093+00:00",
+      "scraped_at": "2026-07-25T20:02:53.306886+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.506093+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.306886+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/RPM1725.jpg?fit=807%2C601&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/RPM1724.jpg?fit=1198%2C778&ssl=1"
@@ -153671,9 +153673,7 @@
       "price_usd": 450.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 5.9888,
-      "first_seen_at": "2026-07-23T20:05:08.506093+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 5.9888
     },
     {
       "id": "3d2bccd84a4e81fa",
@@ -153696,8 +153696,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.493836+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.493836+00:00",
+      "scraped_at": "2026-07-25T20:02:53.294568+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.493836+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.294568+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab2034.jpg?fit=779%2C522&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/05/AB1279.jpg?fit=1613%2C1210&ssl=1",
@@ -153714,9 +153716,7 @@
       "price_usd": 1200.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 7.486,
-      "first_seen_at": "2026-07-23T20:05:08.493836+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 7.486
     },
     {
       "id": "73f353f40674abc7",
@@ -154472,8 +154472,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.509220+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.509220+00:00",
+      "scraped_at": "2026-07-25T20:02:53.309948+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.509220+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.309948+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1942-1.jpg?fit=849%2C643&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1942x-1.jpg?fit=150%2C149&ssl=1",
@@ -154486,9 +154488,7 @@
       "price_usd": 1500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.6007,
-      "first_seen_at": "2026-07-23T20:05:08.509220+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.6007
     },
     {
       "id": "0c12605bad95ee42",
@@ -157609,8 +157609,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.511316+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.511316+00:00",
+      "scraped_at": "2026-07-25T20:02:53.312089+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.511316+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.312089+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1870.jpg?fit=652%2C573&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1942-1.jpg?fit=849%2C643&ssl=1",
@@ -157623,9 +157625,7 @@
       "price_usd": 500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 13.6986,
-      "first_seen_at": "2026-07-23T20:05:08.511316+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 13.6986
     },
     {
       "id": "ba5482073dfd11bb",
@@ -157992,8 +157992,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:08.513431+00:00",
-      "last_verified_at": "2026-07-23T20:05:08.513431+00:00",
+      "scraped_at": "2026-07-25T20:02:53.314217+00:00",
+      "first_seen_at": "2026-07-23T20:05:08.513431+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:53.314217+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/OC345.jpg?fit=628%2C519&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/03/ab1942-1.jpg?fit=849%2C643&ssl=1",
@@ -158006,9 +158008,7 @@
       "price_usd": 125.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 14.7059,
-      "first_seen_at": "2026-07-23T20:05:08.513431+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 14.7059
     },
     {
       "id": "adbb8297fff05ca7",
@@ -159127,8 +159127,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.507807+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.507807+00:00",
+      "scraped_at": "2026-07-25T20:02:47.302727+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.507807+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.302727+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/10/AB2020.jpg?fit=1058%2C815&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/10/AB1977.jpg?fit=979%2C819&ssl=1",
@@ -159141,9 +159143,7 @@
       "price_usd": 125.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 18.6567,
-      "first_seen_at": "2026-07-23T20:05:03.507807+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 18.6567
     },
     {
       "id": "ae0dcf944696197d",
@@ -161815,8 +161815,10 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:05:03.505802+00:00",
-      "last_verified_at": "2026-07-23T20:05:03.505802+00:00",
+      "scraped_at": "2026-07-25T20:02:47.300661+00:00",
+      "first_seen_at": "2026-07-23T20:05:03.505802+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:47.300661+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2021/10/AB1977.jpg?fit=979%2C819&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/03/AB1977.jpg?fit=1210%2C907&ssl=1",
@@ -161829,9 +161831,7 @@
       "price_usd": 950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 34.9265,
-      "first_seen_at": "2026-07-23T20:05:03.505802+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 34.9265
     },
     {
       "id": "e8306265cf972bdd",
@@ -162378,17 +162378,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.546853+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.546853+00:00",
+      "scraped_at": "2026-07-25T20:02:29.065618+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.546853+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.065618+00:00",
       "metbull_code": "12025",
       "metbull_status": "Official",
       "metbull_type": "Pallasite, PMG",
       "price_usd": 22250.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 40.7136,
-      "first_seen_at": "2026-07-23T20:04:46.546853+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 40.7136
     },
     {
       "id": "4d382f97a97e4b8c",
@@ -171143,8 +171143,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.515536+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.515536+00:00",
+      "scraped_at": "2026-07-25T20:02:29.035657+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.515536+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.035657+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/09/W008a.jpg?fit=1340%2C1348&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/04/W002a.jpg?fit=1382%2C1260&ssl=1",
@@ -171167,9 +171169,7 @@
       "price_usd": 3350.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0,
-      "first_seen_at": "2026-07-23T20:04:46.515536+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0
     },
     {
       "id": "0bb64fabba0e5729",
@@ -171192,8 +171192,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.511723+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.511723+00:00",
+      "scraped_at": "2026-07-25T20:02:29.031612+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.511723+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.031612+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/09/W008a.jpg?fit=1340%2C1348&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/04/W002a.jpg?fit=1382%2C1260&ssl=1",
@@ -171216,9 +171218,7 @@
       "price_usd": 2650.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0379,
-      "first_seen_at": "2026-07-23T20:04:46.511723+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0379
     },
     {
       "id": "37758c499cb12d8b",
@@ -171241,8 +171241,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.519303+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.519303+00:00",
+      "scraped_at": "2026-07-25T20:02:29.039565+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.519303+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.039565+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/09/W008a.jpg?fit=1340%2C1348&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/04/W002a.jpg?fit=1382%2C1260&ssl=1",
@@ -171265,9 +171267,7 @@
       "price_usd": 1950.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.0515,
-      "first_seen_at": "2026-07-23T20:04:46.519303+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.0515
     },
     {
       "id": "5027cb41e8f03fdd",
@@ -171290,8 +171290,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.902095+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.902095+00:00",
+      "scraped_at": "2026-07-25T20:02:32.462214+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.902095+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.462214+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/12/AC101c.jpg?fit=1637%2C988&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/12/AC101f.jpg?fit=1656%2C996&ssl=1"
@@ -171299,9 +171301,7 @@
       "price_usd": 500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.2249,
-      "first_seen_at": "2026-07-23T20:04:48.902095+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.2249
     },
     {
       "id": "fc806f00f27649ee",
@@ -171324,8 +171324,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.904307+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.904307+00:00",
+      "scraped_at": "2026-07-25T20:02:32.464450+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.904307+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.464450+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/12/AC100f.jpg?fit=1440%2C1116&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2022/12/AC100c.jpg?fit=1512%2C1080&ssl=1"
@@ -171333,9 +171335,7 @@
       "price_usd": 275.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 10.4167,
-      "first_seen_at": "2026-07-23T20:04:48.904307+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 10.4167
     },
     {
       "id": "3e3c670b0e5d9c92",
@@ -171388,8 +171388,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:46.523001+00:00",
-      "last_verified_at": "2026-07-23T20:04:46.523001+00:00",
+      "scraped_at": "2026-07-25T20:02:29.043403+00:00",
+      "first_seen_at": "2026-07-23T20:04:46.523001+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:29.043403+00:00",
       "image_urls": [
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/09/W008a.jpg?fit=1340%2C1348&ssl=1",
         "https://i0.wp.com/impactika.com/wp-content/uploads/2023/04/W002a.jpg?fit=1382%2C1260&ssl=1",
@@ -171412,9 +171414,7 @@
       "price_usd": 1200.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 11.544,
-      "first_seen_at": "2026-07-23T20:04:46.523001+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 11.544
     },
     {
       "id": "0a1a9f65e15b50f2",
@@ -172604,14 +172604,14 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.909470+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.909470+00:00",
+      "scraped_at": "2026-07-25T20:02:32.469465+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.909470+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.469465+00:00",
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 100.0,
-      "first_seen_at": "2026-07-23T20:04:48.909470+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 100.0
     },
     {
       "id": "98cfd6d039700bb0",
@@ -172634,14 +172634,14 @@
       "confidence": "medium",
       "available": false,
       "parser": "impactika",
-      "scraped_at": "2026-07-23T20:04:48.907507+00:00",
-      "last_verified_at": "2026-07-23T20:04:48.907507+00:00",
+      "scraped_at": "2026-07-25T20:02:32.467518+00:00",
+      "first_seen_at": "2026-07-23T20:04:48.907507+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T20:02:32.467518+00:00",
       "price_usd": 100.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 111.1111,
-      "first_seen_at": "2026-07-23T20:04:48.907507+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 111.1111
     },
     {
       "id": "998aafa64dce6e41",
