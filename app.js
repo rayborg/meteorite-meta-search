@@ -9,12 +9,17 @@ let priceDistributionFilter = null;
 let selectedSourceGroupKey = "";
 
 const $ = (id) => document.getElementById(id);
-const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "image", "available", "confidence"]);
+const NUMERIC_SORTS = new Set(["price", "weight_g", "price_per_g", "first_seen_at", "image", "available", "confidence"]);
 const CONFIDENCE_RANK = { low: 1, medium: 2, high: 3 };
 const UNSPECIFIED_SUBTYPE = "__unspecified__";
 const HEAVY_PRICE_PER_KG_WEIGHT_G = 1000;
 const PRICE_DISTRIBUTION_MAX_GROUPS = 24;
 const PRICE_DISTRIBUTION_BUCKETS = 8;
+const RECENT_LISTING_LIMIT = 12;
+const RECENT_NEWEST_SLOTS = 8;
+const RECENT_CANDIDATE_LIMIT = 60;
+const RECENT_RARITY_SHARE = 0.005;
+const LOW_PRICE_MIN_DISCOUNT = 0.15;
 const OTHER_METEORITE_LABEL = "Other meteorite";
 const SOURCE_STATUS_GROUPS = [
   { key: "enabled", label: "Connected", detailLabel: "Connected Sources", ariaLabel: "Connected or enabled sources" },
@@ -359,6 +364,302 @@ function visibleBaseListings() {
   return allListings.filter((item) => !isNonIndividualItem(item) && (includeUnavailable() || !isUnavailable(item)));
 }
 
+function availableIndividualListings(items = allListings) {
+  return items.filter((item) => !isNonIndividualItem(item) && !isUnavailable(item));
+}
+
+function listingFirstSeenValue(item) {
+  return item.first_seen_at || item.scraped_at || item.last_verified_at || null;
+}
+
+function listingFirstSeenMs(item) {
+  const timestamp = Date.parse(listingFirstSeenValue(item) || "");
+  return Number.isFinite(timestamp) ? timestamp : null;
+}
+
+function listingUsesFirstSeenBaseline(item) {
+  return item.first_seen_is_baseline === true || !item.first_seen_at;
+}
+
+function canonicalComparisonKey(item) {
+  if (item.canonical_name_status !== "metbull_verified") return "";
+  return normalize(item.canonical_name).trim();
+}
+
+function recentIdentityKey(item) {
+  const canonical = canonicalComparisonKey(item);
+  if (canonical) return `canonical:${canonical}`;
+  const title = normalize(item.title).trim();
+  return title
+    ? `title:${title}`
+    : `listing:${item.id || item.url || "unknown"}`;
+}
+
+function selectRecentListings(items = allListings, limit = RECENT_LISTING_LIMIT) {
+  const candidates = availableIndividualListings(items)
+    .filter((item) => listingFirstSeenMs(item) !== null)
+    .sort((a, b) =>
+      listingFirstSeenMs(b) - listingFirstSeenMs(a) ||
+      normalize(a.title).localeCompare(normalize(b.title), undefined, { numeric: true, sensitivity: "base" })
+    );
+  const selected = [];
+  const seenNames = new Set();
+
+  for (const item of candidates) {
+    const key = recentIdentityKey(item);
+    if (seenNames.has(key)) continue;
+    seenNames.add(key);
+    selected.push(item);
+    if (selected.length >= limit) break;
+  }
+  return selected;
+}
+
+function selectRecentFindEntries(items = allListings, limit = RECENT_LISTING_LIMIT) {
+  const candidates = selectRecentListings(items, Math.max(limit, RECENT_CANDIDATE_LIMIT));
+  const analyzed = candidates.map((item) => ({ item, signals: recentListingSignals(item, items), selection: "fill" }));
+  const selected = analyzed.slice(0, Math.min(RECENT_NEWEST_SLOTS, limit));
+  const selectedKeys = new Set(selected.map(({ item }) => recentIdentityKey(item)));
+  for (const entry of selected) entry.selection = "newest";
+
+  for (const entry of analyzed) {
+    if (selected.length >= limit) break;
+    const key = recentIdentityKey(entry.item);
+    if (selectedKeys.has(key) || (!entry.signals.lowPrice && !entry.signals.rare)) continue;
+    entry.selection = "highlight";
+    selected.push(entry);
+    selectedKeys.add(key);
+  }
+  for (const entry of analyzed) {
+    if (selected.length >= limit) break;
+    const key = recentIdentityKey(entry.item);
+    if (selectedKeys.has(key)) continue;
+    selected.push(entry);
+    selectedKeys.add(key);
+  }
+
+  return selected.sort((a, b) => listingFirstSeenMs(b.item) - listingFirstSeenMs(a.item));
+}
+
+function priceComparisonSignal(item, items = allListings) {
+  const value = usdPricePerGValue(item);
+  if (!Number.isFinite(value)) return null;
+
+  const priced = availableIndividualListings(items).filter((candidate) => Number.isFinite(usdPricePerGValue(candidate)));
+  const canonical = canonicalComparisonKey(item);
+  const type = itemCategoryKey(item);
+  const subtype = normalize(item.subtype).trim();
+  const cohorts = [];
+
+  if (canonical) {
+    cohorts.push({
+      minimum: 4,
+      label: item.canonical_name_display || item.canonical_name || item.title,
+      matches: (candidate) => canonicalComparisonKey(candidate) === canonical
+    });
+  }
+  if (subtype) {
+    cohorts.push({
+      minimum: 6,
+      label: `${subtypeDisplayLabel(item.subtype)} ${categoryLabel(type)}`,
+      matches: (candidate) => itemCategoryKey(candidate) === type && normalize(candidate.subtype).trim() === subtype
+    });
+  }
+  cohorts.push({
+    minimum: 12,
+    label: categoryLabel(type),
+    matches: (candidate) => itemCategoryKey(candidate) === type
+  });
+
+  for (const cohort of cohorts) {
+    const values = priced.filter(cohort.matches).map(usdPricePerGValue);
+    if (values.length < cohort.minimum) continue;
+    const medianValue = median(values);
+    const lowerQuartile = percentile(values, 0.25);
+    if (value > lowerQuartile || value > medianValue * (1 - LOW_PRICE_MIN_DISCOUNT)) return null;
+    return {
+      label: cohort.label,
+      count: values.length,
+      median: medianValue,
+      percentBelow: Math.round((1 - value / medianValue) * 100)
+    };
+  }
+  return null;
+}
+
+function raritySignal(item, items = allListings) {
+  const inventory = availableIndividualListings(items);
+  const type = itemCategoryKey(item);
+  if (!inventory.length || type === "unknown" || type === "stone") return null;
+
+  const subtype = normalize(item.subtype).trim();
+  const matches = subtype
+    ? (candidate) => itemCategoryKey(candidate) === type && normalize(candidate.subtype).trim() === subtype
+    : (candidate) => itemCategoryKey(candidate) === type;
+  const count = inventory.filter(matches).length;
+  const threshold = Math.floor(inventory.length * RECENT_RARITY_SHARE);
+  if (threshold < 1 || count > threshold) return null;
+  return {
+    count,
+    total: inventory.length,
+    label: subtype ? subtypeDisplayLabel(item.subtype) : categoryLabel(type)
+  };
+}
+
+function recentListingSignals(item, items = allListings) {
+  return {
+    lowPrice: priceComparisonSignal(item, items),
+    rare: raritySignal(item, items)
+  };
+}
+
+function firstSeenDateLabel(item) {
+  const timestamp = listingFirstSeenMs(item);
+  if (timestamp === null) return "First tracked date unavailable";
+  const prefix = listingUsesFirstSeenBaseline(item) ? "Tracking baseline" : "First tracked";
+  return `${prefix} ${new Date(timestamp).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`;
+}
+
+function appendRecentBadge(parent, text, className, title) {
+  const badge = document.createElement("span");
+  badge.className = `recent-badge ${className}`;
+  badge.textContent = text;
+  if (title) badge.title = title;
+  parent.appendChild(badge);
+}
+
+function renderRecentCard(item, signals) {
+  const card = document.createElement("article");
+  const media = document.createElement("div");
+  const thumb = document.createElement("img");
+  const noImage = document.createElement("span");
+  const body = document.createElement("div");
+  const badges = document.createElement("div");
+  const title = document.createElement("a");
+  const classification = document.createElement("p");
+  const pricing = document.createElement("div");
+  const ppg = document.createElement("strong");
+  const specimen = document.createElement("span");
+  const notes = document.createElement("div");
+  const footer = document.createElement("div");
+  const source = document.createElement("span");
+  const firstSeen = document.createElement("time");
+
+  card.className = "recent-card";
+  card.setAttribute("role", "listitem");
+  if (signals.lowPrice) card.classList.add("low-price");
+  if (signals.rare) card.classList.add("rare");
+
+  media.className = "recent-card-media";
+  thumb.className = "recent-card-thumb";
+  thumb.loading = "lazy";
+  thumb.decoding = "async";
+  thumb.referrerPolicy = "no-referrer";
+  thumb.hidden = true;
+  noImage.className = "recent-card-no-image";
+  noImage.textContent = "No image";
+  showImageAtIndex(thumb, noImage, item);
+  media.append(thumb, noImage);
+
+  body.className = "recent-card-body";
+  badges.className = "recent-badges";
+  if (listingUsesFirstSeenBaseline(item)) {
+    appendRecentBadge(badges, "Tracking baseline", "baseline", "This legacy listing predates first-seen tracking, so its prior scrape time is used as a baseline.");
+  } else {
+    appendRecentBadge(badges, "New to tracker", "new", "This listing is ordered by when it first entered the tracker.");
+  }
+  if (signals.lowPrice) {
+    appendRecentBadge(badges, "Low $/g", "deal", `${signals.lowPrice.percentBelow}% below the ${signals.lowPrice.label} median.`);
+  }
+  if (signals.rare) {
+    appendRecentBadge(badges, "Rare here", "rarity", `${signals.rare.count} available tracked listings share this classification.`);
+  }
+
+  title.className = "recent-card-title";
+  title.href = item.url;
+  title.target = "_blank";
+  title.rel = "noopener noreferrer";
+  title.textContent = item.title || "Untitled listing";
+  classification.className = "recent-card-classification";
+  classification.textContent = [categoryLabel(itemCategoryKey(item)), item.subtype ? subtypeDisplayLabel(item.subtype) : ""]
+    .filter(Boolean)
+    .join(" / ");
+
+  pricing.className = "recent-card-pricing";
+  ppg.textContent = pricePerGDisplay(item);
+  specimen.textContent = `${money(usdPriceValue(item), "USD")} / ${grams(item.weight_g)}`;
+  pricing.append(ppg, specimen);
+
+  notes.className = "recent-card-notes";
+  if (signals.lowPrice) {
+    const note = document.createElement("p");
+    note.textContent = `${signals.lowPrice.percentBelow}% below ${signals.lowPrice.label} median (${pricePerG(signals.lowPrice.median, "USD")}, ${signals.lowPrice.count} listings).`;
+    notes.appendChild(note);
+  }
+  if (signals.rare) {
+    const note = document.createElement("p");
+    note.textContent = `${signals.rare.label}: ${signals.rare.count} of ${signals.rare.total} available listings.`;
+    notes.appendChild(note);
+  }
+
+  footer.className = "recent-card-footer";
+  source.textContent = item.source || "Unknown source";
+  firstSeen.textContent = firstSeenDateLabel(item);
+  const firstSeenValue = listingFirstSeenValue(item);
+  if (firstSeenValue) firstSeen.dateTime = firstSeenValue;
+  footer.append(source, firstSeen);
+  body.append(badges, title, classification, pricing);
+  if (notes.childElementCount) body.appendChild(notes);
+  body.appendChild(footer);
+  card.append(media, body);
+  return card;
+}
+
+function setRecentFindsOpen(open) {
+  const content = $("recentFindsContent");
+  const toggle = $("recentFindsToggle");
+  if (!content || !toggle) return;
+  content.hidden = !open;
+  toggle.setAttribute("aria-expanded", String(open));
+  toggle.textContent = open ? "Hide recent finds" : "Show recent finds";
+}
+
+function renderRecentFinds() {
+  const section = $("recentFinds");
+  const list = $("recentFindsList");
+  const summary = $("recentFindsSummary");
+  if (!section || !list || !summary) return;
+
+  const inventory = availableIndividualListings();
+  const entries = selectRecentFindEntries(inventory);
+  list.innerHTML = "";
+  if (!entries.length) {
+    summary.textContent = "No available listings have a first-tracked date yet.";
+    section.hidden = false;
+    return;
+  }
+
+  let lowPriceCount = 0;
+  let rareCount = 0;
+  let highlightCount = 0;
+  let baselineCount = 0;
+  const fragment = document.createDocumentFragment();
+  for (const entry of entries) {
+    if (entry.signals.lowPrice) lowPriceCount += 1;
+    if (entry.signals.rare) rareCount += 1;
+    if (entry.selection === "highlight") highlightCount += 1;
+    if (listingUsesFirstSeenBaseline(entry.item)) baselineCount += 1;
+    fragment.appendChild(renderRecentCard(entry.item, entry.signals));
+  }
+  list.appendChild(fragment);
+  const selectionSummary = highlightCount
+    ? `${entries.length} recent listings, prioritizing the ${Math.min(RECENT_NEWEST_SLOTS, entries.length)} newest and ${highlightCount} additional standout${highlightCount === 1 ? "" : "s"}`
+    : `${entries.length} newest listings`;
+  const baselineSummary = baselineCount ? ` ${baselineCount} legacy baseline${baselineCount === 1 ? "" : "s"}.` : "";
+  summary.textContent = `${selectionSummary}, one per meteorite name. ${lowPriceCount} low price/g and ${rareCount} rare-in-inventory highlight${rareCount === 1 ? "" : "s"}.${baselineSummary}`;
+  section.hidden = false;
+}
+
 function fillFilters() {
   const selectedTypeValue = $("typeFilter").value || currentType;
   const selectedType = selectedTypeValue ? categoryKey(selectedTypeValue) : "";
@@ -544,6 +845,7 @@ function parseSort(value) {
 function sortValue(item, key) {
   if (key === "image") return item._imageUrl ? 1 : 0;
   if (key === "title") return item._titleSort || normalize(item.title);
+  if (key === "first_seen_at") return listingFirstSeenMs(item);
   if (key === "meteorite_type") return normalize(`${itemCategoryKey(item)} ${item.subtype || ""} ${item.title || ""}`);
   if (key === "subtype") return normalize(`${item.subtype || ""} ${item.title || ""}`);
   if (key === "source") return normalize(`${item.source || ""} ${item.title || ""}`);
@@ -588,6 +890,7 @@ function sortLabel(key, direction) {
   const labels = {
     image: "image",
     title: "meteorite name",
+    first_seen_at: "first tracked date",
     meteorite_type: "category",
     subtype: "subtype",
     price: "price (USD)",
@@ -733,6 +1036,16 @@ function median(values) {
   const sorted = [...values].sort((a, b) => a - b);
   const middle = Math.floor(sorted.length / 2);
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+}
+
+function percentile(values, ratio) {
+  const sorted = [...values].sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const index = (sorted.length - 1) * ratio;
+  const lower = Math.floor(index);
+  const upper = Math.ceil(index);
+  if (lower === upper) return sorted[lower];
+  return sorted[lower] + (sorted[upper] - sorted[lower]) * (index - lower);
 }
 
 function average(values) {
@@ -1264,11 +1577,16 @@ async function init() {
 
   $("sortBy").value = `${DEFAULT_SORT.key}:${DEFAULT_SORT.direction}`;
   sortState = parseSort($("sortBy").value);
+  setRecentFindsOpen(true);
+  renderRecentFinds();
   setSourcesPanelOpen(false);
   fillFilters();
   renderSources();
   $("sourcesSummary").addEventListener("click", openSourcesPanel);
   $("sourceInfoSelect").addEventListener("change", renderSelectedSource);
+  $("recentFindsToggle").addEventListener("click", () => {
+    setRecentFindsOpen($("recentFindsToggle").getAttribute("aria-expanded") !== "true");
+  });
 
   for (const id of ["search", "typeFilter", "sourceFilter"]) {
     $(id).addEventListener("input", () => {
@@ -1304,7 +1622,22 @@ async function init() {
   render();
 }
 
-init().catch((err) => {
-  console.error(err);
-  $("updated").textContent = "Failed to load data";
-});
+if (typeof document !== "undefined") {
+  init().catch((err) => {
+    console.error(err);
+    $("updated").textContent = "Failed to load data";
+  });
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    listingFirstSeenMs,
+    listingUsesFirstSeenBaseline,
+    percentile,
+    priceComparisonSignal,
+    raritySignal,
+    recentListingSignals,
+    selectRecentFindEntries,
+    selectRecentListings
+  };
+}

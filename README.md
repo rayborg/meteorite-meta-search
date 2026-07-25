@@ -22,6 +22,7 @@ The frontend is intentionally static:
 Frontend behavior:
 
 - Search covers title, source, type, subtype, classification text, and URL.
+- The top `Recent Finds` section shows one available specimen per meteorite name: the eight newest plus up to four newer low-price/rarity standouts. `Low $/g` requires the lowest quartile and a price at least 15% below a like-for-like median; `Rare here` means the classification is 0.5% or less of available tracked inventory. Rows that predate first-seen tracking are explicitly labeled as tracking baselines rather than confirmed new finds.
 - Type chips and type/source selects are built from currently visible individual listings.
 - Unavailable listings are hidden by default and can be included with the checkbox.
 - Non-individual leftovers such as generic category/book/catalog rows and decorative images are filtered client-side as a defensive fallback.
@@ -39,7 +40,7 @@ It extracts or derives:
 
 - Meteorite type, including pallasite, chondrite, carbonaceous chondrite, ordinary chondrite, iron, achondrite, lunar, Martian, mesosiderite, and tektite/impactite.
 - Subtypes and classification clues such as H/L/LL, carbonaceous groups, HED terms, iron groups, NWA numbers, and related class text.
-- Price, currency, weight, estimated price/g, USD-normalized price fields, remote image URLs, Official MetBull canonical-name fields, availability, parser confidence, and scrape timestamps when present.
+- Price, currency, weight, estimated price/g, USD-normalized price fields, remote image URLs, Official MetBull canonical-name fields, availability, parser confidence, first-seen time, and scrape/verification timestamps when present.
 
 ## Active Sources
 
@@ -160,6 +161,8 @@ Run these before committing scraper, data, or frontend behavior changes:
 
 ```sh
 node --check app.js
+node --test tests/recent-listings.test.js
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py scraper/update_metbull_cache.py scraper/discover_sources.py scraper/validate_source_discovery.py
 git diff --check
@@ -175,20 +178,21 @@ git diff --check
 - Rotation selects one enabled source per run and preserves existing rows for enabled sources that were not scraped in that run.
 - Push and manual runs currently execute a full scrape of all enabled sources.
 - The workflow validates `data/listings.json`, commits inventory changes, and pushes them back to the repository.
-- `data/listings.json` and `data/metbull_names.json` are ignored by the workflow trigger path filter so automated data-only commits do not immediately retrigger the workflow.
+- `data/listings.json`, `data/listing_history.json`, and `data/metbull_names.json` are ignored by the workflow trigger path filter so automated data-only commits do not immediately retrigger the workflow.
 - The workflow passes optional `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` values from GitHub repository secrets, but eBay sources remain disabled until explicitly reviewed and enabled.
 - Workflow concurrency cancels stale scrape runs, and the commit step skips inventory commits if `main` advanced while the scrape was running.
 
 GitHub Pages can serve the static files directly from the repository. No separate frontend build step is required.
 
-`.github/workflows/update-metbull-cache.yml` refreshes the local MetBull cache on Fridays at 07:17 UTC, after the recent Thursday Meteoritical Bulletin RSS batch window. It runs `scraper/update_metbull_cache.py`, normalizes existing listings against the refreshed cache without scraping seller sites, validates the generated JSON, and commits only if `data/metbull_names.json` or `data/listings.json` changed.
+`.github/workflows/update-metbull-cache.yml` refreshes the local MetBull cache on Fridays at 07:17 UTC, after the recent Thursday Meteoritical Bulletin RSS batch window. It runs `scraper/update_metbull_cache.py`, normalizes existing listings against the refreshed cache without scraping seller sites, validates the generated JSON, and commits changed MetBull, listing, and listing-history data.
 
 `.github/workflows/discover-sources.yml` runs twice daily at 06:37 and 18:37 UTC and by manual dispatch. It is review-only: it runs `scraper/discover_sources.py`, validates the generated JSON with `scraper/validate_source_discovery.py`, and uploads `source-discovery/source-discovery.json` plus `source-discovery/source-discovery.md` as an Actions artifact. It uses optional `BRAVE_SEARCH_API_KEY` or `BING_SEARCH_API_KEY` repository secrets and does not edit, commit, or push `data/sites.json`, `docs/parser-backlog.md`, or inventory data.
 
 ## Data Files
 
 - `data/sites.json` is the source registry. `enabled: true` means the source is eligible for scraping and rotation. `enabled: false` means backlog or disabled parser start.
-- `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array. Each listing includes `last_verified_at`, the last time that exact row was returned by a source scrape.
+- `data/listings.json` is generated scraper output. It includes metadata such as `generated_at`, `source_count`, `listing_count`, `scrape_mode`, `scraped_sources`, `preserved_sources`, optional rotation metadata, and the normalized `listings` array. Each newly generated listing includes `first_seen_at` and `first_seen_is_baseline`, plus `last_verified_at`, the last time that exact row was returned by a source scrape. Legacy rows use their existing scrape time as an explicitly marked first-seen baseline.
+- `data/listing_history.json` is scraper-only first-seen history and is not fetched by the dashboard. It retains exact listing IDs while stock is absent; active rows can also inherit through an unambiguous source/URL/title/weight match when a price change alters the generated ID. Ambiguous replacements are conservatively treated as new, and inactive history is capped at 25,000 records while all active IDs are retained.
 - `data/metbull_names.json` is the local Meteoritical Bulletin name cache used for canonical-name lookup. Refresh it manually with `PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py`, or let the weekly MetBull cache workflow update it. Normal scrapes should not query MetBull live per listing.
 - `source-discovery/` is a workflow artifact path, not committed source data. Treat its JSON and Markdown reports as candidate input for manual review only.
 - External shared candidate-list links such as OneDrive documents are candidate input only, not inventory sources; do not add the shared-document URL itself to `data/sites.json`.

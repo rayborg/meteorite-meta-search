@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meteorite Meta Search</title>
-  <link rel="stylesheet" href="styles.css?v=20260627-source-groups">
+  <link rel="stylesheet" href="styles.css?v=20260724-recent-finds">
 </head>
 <body>
   <header class="site-header">
@@ -20,6 +20,20 @@
       <article><button id="sourcesSummary" class="summary-button" type="button" aria-controls="sourcesPanel" aria-expanded="false"><span class="big" id="totalSources">0</span><span>connected sources</span><span class="summary-meta" id="sourceSummaryMeta">0 configured total</span><span class="visually-hidden">Show the source information panel</span></button></article>
       <article><span class="big price-summary" id="avgPricePerG">—</span><span>avg USD price/g where available</span></article>
       <article><span class="big price-summary" id="bestDeal">—</span><span>lowest USD price/g</span></article>
+    </section>
+    <section id="recentFinds" class="recent-finds" aria-labelledby="recentFindsHeading">
+      <div class="recent-finds-heading">
+        <div>
+          <div class="recent-kicker">New inventory</div>
+          <h2 id="recentFindsHeading">Recent Finds</h2>
+          <p id="recentFindsSummary" aria-live="polite">Loading the most recently tracked available listings...</p>
+        </div>
+        <button id="recentFindsToggle" class="recent-finds-toggle" type="button" aria-controls="recentFindsContent" aria-expanded="true">Hide recent finds</button>
+      </div>
+      <div id="recentFindsContent">
+        <p class="recent-finds-legend"><strong>Highlights:</strong> Low $/g is in the lowest quarter and at least 15% below the median for comparable listings. Rare here means the classification is 0.5% or less of available tracked inventory. Pre-feature rows are marked as tracking baselines, not confirmed new finds.</p>
+        <div id="recentFindsList" class="recent-finds-grid" role="list"></div>
+      </div>
     </section>
     <section id="sourcesPanel" class="sources-panel" aria-labelledby="sourcesHeading" hidden>
       <div class="section-heading">
@@ -40,6 +54,7 @@
       <select id="sourceFilter" aria-label="Filter by source"><option value="">All sources</option></select>
       <select id="sortBy" autocomplete="off" aria-label="Sort listings">
         <option value="title:asc" selected>Sort: meteorite name A-Z</option>
+        <option value="first_seen_at:desc">Sort: newest found</option>
         <option value="price_per_g:asc">Sort: lowest USD price/g</option>
         <option value="price:asc">Sort: lowest USD price</option>
         <option value="weight_g:desc">Sort: largest weight</option>
@@ -86,6 +101,6 @@
       <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="availability"></td><td class="confidence"></td>
     </tr>
   </template>
-  <script src="app.js?v=20260627-last-verified"></script>
+  <script src="app.js?v=20260724-recent-finds"></script>
 </body>
 </html>

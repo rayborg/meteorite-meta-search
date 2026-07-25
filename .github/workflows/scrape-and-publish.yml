@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths-ignore:
       - "data/listings.json"
+      - "data/listing_history.json"
       - "data/metbull_names.json"
   schedule:
     - cron: "0 * * * *"
@@ -40,7 +41,9 @@ jobs:
             python scraper/scrape.py
           fi
       - name: Validate inventory data
-        run: python scraper/validate_listings.py
+        run: |
+          python -m json.tool data/listing_history.json >/dev/null
+          python scraper/validate_listings.py
       - name: Commit updated inventory data
         run: |
           git fetch --no-tags origin main
@@ -51,7 +54,7 @@ jobs:
 
           git config user.name "meteorite-meta-search-bot"
           git config user.email "meteorite-meta-search-bot@users.noreply.github.com"
-          git add data/listings.json
+          git add data/listings.json data/listing_history.json
           if git diff --cached --quiet; then
             echo "No inventory changes"
           else

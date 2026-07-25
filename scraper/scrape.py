@@ -24,6 +24,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 SITES = ROOT / "data" / "sites.json"
 OUT = ROOT / "data" / "listings.json"
+LISTING_HISTORY = ROOT / "data" / "listing_history.json"
 METBULL_NAMES = ROOT / "data" / "metbull_names.json"
 UA = "MeteoriteMetaSearchBot/0.3 (+https://github.com/rayborg/meteorite-meta-search)"
 BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
@@ -41,6 +42,7 @@ SHOPIFY_PRODUCTS_PER_SITE_CAP = MAX_SHOPIFY_PAGES_PER_SITE * 250
 SHOPIFY_JSON_RETRIES = 3
 FX_SUPPORTED_CURRENCIES = ("USD", "EUR", "CAD")
 FX_TIMEOUT = 15
+MAX_INACTIVE_LISTING_HISTORY_RECORDS = 25000
 
 METEORITE_RE = re.compile(
     r"meteorite|chondrite|achondrite|pallasite|lunar|martian|nwa\s*\d+|"
@@ -2060,6 +2062,8 @@ def make_listing(
         "available": available,
         "parser": parser_name,
         "scraped_at": verified_at,
+        "first_seen_at": verified_at,
+        "first_seen_is_baseline": False,
         "last_verified_at": verified_at,
     }
     if len(image_candidates) > 1:
@@ -6804,6 +6808,32 @@ def load_existing_data() -> dict:
         return {}
 
 
+def load_listing_history() -> dict:
+    if not LISTING_HISTORY.exists():
+        return {"version": 1, "records": {}}
+    try:
+        data = json.loads(LISTING_HISTORY.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"Unable to read listing history without risking first-seen data loss: {exc}") from exc
+    if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("records"), dict):
+        raise SystemExit("listing_history.json must be a version 1 object with a records object")
+    for token, record in data["records"].items():
+        if not isinstance(token, str) or not token.startswith("id:") or not token[3:]:
+            raise SystemExit(f"listing_history.json contains invalid record key {token!r}")
+        if not isinstance(record, dict):
+            raise SystemExit(f"listing_history.json record {token!r} is not an object")
+        first_seen = record.get("first_seen_at")
+        try:
+            parsed_first_seen = datetime.fromisoformat(str(first_seen).replace("Z", "+00:00"))
+        except (TypeError, ValueError) as exc:
+            raise SystemExit(f"listing_history.json record {token!r} has invalid first_seen_at") from exc
+        if parsed_first_seen.tzinfo is None:
+            raise SystemExit(f"listing_history.json record {token!r} first_seen_at is not timezone-aware")
+        if not isinstance(record.get("is_baseline"), bool):
+            raise SystemExit(f"listing_history.json record {token!r} has non-boolean is_baseline")
+    return data
+
+
 def scrape_selected_sites(selected_sites: list[dict]) -> tuple[dict[str, dict], dict[str, int]]:
     by_id = {}
     scraped_counts = {}
@@ -6841,9 +6871,124 @@ def apply_usd_conversion(item: dict, fx_metadata: dict) -> None:
         item["fx_rate_date"] = None
 
 
+def listing_first_seen_record(item: dict) -> dict | None:
+    explicit_first_seen = clean(str(item.get("first_seen_at") or ""))
+    first_seen = explicit_first_seen or clean(str(item.get("scraped_at") or item.get("last_verified_at") or ""))
+    if not first_seen:
+        return None
+    baseline = item.get("first_seen_is_baseline")
+    return {
+        "first_seen_at": first_seen,
+        "is_baseline": baseline if isinstance(baseline, bool) else not bool(explicit_first_seen),
+    }
+
+
+def first_seen_history_record(value) -> dict | None:
+    if isinstance(value, str):
+        first_seen = clean(value)
+        return {"first_seen_at": first_seen, "is_baseline": False} if first_seen else None
+    if not isinstance(value, dict):
+        return None
+    first_seen = clean(str(value.get("first_seen_at") or ""))
+    if not first_seen:
+        return None
+    return {"first_seen_at": first_seen, "is_baseline": value.get("is_baseline") is True}
+
+
+def apply_first_seen_record(item: dict, record: dict) -> None:
+    item["first_seen_at"] = record["first_seen_at"]
+    item["first_seen_is_baseline"] = record.get("is_baseline") is True
+
+
+def listing_first_seen_at(item: dict) -> str | None:
+    record = listing_first_seen_record(item)
+    return record["first_seen_at"] if record else None
+
+
+def listing_history_key(item: dict) -> tuple[str, str, str, float | None] | None:
+    source = clean(str(item.get("source") or "")).casefold()
+    url = clean(str(item.get("url") or ""))
+    title = normalize_name_key(str(item.get("title") or ""))
+    weight = numeric_value(item.get("weight_g"))
+    if not source or not url or not title:
+        return None
+    return source, url, title, round(weight, 4) if weight is not None else None
+
+
+def listing_history_token(item: dict) -> str | None:
+    history_key = listing_history_key(item)
+    if history_key is None:
+        return None
+    raw = json.dumps(history_key, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
+    return f"listing:{hashlib.sha1(raw).hexdigest()[:20]}"
+
+
+def first_seen_indexes(items: list[dict], persisted_history: dict | None = None) -> tuple[dict[str, dict], dict[str, dict]]:
+    by_id = {}
+    by_history_token = {}
+    ambiguous_history_tokens = set()
+    history_token_ids = {}
+
+    if isinstance(persisted_history, dict):
+        for token, value in persisted_history.items():
+            record = first_seen_history_record(value)
+            if not record or not isinstance(token, str):
+                continue
+            if token.startswith("id:") and len(token) > 3:
+                by_id[token[3:]] = record
+
+    for item in items:
+        record = listing_first_seen_record(item)
+        item_id = str(item.get("id") or "")
+        if not record:
+            continue
+        if item_id:
+            by_id.setdefault(item_id, record)
+        history_token = listing_history_token(item)
+        if history_token is None:
+            continue
+        prior_id = history_token_ids.get(history_token)
+        if prior_id is not None and prior_id != item_id:
+            ambiguous_history_tokens.add(history_token)
+            continue
+        history_token_ids[history_token] = item_id
+        by_history_token.setdefault(history_token, record)
+
+    for history_token in ambiguous_history_tokens:
+        by_history_token.pop(history_token, None)
+    return by_id, by_history_token
+
+
+def updated_first_seen_history(existing_history: dict, existing_data: dict, listings: list[dict]) -> dict:
+    history = {}
+    existing_records = existing_history.get("records") if isinstance(existing_history, dict) else None
+    if isinstance(existing_records, dict):
+        for token, value in existing_records.items():
+            record = first_seen_history_record(value)
+            if record and isinstance(token, str) and token.startswith("id:") and len(token) > 3:
+                history[token] = record
+
+    item_sets = [existing_data.get("listings", []), listings]
+    for items in item_sets:
+        by_id, _ = first_seen_indexes(items)
+        for item_id, record in by_id.items():
+            history.setdefault(f"id:{item_id}", record)
+    active_tokens = {f"id:{item.get('id')}" for item in listings if item.get("id")}
+    inactive = [(token, record) for token, record in history.items() if token not in active_tokens]
+    if len(inactive) > MAX_INACTIVE_LISTING_HISTORY_RECORDS:
+        retained = {token: history[token] for token in active_tokens if token in history}
+        for token, record in sorted(inactive, key=lambda entry: entry[1]["first_seen_at"], reverse=True)[:MAX_INACTIVE_LISTING_HISTORY_RECORDS]:
+            retained[token] = record
+        history = retained
+    return {"version": 1, "records": dict(sorted(history.items()))}
+
+
 def normalize_listing_item(item: dict, fx_metadata: dict) -> dict:
     normalized = dict(item)
     normalized["last_verified_at"] = clean(str(normalized.get("last_verified_at") or normalized.get("scraped_at") or "")) or None
+    first_seen_record = listing_first_seen_record(normalized)
+    if first_seen_record:
+        apply_first_seen_record(normalized, first_seen_record)
     parser = str(normalized.get("parser") or "generic")
     title = display_title(str(normalized.get("title") or ""), parser, str(normalized.get("url") or ""))
     canonical = None
@@ -6935,18 +7080,23 @@ def merge_listings(
     scraped_sources: set[str],
     enabled_sources: set[str],
     fx_metadata: dict,
+    first_seen_history: dict,
     *,
     preserve_unselected_sources: bool,
 ) -> tuple[list[dict], set[str], set[str]]:
     merged_by_id = {}
     preserved_sources = set()
     empty_refresh_preserved_sources = set()
+    existing_items = [
+        item
+        for item in existing_data.get("listings", [])
+        if item.get("source") in enabled_sources and item.get("id")
+    ]
+    first_seen_by_id, first_seen_by_history_token = first_seen_indexes(existing_items, first_seen_history)
 
-    for item in existing_data.get("listings", []):
+    for item in existing_items:
         source = item.get("source")
         item_id = item.get("id")
-        if source not in enabled_sources or not item_id:
-            continue
         preserve_item = False
         if source in scraped_sources:
             if scraped_counts.get(source, 0) > 0:
@@ -6960,7 +7110,22 @@ def merge_listings(
         preserved_sources.add(source)
         merged_by_id[str(item_id)] = normalize_listing_item(item, fx_metadata)
 
-    merged_by_id.update({item_id: normalize_listing_item(item, fx_metadata) for item_id, item in refreshed_by_id.items()})
+    normalized_refreshed = {
+        item_id: normalize_listing_item(item, fx_metadata)
+        for item_id, item in refreshed_by_id.items()
+    }
+    refreshed_history_token_counts = Counter(
+        token for item in normalized_refreshed.values() if (token := listing_history_token(item))
+    )
+    for item_id, normalized in normalized_refreshed.items():
+        inherited_first_seen = first_seen_by_id.get(str(item_id))
+        if inherited_first_seen is None:
+            history_token = listing_history_token(normalized)
+            if history_token and refreshed_history_token_counts[history_token] == 1:
+                inherited_first_seen = first_seen_by_history_token.get(history_token)
+        if inherited_first_seen:
+            apply_first_seen_record(normalized, inherited_first_seen)
+        merged_by_id[item_id] = normalized
     return list(merged_by_id.values()), preserved_sources, empty_refresh_preserved_sources
 
 
@@ -7001,6 +7166,7 @@ def main() -> None:
     sites = json.loads(SITES.read_text(encoding="utf-8"))
     enabled_sites = [s for s in sites if s.get("enabled", True)]
     existing_data = load_existing_data()
+    existing_history = load_listing_history()
     enabled_sources = {site["name"] for site in enabled_sites}
 
     if args.normalize_existing:
@@ -7009,6 +7175,7 @@ def main() -> None:
         fx_metadata = resolve_fx_metadata(existing_data)
         listings, preserved_sources = normalize_existing_listings(existing_data, enabled_sources, fx_metadata)
         listings = sort_listings(listings)
+        first_seen_history = updated_first_seen_history(existing_history, existing_data, listings)
         payload = output_payload(
             listings=listings,
             enabled_sites=enabled_sites,
@@ -7021,6 +7188,7 @@ def main() -> None:
             scrape_mode="normalize",
         )
         OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        LISTING_HISTORY.write_text(json.dumps(first_seen_history, indent=2), encoding="utf-8")
         print(f"Wrote {OUT} with {len(listings)} listings")
         print("Scraped sources: none")
         if payload["preserved_sources"]:
@@ -7054,10 +7222,12 @@ def main() -> None:
         scraped_sources,
         enabled_sources,
         fx_metadata,
+        existing_history.get("records", {}),
         preserve_unselected_sources=preserve_existing,
     )
 
     listings = sort_listings(listings)
+    first_seen_history = updated_first_seen_history(existing_history, existing_data, listings)
     payload = output_payload(
         listings=listings,
         enabled_sites=enabled_sites,
@@ -7069,6 +7239,7 @@ def main() -> None:
         fx_metadata=fx_metadata,
     )
     OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    LISTING_HISTORY.write_text(json.dumps(first_seen_history, indent=2), encoding="utf-8")
 
     print(f"Wrote {OUT} with {len(listings)} listings")
     print(f"Scraped sources: {', '.join(payload['scraped_sources']) or 'none'}")

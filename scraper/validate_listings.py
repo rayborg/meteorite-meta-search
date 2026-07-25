@@ -13,6 +13,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "listings.json"
+LISTING_HISTORY = ROOT / "data" / "listing_history.json"
 SITES = ROOT / "data" / "sites.json"
 
 METEORITE_RE = re.compile(
@@ -443,6 +444,8 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     fx_date = item.get("fx_rate_date")
     available = item.get("available")
     scraped_at = item.get("scraped_at")
+    first_seen_at = item.get("first_seen_at")
+    first_seen_is_baseline = item.get("first_seen_is_baseline")
     last_verified_at = item.get("last_verified_at")
 
     if source not in valid_sources:
@@ -455,6 +458,18 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
         errors.append(f"row {index}: available is not boolean")
     if not valid_iso_datetime(scraped_at):
         errors.append(f"row {index}: scraped_at is not a timezone-aware ISO datetime")
+    if first_seen_at is not None:
+        if not valid_iso_datetime(first_seen_at):
+            errors.append(f"row {index}: first_seen_at is not a timezone-aware ISO datetime")
+        elif valid_iso_datetime(last_verified_at):
+            first_seen_date = datetime.fromisoformat(first_seen_at.replace("Z", "+00:00"))
+            last_verified_date = datetime.fromisoformat(last_verified_at.replace("Z", "+00:00"))
+            if first_seen_date > last_verified_date:
+                errors.append(f"row {index}: first_seen_at is later than last_verified_at")
+        if not isinstance(first_seen_is_baseline, bool):
+            errors.append(f"row {index}: first_seen_is_baseline is not boolean")
+    elif first_seen_is_baseline is not None:
+        errors.append(f"row {index}: first_seen_is_baseline is present without first_seen_at")
     if not valid_iso_datetime(last_verified_at):
         errors.append(f"row {index}: last_verified_at is not a timezone-aware ISO datetime")
     if currency is not None and currency not in VALID_CURRENCIES:
@@ -772,8 +787,42 @@ def metadata_errors(data: dict, listings: list[dict], sites: list[dict]) -> list
     return errors
 
 
+def listing_history_errors(history: dict, listings: list[dict]) -> list[str]:
+    errors = []
+    if not isinstance(history, dict) or history.get("version") != 1:
+        return ["listing_history.json must be a version 1 object"]
+    records = history.get("records")
+    if not isinstance(records, dict):
+        return ["listing_history.json records is not an object"]
+
+    for token, record in records.items():
+        if not isinstance(token, str) or not token.startswith("id:") or not token[3:]:
+            errors.append(f"listing history has invalid key {token!r}")
+            continue
+        if not isinstance(record, dict):
+            errors.append(f"listing history {token!r} is not an object")
+            continue
+        if not valid_iso_datetime(record.get("first_seen_at")):
+            errors.append(f"listing history {token!r} has invalid first_seen_at")
+        if not isinstance(record.get("is_baseline"), bool):
+            errors.append(f"listing history {token!r} has non-boolean is_baseline")
+
+    rows_with_first_seen = [item for item in listings if item.get("first_seen_at") is not None]
+    if rows_with_first_seen and len(rows_with_first_seen) != len(listings):
+        errors.append("first_seen_at must be present on every listing once first-seen tracking is initialized")
+    for item in rows_with_first_seen:
+        token = f"id:{item.get('id')}"
+        record = records.get(token)
+        if not isinstance(record, dict):
+            errors.append(f"row {item.get('id')}: listing history is missing exact ID record")
+        elif record.get("first_seen_at") != item.get("first_seen_at") or record.get("is_baseline") != item.get("first_seen_is_baseline"):
+            errors.append(f"row {item.get('id')}: listing history exact ID record does not match listing")
+    return errors
+
+
 def main() -> None:
     data = json.loads(DATA.read_text(encoding="utf-8"))
+    history = json.loads(LISTING_HISTORY.read_text(encoding="utf-8"))
     sites = json.loads(SITES.read_text(encoding="utf-8"))
     valid_sources = {site["name"] for site in sites}
     valid_parsers = {site.get("parser") or "generic" for site in sites} | {"generic"}
@@ -782,7 +831,7 @@ def main() -> None:
     by_scraped_at = Counter(item.get("scraped_at") or "missing" for item in listings)
     by_last_verified_at = Counter(item.get("last_verified_at") or "missing" for item in listings)
     suspicious = []
-    errors = metadata_errors(data, listings, sites)
+    errors = metadata_errors(data, listings, sites) + listing_history_errors(history, listings)
     duplicate_keys = Counter(
         (
             item.get("source"),
@@ -813,6 +862,8 @@ def main() -> None:
         print(f"  {source}: {count}")
     print(f"distinct row scraped_at values: {len(by_scraped_at)}")
     print(f"distinct row last_verified_at values: {len(by_last_verified_at)}")
+    print(f"with first_seen_at: {sum(valid_iso_datetime(item.get('first_seen_at')) for item in listings)}")
+    print(f"listing history records: {len(history.get('records') or {})}")
     print(f"with price: {sum(item.get('price') is not None for item in listings)}")
     print(f"with price_usd: {sum(item.get('price_usd') is not None for item in listings)}")
     print(f"with weight: {sum(item.get('weight_g') is not None for item in listings)}")

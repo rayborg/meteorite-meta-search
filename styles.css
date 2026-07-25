@@ -22,6 +22,44 @@ input:focus, select:focus, button:focus { outline:2px solid var(--accent); outli
 .summary-meta { color:var(--muted); font-size:.82rem; }
 .big { font-size:1.6rem; font-weight:750; color:var(--accent); }
 .big.summary-message { font-size:.95rem; line-height:1.25; color:var(--muted); }
+.recent-finds { position:relative; overflow:hidden; margin:0 0 1rem; padding:1rem; border:1px solid rgba(217,164,65,.34); border-radius:20px; background:linear-gradient(135deg,rgba(35,42,54,.96),rgba(19,23,31,.96) 58%,rgba(31,37,48,.9)); }
+.recent-finds::before { content:""; position:absolute; width:22rem; height:22rem; right:-9rem; top:-15rem; border-radius:50%; background:radial-gradient(circle,rgba(217,164,65,.16),transparent 68%); pointer-events:none; }
+.recent-finds > * { position:relative; }
+.recent-finds-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:.8rem; }
+.recent-finds-heading h2 { margin:.1rem 0 .25rem; letter-spacing:-.02em; }
+.recent-kicker { color:var(--accent); font-size:.72rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+.recent-finds-toggle { flex:0 0 auto; padding:.55rem .75rem; background:rgba(15,17,23,.55); cursor:pointer; }
+.recent-finds-legend { margin:0 0 .75rem; padding:.55rem .7rem; border-left:3px solid rgba(217,164,65,.65); background:rgba(15,17,23,.34); color:var(--muted); font-size:.8rem; line-height:1.45; }
+.recent-finds-legend strong { color:var(--text); }
+.recent-finds-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:.7rem; }
+.recent-card { position:relative; display:flex; min-width:0; min-height:22rem; flex-direction:column; overflow:hidden; border:1px solid var(--line); border-radius:16px; background:rgba(15,17,23,.76); }
+.recent-card::before { content:""; position:absolute; z-index:2; top:0; left:0; right:0; height:3px; background:transparent; }
+.recent-card.low-price { border-color:rgba(94,194,143,.52); box-shadow:0 12px 30px rgba(31,126,83,.08); }
+.recent-card.low-price::before { background:#5ec28f; }
+.recent-card.rare { border-color:rgba(181,142,230,.5); box-shadow:0 12px 30px rgba(122,77,181,.08); }
+.recent-card.rare::before { background:#b58ee6; }
+.recent-card.low-price.rare::before { background:linear-gradient(90deg,#5ec28f 0 50%,#b58ee6 50%); }
+.recent-card-media { display:flex; height:8rem; flex:0 0 8rem; align-items:center; justify-content:center; overflow:hidden; border-bottom:1px solid var(--line); background:#0b0d12; }
+.recent-card-thumb { display:block; width:100%; height:100%; object-fit:cover; }
+.recent-card-no-image { display:flex; width:100%; height:100%; align-items:center; justify-content:center; color:var(--muted); font-size:.76rem; background:radial-gradient(circle at center,rgba(217,164,65,.08),transparent 62%); }
+.recent-card-body { display:flex; min-width:0; flex:1; flex-direction:column; padding:.8rem; }
+.recent-badges { display:flex; min-height:1.4rem; flex-wrap:wrap; gap:.3rem; margin-bottom:.55rem; }
+.recent-badge { display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; padding:.18rem .45rem; font-size:.65rem; font-weight:800; letter-spacing:.055em; line-height:1.2; text-transform:uppercase; }
+.recent-badge.new { color:#8ebce9; border-color:rgba(104,165,222,.42); background:rgba(54,105,153,.14); }
+.recent-badge.baseline { color:var(--muted); border-style:dashed; background:rgba(153,163,179,.07); }
+.recent-badge.deal { color:#81d5aa; border-color:rgba(94,194,143,.45); background:rgba(50,142,96,.14); }
+.recent-badge.rarity { color:#c9a9ef; border-color:rgba(181,142,230,.45); background:rgba(122,77,181,.14); }
+.recent-card-title { min-width:0; overflow-wrap:anywhere; font-size:1.02rem; font-weight:780; line-height:1.25; text-decoration-color:var(--accent); }
+.recent-card-classification { margin-top:.28rem; font-size:.76rem; line-height:1.35; }
+.recent-card-pricing { display:flex; justify-content:space-between; gap:.55rem; align-items:baseline; margin:.75rem 0 .55rem; padding:.55rem 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.recent-card-pricing strong { color:var(--accent); font-size:1rem; }
+.recent-card.low-price .recent-card-pricing strong { color:#81d5aa; }
+.recent-card-pricing span { color:var(--muted); font-size:.75rem; text-align:right; }
+.recent-card-notes { display:flex; flex-direction:column; gap:.3rem; margin-bottom:.65rem; }
+.recent-card-notes p { color:#c5ccd7; font-size:.74rem; line-height:1.35; }
+.recent-card-footer { display:flex; justify-content:space-between; gap:.6rem; margin-top:auto; color:var(--muted); font-size:.7rem; line-height:1.3; }
+.recent-card-footer span { min-width:0; overflow-wrap:anywhere; }
+.recent-card-footer time { flex:0 0 auto; text-align:right; }
 .chips { display:flex; flex-wrap:wrap; align-items:flex-start; gap:.5rem; margin:1rem 0; }
 .chips button { cursor:pointer; padding:.55rem .75rem; }
 .chips button.active, .chips button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); }
@@ -103,4 +141,5 @@ a { color:var(--text); }
 .price-bar span { display:block; width:100%; min-height:2px; border-radius:999px 999px 3px 3px; background:linear-gradient(180deg,#efc465,var(--accent)); box-shadow:0 0 14px rgba(217,164,65,.18); }
 .price-axis { display:flex; justify-content:space-between; gap:.75rem; margin-top:.35rem; color:var(--muted); font-size:.74rem; }
 .verified-at { margin-top:.18rem; color:var(--muted); font-size:.72rem; line-height:1.25; }
-@media (max-width:900px) { .site-header { flex-direction:column; padding:1.2rem; } .source-group-heading, .price-chart-heading { flex-direction:column; align-items:flex-start; } main { padding:1rem; } .controls, .summary-grid { grid-template-columns:1fr; } .category-group, .subtype-list { width:100%; } .price-chart-meta { white-space:normal; } .price-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:900px) { .site-header { flex-direction:column; padding:1.2rem; } .source-group-heading, .price-chart-heading, .recent-finds-heading { flex-direction:column; align-items:flex-start; } main { padding:1rem; } .controls, .summary-grid { grid-template-columns:1fr; } .recent-finds-toggle { width:100%; } .category-group, .subtype-list { width:100%; } .price-chart-meta { white-space:normal; } .price-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:560px) { .recent-finds-grid { grid-template-columns:1fr; } .recent-card { min-height:0; } .recent-card-footer { flex-direction:column; } .recent-card-footer time { text-align:left; } }

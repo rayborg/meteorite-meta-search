@@ -1,6 +1,6 @@
 # Session Memory
 
-Last updated: 2026-06-27
+Last updated: 2026-07-24
 
 ## Current State
 
@@ -12,6 +12,7 @@ Last updated: 2026-06-27
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Each listing has `last_verified_at`, the last time that exact row was returned by a source scrape; normalize-only runs backfill/preserve it rather than making stale rows look freshly checked.
+- New scraper output carries `first_seen_at` and `first_seen_is_baseline`; active-row refresh merges preserve them by exact ID or an unambiguous source/URL/title/weight history key. Scraper-only `data/listing_history.json` retains exact IDs while stock is absent without adding history to the browser payload; inactive history is capped at 25,000 records. Existing rows use `scraped_at` as an explicitly labeled migration baseline.
 - Source registry lives in `data/sites.json`; parser backlog and marketplace rules live in `docs/parser-backlog.md`.
 - `.venv/` is local and ignored. Python bytecode caches should be removed rather than committed.
 - Source discovery automation is review-only and artifact-only. It must not auto-enable sources, scrape new inventory, or commit registry/backlog changes.
@@ -112,7 +113,7 @@ Last updated: 2026-06-27
 - Scheduled runs are hourly and use `--rotate --preserve-existing --rotation-key "${{ github.run_number }}"`.
 - Rotation refreshes one enabled source per run and preserves existing rows for enabled sources not scraped in that run.
 - The workflow validates generated data, commits `data/listings.json` changes, and pushes them.
-- `data/listings.json` and `data/metbull_names.json` are ignored by scrape workflow path triggers to prevent immediate data-only commit loops.
+- `data/listings.json`, `data/listing_history.json`, and `data/metbull_names.json` are ignored by scrape workflow path triggers to prevent immediate data-only commit loops.
 - Workflow concurrency now cancels stale in-progress scrape runs, and commit steps verify that `HEAD` still matches fetched remote `main` before attempting to push generated data commits.
 - Optional eBay Browse API workflow env vars are `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET`; the connector must remain disabled unless those are configured and row quality is reviewed.
 - Local optional API credentials should live only in ignored `.env`/`.env.*` files or exported shell variables. `.env.example` is a placeholder-only template; never commit real credentials.
@@ -137,6 +138,7 @@ Last updated: 2026-06-27
 - Source status count cards render grouped source cards for connected, parser-start, backlog, and policy/reference categories; long names/status pills must wrap cleanly.
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
 - Image fallback keeps `image_url` primary and lets optional `image_urls` provide retry candidates before `No image` is shown.
+- The top `Recent Finds` section shows one available listing per meteorite name, prioritizing the eight newest and four newer qualifying standouts. Low-price highlights require the lower quartile plus at least 15% below a like-for-like median; rarity is explicitly inventory-relative at 0.5% or less of available listings. Pre-feature timestamps are shown as tracking baselines, not new finds.
 
 ## Validation Commands
 
@@ -144,6 +146,8 @@ Run from the repo root:
 
 ```sh
 node --check app.js
+node --test tests/recent-listings.test.js
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
 PYTHONDONTWRITEBYTECODE=1 python3 scraper/validate_listings.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile scraper/scrape.py scraper/validate_listings.py scraper/update_metbull_cache.py
 git diff --check
