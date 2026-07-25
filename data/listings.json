@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-25T18:00:34.829002+00:00",
+  "generated_at": "2026-07-25T18:44:47.902491+00:00",
   "source_count": 29,
   "listing_count": 4628,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -17,7 +17,7 @@
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
     "Arizona Skies Meteorites",
-    "Astro West",
+    "Aerolite Meteorites",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -48,9 +48,9 @@
     "date": "2026-07-25",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "503",
+  "rotation_key": "504",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -57892,17 +57892,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:04:30.061599+00:00",
-      "last_verified_at": "2026-07-23T18:04:30.061599+00:00",
+      "scraped_at": "2026-07-25T18:44:01.535066+00:00",
+      "first_seen_at": "2026-07-23T18:04:30.061599+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:01.535066+00:00",
       "metbull_code": "52031",
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
       "price_usd": 580.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.0,
-      "first_seen_at": "2026-07-23T18:04:30.061599+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.0
     },
     {
       "id": "3461cc056c867259",
@@ -59141,17 +59141,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:04:33.321575+00:00",
-      "last_verified_at": "2026-07-23T18:04:33.321575+00:00",
+      "scraped_at": "2026-07-25T18:44:04.865093+00:00",
+      "first_seen_at": "2026-07-23T18:04:33.321575+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:04.865093+00:00",
       "metbull_code": "52031",
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
       "price_usd": 320.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.0,
-      "first_seen_at": "2026-07-23T18:04:33.321575+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.0
     },
     {
       "id": "954ae0731f158fca",
@@ -59174,17 +59174,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:04:39.820564+00:00",
-      "last_verified_at": "2026-07-23T18:04:39.820564+00:00",
+      "scraped_at": "2026-07-25T18:44:11.125881+00:00",
+      "first_seen_at": "2026-07-23T18:04:39.820564+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:11.125881+00:00",
       "metbull_code": "52031",
       "metbull_status": "Official",
       "metbull_type": "Iron, ungrouped",
       "price_usd": 420.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 4.0,
-      "first_seen_at": "2026-07-23T18:04:39.820564+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 4.0
     },
     {
       "id": "18511588f9f9cf3c",
@@ -65972,17 +65972,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:05:07.374543+00:00",
-      "last_verified_at": "2026-07-23T18:05:07.374543+00:00",
+      "scraped_at": "2026-07-25T18:44:38.475627+00:00",
+      "first_seen_at": "2026-07-23T18:05:07.374543+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:38.475627+00:00",
       "metbull_code": "23662",
       "metbull_status": "Official",
       "metbull_type": "Iron, IAB-MG",
       "price_usd": 6300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 16.1954,
-      "first_seen_at": "2026-07-23T18:05:07.374543+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 16.1954
     },
     {
       "id": "3e60dfb6ded6dd00",
@@ -79583,17 +79583,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:05:04.095816+00:00",
-      "last_verified_at": "2026-07-23T18:05:04.095816+00:00",
+      "scraped_at": "2026-07-25T18:44:35.367577+00:00",
+      "first_seen_at": "2026-07-23T18:05:04.095816+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:35.367577+00:00",
       "metbull_code": "16873",
       "metbull_status": "Official",
       "metbull_type": "Iron, IVA",
       "price_usd": 1050.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 9.0517,
-      "first_seen_at": "2026-07-23T18:05:04.095816+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 9.0517
     },
     {
       "id": "29d4ef1280a02e91",
@@ -79682,17 +79682,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:05:01.872301+00:00",
-      "last_verified_at": "2026-07-23T18:05:01.872301+00:00",
+      "scraped_at": "2026-07-25T18:44:32.234507+00:00",
+      "first_seen_at": "2026-07-23T18:05:01.872301+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:32.234507+00:00",
       "metbull_code": "16873",
       "metbull_status": "Official",
       "metbull_type": "Iron, IVA",
       "price_usd": 3500.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 12.3239,
-      "first_seen_at": "2026-07-23T18:05:01.872301+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 12.3239
     },
     {
       "id": "c5ed4158472609d6",
@@ -110992,17 +110992,17 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:04:49.368299+00:00",
-      "last_verified_at": "2026-07-23T18:04:49.368299+00:00",
+      "scraped_at": "2026-07-25T18:44:20.649964+00:00",
+      "first_seen_at": "2026-07-23T18:04:49.368299+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:20.649964+00:00",
       "metbull_code": "6719",
       "metbull_status": "Official",
       "metbull_type": "H4/5",
       "price_usd": 1450.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 3.7084,
-      "first_seen_at": "2026-07-23T18:04:49.368299+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 3.7084
     },
     {
       "id": "3c52698d4ec0140c",
@@ -172574,14 +172574,14 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-07-23T18:04:36.598514+00:00",
-      "last_verified_at": "2026-07-23T18:04:36.598514+00:00",
+      "scraped_at": "2026-07-25T18:44:08.016190+00:00",
+      "first_seen_at": "2026-07-23T18:04:36.598514+00:00",
+      "first_seen_is_baseline": true,
+      "last_verified_at": "2026-07-25T18:44:08.016190+00:00",
       "price_usd": 300.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-07-25",
-      "price_per_g_usd": 100.0,
-      "first_seen_at": "2026-07-23T18:04:36.598514+00:00",
-      "first_seen_is_baseline": true
+      "price_per_g_usd": 100.0
     },
     {
       "id": "e92b39031e76073e",
