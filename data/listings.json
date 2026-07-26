@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-26T16:44:43.016916+00:00",
+  "generated_at": "2026-07-26T17:52:40.231656+00:00",
   "source_count": 29,
   "listing_count": 4623,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "WWMeteorites"
+    "Meteor Center"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -32,6 +32,7 @@
     "PolandMET",
     "KD Meteorites",
     "Meteorite Recon",
+    "WWMeteorites",
     "Meteor Center",
     "Collecting Meteorites",
     "m3t3orites",
@@ -48,9 +49,12 @@
     "date": "2026-07-26",
     "source": "open.er-api.com"
   },
-  "rotation_index": 24,
+  "rotation_index": 25,
   "rotation_total": 29,
-  "rotation_key": "518",
+  "rotation_key": "519",
+  "empty_refresh_preserved_sources": [
+    "Meteor Center"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
