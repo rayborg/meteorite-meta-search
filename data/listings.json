@@ -1,12 +1,10 @@
 {
-  "generated_at": "2026-07-31T08:28:10.571706+00:00",
+  "generated_at": "2026-07-31T10:00:56.605825+00:00",
   "source_count": 29,
   "listing_count": 4638,
-  "scrape_mode": "rotation",
+  "scrape_mode": "normalize",
   "preserve_existing": true,
-  "scraped_sources": [
-    "KD Meteorites"
-  ],
+  "scraped_sources": [],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
@@ -30,6 +28,7 @@
     "BuyMeteorites.com",
     "JC Meteorite Collection",
     "PolandMET",
+    "KD Meteorites",
     "Meteorite Recon",
     "WWMeteorites",
     "Meteor Center",
@@ -48,9 +47,6 @@
     "date": "2026-07-31",
     "source": "open.er-api.com"
   },
-  "rotation_index": 22,
-  "rotation_total": 29,
-  "rotation_key": "574",
   "listings": [
     {
       "id": "55422b550f6b5092",
