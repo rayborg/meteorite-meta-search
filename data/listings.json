@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-01T20:18:26.269769+00:00",
+  "generated_at": "2026-08-01T21:43:12.332244+00:00",
   "source_count": 29,
   "listing_count": 4624,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "justMETEORITES"
+    "Mini Museum Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -22,7 +22,7 @@
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
-    "Mini Museum Meteorites",
+    "justMETEORITES",
     "Fossil Realm Meteorite Collection",
     "TOP Meteorite",
     "Buy Meteorite",
@@ -48,9 +48,9 @@
     "date": "2026-08-01",
     "source": "open.er-api.com"
   },
-  "rotation_index": 14,
+  "rotation_index": 15,
   "rotation_total": 29,
-  "rotation_key": "595",
+  "rotation_key": "596",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -97148,10 +97148,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "mini_museum",
-      "scraped_at": "2026-07-30T18:06:42.790423+00:00",
+      "scraped_at": "2026-08-01T21:43:06.936057+00:00",
       "first_seen_at": "2026-07-24T01:16:29.640034+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-07-30T18:06:42.790423+00:00",
+      "last_verified_at": "2026-08-01T21:43:06.936057+00:00",
       "image_urls": [
         "https://cdn.shopify.com/s/files/1/0709/1715/files/3448MAME251204-MAIN-008.jpg?v=1765225015",
         "https://cdn.shopify.com/s/files/1/0709/1715/files/3448MAME251204-MAIN-009.jpg?v=1765225015"
