@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-03T01:27:45.428373+00:00",
+  "generated_at": "2026-08-03T05:25:23.829461+00:00",
   "source_count": 29,
   "listing_count": 4624,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "FossilEra"
+    "Prehistoric Fossils Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
     "BAITYLIA",
     "Meteorite Exchange",
-    "Prehistoric Fossils Meteorites",
+    "FossilEra",
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
     "Arizona Skies Meteorites",
@@ -48,9 +48,9 @@
     "date": "2026-08-03",
     "source": "open.er-api.com"
   },
-  "rotation_index": 4,
+  "rotation_index": 5,
   "rotation_total": 29,
-  "rotation_key": "614",
+  "rotation_key": "615",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -81495,19 +81495,19 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-08-01T07:55:19.506810+00:00",
+      "scraped_at": "2026-08-03T05:25:10.512191+00:00",
       "first_seen_at": "2026-07-23T07:32:15.214992+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-01T07:55:19.506810+00:00",
+      "last_verified_at": "2026-08-03T05:25:10.512191+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6-600x800.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6a-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-6b-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/14284-Moon-Maskelyne-LRO-20141012-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-3-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-3-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Oman-meteorite-piece-15-300x300.jpg"
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-8-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-2-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Oman-meteorite-piece-8-300x300.jpg"
       ],
       "metbull_code": "74316",
       "metbull_status": "Official",
@@ -81538,10 +81538,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "prehistoric_fossils",
-      "scraped_at": "2026-08-01T07:55:17.290888+00:00",
+      "scraped_at": "2026-08-03T05:25:07.918461+00:00",
       "first_seen_at": "2026-07-23T07:32:12.873970+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-01T07:55:17.290888+00:00",
+      "last_verified_at": "2026-08-03T05:25:07.918461+00:00",
       "image_urls": [
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4-600x800.jpg",
@@ -81549,8 +81549,8 @@
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/Morocco-NWA-13974-Lunar-Meteorite-4b-600x338.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2025/04/14284-Moon-Maskelyne-LRO-20141012-300x300.jpg",
         "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Oman-meteorite-piece-13-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-1-300x300.jpg",
-        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-9-300x300.jpg"
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/Sliced-Northwest-Africa-Meteorite-6-300x300.jpg",
+        "https://1ef38d0c.delivery.rocketcdn.me/wp-content/uploads/2022/09/meteorite-thin-slice-1-300x300.jpg"
       ],
       "metbull_code": "74316",
       "metbull_status": "Official",
