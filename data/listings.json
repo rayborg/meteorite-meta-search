@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-08T05:35:03.284216+00:00",
+  "generated_at": "2026-08-08T07:20:01.272449+00:00",
   "source_count": 29,
   "listing_count": 4648,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -49,11 +49,11 @@
     "date": "2026-08-08",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "677",
+  "rotation_key": "678",
   "empty_refresh_preserved_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "listings": [
     {
