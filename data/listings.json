@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-09T17:34:51.139870+00:00",
+  "generated_at": "2026-08-09T18:19:31.405264+00:00",
   "source_count": 29,
   "listing_count": 4643,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "justMETEORITES"
+    "Mini Museum Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -22,7 +22,7 @@
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
-    "Mini Museum Meteorites",
+    "justMETEORITES",
     "Fossil Realm Meteorite Collection",
     "TOP Meteorite",
     "Buy Meteorite",
@@ -48,9 +48,9 @@
     "date": "2026-08-09",
     "source": "open.er-api.com"
   },
-  "rotation_index": 14,
+  "rotation_index": 15,
   "rotation_total": 29,
-  "rotation_key": "711",
+  "rotation_key": "712",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -61487,10 +61487,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "mini_museum",
-      "scraped_at": "2026-08-08T11:16:49.379939+00:00",
+      "scraped_at": "2026-08-09T18:19:25.057912+00:00",
       "first_seen_at": "2026-08-08T11:16:49.379939+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-08T11:16:49.379939+00:00",
+      "last_verified_at": "2026-08-09T18:19:25.057912+00:00",
       "image_urls": [
         "https://cdn.shopify.com/s/files/1/0709/1715/files/7530CDC260717-MAIN-004.jpg?v=1786112243",
         "https://cdn.shopify.com/s/files/1/0709/1715/files/7530CDC260717-MAIN-001.jpg?v=1786112243",
@@ -97456,10 +97456,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "mini_museum",
-      "scraped_at": "2026-08-08T11:16:49.363614+00:00",
+      "scraped_at": "2026-08-09T18:19:25.040772+00:00",
       "first_seen_at": "2026-07-24T01:16:29.640034+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T11:16:49.363614+00:00",
+      "last_verified_at": "2026-08-09T18:19:25.040772+00:00",
       "image_urls": [
         "https://cdn.shopify.com/s/files/1/0709/1715/files/3448MAME251204-MAIN-008.jpg?v=1765225015",
         "https://cdn.shopify.com/s/files/1/0709/1715/files/3448MAME251204-MAIN-009.jpg?v=1765225015"
