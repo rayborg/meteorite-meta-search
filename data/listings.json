@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-10T10:56:12.502763+00:00",
+  "generated_at": "2026-08-10T11:39:49.939555+00:00",
   "source_count": 29,
   "listing_count": 4640,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Collecting Meteorites"
+    "m3t3orites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -34,7 +34,7 @@
     "Meteorite Recon",
     "WWMeteorites",
     "Meteor Center",
-    "m3t3orites",
+    "Collecting Meteorites",
     "Michael Farmer Meteorites"
   ],
   "exchange_rates": {
@@ -48,9 +48,9 @@
     "date": "2026-08-10",
     "source": "open.er-api.com"
   },
-  "rotation_index": 26,
+  "rotation_index": 27,
   "rotation_total": 29,
-  "rotation_key": "723",
+  "rotation_key": "724",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -4971,10 +4971,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:09.296961+00:00",
+      "scraped_at": "2026-08-10T11:38:59.809935+00:00",
       "first_seen_at": "2026-07-25T01:17:36.588406+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:09.296961+00:00",
+      "last_verified_at": "2026-08-10T11:38:59.809935+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/cumberland01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/cumberland01b.jpg"
@@ -19210,10 +19210,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:14.441956+00:00",
+      "scraped_at": "2026-08-10T11:39:04.617070+00:00",
       "first_seen_at": "2026-07-25T01:17:41.208988+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:14.441956+00:00",
+      "last_verified_at": "2026-08-10T11:39:04.617070+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/dhofar007-02a.jpg",
         "http://www.m3t3orites.com/meteorites/img/dhofar007-02b.jpg"
@@ -19247,10 +19247,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:14.439042+00:00",
+      "scraped_at": "2026-08-10T11:39:04.614271+00:00",
       "first_seen_at": "2026-07-25T01:17:41.206040+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:14.439042+00:00",
+      "last_verified_at": "2026-08-10T11:39:04.614271+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/dhofar007-01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/dhofar007-01b.jpg"
@@ -39075,10 +39075,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:29.139584+00:00",
+      "scraped_at": "2026-08-10T11:39:18.809851+00:00",
       "first_seen_at": "2026-07-25T01:17:55.114899+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:29.139584+00:00",
+      "last_verified_at": "2026-08-10T11:39:18.809851+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/nwa5956-07a.jpg",
         "http://www.m3t3orites.com/meteorites/img/nwa5956-07b.jpg"
@@ -39112,10 +39112,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:29.142708+00:00",
+      "scraped_at": "2026-08-10T11:39:18.812815+00:00",
       "first_seen_at": "2026-07-25T01:17:55.118108+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:29.142708+00:00",
+      "last_verified_at": "2026-08-10T11:39:18.812815+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/nwa5956-08a.jpg",
         "http://www.m3t3orites.com/meteorites/img/nwa5956-08b.jpg"
@@ -56425,10 +56425,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:31.505633+00:00",
+      "scraped_at": "2026-08-10T11:39:21.193918+00:00",
       "first_seen_at": "2026-07-25T01:17:57.379526+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:31.505633+00:00",
+      "last_verified_at": "2026-08-10T11:39:21.193918+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/nwa4945-5365a.jpg",
         "http://www.m3t3orites.com/meteorites/img/nwa4945-5365b.jpg"
@@ -56462,10 +56462,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:31.500735+00:00",
+      "scraped_at": "2026-08-10T11:39:21.190929+00:00",
       "first_seen_at": "2026-07-25T01:17:57.376368+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:31.500735+00:00",
+      "last_verified_at": "2026-08-10T11:39:21.190929+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/nwa4945-1324a.jpg",
         "http://www.m3t3orites.com/meteorites/img/nwa4945-1324b.jpg"
@@ -56499,10 +56499,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:31.492623+00:00",
+      "scraped_at": "2026-08-10T11:39:21.187900+00:00",
       "first_seen_at": "2026-07-25T01:17:57.373164+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:31.492623+00:00",
+      "last_verified_at": "2026-08-10T11:39:21.187900+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/nwa4945-993a.jpg",
         "http://www.m3t3orites.com/meteorites/img/nwa4945-993b.jpg"
@@ -82745,10 +82745,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:21.694339+00:00",
+      "scraped_at": "2026-08-10T11:39:11.694156+00:00",
       "first_seen_at": "2026-07-25T01:17:48.250253+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:21.694339+00:00",
+      "last_verified_at": "2026-08-10T11:39:11.694156+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/dhofar081-01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/dhofar081-01b.jpg"
@@ -97436,10 +97436,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:24.231613+00:00",
+      "scraped_at": "2026-08-10T11:39:14.064326+00:00",
       "first_seen_at": "2026-07-25T01:17:50.610958+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:24.231613+00:00",
+      "last_verified_at": "2026-08-10T11:39:14.064326+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/dg476-03a.jpg",
         "http://www.m3t3orites.com/meteorites/img/dg476-03b.jpg"
@@ -97769,10 +97769,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:26.789298+00:00",
+      "scraped_at": "2026-08-10T11:39:16.418426+00:00",
       "first_seen_at": "2026-07-25T01:17:52.860867+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:26.789298+00:00",
+      "last_verified_at": "2026-08-10T11:39:16.418426+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/la002-01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/la002-01b.jpg"
@@ -110240,10 +110240,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:41.131268+00:00",
+      "scraped_at": "2026-08-10T11:39:30.163136+00:00",
       "first_seen_at": "2026-07-25T01:18:06.845541+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:41.131268+00:00",
+      "last_verified_at": "2026-08-10T11:39:30.163136+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/menow01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/menow01b.jpg"
@@ -120379,10 +120379,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:38.759579+00:00",
+      "scraped_at": "2026-08-10T11:39:27.924201+00:00",
       "first_seen_at": "2026-07-25T01:18:04.568336+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:38.759579+00:00",
+      "last_verified_at": "2026-08-10T11:39:27.924201+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/kerilis01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/kerilis01b.jpg"
@@ -134886,10 +134886,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:33.865501+00:00",
+      "scraped_at": "2026-08-10T11:39:23.433343+00:00",
       "first_seen_at": "2026-07-25T01:17:59.850634+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:33.865501+00:00",
+      "last_verified_at": "2026-08-10T11:39:23.433343+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/farmington01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/farmington01b.jpg"
@@ -140024,10 +140024,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:36.411945+00:00",
+      "scraped_at": "2026-08-10T11:39:25.675700+00:00",
       "first_seen_at": "2026-07-25T01:18:02.318118+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:36.411945+00:00",
+      "last_verified_at": "2026-08-10T11:39:25.675700+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/thika07a.jpg",
         "http://www.m3t3orites.com/meteorites/img/thika07b.jpg"
@@ -140094,10 +140094,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:36.414264+00:00",
+      "scraped_at": "2026-08-10T11:39:25.677923+00:00",
       "first_seen_at": "2026-07-25T01:18:02.320404+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:36.414264+00:00",
+      "last_verified_at": "2026-08-10T11:39:25.677923+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/thika08a.jpg",
         "http://www.m3t3orites.com/meteorites/img/thika08b.jpg"
@@ -140263,10 +140263,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:36.409590+00:00",
+      "scraped_at": "2026-08-10T11:39:25.673330+00:00",
       "first_seen_at": "2026-07-25T01:18:02.315753+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:36.409590+00:00",
+      "last_verified_at": "2026-08-10T11:39:25.673330+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/thika06a.jpg",
         "http://www.m3t3orites.com/meteorites/img/thika06b.jpg"
@@ -162255,10 +162255,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "m3t3orites",
-      "scraped_at": "2026-08-08T23:15:48.400560+00:00",
+      "scraped_at": "2026-08-10T11:39:37.168534+00:00",
       "first_seen_at": "2026-07-25T01:18:13.804609+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-08T23:15:48.400560+00:00",
+      "last_verified_at": "2026-08-10T11:39:37.168534+00:00",
       "image_urls": [
         "http://www.m3t3orites.com/meteorites/img/albin01a.jpg",
         "http://www.m3t3orites.com/meteorites/img/albin01b.jpg"
