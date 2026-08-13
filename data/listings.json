@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-13T21:36:59.878770+00:00",
+  "generated_at": "2026-08-13T23:29:04.817530+00:00",
   "source_count": 29,
-  "listing_count": 4620,
+  "listing_count": 4622,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Arizona Skies Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -18,7 +18,6 @@
     "The Meteorite Market",
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
-    "Astro West",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -49,12 +48,9 @@
     "date": "2026-08-13",
     "source": "open.er-api.com"
   },
-  "rotation_index": 8,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "792",
-  "empty_refresh_preserved_sources": [
-    "Arizona Skies Meteorites"
-  ],
+  "rotation_key": "794",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -59288,10 +59284,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-12T12:36:23.390725+00:00",
+      "scraped_at": "2026-08-13T23:28:23.014330+00:00",
       "first_seen_at": "2026-08-06T07:29:25.494428+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-12T12:36:23.390725+00:00",
+      "last_verified_at": "2026-08-13T23:28:23.014330+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Gebel-Kamil-Meteorite-AWMET572-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Gebel-Kamil-Meteorite-AWMET572-1-720x720.jpg"
@@ -62840,6 +62836,43 @@
       "price_per_g_usd": 2.9938
     },
     {
+      "id": "9432dd2d4f473b58",
+      "source": "Astro West",
+      "source_url": "https://astrowest.com/",
+      "url": "https://astrowest.com/products/genuine-campo-del-cielo-iron-nickel-meteorite-130g/",
+      "title": "Campo del Cielo",
+      "canonical_name": "Campo del Cielo",
+      "canonical_name_display": "Campo del Cielo",
+      "canonical_name_status": "metbull_verified",
+      "canonical_name_source": "title",
+      "price": 390.0,
+      "currency": "USD",
+      "weight_g": 130.0,
+      "price_per_g": 3.0,
+      "meteorite_type": "iron",
+      "subtype": "IAB",
+      "classification_text": "Campo del Cielo, IAB",
+      "image_url": "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-5.jpg",
+      "confidence": "medium",
+      "available": true,
+      "parser": "astro_west",
+      "scraped_at": "2026-08-13T23:28:20.302353+00:00",
+      "first_seen_at": "2026-08-13T23:28:20.302353+00:00",
+      "first_seen_is_baseline": false,
+      "last_verified_at": "2026-08-13T23:28:20.302353+00:00",
+      "image_urls": [
+        "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-5.jpg",
+        "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-5-720x720.jpg"
+      ],
+      "metbull_code": "5247",
+      "metbull_status": "Official",
+      "metbull_type": "Iron, IAB-MG",
+      "price_usd": 390.0,
+      "fx_rate_to_usd": 1.0,
+      "fx_rate_date": "2026-08-13",
+      "price_per_g_usd": 3.0
+    },
+    {
       "id": "088e965dbff8569a",
       "source": "Michael Farmer Meteorites",
       "source_url": "https://meteoriteguy.com/",
@@ -64084,6 +64117,43 @@
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-08-13",
       "price_per_g_usd": 3.3666
+    },
+    {
+      "id": "59b499dfa91d7c97",
+      "source": "Astro West",
+      "source_url": "https://astrowest.com/",
+      "url": "https://astrowest.com/products/authentic-campo-del-cielo-meteorite-43g-iron-nickel-specimen/",
+      "title": "Campo del Cielo",
+      "canonical_name": "Campo del Cielo",
+      "canonical_name_display": "Campo del Cielo",
+      "canonical_name_status": "metbull_verified",
+      "canonical_name_source": "title",
+      "price": 145.0,
+      "currency": "USD",
+      "weight_g": 43.0,
+      "price_per_g": 3.3721,
+      "meteorite_type": "iron",
+      "subtype": "IAB",
+      "classification_text": "Campo del Cielo, IAB",
+      "image_url": "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2.jpg",
+      "confidence": "medium",
+      "available": true,
+      "parser": "astro_west",
+      "scraped_at": "2026-08-13T23:28:17.602477+00:00",
+      "first_seen_at": "2026-08-13T23:28:17.602477+00:00",
+      "first_seen_is_baseline": false,
+      "last_verified_at": "2026-08-13T23:28:17.602477+00:00",
+      "image_urls": [
+        "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2.jpg",
+        "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2-720x720.jpg"
+      ],
+      "metbull_code": "5247",
+      "metbull_status": "Official",
+      "metbull_type": "Iron, IAB-MG",
+      "price_usd": 145.0,
+      "fx_rate_to_usd": 1.0,
+      "fx_rate_date": "2026-08-13",
+      "price_per_g_usd": 3.3721
     },
     {
       "id": "171a8394d8b8c956",
@@ -65684,10 +65754,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-12T12:36:55.852583+00:00",
+      "scraped_at": "2026-08-13T23:28:55.685989+00:00",
       "first_seen_at": "2026-07-23T18:05:07.374543+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-12T12:36:55.852583+00:00",
+      "last_verified_at": "2026-08-13T23:28:55.685989+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled.jpg",
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled-720x580.jpg"
@@ -78767,10 +78837,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-12T12:36:53.115029+00:00",
+      "scraped_at": "2026-08-13T23:28:53.002118+00:00",
       "first_seen_at": "2026-07-23T18:05:04.095816+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-12T12:36:53.115029+00:00",
+      "last_verified_at": "2026-08-13T23:28:53.002118+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807-720x720.jpeg"
@@ -78870,10 +78940,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-12T12:36:50.383183+00:00",
+      "scraped_at": "2026-08-13T23:28:50.274981+00:00",
       "first_seen_at": "2026-07-23T18:05:01.872301+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-12T12:36:50.383183+00:00",
+      "last_verified_at": "2026-08-13T23:28:50.274981+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a-720x720.jpeg"
@@ -160673,10 +160743,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-12T12:36:26.136230+00:00",
+      "scraped_at": "2026-08-13T23:28:25.758638+00:00",
       "first_seen_at": "2026-07-30T07:24:17.404296+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-12T12:36:26.136230+00:00",
+      "last_verified_at": "2026-08-13T23:28:25.758638+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/07/Seymchan-Meteorite-Slice-AWMET564-1a.jpg",
         "https://astrowest.com/wp-content/uploads/2026/07/Seymchan-Meteorite-Slice-AWMET564-1a-720x720.jpg"
@@ -172158,10 +172228,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-12T12:36:31.674910+00:00",
+      "scraped_at": "2026-08-13T23:28:31.324150+00:00",
       "first_seen_at": "2026-07-23T18:04:36.598514+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-12T12:36:31.674910+00:00",
+      "last_verified_at": "2026-08-13T23:28:31.324150+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/06/Moldavite-Meteorite-AWMET508-3-720x720.jpg"
