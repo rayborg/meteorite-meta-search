@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-17T20:12:05.301714+00:00",
+  "generated_at": "2026-08-17T21:17:47.542413+00:00",
   "source_count": 29,
   "listing_count": 4657,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Arizona Skies Meteorites"
+    "Aerolite Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -16,6 +16,7 @@
     "Prehistoric Fossils Meteorites",
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
+    "Arizona Skies Meteorites",
     "Aerolite Meteorites",
     "Astro West",
     "IMPACTIKA",
@@ -48,9 +49,12 @@
     "date": "2026-08-17",
     "source": "open.er-api.com"
   },
-  "rotation_index": 8,
+  "rotation_index": 9,
   "rotation_total": 29,
-  "rotation_key": "879",
+  "rotation_key": "880",
+  "empty_refresh_preserved_sources": [
+    "Aerolite Meteorites"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
