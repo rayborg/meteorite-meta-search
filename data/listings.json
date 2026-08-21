@@ -1,13 +1,12 @@
 {
-  "generated_at": "2026-08-21T07:35:59.508411+00:00",
+  "generated_at": "2026-08-21T08:00:30.775697+00:00",
   "source_count": 29,
   "listing_count": 4663,
-  "scrape_mode": "rotation",
+  "scrape_mode": "normalize",
   "preserve_existing": true,
-  "scraped_sources": [
-    "SV Meteorites"
-  ],
+  "scraped_sources": [],
   "preserved_sources": [
+    "SV Meteorites",
     "Meteorlab",
     "BAITYLIA",
     "Meteorite Exchange",
@@ -48,9 +47,6 @@
     "date": "2026-08-21",
     "source": "open.er-api.com"
   },
-  "rotation_index": 0,
-  "rotation_total": 29,
-  "rotation_key": "958",
   "listings": [
     {
       "id": "55422b550f6b5092",
