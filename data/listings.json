@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-25T11:15:18.606123+00:00",
+  "generated_at": "2026-08-25T12:20:26.301930+00:00",
   "source_count": 29,
   "listing_count": 4651,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -18,7 +18,6 @@
     "The Meteorite Market",
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
-    "Astro West",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -49,12 +48,9 @@
     "date": "2026-08-25",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "1054",
-  "empty_refresh_preserved_sources": [
-    "Aerolite Meteorites"
-  ],
+  "rotation_key": "1055",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -59841,10 +59837,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:50.668270+00:00",
+      "scraped_at": "2026-08-25T12:19:49.339131+00:00",
       "first_seen_at": "2026-08-06T07:29:25.494428+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:50.668270+00:00",
+      "last_verified_at": "2026-08-25T12:19:49.339131+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Gebel-Kamil-Meteorite-AWMET572-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Gebel-Kamil-Meteorite-AWMET572-1-720x720.jpg"
@@ -65089,10 +65085,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:37.308896+00:00",
+      "scraped_at": "2026-08-25T12:19:35.395358+00:00",
       "first_seen_at": "2026-08-19T05:18:25.752915+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:37.308896+00:00",
+      "last_verified_at": "2026-08-25T12:19:35.395358+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO590-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO590-3-720x720.jpg"
@@ -65126,10 +65122,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:39.932353+00:00",
+      "scraped_at": "2026-08-25T12:19:38.197487+00:00",
       "first_seen_at": "2026-08-19T05:18:28.364638+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:39.932353+00:00",
+      "last_verified_at": "2026-08-25T12:19:38.197487+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-1-720x720.jpg"
@@ -65419,10 +65415,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:47.961712+00:00",
+      "scraped_at": "2026-08-25T12:19:46.574094+00:00",
       "first_seen_at": "2026-08-13T23:28:20.302353+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:47.961712+00:00",
+      "last_verified_at": "2026-08-25T12:19:46.574094+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-1-720x720.jpg"
@@ -66655,10 +66651,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:45.272733+00:00",
+      "scraped_at": "2026-08-25T12:19:43.748527+00:00",
       "first_seen_at": "2026-08-13T23:28:17.602477+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:45.272733+00:00",
+      "last_verified_at": "2026-08-25T12:19:43.748527+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2-720x720.jpg"
@@ -68270,10 +68266,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:30:19.523353+00:00",
+      "scraped_at": "2026-08-25T12:20:18.895549+00:00",
       "first_seen_at": "2026-07-23T18:05:07.374543+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-24T06:30:19.523353+00:00",
+      "last_verified_at": "2026-08-25T12:20:18.895549+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled.jpg",
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled-720x580.jpg"
@@ -80917,10 +80913,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:30:16.905863+00:00",
+      "scraped_at": "2026-08-25T12:20:16.227955+00:00",
       "first_seen_at": "2026-07-23T18:05:04.095816+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-24T06:30:16.905863+00:00",
+      "last_verified_at": "2026-08-25T12:20:16.227955+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807-720x720.jpeg"
@@ -81020,10 +81016,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:30:14.220176+00:00",
+      "scraped_at": "2026-08-25T12:20:13.542929+00:00",
       "first_seen_at": "2026-07-23T18:05:01.872301+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-08-24T06:30:14.220176+00:00",
+      "last_verified_at": "2026-08-25T12:20:13.542929+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a-720x720.jpeg"
@@ -162413,10 +162409,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:53.299579+00:00",
+      "scraped_at": "2026-08-25T12:19:52.101051+00:00",
       "first_seen_at": "2026-07-30T07:24:17.404296+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:53.299579+00:00",
+      "last_verified_at": "2026-08-25T12:19:52.101051+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/07/Seymchan-Meteorite-Slice-AWMET564-1a.jpg",
         "https://astrowest.com/wp-content/uploads/2026/07/Seymchan-Meteorite-Slice-AWMET564-1a-720x720.jpg"
@@ -173409,10 +173405,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-08-24T06:29:34.670123+00:00",
+      "scraped_at": "2026-08-25T12:19:32.659351+00:00",
       "first_seen_at": "2026-08-22T23:08:04.955853+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-08-24T06:29:34.670123+00:00",
+      "last_verified_at": "2026-08-25T12:19:32.659351+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Moldavite-Edit-3a.png",
         "https://astrowest.com/wp-content/uploads/2026/08/Moldavite-Edit-3a-720x720.png"
