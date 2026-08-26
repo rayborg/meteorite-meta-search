@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-26T18:36:15.240529+00:00",
+  "generated_at": "2026-08-26T21:20:38.007158+00:00",
   "source_count": 29,
   "listing_count": 4656,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Arizona Skies Meteorites"
+    "Aerolite Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -49,11 +49,11 @@
     "date": "2026-08-26",
     "source": "open.er-api.com"
   },
-  "rotation_index": 8,
+  "rotation_index": 9,
   "rotation_total": 29,
-  "rotation_key": "1082",
+  "rotation_key": "1083",
   "empty_refresh_preserved_sources": [
-    "Arizona Skies Meteorites"
+    "Aerolite Meteorites"
   ],
   "listings": [
     {
