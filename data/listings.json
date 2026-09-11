@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-11T21:22:46.165478+00:00",
+  "generated_at": "2026-09-11T23:37:35.641904+00:00",
   "source_count": 29,
   "listing_count": 4606,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "JC Meteorite Collection"
+    "PolandMET"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -28,6 +28,7 @@
     "TOP Meteorite",
     "Buy Meteorite",
     "BuyMeteorites.com",
+    "JC Meteorite Collection",
     "PolandMET",
     "KD Meteorites",
     "Meteorite Recon",
@@ -48,9 +49,12 @@
     "date": "2026-09-11",
     "source": "open.er-api.com"
   },
-  "rotation_index": 20,
+  "rotation_index": 21,
   "rotation_total": 29,
-  "rotation_key": "1181",
+  "rotation_key": "1182",
+  "empty_refresh_preserved_sources": [
+    "PolandMET"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
