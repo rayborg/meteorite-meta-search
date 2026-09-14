@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-14T07:30:47.505271+00:00",
+  "generated_at": "2026-09-14T14:28:05.338248+00:00",
   "source_count": 29,
   "listing_count": 4594,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Aerolite Meteorites"
+    "Astro West"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -17,7 +17,7 @@
     "Galactic Stone & Ironworks",
     "The Meteorite Market",
     "Arizona Skies Meteorites",
-    "Astro West",
+    "Aerolite Meteorites",
     "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
@@ -48,9 +48,9 @@
     "date": "2026-09-14",
     "source": "open.er-api.com"
   },
-  "rotation_index": 9,
+  "rotation_index": 10,
   "rotation_total": 29,
-  "rotation_key": "1199",
+  "rotation_key": "1200",
   "listings": [
     {
       "id": "55422b550f6b5092",
@@ -59735,10 +59735,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:27.064942+00:00",
+      "scraped_at": "2026-09-14T14:27:29.559268+00:00",
       "first_seen_at": "2026-08-06T07:29:25.494428+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-09-10T11:53:27.064942+00:00",
+      "last_verified_at": "2026-09-14T14:27:29.559268+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Gebel-Kamil-Meteorite-AWMET572-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Gebel-Kamil-Meteorite-AWMET572-1-720x720.jpg"
@@ -64258,10 +64258,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:13.551543+00:00",
+      "scraped_at": "2026-09-14T14:27:15.971949+00:00",
       "first_seen_at": "2026-08-19T05:18:25.752915+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-09-10T11:53:13.551543+00:00",
+      "last_verified_at": "2026-09-14T14:27:15.971949+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO590-3.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO590-3-720x720.jpg"
@@ -64295,10 +64295,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:16.187829+00:00",
+      "scraped_at": "2026-09-14T14:27:18.696440+00:00",
       "first_seen_at": "2026-08-19T05:18:28.364638+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-09-10T11:53:16.187829+00:00",
+      "last_verified_at": "2026-09-14T14:27:18.696440+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-1-720x720.jpg"
@@ -64588,10 +64588,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:24.424994+00:00",
+      "scraped_at": "2026-09-14T14:27:26.890518+00:00",
       "first_seen_at": "2026-08-13T23:28:20.302353+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-09-10T11:53:24.424994+00:00",
+      "last_verified_at": "2026-09-14T14:27:26.890518+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-1.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO584-1-720x720.jpg"
@@ -66106,10 +66106,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:21.777510+00:00",
+      "scraped_at": "2026-09-14T14:27:24.124133+00:00",
       "first_seen_at": "2026-08-13T23:28:17.602477+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-09-10T11:53:21.777510+00:00",
+      "last_verified_at": "2026-09-14T14:27:24.124133+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2.jpg",
         "https://astrowest.com/wp-content/uploads/2026/08/Campo-del-Cielo-AWCAMPO585-2-720x720.jpg"
@@ -67721,10 +67721,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:53.349286+00:00",
+      "scraped_at": "2026-09-14T14:27:56.554371+00:00",
       "first_seen_at": "2026-07-23T18:05:07.374543+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-09-10T11:53:53.349286+00:00",
+      "last_verified_at": "2026-09-14T14:27:56.554371+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled.jpg",
         "https://astrowest.com/wp-content/uploads/2023/10/A9842-1-scaled-720x580.jpg"
@@ -80101,10 +80101,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:50.757021+00:00",
+      "scraped_at": "2026-09-14T14:27:53.865308+00:00",
       "first_seen_at": "2026-07-23T18:05:04.095816+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-09-10T11:53:50.757021+00:00",
+      "last_verified_at": "2026-09-14T14:27:53.865308+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/54f29f7b-b476-409e-97f2-44291740e807-720x720.jpeg"
@@ -80204,10 +80204,10 @@
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:48.160262+00:00",
+      "scraped_at": "2026-09-14T14:27:51.101994+00:00",
       "first_seen_at": "2026-07-23T18:05:01.872301+00:00",
       "first_seen_is_baseline": true,
-      "last_verified_at": "2026-09-10T11:53:48.160262+00:00",
+      "last_verified_at": "2026-09-14T14:27:51.101994+00:00",
       "image_urls": [
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a.jpeg",
         "https://astrowest.com/wp-content/uploads/2025/07/ec7921e1-b039-43d9-b3aa-7ab67006ec3a-720x720.jpeg"
@@ -171363,38 +171363,38 @@
       "price_per_g_usd": 74.3529
     },
     {
-      "id": "89a1c70f0bd4a211",
+      "id": "35b96804a42c34b4",
       "source": "Astro West",
       "source_url": "https://astrowest.com/",
-      "url": "https://astrowest.com/products/genuine-moldavite-tektite-meteorite-specimen-6g-czech-republic/",
+      "url": "https://astrowest.com/products/authentic-moldavite-tektite-7-25g-specimen-czech-rep/",
       "title": "Moldavite",
       "canonical_name": null,
       "canonical_name_display": null,
       "canonical_name_status": "unknown",
       "canonical_name_source": null,
-      "price": 585.0,
+      "price": 725.0,
       "currency": "USD",
-      "weight_g": 6.0,
-      "price_per_g": 97.5,
+      "weight_g": 7.25,
+      "price_per_g": 100.0,
       "meteorite_type": "tektite/impactite",
       "subtype": null,
       "classification_text": null,
-      "image_url": "https://astrowest.com/wp-content/uploads/2026/08/Moldavite-Edit-3a.png",
+      "image_url": "https://astrowest.com/wp-content/uploads/2026/09/Moldavite-Tektite-AWMOLD613-1.png",
       "confidence": "medium",
       "available": true,
       "parser": "astro_west",
-      "scraped_at": "2026-09-10T11:53:10.890633+00:00",
-      "first_seen_at": "2026-08-22T23:08:04.955853+00:00",
+      "scraped_at": "2026-09-14T14:27:13.277821+00:00",
+      "first_seen_at": "2026-09-14T14:27:13.277821+00:00",
       "first_seen_is_baseline": false,
-      "last_verified_at": "2026-09-10T11:53:10.890633+00:00",
+      "last_verified_at": "2026-09-14T14:27:13.277821+00:00",
       "image_urls": [
-        "https://astrowest.com/wp-content/uploads/2026/08/Moldavite-Edit-3a.png",
-        "https://astrowest.com/wp-content/uploads/2026/08/Moldavite-Edit-3a-720x720.png"
+        "https://astrowest.com/wp-content/uploads/2026/09/Moldavite-Tektite-AWMOLD613-1.png",
+        "https://astrowest.com/wp-content/uploads/2026/09/Moldavite-Tektite-AWMOLD613-1-720x720.png"
       ],
-      "price_usd": 585.0,
+      "price_usd": 725.0,
       "fx_rate_to_usd": 1.0,
       "fx_rate_date": "2026-09-14",
-      "price_per_g_usd": 97.5
+      "price_per_g_usd": 100.0
     },
     {
       "id": "e92b39031e76073e",
