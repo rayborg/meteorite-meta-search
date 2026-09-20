@@ -28,9 +28,9 @@
           <h2 id="recentFindsHeading">Recent Finds</h2>
           <p id="recentFindsSummary" aria-live="polite">Loading the most recently tracked available listings...</p>
         </div>
-        <button id="recentFindsToggle" class="recent-finds-toggle" type="button" aria-controls="recentFindsContent" aria-expanded="true">Hide recent finds</button>
+        <button id="recentFindsToggle" class="recent-finds-toggle" type="button" aria-controls="recentFindsContent" aria-expanded="false">Show recent finds</button>
       </div>
-      <div id="recentFindsContent">
+      <div id="recentFindsContent" hidden>
         <p class="recent-finds-legend"><strong>Highlights:</strong> Low $/g is in the lowest quarter and at least 15% below the median for comparable listings. Rare here means the classification is 0.5% or less of available tracked inventory. Pre-feature rows are marked as tracking baselines, not confirmed new finds.</p>
         <div id="recentFindsList" class="recent-finds-grid" role="list"></div>
       </div>
@@ -101,6 +101,6 @@
       <td class="type"></td><td class="subtype"></td><td class="price"></td><td class="weight"></td><td class="ppg"></td><td class="source"></td><td class="availability"></td><td class="confidence"></td>
     </tr>
   </template>
-  <script src="app.js?v=20260724-recent-finds"></script>
+  <script src="app.js?v=20260920-recent-finds-collapsed"></script>
 </body>
 </html>

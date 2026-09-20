@@ -1,14 +1,14 @@
 # Session Memory
 
-Last updated: 2026-07-24
+Last updated: 2026-09-20
 
 ## Current State
 
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current generated data has 4,550 listings from 29 enabled sources after enabling m3t3orites and Michael Farmer Meteorites.
-- Source registry has 41 configured sources: 29 enabled and 12 disabled.
+- Generated listing data lives in `data/listings.json`; current generated data has 4,933 listings from 30 enabled sources after enabling OuterSpacer Meteorites.
+- Source registry has 55 configured sources: 30 enabled, 12 disabled backlog, 7 disabled parser starts, and 6 policy/reference blocked.
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
 - Each listing has `last_verified_at`, the last time that exact row was returned by a source scrape; normalize-only runs backfill/preserve it rather than making stale rows look freshly checked.
@@ -38,6 +38,7 @@ Last updated: 2026-07-24
 - Fossil Realm Meteorite Collection uses `fossil_realm` and parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights.
 - TOP Meteorite uses `top_meteorite` and parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords.
 - Buy Meteorite uses `buy_meteorite` and parses only the Shopify meteorites collection with meteorite product type/tag checks, available variants, positive prices, title weights, images, and non-specimen rejection.
+- OuterSpacer Meteorites uses `outerspacer` and parses four documented read-only Shopify collection JSON endpoints with required Agent identification, one available variant, exact title weight, positive USD price, image, safe product URL, and strict non-individual/range/non-specimen rejection.
 - BuyMeteorites.com uses `thompson_meteorites` and parses the public Thompson Meteorite Collection Woo Store API with in-stock/add-to-cart proof, API-currency positive prices, exact title weights, remote images, and service/discovery-set/non-specimen rejection.
 - JC Meteorite Collection uses `jc_meteorite_collection` and parses paginated custom public catalogue API pages plus batched detail records with exact unit-bearing weights, positive USD prices, meteorite/classification evidence, remote images, and sold/fulgurite/thin-section/set/lot/range rejection.
 - PolandMET uses `polandmet` and parses five bounded Woo Store API pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallback candidates, and local MetBull-assisted display names.
@@ -51,8 +52,10 @@ Last updated: 2026-07-24
 
 ## Disabled Sources
 
+- Treasure Coast Meteorite Co. has a technically validated parser but remains policy-blocked because current terms prohibit crawling/scraping despite conflicting read-only agent documentation; require explicit permission or an approved UCP/MCP catalog path before enabling.
 - Collector Secret Meteorites, broad eBay/Etsy marketplace search, Facebook Meteorite Groups, and IMCA Member List remain policy-blocked or reference-only disabled sources.
 - Seven disabled eBay Browse API parser-start entries are present: `whitehouse_meteorites`, `topherspin`, `fobos13ali`, `yoda_meteorites`, `the.interstellar.collection`, `meteoritetreasure`, and `topmeteorite`.
+- Twelve vetted direct-storefront backlog entries are registered: MSG-Meteorites, Allmeteorite, Labenne Meteorites / Meteorites.tv, VIP Meteorites, Decker Meteorite-Shop, Isameteorites, Mile High Meteorites, Nakhla Dog Meteorites, Meteorites.dk, Sun.org Meteoriteshop, Southwest Meteorite Laboratory, and Rocks on Fire.
 - eBay entries are official Browse API only, seller-allowlist only, fixed-price only, and must remain disabled until API secrets are configured and rows are manually reviewed.
 - HTTP 403 Etsy storefront entries and parked Meteorite Hunter were discarded from `data/sites.json` under the user's discard rule; they remain documented as disqualified/not configured.
 - The OneDrive candidate-list link shared on 2026-06-27 is external candidate input only; anonymous direct XLSX/CSV/API access is blocked, so it cannot be ingested until a direct public export is provided.
@@ -73,16 +76,20 @@ Last updated: 2026-07-24
 - Disqualified storefronts such as The Space Shop Meteorites and Galactic Stone eCrater Mirror are intentionally not configured because bounded review found souvenir/display/non-individual inventory rather than useful individual specimens.
 - The user's long dealer list should be treated as candidate backlog/input, not as permission to scrape every site or broad marketplace results.
 - Twice-daily source discovery work is implemented as a separate review-only workflow that uploads JSON/Markdown artifacts and leaves the hourly inventory scrape workflow unchanged.
+- OuterSpacer passed independent adversarial validation and a full bounded four-collection scrape with 330 rows; 329 are active and one is conservatively marked unavailable.
+- Recent Finds now starts collapsed in both static markup and JavaScript initialization and expands only when its button is pressed.
 
 ## Active Todo List
 
+- Build and validate the MSG-Meteorites parser next, followed by Allmeteorite, while keeping all unimplemented candidates disabled.
+- Continue manual candidate discovery; automated Brave/Bing discovery remains empty until one repository API secret is configured.
 - For future completed changes, run validation, commit, and push by default unless blocked or explicitly told not to.
 
 ## Recent Decisions
 
 - README was expanded to be the canonical guide for setup, scraping, validation, workflow behavior, data files, parser policy, and no local media copying.
 - A session memory file was added under `docs/` for future agents.
-- Current active source registry now has 29 enabled sources after enabling m3t3orites and Michael Farmer Meteorites with source-specific parsers.
+- Current active source registry has 30 enabled sources after enabling OuterSpacer Meteorites with a source-specific parser and required Agent request identification.
 - Saffordite is treated as an impactite marker so Meteorite Exchange impactite rows classify without suspicious-row noise.
 - Scraper output now normalizes priced rows to USD using daily no-key FX rates when available, including EUR and CAD when the current source data needs them, falling back to saved exchange-rate metadata or USD-only metadata if offline.
 - `.gitignore` now covers common Python, Node/static tooling, local environment, editor, OS, build, temp, and cache artifacts without ignoring source/data docs.
@@ -139,6 +146,7 @@ Last updated: 2026-07-24
 - Images are remote URLs only. Do not add local media copying or seller image mirroring.
 - Image fallback keeps `image_url` primary and lets optional `image_urls` provide retry candidates before `No image` is shown.
 - The top `Recent Finds` section shows one available listing per meteorite name, prioritizing the eight newest and four newer qualifying standouts. Low-price highlights require the lower quartile plus at least 15% below a like-for-like median; rarity is explicitly inventory-relative at 0.5% or less of available listings. Pre-feature timestamps are shown as tracking baselines, not new finds.
+- `Recent Finds` is collapsed by default; the visible button updates `aria-expanded`, content visibility, and Show/Hide copy.
 
 ## Validation Commands
 
@@ -165,7 +173,9 @@ PYTHONDONTWRITEBYTECODE=1 python3 scraper/update_metbull_cache.py
 
 ## Next Tasks
 
-- Vet new candidate sources one by one with narrow local scrapes before enabling any additional source.
+- Implement MSG-Meteorites next with a narrow WooCommerce parser, GBP conversion support, and focused fixtures before any enablement.
+- Follow with Allmeteorite using bounded multilingual WooCommerce parsing, translation deduplication, and decimal-comma normalization.
+- Vet remaining registered candidates one by one with narrow local scrapes before enabling any additional source.
 - Add lightweight parser tests or saved sample HTML before broadening source coverage.
 - Review whether GitHub Pages should be documented or configured more explicitly for the hosting mode in use.
 - Continue improving Meteorlab title/classification edge cases only from concrete validation findings.

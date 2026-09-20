@@ -22,7 +22,7 @@ The frontend is intentionally static:
 Frontend behavior:
 
 - Search covers title, source, type, subtype, classification text, and URL.
-- The top `Recent Finds` section shows one available specimen per meteorite name: the eight newest plus up to four newer low-price/rarity standouts. `Low $/g` requires the lowest quartile and a price at least 15% below a like-for-like median; `Rare here` means the classification is 0.5% or less of available tracked inventory. Rows that predate first-seen tracking are explicitly labeled as tracking baselines rather than confirmed new finds.
+- The top `Recent Finds` section is collapsed by default and expands on demand. It shows one available specimen per meteorite name: the eight newest plus up to four newer low-price/rarity standouts. `Low $/g` requires the lowest quartile and a price at least 15% below a like-for-like median; `Rare here` means the classification is 0.5% or less of available tracked inventory. Rows that predate first-seen tracking are explicitly labeled as tracking baselines rather than confirmed new finds.
 - Type chips and type/source selects are built from currently visible individual listings.
 - Unavailable listings are hidden by default and can be included with the checkbox.
 - Non-individual leftovers such as generic category/book/catalog rows and decorative images are filtered client-side as a defensive fallback.
@@ -44,7 +44,7 @@ It extracts or derives:
 
 ## Active Sources
 
-Enabled sources are configured in `data/sites.json` with `enabled: true` and are included in full scrapes, selected scrapes, and rotation runs.
+The 30 enabled sources are configured in `data/sites.json` with `enabled: true` and are included in full scrapes, selected scrapes, and rotation runs.
 
 | Source | Parser | Notes |
 | --- | --- | --- |
@@ -67,6 +67,7 @@ Enabled sources are configured in `data/sites.json` with `enabled: true` and are
 | Fossil Realm Meteorite Collection | `fossil_realm` | Parses Shopify meteorite products with available variants, positive non-placeholder prices, and title weights. |
 | TOP Meteorite | `top_meteorite` | Parses Shopify specimen products with available variants, positive prices, title weights, and meteorite keywords. |
 | Buy Meteorite | `buy_meteorite` | Parses the Shopify meteorites collection with available variants, meteorite type/tag checks, positive prices, title weights, images, and non-specimen rejection. |
+| OuterSpacer Meteorites | `outerspacer` | Parses four documented read-only Shopify collections with required Agent identification, exact-weight/price/image/product-URL checks, and strict range, lot, bundle, display, and non-specimen rejection. |
 | BuyMeteorites.com | `thompson_meteorites` | Parses the public Thompson Meteorite Collection Woo Store API with in-stock/add-to-cart proof, API currency prices, exact title weights, images, and service/discovery-set rejection. |
 | JC Meteorite Collection | `jc_meteorite_collection` | Parses the custom public catalogue API with paginated product rows, batched details, USD prices, exact unit-bearing weights, images, and sold/set/thin-section/fulgurite rejection. |
 | PolandMET | `polandmet` | Parses bounded Woo Store API product pages with in-stock/add-to-cart checks, title-derived individual weights, non-specimen rejection, image fallbacks, and local MetBull-assisted clean names. |
@@ -94,10 +95,11 @@ Disabled parser starts:
 
 The eBay connector is official Browse API only, seller-allowlist only, fixed-price only, and disabled/config-gated until `EBAY_CLIENT_ID` and `EBAY_CLIENT_SECRET` are configured and rows are manually reviewed. Do not scrape broad eBay search/category pages.
 
-Direct storefront candidates that returned HTTP 403, were parked, or had no public inventory are discarded from the source registry rather than kept as ordinary backlog. Etsy storefront candidates still require official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before any future enablement.
+Twelve vetted direct storefronts remain registered as disabled backlog while source-specific parsers are built: MSG-Meteorites, Allmeteorite, Labenne Meteorites / Meteorites.tv, VIP Meteorites, Decker Meteorite-Shop, Isameteorites, Mile High Meteorites, Nakhla Dog Meteorites, Meteorites.dk, Sun.org Meteoriteshop, Southwest Meteorite Laboratory, and Rocks on Fire. Candidates that returned HTTP 403, were parked, or had no public inventory are still discarded rather than retained as ordinary backlog. Etsy storefront candidates require official Etsy Open API credentials, vetted storefront allowlists, strict souvenir/gift/gem filtering, and manual row review before any future enablement.
 
 Policy-blocked disabled sources:
 
+- Treasure Coast Meteorite Co.: parser validation passed, but current storefront terms prohibit crawling/scraping despite conflicting read-only agent documentation; keep disabled pending explicit permission or an approved UCP/MCP catalog path.
 - Collector Secret Meteorites: broad eBay affiliate/aggregator feed rather than direct verified inventory.
 - eBay Marketplace Search: broad marketplace search/category scraping is blocked; use seller allowlists only.
 - Etsy Marketplace Search: broad marketplace search/category scraping is blocked; use official Etsy Open API credentials with vetted storefront allowlists only.

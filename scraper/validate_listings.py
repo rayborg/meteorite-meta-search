@@ -40,8 +40,16 @@ TITLE_WEIGHT_RE = re.compile(
     re.I,
 )
 TITLE_WEIGHT_RANGE_RE = re.compile(
-    rf"(?<![0-9A-Za-z])(?:{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)|[0-9]+[,.][0-9]+|[,.][0-9]+)\s*"
+    rf"(?<![0-9A-Za-z])(?<!NWA\s){TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)?\s*"
     rf"(?:-|\u2013|\u2014|to)\s*{TITLE_WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
+    re.I,
+)
+TITLE_WEIGHT_RANGE_START_RE = re.compile(rf"(?<![0-9A-Za-z])(?={TITLE_WEIGHT_NUMBER_RE})", re.I)
+TITLE_CATALOG_NAME_RE = re.compile(r"\b(?:NWA|North\s*west\s+Africa|Northwest\s+Africa)\s*\d{2,6}(?:\s*[A-Z])?\b", re.I)
+TITLE_NUMBERED_OFFICIAL_NAME_RE = re.compile(
+    r"\b(?:Abadla|Adrar|Al\s+Haggounia|Al\s+Khuwaymat|Bechar|DaG|Dar\s+al\s+Gani|Denader|Dhofar|Erg\s+Chech|JAH|Jiddat\s+al\s+Harasis|"
+    r"Jikharra|Ksar\s+Ghilane|Laayoune|NEA|Northeast\s+Africa|Oued\s+el\s+Hamim|RaS|Ramlat\s+as\s+Sahmah|"
+    r"SaU|Sayh\s+al\s+Uhaymir|Taoudenni|Tibertatine|Tirhert)\s+\d{2,6}[A-Za-z]?\b",
     re.I,
 )
 DIMENSION_NUMBER_RE = r"(?:[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+|[0-9]+\s*/\s*[0-9]+)"
@@ -176,6 +184,8 @@ CLEAN_TITLE_PARSERS = {
     "prehistoric_fossils",
     "skyfall_meteorites",
     "top_meteorite",
+    "treasure_coast_meteorites",
+    "outerspacer",
     "wwmeteorites",
 }
 PRODUCT_TITLE_PHRASE_RE = re.compile(r"\b(?:hammer\s+stone|end\s+slice|thin\s+slice|end\s*cut|endcut|endpiece|main\s+mass|slice|fragment|fragement|specimen|widmanst[a\u00e4]tten\s+patterns?)\b", re.I)
@@ -199,6 +209,33 @@ WWMETEORITES_NON_SPECIMEN_RE = re.compile(
 )
 M3T3ORITES_BAD_IMAGE_RE = re.compile(r"spacer|banner|pfeil_|contentbg_|nav_|0818b|imca|google|urchin", re.I)
 METEORITEGUY_BAD_IMAGE_RE = re.compile(r"(?:^|/)site-art/|mf-banner|banner|passports|kenyalarge|spacer|button|logo|\.(?:gif)(?:[?#].*)?$", re.I)
+
+
+def title_weight_range_matches(text: str) -> list[re.Match]:
+    matches = []
+    text = text or ""
+    for candidate in TITLE_WEIGHT_RANGE_START_RE.finditer(text):
+        match = TITLE_WEIGHT_RANGE_RE.match(text, candidate.start())
+        if not match:
+            continue
+        first_number = re.match(TITLE_WEIGHT_NUMBER_RE, match.group())
+        identity_text = text[:match.start() + first_number.end()].rstrip() if first_number else ""
+        identity_match = next(
+            (
+                candidate
+                for candidate in [TITLE_CATALOG_NAME_RE.search(identity_text), TITLE_NUMBERED_OFFICIAL_NAME_RE.search(identity_text)]
+                if candidate and candidate.end() == len(identity_text)
+            ),
+            None,
+        )
+        if identity_match:
+            continue
+        matches.append(match)
+    return matches
+
+
+def has_title_weight_range(text: str) -> bool:
+    return bool(title_weight_range_matches(text))
 
 
 def suspicious_reasons(item: dict) -> list[str]:
@@ -231,9 +268,9 @@ def suspicious_reasons(item: dict) -> list[str]:
         reasons.append("very long title")
     if LEADING_DIMENSION_RE.search(title):
         reasons.append("title starts with dimension")
-    if parser in CLEAN_TITLE_PARSERS and (TITLE_WEIGHT_RE.search(title) or TITLE_WEIGHT_RANGE_RE.search(title)):
+    if parser in CLEAN_TITLE_PARSERS and (TITLE_WEIGHT_RE.search(title) or has_title_weight_range(title)):
         reasons.append("clean-name source title contains weight")
-    if classification_text and (TITLE_WEIGHT_RE.search(classification_text) or TITLE_WEIGHT_RANGE_RE.search(classification_text) or DIMENSION_RE.search(classification_text)):
+    if classification_text and (TITLE_WEIGHT_RE.search(classification_text) or has_title_weight_range(classification_text) or DIMENSION_RE.search(classification_text)):
         reasons.append("classification_text contains weight/dimension")
     if parser in CLEAN_TITLE_PARSERS and PRODUCT_TITLE_PHRASE_RE.search(title):
         reasons.append("clean-name source title contains product phrase")
@@ -291,7 +328,7 @@ def number_value(text: str) -> float | None:
 
 
 def title_weight_g(title: str) -> float | None:
-    if TITLE_WEIGHT_RANGE_RE.search(title):
+    if has_title_weight_range(title):
         return None
     match = TITLE_WEIGHT_RE.search(title)
     if not match:
@@ -490,7 +527,7 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
     if fx_rate is not None and (not is_number(fx_rate) or fx_rate <= 0):
         errors.append(f"row {index}: fx_rate_to_usd is not positive numeric")
 
-    if available is True and TITLE_WEIGHT_RANGE_RE.search(title):
+    if available is True and has_title_weight_range(title):
         errors.append(f"row {index}: active title has variable weight range")
 
     parsed_title_weight = title_weight_g(title)
@@ -565,7 +602,7 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
                     errors.append(f"row {index}: {field} is too long")
                 if "\n" in value or "\r" in value or re.search(r"https?://", value, re.I):
                     errors.append(f"row {index}: {field} contains invalid control/URL text")
-                if TITLE_WEIGHT_RE.search(value) or TITLE_WEIGHT_RANGE_RE.search(value) or DIMENSION_RE.search(value) or CANONICAL_NAME_BAD_PHRASE_RE.search(value):
+                if TITLE_WEIGHT_RE.search(value) or has_title_weight_range(value) or DIMENSION_RE.search(value) or CANONICAL_NAME_BAD_PHRASE_RE.search(value):
                     errors.append(f"row {index}: {field} contains product/weight/dimension text")
                 if CATEGORY_TITLE_RE.search(value):
                     errors.append(f"row {index}: {field} is category-like")
@@ -666,6 +703,26 @@ def validation_errors(item: dict, index: int, valid_sources: set[str], valid_par
             errors.append(f"row {index}: active MeteoriteGuy row lacks valid specimen image")
         if ACTIVE_NON_INDIVIDUAL_RE.search(non_individual_haystack):
             errors.append(f"row {index}: active MeteoriteGuy ambiguous non-individual row")
+    if parser in {"treasure_coast_meteorites", "outerspacer"} and available is True:
+        if currency != "USD":
+            errors.append(f"row {index}: active source-specific Shopify row is not USD")
+        if price is None or weight is None:
+            errors.append(f"row {index}: active source-specific Shopify row lacks exact price/weight")
+        if not image_url:
+            errors.append(f"row {index}: active source-specific Shopify row lacks a specimen image")
+        product_url = urlparse(url)
+        source_host = urlparse(str(item.get("source_url") or "")).netloc.lower()
+        product_path = re.fullmatch(r"/products/([a-z0-9]+(?:-[a-z0-9]+)*)/?", product_url.path, re.I)
+        if (
+            bool(re.search(r"\s", url))
+            or product_url.scheme not in {"http", "https"}
+            or not product_url.netloc
+            or bool(source_host and product_url.netloc.lower() != source_host)
+            or bool(product_url.params or product_url.query or product_url.fragment)
+            or not product_path
+            or product_path.group(1).lower() in {"none", "null", "undefined"}
+        ):
+            errors.append(f"row {index}: active source-specific Shopify row is not a product URL")
 
     subtype_token = compact_classification_token(item.get("subtype"))
     if re.fullmatch(r"(?:H|L|LL)[3-7][3-7]", subtype_token):

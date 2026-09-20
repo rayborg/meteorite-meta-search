@@ -489,6 +489,184 @@
     "notes": "Enabled after user availability confirmation. Parser follows only catalog.htm sale links plus same-domain continuation pages, requires exact row price/weight/image evidence, and rejects sold, category, collection, adventure, non-specimen, lot/range, and ambiguous rows."
   },
   {
+    "name": "Treasure Coast Meteorite Co.",
+    "parser": "treasure_coast_meteorites",
+    "stage": "disabled_policy_blocked",
+    "base_url": "https://www.tcmeteorites.com/",
+    "inventory_urls": [
+      "https://www.tcmeteorites.com/collections/all/products.json?limit=250&country=US"
+    ],
+    "currency": "USD",
+    "enabled": false,
+    "description": "Direct Shopify meteorite specialist with individual specimens, title weights, prices, availability, and remote images.",
+    "notes": "Policy-blocked despite a validated source-specific parser: current storefront terms prohibit crawling/scraping while /agents.md advertises read-only catalog access. Keep disabled until the source grants explicit permission or an approved UCP/MCP catalog path is implemented."
+  },
+  {
+    "name": "OuterSpacer Meteorites",
+    "parser": "outerspacer",
+    "stage": "active_verified",
+    "base_url": "https://outerspacer.com/",
+    "inventory_urls": [
+      "https://outerspacer.com/collections/stony-meteorites/products.json?limit=250&country=US",
+      "https://outerspacer.com/collections/stony-iron-meteorites/products.json?limit=250&country=US",
+      "https://outerspacer.com/collections/iron-meteorites/products.json?limit=250&country=US",
+      "https://outerspacer.com/collections/tektites-impactites/products.json?limit=250&country=US"
+    ],
+    "currency": "USD",
+    "enabled": true,
+    "description": "Direct Shopify meteorite specialist with narrow stone, stony-iron, iron, tektite, and impactite collections.",
+    "notes": "Enabled after bounded live review and independent adversarial validation. Uses only the four documented read-only collections with the required Agent identification, pins country=US, requires one available variant, exact title weight, positive USD price, image, and safe product URL, and excludes SEO tags from filtering/classification."
+  },
+  {
+    "name": "MSG-Meteorites",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://msg-meteorites.co.uk/",
+    "inventory_urls": [
+      "https://msg-meteorites.co.uk/product-category/meteorites/show-all-meteorites/"
+    ],
+    "enabled": false,
+    "description": "UK WooCommerce specialist with more than 100 individually priced and weighted meteorite specimens.",
+    "notes": "Vetted direct-store candidate. Build a narrow meteorite-category parser with GBP conversion, stock/add-to-basket proof, title-weight validation, pagination, and strict rejection of gifts, jewelry, books, boxes, thin sections, cards, and variable products without exact specimen weights."
+  },
+  {
+    "name": "Allmeteorite",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://allmeteorite.com/",
+    "inventory_urls": [
+      "https://allmeteorite.com/product-category/meteorites/"
+    ],
+    "enabled": false,
+    "description": "Large French WooCommerce meteorite catalog with individual title weights, EUR prices, stock markers, and multilingual pages.",
+    "notes": "Vetted direct-store candidate. Use meteorite categories only, cap and paginate conservatively, normalize decimal commas and multilingual duplicates, require add-to-cart/in-stock proof, and reject sold rows, boxes, jewelry, fossils, minerals, impact debris, and other non-specimens."
+  },
+  {
+    "name": "Labenne Meteorites / Meteorites.tv",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.meteorites.tv/",
+    "inventory_urls": [
+      "https://www.meteorites.tv/7-lunar-meteorites",
+      "https://www.meteorites.tv/412-martian-meteorites",
+      "https://www.meteorites.tv/570-pallasites",
+      "https://www.meteorites.tv/565-iron-meteorites",
+      "https://www.meteorites.tv/563-carbonaceous-chondrites",
+      "https://www.meteorites.tv/573-angrites"
+    ],
+    "enabled": false,
+    "description": "French PrestaShop specialist with high-end individual meteorites, public weights, prices, availability, and cart state.",
+    "notes": "Vetted direct-store candidate. Build a bounded PrestaShop category/detail parser, require Available/add-to-cart proof and exact individual weight, normalize selected USD/EUR currency, and reject sold, price-on-request, display-only, and non-specimen products."
+  },
+  {
+    "name": "VIP Meteorites",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://vipmeteorites.com/",
+    "inventory_urls": [
+      "https://vipmeteorites.com/sales/"
+    ],
+    "enabled": false,
+    "description": "Spanish WooCommerce meteorite specialist with individual and variable specimens in EUR or USD.",
+    "notes": "Vetted direct-store candidate. Expand variants only when each has an exact specimen weight and price; require stock/cart proof and reject collection boxes, lots, weight ranges, impactite bulk lots, and other non-individual products."
+  },
+  {
+    "name": "Decker Meteorite-Shop",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.meteorite-shop.de/",
+    "inventory_urls": [
+      "https://www.meteorite-shop.de/meteoriten/"
+    ],
+    "enabled": false,
+    "description": "German Shopware meteorite store with structured individual products, EUR prices, weights, and cart state.",
+    "notes": "Vetted direct-store candidate. Build a Shopware category/detail parser with German decimal normalization, exact specimen weight and positive-price requirements, sold filtering, and narrow meteorite-category traversal."
+  },
+  {
+    "name": "Isameteorites",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.isameteorites.com/",
+    "inventory_urls": [
+      "https://www.isameteorites.com/en/store/"
+    ],
+    "enabled": false,
+    "description": "French and English direct meteorite store with individual product pages, exact weights, EUR prices, and cart state.",
+    "notes": "Vetted direct-store candidate. Build a custom category/detail parser, deduplicate translated routes, normalize tax-inclusive EUR prices, require add-to-cart proof and exact weights, and reject unavailable or non-specimen products."
+  },
+  {
+    "name": "Mile High Meteorites",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "http://www.milehighmeteorites.com/",
+    "inventory_urls": [
+      "http://www.milehighmeteorites.com/"
+    ],
+    "enabled": false,
+    "description": "Static direct meteorite inventory page with specimen images, exact weights, USD prices, and explicit sold markers.",
+    "notes": "Vetted direct-store candidate. Build a bounded static block parser, require row-scoped image/weight/price evidence, reject SOLD, inquire-only, others-available, coins, ambiguous rows, and title/body weight conflicts."
+  },
+  {
+    "name": "Nakhla Dog Meteorites",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "http://www.nakhladogmeteorites.com/",
+    "inventory_urls": [
+      "http://www.nakhladogmeteorites.com/catalog.htm"
+    ],
+    "enabled": false,
+    "description": "Old static meteorite catalog with repeated specimen rows, public weights and prices, images, and email ordering.",
+    "notes": "Vetted but lower-confidence direct-store candidate because availability is manual. Confirm freshness before parser work; require explicit unsold row evidence and reject sold, per-gram, sets, earrings, gear, historical text, and contact-only ambiguous inventory."
+  },
+  {
+    "name": "Meteorites.dk",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.meteorites.dk/",
+    "inventory_urls": [
+      "https://www.meteorites.dk/service/stone-meteorites/"
+    ],
+    "enabled": false,
+    "description": "Bilingual static meteorite inventory with item IDs, EUR prices, specimen weights, and sold markers.",
+    "notes": "Vetted but lower-confidence direct-store candidate because ordering and availability are manual. Confirm freshness, normalize decimal commas and duplicate language text, and reject sold, jewelry, sets, per-gram offers, and rows missing exact weights."
+  },
+  {
+    "name": "Sun.org Meteoriteshop",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.sun.org/",
+    "inventory_urls": [
+      "https://www.sun.org/de/meteoriteshop"
+    ],
+    "enabled": false,
+    "description": "German and English custom storefront with meteorite product pages, EUR prices, weights, buy links, and sold badges.",
+    "notes": "Vetted direct-store candidate. Build a narrow meteoriteshop parser, deduplicate language routes, require active buy proof, exact weight and price, and reject sold rows, terrestrial rocks, metal bars, and other mixed inventory."
+  },
+  {
+    "name": "Southwest Meteorite Laboratory",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://meteoritelab.com/",
+    "inventory_urls": [
+      "https://meteoritelab.com/products/meteorites/"
+    ],
+    "enabled": false,
+    "description": "US WooCommerce meteorite laboratory and store with individually weighted, priced, purchasable specimens.",
+    "notes": "Vetted direct-store candidate distinct from active meteorlab.com. Build a meteorite-category/detail parser with add-to-cart proof, exact weights, positive USD prices, and rejection of jewelry, watches, gifts, impactites, and variable products lacking specimen-specific weights."
+  },
+  {
+    "name": "Rocks on Fire",
+    "parser": "disabled_backlog",
+    "stage": "disabled_backlog",
+    "base_url": "https://www.rocksonfire.com/",
+    "inventory_urls": [
+      "https://www.rocksonfire.com/hikashop-menu-for-categories-listing/meteorites"
+    ],
+    "enabled": false,
+    "description": "Australian Joomla HikaShop meteorite catalog with exact weights, prices, stock counts, and cart links.",
+    "notes": "Vetted direct-store candidate. Build a meteorite-category/detail parser requiring positive stock, exact individual weight, selected currency price, and add-to-cart proof; preserve Australia-only shipping restrictions where exposed and reject non-specimen categories."
+  },
+  {
     "name": "eBay - meteoritetreasure",
     "parser": "ebay_browse",
     "stage": "disabled_parser_start",

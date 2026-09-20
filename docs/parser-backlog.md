@@ -1,6 +1,6 @@
 # Parser Backlog
 
-Generated: 2026-06-16
+Generated: 2026-09-20
 
 This is the working queue of meteorite dealer sites to inspect and add with custom parsers. Do not enable a site with the generic parser first. For each site, crawl a small sample manually, identify index/detail/page patterns, then add a parser and only then enable it in `data/sites.json`.
 
@@ -37,6 +37,7 @@ This is the working queue of meteorite dealer sites to inspect and add with cust
 | Collecting Meteorites | Active | WordPress sale-card parser reads meteorites-for-sale cards plus bounded detail pages, requires exact title weights, EUR prices, category text, remote images, and rejects per-gram/non-specimen/unavailable/ambiguous multi-specimen rows. |
 | m3t3orites | Active | Static category-linked parser follows only `/meteorites/*.php` detail pages, requires specimen ID, exact US-$ price, gram weight, row image, and rejects sold, coin, eBay, and non-specimen rows. |
 | Michael Farmer Meteorites | Active | Static sale catalog parser follows only catalog sale links and same-domain continuations, requires exact row price/weight/image evidence, and rejects sold, category, collection, adventure, non-specimen, lot/range, and ambiguous rows. |
+| OuterSpacer Meteorites | Active | Source-specific Shopify parser uses four documented read-only collection JSON endpoints with required Agent identification, exact USD price/title-weight/image/product-URL checks, overlap-safe range detection, and strict non-individual/non-specimen rejection. |
 
 Scheduled GitHub Actions runs rotate across active enabled sources one source at a time and preserve existing rows for enabled sources not scraped in that run. Disabled parser starts and policy-blocked disabled sources below are excluded from rotation.
 
@@ -56,11 +57,22 @@ These sources are present in `data/sites.json` with `enabled: false` and `stage:
 
 ## Disabled Backlog Entries In Registry
 
-No direct dealer/storefront entries currently remain in `data/sites.json` as ordinary `disabled_backlog` sources; 403, parked, or no-inventory candidates were discarded from the registry and documented below instead. Policy/reference sentinels still use disabled no-op parsers.
+These vetted direct storefronts are present in `data/sites.json` with `enabled: false` and `stage: disabled_backlog`. They stay visible in the source panel while a bounded source-specific parser is developed and validated.
 
 | Site | URL | Next step |
 | --- | --- | --- |
-| - | None currently | - |
+| MSG-Meteorites | https://msg-meteorites.co.uk/product-category/meteorites/show-all-meteorites/ | Build a narrow WooCommerce parser with GBP support, stock/cart proof, pagination, exact weights, and strict gift/jewelry/book/variable-product rejection. |
+| Allmeteorite | https://allmeteorite.com/product-category/meteorites/ | Build a bounded multilingual WooCommerce parser with EUR prices, decimal-comma handling, stock proof, and mineral/fossil/jewelry rejection. |
+| Labenne Meteorites / Meteorites.tv | https://www.meteorites.tv/ | Build a bounded PrestaShop category/detail parser with availability, selected-currency, exact-weight, and display/non-specimen checks. |
+| VIP Meteorites | https://vipmeteorites.com/sales/ | Validate variable products only when each variant has its own exact specimen weight and price. |
+| Decker Meteorite-Shop | https://www.meteorite-shop.de/meteoriten/ | Build a narrow Shopware parser with German decimal normalization, exact weight/price, cart state, and sold filtering. |
+| Isameteorites | https://www.isameteorites.com/en/store/ | Build a translated-route-aware category/detail parser with EUR price, exact weight, cart proof, and deduplication. |
+| Mile High Meteorites | http://www.milehighmeteorites.com/ | Build a bounded static block parser with row-scoped image/weight/price evidence and explicit sold/ambiguous-row rejection. |
+| Nakhla Dog Meteorites | http://www.nakhladogmeteorites.com/catalog.htm | Confirm inventory freshness before implementing a conservative static catalog parser for explicitly unsold rows. |
+| Meteorites.dk | https://www.meteorites.dk/service/stone-meteorites/ | Confirm freshness, deduplicate bilingual text, normalize decimal commas, and reject sold/per-gram/manual-availability ambiguity. |
+| Sun.org Meteoriteshop | https://www.sun.org/de/meteoriteshop | Build a narrow multilingual parser requiring active buy proof, exact weight/price, and mixed-inventory rejection. |
+| Southwest Meteorite Laboratory | https://meteoritelab.com/products/meteorites/ | Build a narrow WooCommerce parser with add-to-cart proof, exact USD price/weight, and jewelry/gift/variable-product rejection. |
+| Rocks on Fire | https://www.rocksonfire.com/hikashop-menu-for-categories-listing/meteorites | Build a HikaShop parser requiring positive stock, exact selected-currency price/weight, cart proof, and meteorite-category scope. |
 
 ## Disqualified / Not Configured
 
@@ -79,7 +91,9 @@ These were reviewed and intentionally removed from the configured source list be
 
 | Priority | Site | URL | Why add | Likely parser style | First inspection notes |
 | --- | --- | --- | --- | --- | --- |
-| - | None currently | - | Previously listed direct-storefront candidates are now active after parser validation. | - | Continue with marketplace storefront vetting below. |
+| P1 | MSG-Meteorites | https://msg-meteorites.co.uk/product-category/meteorites/show-all-meteorites/ | Large specialist inventory with exact title weights and prices. | Narrow WooCommerce category/card/detail parser. | Add GBP conversion support before enablement. |
+| P2 | Allmeteorite | https://allmeteorite.com/product-category/meteorites/ | Large specialist inventory with stock markers and EUR prices. | Bounded multilingual WooCommerce parser. | Deduplicate translations and normalize decimal commas. |
+| P3 | Labenne Meteorites / Meteorites.tv | https://www.meteorites.tv/ | High-information individual inventory across narrow categories. | Bounded PrestaShop category/detail parser. | Verify selected currency and live availability. |
 
 ## Source Discovery Artifacts
 
@@ -95,6 +109,7 @@ These are present in `data/sites.json` with `enabled: false` and `stage: disable
 
 | Site | URL | Blocker |
 | --- | --- | --- |
+| Treasure Coast Meteorite Co. | https://www.tcmeteorites.com/ | Parser and bounded output validation passed, but current terms prohibit crawling/scraping despite conflicting read-only `/agents.md` guidance. Keep blocked pending explicit permission or an approved UCP/MCP catalog path. |
 | Collector Secret Meteorites | https://www.collector-secret.com/minerals/meteorites | Broad eBay affiliate/aggregator feed rather than direct verified inventory. |
 | eBay Marketplace Search | https://www.ebay.com/ | Broad marketplace search/category scraping is blocked; use official Browse API seller allowlists only. |
 | Etsy Marketplace Search | https://www.etsy.com/ | Broad marketplace search/category scraping is blocked; use official Etsy Open API credentials with vetted storefront allowlists only. |

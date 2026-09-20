@@ -1,5 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const {
   listingUsesFirstSeenBaseline,
@@ -22,6 +24,16 @@ function listing(overrides = {}) {
     ...overrides
   };
 }
+
+test("recent finds starts collapsed until the toggle is pressed", () => {
+  const root = path.resolve(__dirname, "..");
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const script = fs.readFileSync(path.join(root, "app.js"), "utf8");
+
+  assert.match(html, /id="recentFindsToggle"[^>]*aria-expanded="false"[^>]*>Show recent finds<\/button>/);
+  assert.match(html, /<div id="recentFindsContent" hidden>/);
+  assert.match(script, /setRecentFindsOpen\(false\);/);
+});
 
 test("recent listings use first-seen time, exclude unavailable stock, and deduplicate names", () => {
   const items = [

@@ -59,10 +59,11 @@ WEIGHT_RE = re.compile(
     re.I,
 )
 WEIGHT_RANGE_RE = re.compile(
-    rf"(?<![0-9A-Za-z])(?:{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)|[0-9]+[,.][0-9]+|[,.][0-9]+)\s*"
+    rf"(?<![0-9A-Za-z])(?<!NWA\s){WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)?\s*"
     rf"(?:-|\u2013|\u2014|to)\s*{WEIGHT_NUMBER_RE}\s*(?:kg|kilograms?|g|gm|gms|gr|grs|grams?|mg|milligrams?|oz|ounces?)\b",
     re.I,
 )
+WEIGHT_RANGE_START_RE = re.compile(rf"(?<![0-9A-Za-z])(?={WEIGHT_NUMBER_RE})", re.I)
 DIMENSION_NUMBER_RE = r"(?:[0-9]+(?:[,.][0-9]+)?|[,.][0-9]+|[0-9]+\s*/\s*[0-9]+)"
 DIMENSION_UNIT_RE = r"(?:\"|in(?:ch(?:es)?)?\.?|cm|mm)"
 DIMENSION_RE = re.compile(rf"(?<![0-9A-Za-z]){DIMENSION_NUMBER_RE}\s*{DIMENSION_UNIT_RE}(?![0-9A-Za-z])", re.I)
@@ -330,6 +331,8 @@ ECOMMERCE_CLEAN_TITLE_PARSERS = {
     "mini_museum",
     "skyfall_meteorites",
     "top_meteorite",
+    "treasure_coast_meteorites",
+    "outerspacer",
     "wwmeteorites",
 }
 CATALOG_NAME_RE = re.compile(r"\b(NWA|North\s*west\s+Africa|Northwest\s+Africa)\s*(\d{2,6})(?:\s*([A-Z]))?\b", re.I)
@@ -407,6 +410,33 @@ DISPLAY_CLASSIFICATION_ONLY_RE = re.compile(
     re.I,
 )
 SHOPIFY_PLACEHOLDER_PRICE_RE = re.compile(r"\b(price\s+on\s+request|contact\s+for\s+price|call\s+for\s+price)\b", re.I)
+STRICT_SHOPIFY_NON_INDIVIDUAL_RE = re.compile(
+    r"\b(?:assort(?:ed|ment)|bundles?|collections?|displays?|dust|filings?|gift\s*cards?|jewelry|jewellery|"
+    r"lots?|matched[-_\s]+pairs?|multiple|pairs?|sets?|select\s+(?:a\s+)?size|various\s+(?:sizes?|weights?)|"
+    r"selectable\s+(?:sizes?|weights?)|choose|choice|available\s+in|multiple\s+weights?\s+available|per\s*(?:gram|g)|"
+    r"fragments|slices|specimens|individuals|\d+\s*(?:pieces?|specimens?|fragments?|slices?|individuals?))\b|"
+    r"/\s*(?:gram|g)\b|\bfrom\s+\$",
+    re.I,
+)
+STRICT_SHOPIFY_BODY_OFFER_RE = re.compile(
+    r"\b(?:assort(?:ed|ment)\s+(?:pieces?|specimens?|fragments?)|bundles?|matched[-_\s]+pairs?|"
+    r"(?:specimen|meteorite)\s+lots?|(?:sold|offered|available)\s+as\s+(?:a\s+)?lots?|"
+    r"lots?\s+of\s+(?:\d+|one|two|three|four|five|several|multiple)\s+(?:meteorite\s+)?(?:pieces?|specimens?|fragments?|slices?|individuals?|stones?)|"
+    r"(?:purchase\s+)?includes?\s+(?:\d+|one|two|three|four|five|several|multiple)\s+(?:meteorite\s+)?(?:pieces?|specimens?|fragments?|slices?|individuals?|stones?)|"
+    r"(?:you\s+will\s+)?receive\s+(?:\d+|one|two|three|four|five|several|multiple)\s+(?:assorted\s+)?(?:meteorite\s+)?(?:pieces?|specimens?|fragments?|slices?|individuals?|stones?)|"
+    r"multiple\s+(?:pieces?|specimens?|fragments?|slices?|individuals?)\s+(?:included|available|offered|sold)|"
+    r"(?:available|offered|sold)\s+in\s+multiple\s+(?:sizes?|weights?)|"
+    r"sets?\s+of|select(?:able)?\s+(?:size|weight)|select\s+(?:an?\s+option|your)|choose\s+(?:a|your)|"
+    r"available\s+in\s+(?:multiple\s+)?(?:sizes?|weights?)|weight\s+range|"
+    r"(?:priced|pricing|sold)\s+(?:by|per)\s+(?:the\s+)?(?:gram|g)|per\s+(?:gram|g))\b|/\s*(?:gram|g)\b",
+    re.I,
+)
+OUTERSPACER_ALLOWED_COLLECTIONS = {
+    "iron-meteorites",
+    "stony-iron-meteorites",
+    "stony-meteorites",
+    "tektites-impactites",
+}
 NON_INDIVIDUAL_WEIGHT_CONTEXT_RE = re.compile(
     r"\b(?:total|tkw|known|fall|fell|found|recovered|largest|main\s+mass|dimensions?|measures?|"
     r"display|shipping|million|years?|crater|area|strewn|shower|approximately\s+[0-9.]+\s*(?:cm|mm|inches?))\b",
@@ -589,7 +619,7 @@ def strip_product_measurements(text: str) -> str:
         text,
         flags=re.I,
     )
-    text = WEIGHT_RANGE_RE.sub(" ", text)
+    text = remove_weight_ranges(text)
     text = WEIGHT_RE.sub(" ", text)
     text = DIMENSION_RE.sub(" ", text)
     text = re.sub(r"\(\s*\)", " ", text)
@@ -993,6 +1023,13 @@ def ecommerce_display_title(raw_title: str, parser: str, url: str | None = None)
             return impactika_name
     if parser == "aerolite":
         title = clean(re.sub(r"\s*\|\s*Aerolite Meteorites.*$", "", title, flags=re.I))
+    if parser in {"treasure_coast_meteorites", "outerspacer"}:
+        identity_text = re.split(r"\s+-\s+", title, maxsplit=1)[0] if parser == "outerspacer" else title
+        identity = product_identity_from_title(identity_text)
+        if identity:
+            return identity
+        leading = tidy_display_candidate(identity_text)
+        return leading or title
     parts = re.split(r"\s+-\s+", title)
     if len(parts) > 1:
         for segment in reversed(parts[1:]):
@@ -1471,8 +1508,40 @@ def weight_to_g(value: float, unit: str) -> float:
     return value
 
 
+def numbered_identity_ends_at(text: str, end: int) -> bool:
+    identity_text = text[:end].rstrip()
+    return any(
+        match and match.end() == len(identity_text)
+        for match in [CATALOG_NAME_RE.search(identity_text), NUMBERED_OFFICIAL_NAME_RE.search(identity_text)]
+    )
+
+
+def weight_range_matches(text: str) -> list[re.Match]:
+    matches = []
+    text = text or ""
+    for candidate in WEIGHT_RANGE_START_RE.finditer(text):
+        match = WEIGHT_RANGE_RE.match(text, candidate.start())
+        if not match:
+            continue
+        first_number = re.match(WEIGHT_NUMBER_RE, match.group())
+        if first_number and numbered_identity_ends_at(text, match.start() + first_number.end()):
+            continue
+        matches.append(match)
+    return matches
+
+
+def has_weight_range(text: str) -> bool:
+    return bool(weight_range_matches(text))
+
+
+def remove_weight_ranges(text: str) -> str:
+    for match in reversed(weight_range_matches(text)):
+        text = f"{text[:match.start()]} {text[match.end():]}"
+    return text
+
+
 def weight_range_spans(text: str) -> list[tuple[int, int]]:
-    return [(match.start(), match.end()) for match in WEIGHT_RANGE_RE.finditer(text)]
+    return [(match.start(), match.end()) for match in weight_range_matches(text)]
 
 
 def span_inside(span: tuple[int, int], ranges: list[tuple[int, int]]) -> bool:
@@ -1635,7 +1704,7 @@ def clean_classification_bit(value: str | None) -> str | None:
     if stone_match:
         bit = clean(stone_match.group(1))
     bit = re.sub(r"\bCampo\s+Del\s+Cielo\b", "Campo del Cielo", bit)
-    if not bit or WEIGHT_RE.search(bit) or WEIGHT_RANGE_RE.search(bit) or DIMENSION_RE.search(bit):
+    if not bit or WEIGHT_RE.search(bit) or has_weight_range(bit) or DIMENSION_RE.search(bit):
         return None
     if CLASSIFICATION_PRODUCT_TEXT_RE.search(bit):
         return None
@@ -2932,7 +3001,7 @@ def product_detail_listing(
     if reject_title_re and reject_title_re.search(title):
         log.reject("product_non_specimen_title")
         return None
-    if reject_weight_range_title and WEIGHT_RANGE_RE.search(title):
+    if reject_weight_range_title and has_weight_range(title):
         log.reject("product_weight_range_title")
         return None
     if require_title_meteorite and not product_title_has_meteorite_marker(title):
@@ -3183,18 +3252,20 @@ def shopify_products_api_url(site: dict, inventory_url: str, page: int, limit: i
             path = f"{path}/products.json"
         else:
             path = "/products.json"
-    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    query = [(key, value) for key, value in parse_qsl(parsed.query, keep_blank_values=True) if key not in {"limit", "page"}]
     if limit is None:
-        query.setdefault("limit", "250")
+        query.append(("limit", "250"))
     else:
-        query["limit"] = str(limit)
-    query["page"] = str(page)
+        query.append(("limit", str(limit)))
+    query.append(("page", str(page)))
     return urlunparse((parsed.scheme, parsed.netloc, path, "", urlencode(query), ""))
 
 
 def shopify_json_headers(site: dict) -> dict:
+    parser = site.get("parser") or "generic"
+    user_agent = f"Agent/{UA}" if parser in {"treasure_coast_meteorites", "outerspacer"} else BROWSER_UA
     return {
-        "User-Agent": BROWSER_UA,
+        "User-Agent": user_agent,
         "Accept": "application/json,text/javascript,*/*;q=0.01",
         "Accept-Language": "en-US,en;q=0.9",
         "Referer": urljoin(site["base_url"], "/"),
@@ -3266,6 +3337,16 @@ def shopify_parser_title(parser: str, title: str) -> str:
     return title
 
 
+def shopify_currency(site: dict) -> str:
+    return currency_code(site.get("currency")) or "USD"
+
+
+def assert_shopify_currency(site: dict, expected: str) -> None:
+    configured = currency_code(site.get("currency"))
+    if configured != expected:
+        raise ValueError(f"{site.get('name') or site.get('parser') or 'Shopify source'} must configure currency={expected}")
+
+
 def shopify_listing(
     site: dict,
     parser: str,
@@ -3278,12 +3359,22 @@ def shopify_listing(
         log.reject("shopify_unavailable")
         return None
 
+    handle = product.get("handle")
+    if (
+        not isinstance(handle, str)
+        or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", handle, re.I)
+        or handle.lower() in {"none", "null", "undefined"}
+    ):
+        log.reject("shopify_invalid_handle")
+        return None
+
     title = clean(str(product.get("title") or ""))
     variant_title = clean(str(variant.get("title") or ""))
     if variant_title and not re.fullmatch(r"default\s+title", variant_title, re.I):
         title = clean(f"{title} - {variant_title}")
     title = shopify_parser_title(parser, title)
-    tag_text = "" if parser == "top_meteorite" else " ".join(shopify_tags(product))
+    include_tags = parser not in {"top_meteorite", "outerspacer"}
+    tag_text = " ".join(shopify_tags(product)) if include_tags else ""
     detail_text = clean(" ".join([html_to_text(product.get("body_html")), shopify_product_type(product), tag_text]))
     price = price_num(str(variant.get("price") or ""))
     weight = first_individual_weight_g(title, detail_text[:2400])
@@ -3292,17 +3383,18 @@ def shopify_listing(
         log.reject(reason)
         return None
 
-    url = urljoin(site["base_url"], f"/products/{product.get('handle')}")
+    url = urljoin(site["base_url"], f"/products/{handle}")
     images = shopify_images(product, url)
+    explicit_type = shopify_product_type(product) if parser == "outerspacer" else shopify_explicit_type(product, include_keyword_tags=include_tags)
     item = make_listing(
         site,
         url,
         title,
         price=price,
-        currency="USD" if price is not None else None,
+        currency=shopify_currency(site) if price is not None else None,
         weight_g=weight,
         detail_text=detail_text,
-        explicit_type=shopify_explicit_type(product, include_keyword_tags=parser != "top_meteorite"),
+        explicit_type=explicit_type,
         image_url=images[0] if images else None,
         image_urls=images,
         item_key=clean(str(variant.get("id") or product.get("id") or title)),
@@ -3381,7 +3473,7 @@ def meteorite_exchange_card_filter(card, page_url: str) -> str | None:
     title_node = card.select_one(".woocommerce-loop-product__title, h2, h3")
     title = clean(title_node.get_text(" ", strip=True) if title_node else "")
     haystack = clean(" ".join([title, card.get_text(" ", strip=True), classes]))
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "meteorite_exchange_weight_range_title"
     if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
         return "meteorite_exchange_non_specimen"
@@ -3405,7 +3497,7 @@ def meteorite_exchange_detail_proof(soup: BeautifulSoup, product: dict | None, o
     if not (meta_content(soup, "product:retailer_item_id") or product_node.select_one(".product_meta .sku, .product_meta .posted_in")):
         return "woo_missing_product_metadata"
     title = meta_content(soup, "og:title", "twitter:title") or title_for(soup)
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "meteorite_exchange_weight_range_title_detail"
     category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
     if METEORITE_EXCHANGE_NON_SPECIMEN_RE.search(clean(f"{title} {category_text}")):
@@ -3422,7 +3514,7 @@ def astro_west_card_filter(card, page_url: str) -> str | None:
     title_node = card.select_one(".woocommerce-loop-product__title, h2, h3")
     title = clean(title_node.get_text(" ", strip=True) if title_node else "")
     haystack = clean(" ".join([title, card.get_text(" ", strip=True)]))
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "astro_west_weight_range_title"
     if ASTRO_WEST_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
         return "astro_west_non_specimen"
@@ -3448,7 +3540,7 @@ def astro_west_detail_proof(soup: BeautifulSoup, product: dict | None, offer: di
         return "astro_west_non_specimen_category_detail"
     if ASTRO_WEST_NON_SPECIMEN_RE.search(title) or NON_SPECIMEN_PRODUCT_RE.search(title):
         return "astro_west_non_specimen_detail"
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "astro_west_weight_range_title_detail"
     if not product_title_has_meteorite_marker(title):
         return "astro_west_missing_title_meteorite_marker_detail"
@@ -3466,7 +3558,7 @@ def prehistoric_fossils_card_filter(card, page_url: str) -> str | None:
     haystack = clean(" ".join([title, card.get_text(" ", strip=True), classes]))
     if PREHISTORIC_FOSSILS_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
         return "prehistoric_non_specimen"
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "prehistoric_weight_range_title"
     if title and not product_title_has_meteorite_marker(title):
         return "prehistoric_missing_title_meteorite_marker"
@@ -3486,7 +3578,7 @@ def prehistoric_fossils_detail_proof(soup: BeautifulSoup, product: dict | None, 
     category_text = clean(product_node.select_one(".product_meta").get_text(" ", strip=True) if product_node.select_one(".product_meta") else "")
     if PREHISTORIC_FOSSILS_NON_SPECIMEN_RE.search(f"{title} {category_text}") or NON_SPECIMEN_PRODUCT_RE.search(f"{title} {category_text}"):
         return "prehistoric_non_specimen_detail"
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "prehistoric_weight_range_title_detail"
     if not product_title_has_meteorite_marker(title):
         return "prehistoric_missing_title_meteorite_marker_detail"
@@ -3600,7 +3692,7 @@ def galactic_stone_ecrater_detail_proof(soup: BeautifulSoup, product: dict | Non
     haystack = clean(f"{title} {category_text} {visible_text[:1600]}")
     if GALACTIC_STONE_NON_SPECIMEN_RE.search(haystack) or NON_SPECIMEN_PRODUCT_RE.search(haystack):
         return "galactic_ecrater_non_specimen_detail"
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         return "galactic_ecrater_weight_range_title"
     if not product_title_has_meteorite_marker(title):
         return "galactic_ecrater_missing_title_meteorite_marker_detail"
@@ -3741,7 +3833,7 @@ def collecting_meteorites_card_listing(site: dict, page_url: str, card, log: Sou
     if re.search(r"\b(?:various|assorted|choose|ask\s+for\s+size|sizes?\s+you\s+need)\b", title, re.I):
         log.reject("collecting_ambiguous_multi_specimen")
         return None
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         log.reject("collecting_weight_range_title")
         return None
     if not product_title_has_meteorite_marker(title):
@@ -3859,7 +3951,7 @@ def meteor_center_card_listing(site: dict, page_url: str, card, log: SourceLog) 
     if re.search(r"\b(?:of|lot|set|bag)\s+(?:fragments?|pieces?|individuals?|slices?)\b", title, re.I):
         log.reject("meteor_center_multi_piece_title")
         return None
-    if WEIGHT_RANGE_RE.search(title):
+    if has_weight_range(title):
         log.reject("meteor_center_weight_range_title")
         return None
     if not product_title_has_meteorite_marker(title):
@@ -4189,6 +4281,110 @@ def mini_museum_filter(product: dict, title: str, detail_text: str, price: float
 
 def scrape_mini_museum(site: dict, log: SourceLog) -> list[dict]:
     return scrape_shopify_products_json(site, log, "mini_museum", mini_museum_filter)
+
+
+def strict_shopify_specimen_filter(
+    product: dict,
+    title: str,
+    detail_text: str,
+    price: float | None,
+    weight: float | None,
+    *,
+    reason_prefix: str,
+) -> str | None:
+    available_variants = [
+        variant
+        for variant in product.get("variants") or []
+        if isinstance(variant, dict) and variant.get("available") is True
+    ]
+    if len(available_variants) != 1:
+        return f"{reason_prefix}_non_individual_variants"
+    if SHOPIFY_PLACEHOLDER_PRICE_RE.search(detail_text) or price is None or price <= 0 or price >= 1_000_000:
+        return f"{reason_prefix}_missing_or_placeholder_price"
+    title_weights = list(WEIGHT_RE.finditer(title))
+    if len(title_weights) != 1 or has_weight_range(title) or weight is None:
+        return f"{reason_prefix}_missing_or_ambiguous_title_weight"
+    if abs((first_weight_g(title) or 0) - weight) > 0.0001:
+        return f"{reason_prefix}_title_weight_mismatch"
+    product_haystack = clean(f"{title} {product.get('handle') or ''}")
+    if NON_SPECIMEN_PRODUCT_RE.search(product_haystack) or STRICT_SHOPIFY_NON_INDIVIDUAL_RE.search(product_haystack):
+        return f"{reason_prefix}_non_individual_or_non_specimen"
+    product_type = shopify_product_type(product)
+    if (
+        NON_SPECIMEN_PRODUCT_RE.search(product_type)
+        or STRICT_SHOPIFY_NON_INDIVIDUAL_RE.search(product_type)
+        or has_weight_range(product_type)
+    ):
+        return f"{reason_prefix}_non_individual_product_type"
+    body_text = html_to_text(product.get("body_html"))
+    if STRICT_SHOPIFY_BODY_OFFER_RE.search(body_text) or has_weight_range(body_text):
+        return f"{reason_prefix}_non_individual_body"
+    if unavailable_status_text(title):
+        return f"{reason_prefix}_unavailable_title"
+    if not shopify_image(product):
+        return f"{reason_prefix}_missing_image"
+    return None
+
+
+def treasure_coast_meteorites_filter(
+    product: dict,
+    title: str,
+    detail_text: str,
+    price: float | None,
+    weight: float | None,
+    variant: dict,
+) -> str | None:
+    del variant
+    product_type = shopify_product_type(product)
+    if not re.match(r"^(?:Meteorite\b|Tektites?\s*&\s*Impactites?\b)", product_type, re.I):
+        return "treasure_coast_inappropriate_material"
+    return strict_shopify_specimen_filter(
+        product,
+        title,
+        detail_text,
+        price,
+        weight,
+        reason_prefix="treasure_coast",
+    )
+
+
+def scrape_treasure_coast_meteorites(site: dict, log: SourceLog) -> list[dict]:
+    assert_shopify_currency(site, "USD")
+    return scrape_shopify_products_json(site, log, "treasure_coast_meteorites", treasure_coast_meteorites_filter)
+
+
+def outerspacer_filter(
+    product: dict,
+    title: str,
+    detail_text: str,
+    price: float | None,
+    weight: float | None,
+    variant: dict,
+) -> str | None:
+    del variant
+    material = clean(f"{shopify_product_type(product)} {title}")
+    if re.search(r"\b(?:gift\s*card|obsidian|fulgurite|trinitite|jewelry|jewellery|pendant|necklace|ring)\b", material, re.I):
+        return "outerspacer_inappropriate_material"
+    if not (METEORITE_RE.search(material) or SUBTYPE_RE.search(material) or re.search(r"\b(?:melt[-\s]glass|ivoryite|ivoryrite)\b", material, re.I)):
+        return "outerspacer_inappropriate_material"
+    return strict_shopify_specimen_filter(
+        product,
+        title,
+        detail_text,
+        price,
+        weight,
+        reason_prefix="outerspacer",
+    )
+
+
+def scrape_outerspacer(site: dict, log: SourceLog) -> list[dict]:
+    assert_shopify_currency(site, "USD")
+    for inventory_url in site.get("inventory_urls", []):
+        path = urlparse(urljoin(site["base_url"], inventory_url)).path.rstrip("/")
+        match = re.fullmatch(r"/collections/([^/]+)(?:/products\.json)?", path, re.I)
+        if not match or match.group(1).lower() not in OUTERSPACER_ALLOWED_COLLECTIONS:
+            raise ValueError(f"OuterSpacer inventory URL is not an approved narrow collection: {inventory_url}")
+    return scrape_shopify_products_json(site, log, "outerspacer", outerspacer_filter)
 
 
 def meteorite_market_page_title(soup: BeautifulSoup) -> str:
@@ -4886,7 +5082,7 @@ def polandmet_listing(site: dict, product: dict, log: SourceLog) -> dict | None:
     if not (METEORITE_RE.search(f"{title} {detail_text}") or SUBTYPE_RE.search(f"{title} {detail_text}")):
         log.reject("polandmet_missing_meteorite_marker")
         return None
-    if WEIGHT_RANGE_RE.search(title) or re.search(r"\b(?:collection|set|lot|specimens)\b", title, re.I):
+    if has_weight_range(title) or re.search(r"\b(?:collection|set|lot|specimens)\b", title, re.I):
         log.reject("polandmet_non_individual_title")
         return None
     weight = first_individual_weight_g(title, title_only=True)
@@ -5009,7 +5205,7 @@ def thompson_listing(site: dict, product: dict, log: SourceLog) -> dict | None:
     if not polandmet_available(product):
         log.reject("thompson_unavailable")
         return None
-    if WEIGHT_RANGE_RE.search(title) or re.search(r"\b(?:sets?|lots?|bulk|assorted|random)\b", title, re.I):
+    if has_weight_range(title) or re.search(r"\b(?:sets?|lots?|bulk|assorted|random)\b", title, re.I):
         log.reject("thompson_non_individual_title")
         return None
     description = html_to_text(product.get("description"))
@@ -5230,7 +5426,7 @@ def jc_listing(site: dict, row: dict, detail: dict, log: SourceLog) -> dict | No
     if JC_NON_SPECIMEN_RE.search(listing_context) or NON_SPECIMEN_PRODUCT_RE.search(listing_context):
         log.reject("jc_non_specimen")
         return None
-    if WEIGHT_RANGE_RE.search(f"{title} {specs}") or re.search(r"\b(?:sets?|lots?|bulk|assorted|random)\b", listing_context, re.I):
+    if has_weight_range(f"{title} {specs}") or re.search(r"\b(?:sets?|lots?|bulk|assorted|random)\b", listing_context, re.I):
         log.reject("jc_non_individual")
         return None
     if not product_title_has_meteorite_marker(haystack):
@@ -5421,7 +5617,7 @@ def kd_exact_values(text: str, log: SourceLog) -> tuple[float, str | None, float
         log.reject("kd_missing_or_multiple_price")
         return None
     price_pos, price, currency = prices[0]
-    if WEIGHT_RANGE_RE.search(text[:price_pos]):
+    if has_weight_range(text[:price_pos]):
         log.reject("kd_weight_range")
         return None
     weights = list(WEIGHT_RE.finditer(text[:price_pos]))
@@ -5635,7 +5831,7 @@ def wwmeteorites_row_values(line: str) -> tuple[float, str, float, int] | None:
         return None
     price_start, _, price, currency = prices[0]
     before_price = line[:price_start]
-    if WEIGHT_RANGE_RE.search(before_price):
+    if has_weight_range(before_price):
         return None
     weights = list(WEIGHT_RE.finditer(before_price))
     if len(weights) != 1:
@@ -5661,7 +5857,7 @@ def wwmeteorites_exact_row_values(line: str, log: SourceLog) -> tuple[float, str
     if values is None:
         if len(wwmeteorites_prices_in(line)) != 1:
             log.reject("wwmeteorites_missing_or_multiple_price")
-        elif WEIGHT_RANGE_RE.search(line):
+        elif has_weight_range(line):
             log.reject("wwmeteorites_weight_range")
         else:
             log.reject("wwmeteorites_missing_or_multiple_weight")
@@ -6284,7 +6480,7 @@ def meteoriteguy_row_values(text: str, log: SourceLog) -> tuple[float, str, floa
     if unavailable_status_text(text):
         log.reject("meteoriteguy_sold_row")
         return None
-    if METEORITEGUY_AMBIGUOUS_ROW_RE.search(text) or WEIGHT_RANGE_RE.search(text):
+    if METEORITEGUY_AMBIGUOUS_ROW_RE.search(text) or has_weight_range(text):
         log.reject("meteoriteguy_ambiguous_row")
         return None
     prices = prices_in(text)
@@ -6628,6 +6824,10 @@ def scrape_site(site: dict, log: SourceLog) -> list[dict]:
         return scrape_buy_meteorite(site, log)
     if parser == "mini_museum":
         return scrape_mini_museum(site, log)
+    if parser == "treasure_coast_meteorites":
+        return scrape_treasure_coast_meteorites(site, log)
+    if parser == "outerspacer":
+        return scrape_outerspacer(site, log)
     if parser == "meteorite_market":
         return scrape_meteorite_market(site, log)
     if parser == "arizona_skies":

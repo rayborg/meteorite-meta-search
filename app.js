@@ -1577,7 +1577,7 @@ async function init() {
 
   $("sortBy").value = `${DEFAULT_SORT.key}:${DEFAULT_SORT.direction}`;
   sortState = parseSort($("sortBy").value);
-  setRecentFindsOpen(true);
+  setRecentFindsOpen(false);
   renderRecentFinds();
   setSourcesPanelOpen(false);
   fillFilters();
