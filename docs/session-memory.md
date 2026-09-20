@@ -7,7 +7,7 @@ Last updated: 2026-09-20
 - Project is a static meteorite inventory dashboard backed by a Python scraper.
 - Frontend files are `index.html`, `styles.css`, and `app.js`; no JS build step is required.
 - Scraper dependencies are in `scraper/requirements.txt`: `beautifulsoup4`, `requests`, and `lxml`.
-- Generated listing data lives in `data/listings.json`; current generated data has 4,933 listings from 30 enabled sources after enabling OuterSpacer Meteorites.
+- Generated listing data lives in `data/listings.json` and currently contains roughly 4,900 listings from 30 enabled sources after enabling OuterSpacer Meteorites; use its top-level `listing_count` for the exact current total because hourly rotations change it.
 - Source registry has 55 configured sources: 30 enabled, 12 disabled backlog, 7 disabled parser starts, and 6 policy/reference blocked.
 - User preference: after completing and validating changes in this repo, commit and push them unless there is a blocker, failed validation, secret exposure risk, or an explicit instruction not to publish.
 - `data/listings.json` preserves source `price`, `currency`, and `price_per_g`, and now also carries USD-normalized `price_usd`, `price_per_g_usd`, `fx_rate_to_usd`, `fx_rate_date`, plus top-level `exchange_rates` metadata.
