@@ -1,15 +1,16 @@
 {
-  "generated_at": "2026-09-30T00:51:37.757716+00:00",
+  "generated_at": "2026-09-30T06:03:53.769400+00:00",
   "source_count": 30,
   "listing_count": 4914,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "BAITYLIA"
+    "Meteorite Exchange"
   ],
   "preserved_sources": [
     "SV Meteorites",
     "Meteorlab",
+    "BAITYLIA",
     "Meteorite Exchange",
     "FossilEra",
     "Prehistoric Fossils Meteorites",
@@ -49,9 +50,12 @@
     "date": "2026-09-30",
     "source": "open.er-api.com"
   },
-  "rotation_index": 2,
+  "rotation_index": 3,
   "rotation_total": 30,
-  "rotation_key": "1293",
+  "rotation_key": "1294",
+  "empty_refresh_preserved_sources": [
+    "Meteorite Exchange"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
