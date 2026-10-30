@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-30T14:37:53.049852+00:00",
+  "generated_at": "2026-10-30T19:45:22.093183+00:00",
   "source_count": 30,
   "listing_count": 4883,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "IMPACTIKA"
+    "SkyFall Meteorites"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -19,6 +19,7 @@
     "Arizona Skies Meteorites",
     "Aerolite Meteorites",
     "Astro West",
+    "IMPACTIKA",
     "SkyFall Meteorites",
     "Meteolovers",
     "justMETEORITES",
@@ -49,9 +50,12 @@
     "date": "2026-10-30",
     "source": "open.er-api.com"
   },
-  "rotation_index": 11,
+  "rotation_index": 12,
   "rotation_total": 30,
-  "rotation_key": "1452",
+  "rotation_key": "1453",
+  "empty_refresh_preserved_sources": [
+    "SkyFall Meteorites"
+  ],
   "listings": [
     {
       "id": "55422b550f6b5092",
