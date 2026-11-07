@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-11-07T07:52:20.783251+00:00",
+  "generated_at": "2026-11-07T14:25:47.312805+00:00",
   "source_count": 30,
   "listing_count": 4851,
   "scrape_mode": "rotation",
   "preserve_existing": true,
   "scraped_sources": [
-    "Meteolovers"
+    "justMETEORITES"
   ],
   "preserved_sources": [
     "SV Meteorites",
@@ -50,11 +50,11 @@
     "date": "2026-11-07",
     "source": "open.er-api.com"
   },
-  "rotation_index": 13,
+  "rotation_index": 14,
   "rotation_total": 30,
-  "rotation_key": "1484",
+  "rotation_key": "1485",
   "empty_refresh_preserved_sources": [
-    "Meteolovers"
+    "justMETEORITES"
   ],
   "listings": [
     {
